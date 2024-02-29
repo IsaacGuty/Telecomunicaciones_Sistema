@@ -41,5 +41,17 @@ namespace Telecomunicaciones_Sistema
 
             this.Hide();
         }
+
+        private void BtnLimpiar_Click(object sender, RoutedEventArgs e)
+        {
+            txtNombre.Text = "";
+            txtApellido.Text = "";
+            txtDirección.Text = "";
+            txtNumT.Text = "";
+            txtTpServicio.Text = "";
+            cmbTipoT.Items.Clear();
+            cmbNombreE.Items.Clear();
+            txtBuscar.Text = "";
+        }
     }
 }

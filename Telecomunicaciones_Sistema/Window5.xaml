@@ -35,6 +35,8 @@
         <TextBox x:Name="txtNombreE" HorizontalAlignment="Left" Height="25" Margin="97,324,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="358" FontFamily="Times New Roman" FontSize="14" Grid.RowSpan="2"/>
         <Image Margin="15,45,601.6,213.6" Source="logoTele.png" Stretch="Fill"/>
         <TextBox x:Name="txtFecha" HorizontalAlignment="Left" Height="25" Margin="477,202,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="192" FontFamily="Times New Roman" FontSize="14"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="359,66.4,0,0" Grid.Row="1" TextWrapping="Wrap" Text="______________________________________" VerticalAlignment="Top" Width="232" FontFamily="Times New Roman" FontSize="14" Background="Transparent" TextChanged="TextBox_TextChanged"/>
+        
 
     </Grid>
 </Window>

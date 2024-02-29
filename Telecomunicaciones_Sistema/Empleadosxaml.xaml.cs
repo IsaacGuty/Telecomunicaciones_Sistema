@@ -15,31 +15,22 @@ using System.Windows.Shapes;
 namespace Telecomunicaciones_Sistema
 {
     /// <summary>
-    /// Lógica de interacción para Window5.xaml
+    /// Lógica de interacción para Empleadosxaml.xaml
     /// </summary>
-    public partial class Window5 : Window
+    public partial class Empleadosxaml : Window
     {
-        public Window5()
+        public Empleadosxaml()
         {
             InitializeComponent();
-        }
-
-        private void BtnSalir_Click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Shutdown();
         }
 
         private void BtnRegresar_Click(object sender, RoutedEventArgs e)
         {
             this.Hide();
 
-            Window1 frmAn = new Window1();
+            Window1 frmPr = new Window1();
 
-            frmAn.Show();
-        }
-
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
+            frmPr.Show();
         }
     }
 }

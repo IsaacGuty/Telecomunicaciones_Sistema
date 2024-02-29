@@ -30,7 +30,7 @@
         <Button x:Name="BtnAgregar" Content="Agregar" Grid.Column="1" HorizontalAlignment="Left" Margin="174.8,110.4,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Grid.Row="1"/>
         <Button x:Name="BtnGuardar" Content="Guardar" Grid.Column="3" HorizontalAlignment="Left" Margin="46.4,110.4,0,0" VerticalAlignment="Top" Width="75" FontWeight="Bold" FontFamily="Times New Roman" FontSize="14" Grid.Row="1"/>
         <Button x:Name="btnRegresar" Content="Regresar" Grid.Column="3" HorizontalAlignment="Left" Margin="162.4,110.4,0,0" VerticalAlignment="Top" Width="75" FontWeight="Bold" FontFamily="Times New Roman" FontSize="14" Click="BtnRegresar_Click" Grid.Row="1" RenderTransformOrigin="1.021,0.51"/>
-        <DataGrid x:Name="DatGridE" HorizontalAlignment="Left" Height="152" Margin="50,211,0,0" VerticalAlignment="Top" Width="549" Grid.ColumnSpan="3" Grid.Column="1" Grid.RowSpan="2"/>
+        <DataGrid x:Name="DatGridE" AutoGenerateColumns ="True" HorizontalAlignment="Left" Height="152" Margin="50,211,0,0" VerticalAlignment="Top" Width="549" Grid.ColumnSpan="3" Grid.Column="1" Grid.RowSpan="2"/>
         <Label Content="Bienvenido Empleado" HorizontalAlignment="Left" Margin="210,157,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="24" FontWeight="Bold" Width="245" Grid.ColumnSpan="3" Grid.Column="1"/>
         <Image Margin="28.4,45,288,157.8" Source="logoTele.png" Stretch="Fill" Grid.Column="3"/>
 

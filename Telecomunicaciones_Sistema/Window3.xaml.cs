@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace Telecomunicaciones_Sistema
 {
@@ -19,10 +21,36 @@ namespace Telecomunicaciones_Sistema
     /// </summary>
     public partial class Window3 : Window
     {
+        SqlConnection Conn = new SqlConnection("Data source = DESKTOP-KIBLMD6\\SQLEXPRESS; Initial catalog = TelecomunicacionesBD; Integrated security = true");
+
         public Window3()
         {
             InitializeComponent();
+
+            CargarDatos();
         }
+
+        private void CargarDatos()
+        {
+            try
+            {
+                using (Conn)
+                {
+                    Conn.Open();
+                    string query = "select c.ID_Cliente, c.Nombre, c.Apellido, d.Dirección, c.Teléfono, s.Servicio, p.Monto, p.Mes_Pagado, e.Nombre_E from Clientes c join Pago p on p.ID_Cliente = c.ID_Cliente join Servicios s on s.ID_Servicio = p.ID_TpServicio join Empleados e on e.ID_Empleado = p.ID_Empleado join Dirección d on d.ID_Dirección = c.ID_Dirección";
+                    SqlDataAdapter adapter = new SqlDataAdapter(query, Conn);
+                    DataSet dataSet = new DataSet();
+                    adapter.Fill(dataSet, "Pago");
+                    DatGridE.ItemsSource = dataSet.Tables["Pago"].DefaultView;
+                    Conn.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar los datos: " + ex.Message);
+            }
+        }
+
 
         private void BtnRegresar_Click(object sender, RoutedEventArgs e)
         {

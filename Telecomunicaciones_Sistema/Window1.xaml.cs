@@ -42,15 +42,6 @@ namespace Telecomunicaciones_Sistema
             this.Hide();
         }
 
-        /*private void Btn_OrdT(object sender, RoutedEventArgs e)
-        {
-            Window4 formularioO = new Window4();
-
-            formularioO.Show();
-
-            this.Hide();
-        }*/
-
         private void BtnSalir_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
@@ -63,6 +54,15 @@ namespace Telecomunicaciones_Sistema
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             Window4 formularioO = new Window4();
+
+            formularioO.Show();
+
+            this.Hide();
+        }
+
+        private void BtnEmpleados_Click(object sender, RoutedEventArgs e)
+        {
+            Empleadosxaml formularioO = new Empleadosxaml();
 
             formularioO.Show();
 
