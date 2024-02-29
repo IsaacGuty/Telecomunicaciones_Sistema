@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Telecomunicaciones_Sistema"
         mc:Ignorable="d"
-        Title="Sistema en telecomuniciones" Height="610" Width="700"
+        Title="Sistema en telecomuniciones" Height="610" Width="720"
         WindowStartupLocation="CenterScreen"
         Background="LightBlue">
 
@@ -21,7 +21,7 @@
         <Button x:Name="btnImprimir" Content="Imprimir" HorizontalAlignment="Left" Margin="586,455,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnImprimir_Click"/>
         <Button x:Name="BtnLimpiar" Content="Limpiar" HorizontalAlignment="Left" Margin="586,412,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnLimpiar_Click"/>
         <Label Content="Orden de trabajo" HorizontalAlignment="Left" Margin="97,56,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="24" FontWeight="Bold" Width="195"/>
-        <DataGrid x:Name="DatGridOT" HorizontalAlignment="Left" Height="152" Margin="49,140,0,0" VerticalAlignment="Top" Width="549"/>
+        <DataGrid x:Name="DatGridOT" HorizontalAlignment="Left" Height="152" Margin="97,142,0,0" VerticalAlignment="Top" Width="504"/>
         <TextBox x:Name="txtBuscar" HorizontalAlignment="Left" Height="23" Margin="405,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="165" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
         <Button x:Name="BtnBuscar" HorizontalAlignment="Left" Margin="586,86,0,0" VerticalAlignment="Top" Width="56" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Height="28">
             <Image x:Name="Buscar" Height="23" Source="buscar.png" Stretch="Fill" Width="24"/>
