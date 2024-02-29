@@ -62,7 +62,7 @@ namespace Telecomunicaciones_Sistema
 
         private void BtnEmpleados_Click(object sender, RoutedEventArgs e)
         {
-            Empleadosxaml formularioO = new Empleadosxaml();
+            Window6 formularioO = new Window6();
 
             formularioO.Show();
 
