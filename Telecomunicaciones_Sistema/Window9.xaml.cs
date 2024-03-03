@@ -50,7 +50,7 @@ namespace Telecomunicaciones_Sistema
                     ID_Cliente = txtIDC.Text,
                     Nombre = txtNombreC.Text,
                     Apellido = txtApellidoC.Text,
-                    Dirección = int.Parse(txtDirecciónC.Text),
+                    Dirección = txtDirecciónC.Text,
                     Teléfono = Convert.ToDecimal(txtTeléfonoC.Text),
                     Servicio = txtServicio.Text,
                     Monto = Convert.ToDecimal(txtMonto.Text),

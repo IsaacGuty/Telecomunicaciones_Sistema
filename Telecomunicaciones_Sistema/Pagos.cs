@@ -14,7 +14,7 @@ namespace Telecomunicaciones_Sistema
 
         public string Apellido { get; set; }
 
-        public int Dirección { get; set; }
+        public string Dirección { get; set; }
 
         public decimal Teléfono { get; set; }
 
@@ -36,7 +36,7 @@ namespace Telecomunicaciones_Sistema
             this.ID_Cliente = pID_Cliente;
             this.Nombre = pNombre;
             this.Apellido = pApellido;
-            this.Dirección = pDirección;
+            this.Dirección = pDirección.ToString();
             this.Teléfono = pTeléfono;
             this.Servicio = pServicio;
             this.Monto = pMonto;

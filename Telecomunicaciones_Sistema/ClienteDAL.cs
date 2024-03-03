@@ -26,7 +26,8 @@ namespace Telecomunicaciones_Sistema
                     cClientes.Nombre = reader.GetString(1);
                     cClientes.Apellido = reader.GetString(2);
                     cClientes.Teléfono = reader.GetDecimal(3);
-                    cClientes.ID_Dirección = reader.GetString(4);
+                    cClientes.Correo = reader.GetString(4);
+                    cClientes.ID_Dirección = reader.GetInt32(5).ToString();
 
                     Lista.Add(cClientes);
 

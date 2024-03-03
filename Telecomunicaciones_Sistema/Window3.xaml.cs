@@ -49,7 +49,7 @@ namespace Telecomunicaciones_Sistema
             public string ID_Cliente;
             public string Nombre;
             public string Apellido;
-            public string Dirección;
+            public int Dirección;
             public string Teléfono;
             public string Servicio;
             public string Monto;
@@ -68,7 +68,7 @@ namespace Telecomunicaciones_Sistema
                     SqlDataAdapter adapter = new SqlDataAdapter(query, Conn);
                     DataSet dataSet = new DataSet();
                     adapter.Fill(dataSet, "Pago");
-                    DatGridE.ItemsSource = dataSet.Tables["Pago"].DefaultView;
+                    DatGridP.ItemsSource = dataSet.Tables["Pago"].DefaultView;
                     Conn.Close();
             }
             catch (Exception ex)
@@ -101,6 +101,17 @@ namespace Telecomunicaciones_Sistema
                 Window9 frmAg = new Window9(this);
                 frmAg.Show();
             }
+        }
+
+        private void BtnLimpiar_Click(object sender, RoutedEventArgs e)
+        {
+            txtBuscar.Clear();
+            CargarDatos();
+        }
+
+        private void BtnBuscar_Click(object sender, RoutedEventArgs e)
+        {
+            DatGridP.ItemsSource = ClienteDAL.BuscarCliente(txtBuscar.Text);
         }
     }
 }

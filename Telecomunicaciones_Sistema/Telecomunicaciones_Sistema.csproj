@@ -59,7 +59,11 @@
     <Compile Include="BD.cs" />
     <Compile Include="ClienteDAL.cs" />
     <Compile Include="Clientes.cs" />
+    <Compile Include="EmpleadoDAL.cs" />
     <Compile Include="Empleados.cs" />
+    <Compile Include="OrdenDAL.cs" />
+    <Compile Include="Ordenes.cs" />
+    <Compile Include="PagoDAL.cs" />
     <Compile Include="Pagos.cs" />
     <Compile Include="Window1.xaml.cs">
       <DependentUpon>Window1.xaml</DependentUpon>

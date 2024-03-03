@@ -99,5 +99,16 @@ namespace Telecomunicaciones_Sistema
             }
 
         }
+
+        private void BtnLimpiar_Click(object sender, RoutedEventArgs e)
+        {
+            txtBuscar.Clear();
+            CargarDatos();
+        }
+
+        private void BtnBuscar_Click(object sender, RoutedEventArgs e)
+        {
+            DataGridEMP.ItemsSource = EmpleadoDAL.BuscarEmpleado(txtBuscar.Text);
+        }
     }
 }
