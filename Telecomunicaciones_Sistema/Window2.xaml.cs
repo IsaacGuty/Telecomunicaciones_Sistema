@@ -21,22 +21,39 @@ namespace Telecomunicaciones_Sistema
     /// </summary>
     public partial class Window2 : Window
     {
-
-        SqlConnection Conn = new SqlConnection("Data source = DESKTOP-KIBLMD6\\SQLEXPRESS; Initial catalog = TelecomunicacionesBD; Integrated security = true");
-
         public Window2()
         {
             InitializeComponent();
-
+            Conn = new SqlConnection("Data source = DESKTOP-KIBLMD6\\SQLEXPRESS; Initial catalog = TelecomunicacionesBD; Integrated security = true");
             CargarDatos();
         }
+
+        public partial class NuevoClienteDialog : Window
+        {
+            public string ID_Cliente { get; set; }
+            public string Nombre { get; set; }
+            public string Apellido { get; set; }
+            public string Teléfono { get; set; }
+            public string Correo { get; set; }
+            public string ID_Dirección { get; set; }
+        }
+
+        public struct Clientes
+        {
+            public string ID_Cliente;
+            public string Nombre;
+            public string Apellido;
+            public string Teléfono;
+            public string Correo;
+            public string ID_Dirección;
+        }
+
+        private SqlConnection Conn;
 
         private void CargarDatos()
         {
             try
             {
-                using (Conn)
-                {
                     Conn.Open();
                     string query = "SELECT * FROM Clientes";
                     SqlDataAdapter adapter = new SqlDataAdapter(query, Conn);
@@ -44,7 +61,6 @@ namespace Telecomunicaciones_Sistema
                     adapter.Fill(dataSet, "Clientes");
                     DatGridRC.ItemsSource = dataSet.Tables["Clientes"].DefaultView;
                     Conn.Close();
-                }
             }
             catch (Exception ex)
             {
@@ -69,6 +85,26 @@ namespace Telecomunicaciones_Sistema
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void BtnAgregar_Click(object sender, RoutedEventArgs e)
+        {
+            SolicitarInformacionCliente();
+        }
+
+        //private List<Clientes> clientes = new List<Clientes>();
+
+
+        private void SolicitarInformacionCliente()
+        {
+            MessageBoxResult result = MessageBox.Show("Por favor, ingrese la información del nuevo cliente.", "Nuevo Cliente", MessageBoxButton.OKCancel);
+
+            if (result == MessageBoxResult.OK)
+            {
+                Window7 frmAg = new Window7();
+                frmAg.Closed += (s, args) => CargarDatos();
+                frmAg.Show();
+            }
         }
     }
 }

@@ -14,24 +14,18 @@ namespace Telecomunicaciones_Sistema
 
         public string Apellido { get; set; }
 
-        public string Teléfono { get; set; }
+        public decimal Teléfono { get; set; }
 
         public string Correo { get; set; }
 
         public string ID_Dirección { get; set; }
-
-        public string ID_TpServicio { get; set; }
-
-        public string MesPagado { get; set; }
-
-        public string ID_Empleado { get; set; }
 
         public Clientes()
         {
 
         }
 
-        public Clientes(string cID_Cliente, string cNombre, string cApellido, string cTeléfono, string cCorreo, string cID_Dirección, string cID_TpServicio, string cMesPagado, string cID_Empleado)
+        public Clientes(string cID_Cliente, string cNombre, string cApellido, decimal cTeléfono, string cCorreo, string cID_Dirección)
         {
             this.ID_Cliente = cID_Cliente;
             this.Nombre = cNombre;
@@ -39,7 +33,6 @@ namespace Telecomunicaciones_Sistema
             this.Teléfono = cTeléfono;
             this.Correo = cCorreo;
             this.ID_Dirección = cID_Dirección;
-            this.ID_TpServicio = cID_TpServicio;
         }
     }
 }

@@ -17,7 +17,7 @@
     </Window.Resources>
 
     <Grid Loaded="Window_Loaded">
-        <Button x:Name="btnAgregar" Content="Agregar" HorizontalAlignment="Left" Margin="198,405,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
+        <Button x:Name="btnAgregar" Content="Agregar" HorizontalAlignment="Left" Margin="198,405,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnAgregar_Click"/>
         <Button x:Name="btnGuardar" Content="Guardar" HorizontalAlignment="Left" Margin="318,405,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
         <Button x:Name="btnRegresar" Content="Regresar" HorizontalAlignment="Left" Margin="430,405,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnRegresar_Click"/>
         <DataGrid x:Name="DatGridRC" AutoGenerateColumns ="True" HorizontalAlignment="Left" Height="219" Margin="74,144,0,0" VerticalAlignment="Top" Width="568" SelectionChanged="DatGridRC_SelectionChanged"/>

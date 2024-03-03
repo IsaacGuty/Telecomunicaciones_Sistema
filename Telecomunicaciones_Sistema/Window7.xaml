@@ -1,0 +1,36 @@
+﻿<Window x:Class="Telecomunicaciones_Sistema.Window7"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Telecomunicaciones_Sistema"
+        mc:Ignorable="d"
+                Title="Sistema en telecomuniciones" Height="500" Width="720"
+        WindowStartupLocation="CenterScreen"
+        Background="LightBlue">
+
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="Black"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Label Content="Agregar un nuevo cliente" HorizontalAlignment="Left" Margin="113,56,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="24" FontWeight="Bold" Width="271"/>
+        <Image Margin="87,45,548.6,469" Source="logoTele.png" Stretch="Fill"/>
+        <Image Margin="15,45,601.6,359.2" Source="logoTele.png" Stretch="Fill"/>
+        <Label Content="ID:" HorizontalAlignment="Left" Margin="212,120,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
+        <TextBox x:Name="txtIDC" HorizontalAlignment="Left" Height="23" Margin="305,123,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14"/>
+        <Button x:Name="btnAceptar" Content="Aceptar" HorizontalAlignment="Left" Margin="324,417,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnAceptar_Click"/>
+        <Label Content="Nombre:" HorizontalAlignment="Left" Margin="212,162,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
+        <TextBox x:Name="txtNombreC" HorizontalAlignment="Left" Height="23" Margin="305,165,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14"/>
+        <Label Content="Apellido:" HorizontalAlignment="Left" Margin="212,209,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
+        <TextBox x:Name="txtApellidoC" HorizontalAlignment="Left" Height="23" Margin="305,212,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14"/>
+        <Label Content="Teléfono:" HorizontalAlignment="Left" Margin="212,255,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
+        <TextBox x:Name="txtTelefonoC" HorizontalAlignment="Left" Height="23" Margin="305,258,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14"/>
+        <Label Content="Correo:" HorizontalAlignment="Left" Margin="212,299,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
+        <TextBox x:Name="txtCorreoC" HorizontalAlignment="Left" Height="23" Margin="305,302,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14"/>
+        <Label Content="Dirección:" HorizontalAlignment="Left" Margin="212,346,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
+        <TextBox x:Name="txtDireccionC" HorizontalAlignment="Left" Height="23" Margin="305,349,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14"/>
+    </Grid>
+</Window>
