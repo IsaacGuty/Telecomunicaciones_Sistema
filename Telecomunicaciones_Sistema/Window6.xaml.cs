@@ -31,20 +31,41 @@ namespace Telecomunicaciones_Sistema
             CargarDatos();
         }
 
+        public partial class NuevoEmpleadoDialog : Window
+        {
+            public string ID_Empleado { get; set; }
+            public string Nombre_E { get; set; }
+            public string Apellido_E { get; set; }
+            public string Teléfono_E { get; set; }
+            public string Correo_E { get; set; }
+            public string ID_Dirección { get; set; }
+            public string Puesto { get; set; }
+            public string Estado { get; set; }
+        }
+
+        public struct Empleados
+        {
+            public string ID_Empleado;
+            public string Nombre_E;
+            public string Apellido_E;
+            public string Teléfono_E;
+            public string Correo_E;
+            public string ID_Dirección;
+            public string Puesto;
+            public string Estado;
+        }
+
         private void CargarDatos()
         {
             try
             {
-                using (Conn)
-                {
-                    Conn.Open();
-                    string query = "SELECT * FROM Empleados";
-                    SqlDataAdapter adapter = new SqlDataAdapter(query, Conn);
-                    DataSet dataSet = new DataSet();
-                    adapter.Fill(dataSet, "Empleados");
-                    DataGridEMP.ItemsSource = dataSet.Tables["Empleados"].DefaultView;
-                    Conn.Close();
-                }
+                Conn.Open();
+                string query = "SELECT * FROM Empleados";
+                SqlDataAdapter adapter = new SqlDataAdapter(query, Conn);
+                DataSet dataSet = new DataSet();
+                adapter.Fill(dataSet, "Empleados");
+                DataGridEMP.ItemsSource = dataSet.Tables["Empleados"].DefaultView;
+                Conn.Close();
             }
             catch (Exception ex)
             {
@@ -59,6 +80,24 @@ namespace Telecomunicaciones_Sistema
             Window1 frmPr = new Window1();
 
             frmPr.Show();
+        }
+
+        private void BtnAgregar_Click(object sender, RoutedEventArgs e)
+        {
+            SolicitarInformacionEmpleado();
+        }
+
+        private void SolicitarInformacionEmpleado()
+        {
+            MessageBoxResult result = MessageBox.Show("Por favor, ingrese la información del nuevo empleado.", "Nuevo Empleado", MessageBoxButton.OKCancel);
+
+            if (result == MessageBoxResult.OK)
+            {
+                Window8 frmAg = new Window8();
+                frmAg.Closed += (s, args) => CargarDatos();
+                frmAg.Show();
+            }
+
         }
     }
 }

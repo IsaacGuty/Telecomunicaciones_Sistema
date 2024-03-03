@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Telecomunicaciones_Sistema"
         mc:Ignorable="d"
-                Title="Sistema en telecomuniciones" Height="500" Width="720"
+        Title="Sistema en telecomuniciones" Height="500" Width="720"
         WindowStartupLocation="CenterScreen"
         Background="LightBlue">
 

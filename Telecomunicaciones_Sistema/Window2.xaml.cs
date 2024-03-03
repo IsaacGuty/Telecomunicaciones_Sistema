@@ -92,9 +92,6 @@ namespace Telecomunicaciones_Sistema
             SolicitarInformacionCliente();
         }
 
-        //private List<Clientes> clientes = new List<Clientes>();
-
-
         private void SolicitarInformacionCliente()
         {
             MessageBoxResult result = MessageBox.Show("Por favor, ingrese la información del nuevo cliente.", "Nuevo Cliente", MessageBoxButton.OKCancel);
@@ -105,6 +102,17 @@ namespace Telecomunicaciones_Sistema
                 frmAg.Closed += (s, args) => CargarDatos();
                 frmAg.Show();
             }
+        }
+
+        private void BtnBuscar_Click(object sender, RoutedEventArgs e)
+        {
+            DatGridRC.ItemsSource = ClienteDAL.BuscarCliente(txtBuscar.Text);
+        }
+
+        private void BtnLimpiar_Click(object sender, RoutedEventArgs e)
+        {
+            txtBuscar.Clear();
+            CargarDatos();
         }
     }
 }

@@ -21,7 +21,7 @@
             <RowDefinition Height="96*"/>
             <RowDefinition Height="139*"/>
         </Grid.RowDefinitions>
-        <Button x:Name="BtnAgregar" Content="Agregar" HorizontalAlignment="Left" Margin="199,219.871,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Grid.Row="1"/>
+        <Button x:Name="BtnAgregar" Content="Agregar" HorizontalAlignment="Left" Margin="199,219.871,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Grid.Row="1" Click="BtnAgregar_Click"/>
         <Button x:Name="BtnGuardar" Content="Guardar" HorizontalAlignment="Left" Margin="320,219.871,0,0" VerticalAlignment="Top" Width="75" FontWeight="Bold" FontFamily="Times New Roman" FontSize="14" Grid.Row="1"/>
         <Button x:Name="btnRegresar" Content="Regresar" HorizontalAlignment="Left" Margin="436,219.871,0,0" VerticalAlignment="Top" Width="75" FontWeight="Bold" FontFamily="Times New Roman" FontSize="14" Click="BtnRegresar_Click" RenderTransformOrigin="1.021,0.51" Grid.Row="1"/>
         <DataGrid x:Name="DataGridEMP" AutoGenerateColumns ="True" HorizontalAlignment="Left" Height="214" Margin="10,149,0,0" VerticalAlignment="Top" Width="689" Grid.RowSpan="2"/>
