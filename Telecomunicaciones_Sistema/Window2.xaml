@@ -18,7 +18,7 @@
 
     <Grid Loaded="Window_Loaded">
         <Button x:Name="btnAgregar" Content="Agregar" HorizontalAlignment="Left" Margin="152,409,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnAgregar_Click"/>
-        <Button x:Name="btnGuardar" Content="Guardar" HorizontalAlignment="Left" Margin="272,409,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
+        <Button x:Name="BtnModificar" Content="Modificar" HorizontalAlignment="Left" Margin="272,409,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnModificar_Click"/>
         <Button x:Name="btnRegresar" Content="Regresar" HorizontalAlignment="Left" Margin="503,409,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnRegresar_Click"/>
         <DataGrid x:Name="DatGridRC" AutoGenerateColumns ="True" HorizontalAlignment="Left" Height="219" Margin="74,144,0,0" VerticalAlignment="Top" Width="568" SelectionChanged="DatGridRC_SelectionChanged"/>
         <TextBox x:Name="txtBuscar" HorizontalAlignment="Left" Height="23" Margin="405,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="165" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>

@@ -30,11 +30,11 @@ namespace Telecomunicaciones_Sistema
 
         public struct Ordenes
         {
-            public string Nombre;
-            public string Apellido;
-            public string Dirección;
-            public decimal Teléfono;
-            public string Servicio;
+            public string Nombre { get; set; }
+            public string Apellido { get; set; }
+            public string Dirección { get; set; }
+            public decimal Teléfono { get; set; }
+            public string Servicio { get; set; }
         }
 
         SqlConnection Conn = new SqlConnection("Data source = DESKTOP-KIBLMD6\\SQLEXPRESS; Initial catalog = TelecomunicacionesBD; Integrated security = true");
@@ -95,6 +95,23 @@ namespace Telecomunicaciones_Sistema
         private void BtnBuscar_Click(object sender, RoutedEventArgs e)
         {
             DatGridOT.ItemsSource = OrdenDAL.BuscarOrden(txtBuscar.Text);
+        }
+
+        private void DatGridOT_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (DatGridOT.SelectedItem != null)
+            {
+                DataRowView rowView = DatGridOT.SelectedItem as DataRowView;
+
+                if (rowView != null)
+                {
+                    txtNombre.Text = rowView["Nombre"].ToString();
+                    txtApellido.Text = rowView["Apellido"].ToString();
+                    txtDirección.Text = rowView["Direccion"].ToString();
+                    txtNumT.Text = rowView["Teléfono"].ToString();
+                    txtTpServicio.Text = rowView["Apellido"].ToString();
+                }
+            }
         }
     }
 }

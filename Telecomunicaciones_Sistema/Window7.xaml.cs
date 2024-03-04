@@ -20,6 +20,8 @@ namespace Telecomunicaciones_Sistema
     {
         public event EventHandler ClienteAgregado;
 
+        public event EventHandler ClienteModificado;
+
         private List<Clientes> clientes;
 
         public Clientes NuevoCliente { get; private set; }
@@ -31,7 +33,17 @@ namespace Telecomunicaciones_Sistema
             clientes = new List<Clientes>();
         }
 
+        public Window7(Window2.Clientes clienteSeleccionado)
+        {
+            InitializeComponent();
+            Conn = new SqlConnection("Data source = DESKTOP-KIBLMD6\\SQLEXPRESS; Initial catalog = TelecomunicacionesBD; Integrated security = true");
+            clientes = new List<Clientes>();
+            this.clienteSeleccionado = clienteSeleccionado;
+            MostrarDetallesCliente();
+        }
+
         private SqlConnection Conn;
+        private Window2.Clientes clienteSeleccionado;
 
         private void BtnAceptar_Click(object sender, RoutedEventArgs e)
         {
@@ -44,24 +56,50 @@ namespace Telecomunicaciones_Sistema
                 Correo = txtCorreoC.Text,
                 ID_Dirección = txtDireccionC.Text
             };
+
             try
             {
-                    Conn.Open();
-                    SqlCommand cmd = new SqlCommand("INSERT INTO Clientes (ID_Cliente, Nombre, Apellido, Teléfono, Correo, ID_Dirección) VALUES (@ID_Cliente, @Nombre, @Apellido, @Teléfono, @Correo, @ID_Dirección)", Conn);
-                    cmd.Parameters.AddWithValue("@ID_Cliente", NuevoCliente.ID_Cliente);
-                    cmd.Parameters.AddWithValue("@Nombre", NuevoCliente.Nombre);
-                    cmd.Parameters.AddWithValue("@Apellido", NuevoCliente.Apellido);
-                    cmd.Parameters.AddWithValue("@Teléfono", NuevoCliente.Teléfono);
-                    cmd.Parameters.AddWithValue("@Correo", NuevoCliente.Correo);
-                    cmd.Parameters.AddWithValue("@ID_Dirección", NuevoCliente.ID_Dirección);
-                    cmd.ExecuteNonQuery();
-                MessageBox.Show("Cliente agregado correctamente.");
+                Conn.Open();
+                SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM Clientes WHERE ID_Cliente = @ID_Cliente", Conn);
+                cmd.Parameters.AddWithValue("@ID_Cliente", NuevoCliente.ID_Cliente);
+                int count = (int)cmd.ExecuteScalar();
+
+                if (count > 0)
+                {
+                    cmd = new SqlCommand("UPDATE Clientes SET Nombre = @Nombre, Apellido = @Apellido, Teléfono = @Teléfono, Correo = @Correo, ID_Dirección = @ID_Dirección WHERE ID_Cliente = @ID_Cliente", Conn);
+                }
+                else
+                {
+                    cmd = new SqlCommand("INSERT INTO Clientes (ID_Cliente, Nombre, Apellido, Teléfono, Correo, ID_Dirección) VALUES (@ID_Cliente, @Nombre, @Apellido, @Teléfono, @Correo, @ID_Dirección)", Conn);
+                }
+
+                cmd.Parameters.AddWithValue("@Nombre", NuevoCliente.Nombre);
+                cmd.Parameters.AddWithValue("@Apellido", NuevoCliente.Apellido);
+                cmd.Parameters.AddWithValue("@Teléfono", NuevoCliente.Teléfono);
+                cmd.Parameters.AddWithValue("@Correo", NuevoCliente.Correo);
+                cmd.Parameters.AddWithValue("@ID_Dirección", NuevoCliente.ID_Dirección);
+                cmd.Parameters.AddWithValue("@ID_Cliente", NuevoCliente.ID_Cliente);
+                cmd.ExecuteNonQuery();
+
+                if (count > 0)
+                {
+                    MessageBox.Show("Cliente modificado correctamente.");
+                }
+                else
+                {
+                    MessageBox.Show("Cliente agregado correctamente.");
+                }
             }
             catch (Exception ex)
             {
-                 MessageBox.Show("Error al agregar el cliente: " + ex.Message);
+                MessageBox.Show("Error al modificar/agregar el cliente: " + ex.Message);
             }
-            OnClienteAgregado();
+            finally
+            {
+                Conn.Close(); 
+            }
+
+            OnClienteModificado();
 
             this.Close();
         }
@@ -71,5 +109,24 @@ namespace Telecomunicaciones_Sistema
             ClienteAgregado?.Invoke(this, EventArgs.Empty);
         }
 
+        private void GuardarCambios()
+        {
+            
+        }
+
+        private void OnClienteModificado()
+        {
+            ClienteModificado?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void MostrarDetallesCliente()
+        {
+            txtIDC.Text = clienteSeleccionado.ID_Cliente;
+            txtNombreC.Text = clienteSeleccionado.Nombre;
+            txtApellidoC.Text = clienteSeleccionado.Apellido;
+            txtCorreoC.Text = clienteSeleccionado.Correo;
+            txtTelefonoC.Text = clienteSeleccionado.Teléfono;
+            txtDireccionC.Text = clienteSeleccionado.ID_Dirección;
+        }
     }
 }

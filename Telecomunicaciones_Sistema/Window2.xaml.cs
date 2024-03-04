@@ -21,6 +21,8 @@ namespace Telecomunicaciones_Sistema
     /// </summary>
     public partial class Window2 : Window
     {
+        public static Clientes ClienteSeleccionado { get; set; }
+
         public Window2()
         {
             InitializeComponent();
@@ -79,7 +81,24 @@ namespace Telecomunicaciones_Sistema
 
         private void DatGridRC_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (DatGridRC.SelectedItem != null && DatGridRC.SelectedItem is DataRowView)
+            {
+                DataRowView rowView = DatGridRC.SelectedItem as DataRowView;
 
+                ClienteSeleccionado = new Clientes
+                {
+                    ID_Cliente = rowView["ID_Cliente"].ToString(),
+                    Nombre = rowView["Nombre"].ToString(),
+                    Apellido = rowView["Apellido"].ToString(),
+                    Teléfono = rowView["Teléfono"].ToString(),
+                    Correo = rowView["Correo"].ToString(),
+                    ID_Dirección = rowView["ID_Dirección"].ToString()
+                };
+            }
+            else
+            {
+                ClienteSeleccionado = default(Clientes);
+            }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -113,6 +132,27 @@ namespace Telecomunicaciones_Sistema
         {
             txtBuscar.Clear();
             CargarDatos();
+        }
+
+        private void BtnModificar_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("Por favor, ingrese la modificación del cliente.", "Modificación", MessageBoxButton.OKCancel);
+
+            if (!ClienteSeleccionado.Equals(default(Clientes)))
+            {
+                Window7 frmAg = new Window7(ClienteSeleccionado);
+                frmAg.ClienteModificado += ActualizarDatosCliente;
+                frmAg.ShowDialog(); 
+            }
+            else
+            {
+                MessageBox.Show("No se ha seleccionado ningún cliente.");
+            }
+        }
+
+        private void ActualizarDatosCliente(object sender, EventArgs e)
+        {
+            CargarDatos(); 
         }
     }
 }
