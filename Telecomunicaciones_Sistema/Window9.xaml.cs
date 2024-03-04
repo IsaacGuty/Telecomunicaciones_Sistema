@@ -71,23 +71,17 @@ namespace Telecomunicaciones_Sistema
 
                 if (count > 0)
                 {
-                    cmd = new SqlCommand("UPDATE Pago SET Nombre = @Nombre, Apellido = @Apellido, Dirección = @Dirección, Teléfono = @Teléfono, servicio = @Servicio, Monto = @Monto, Mes_Pagado = @Mes_Pagado, Nombre_E = @Nombre_E WHERE ID_Cliente = @ID_Cliente", Conn);
-                }
-                else
-                {
-                    cmd = new SqlCommand("INSERT INTO Pago (ID_Cliente, Nombre, Apellido, Dirección, Teléfono, Servicio, Monto, MesPagado, Nombre_E) VALUES (@ID_Cliente, @Nombre, @Apellido, @Dirección, @Teléfono, @Servicio, @Monto, @MesPagado, @Nombre_E)", Conn);
+                    cmd = new SqlCommand("UPDATE Pago SET Mes_Pagado = @MesPagado WHERE ID_Cliente = @ID_Cliente", Conn);
                 }
 
                 cmd.Parameters.AddWithValue("@ID_Cliente", NuevoPago.ID_Cliente);
-                cmd.Parameters.AddWithValue("@Nombre", NuevoPago.Nombre);
-                cmd.Parameters.AddWithValue("@Apellido", NuevoPago.Apellido);
-                cmd.Parameters.AddWithValue("@Dirección", NuevoPago.Dirección);
-                cmd.Parameters.AddWithValue("@Teléfono", NuevoPago.Teléfono);
-                cmd.Parameters.AddWithValue("@Servicio", NuevoPago.Servicio);
-                cmd.Parameters.AddWithValue("@Monto", NuevoPago.Monto);
                 cmd.Parameters.AddWithValue("@MesPagado", NuevoPago.MesPagado);
-                cmd.Parameters.AddWithValue("@Nombre_E", NuevoPago.Nombre_E);
                 cmd.ExecuteNonQuery();
+
+                SqlCommand updateServiceCmd = new SqlCommand("UPDATE Servicios SET Servicio = @Servicio WHERE ID_Servicio = (SELECT ID_TpServicio FROM Pago WHERE ID_Cliente = @ID_Cliente)", Conn);
+                updateServiceCmd.Parameters.AddWithValue("@ID_Cliente", NuevoPago.ID_Cliente);
+                updateServiceCmd.Parameters.AddWithValue("@Servicio", NuevoPago.Servicio);
+                updateServiceCmd.ExecuteNonQuery();
 
                 Conn.Close();
 
@@ -95,14 +89,10 @@ namespace Telecomunicaciones_Sistema
                 {
                     MessageBox.Show("Pago modificado correctamente.");
                 }
-                else
-                {
-                    MessageBox.Show("Pago agregado correctamente.");
-                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al modificar/agregar el pago: " + ex.Message);
+                MessageBox.Show("Error al modificar el pago: " + ex.Message);
             }
             finally
             {
@@ -114,10 +104,10 @@ namespace Telecomunicaciones_Sistema
             this.Close();
         }
 
-        private void OnPagoAgregado()
+       /* private void OnPagoAgregado()
         {
             PagoAgregado?.Invoke(this, EventArgs.Empty);
-        }
+        }*/
 
         private void OnPagoModificado()
         {
