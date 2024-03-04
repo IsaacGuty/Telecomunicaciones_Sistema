@@ -28,9 +28,6 @@ namespace Telecomunicaciones_Sistema
             InitializeComponent();
             Conn = new SqlConnection("Data source = DESKTOP-KIBLMD6\\SQLEXPRESS; Initial catalog = TelecomunicacionesBD; Integrated security = true");
             CargarDatos();
-
-            /*Window9 frmAg = new Window9(this);
-            frmAg.PagoAgregado += (sender, args) => CargarDatos();*/
         }
 
         public partial class NuevoPagoDialog : Window
@@ -65,13 +62,13 @@ namespace Telecomunicaciones_Sistema
         {
             try
             {
-                    Conn.Open();
-                    string query = "select c.ID_Cliente, c.Nombre, c.Apellido, d.Dirección, c.Teléfono, s.Servicio, p.Monto, p.Mes_Pagado, e.Nombre_E from Clientes c join Pago p on p.ID_Cliente = c.ID_Cliente join Servicios s on s.ID_Servicio = p.ID_TpServicio join Empleados e on e.ID_Empleado = p.ID_Empleado join Dirección d on d.ID_Dirección = c.ID_Dirección";
-                    SqlDataAdapter adapter = new SqlDataAdapter(query, Conn);
-                    DataSet dataSet = new DataSet();
-                    adapter.Fill(dataSet, "Pago");
-                    DatGridP.ItemsSource = dataSet.Tables["Pago"].DefaultView;
-                    Conn.Close();
+                Conn.Open();
+                string query = "select c.ID_Cliente, c.Nombre, c.Apellido, d.Dirección, c.Teléfono, s.Servicio, p.Monto, p.Mes_Pagado, e.Nombre_E from Clientes c join Pago p on p.ID_Cliente = c.ID_Cliente join Servicios s on s.ID_Servicio = p.ID_TpServicio join Empleados e on e.ID_Empleado = p.ID_Empleado join Dirección d on d.ID_Dirección = c.ID_Dirección";
+                SqlDataAdapter adapter = new SqlDataAdapter(query, Conn);
+                DataSet dataSet = new DataSet();
+                adapter.Fill(dataSet, "Pago");
+                DatGridP.ItemsSource = dataSet.Tables["Pago"].DefaultView;
+                Conn.Close();
             }
             catch (Exception ex)
             {

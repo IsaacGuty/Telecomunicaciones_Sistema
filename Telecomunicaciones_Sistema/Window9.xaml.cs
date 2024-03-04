@@ -65,13 +65,13 @@ namespace Telecomunicaciones_Sistema
             try
             {
                 Conn.Open();
-                SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM Pagos WHERE ID_Cliente = @ID_Cliente", Conn);
+                SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM Pago WHERE ID_Cliente = @ID_Cliente", Conn);
                 cmd.Parameters.AddWithValue("@ID_Cliente", NuevoPago.ID_Cliente);
                 int count = (int)cmd.ExecuteScalar();
 
                 if (count > 0)
                 {
-                    cmd = new SqlCommand("UPDATE Pagos SET Nombre = @Nombre, Apellido = @Apellido, Dirección = @Dirección, Teléfono = @Teléfono, servicio = @Servicio, Monto = @Monto, Mes_Pagado = @Mes_Pagado, Nombre_E = @Nombre_E WHERE ID_Cliente = @ID_Cliente", Conn);
+                    cmd = new SqlCommand("UPDATE Pago SET Nombre = @Nombre, Apellido = @Apellido, Dirección = @Dirección, Teléfono = @Teléfono, servicio = @Servicio, Monto = @Monto, Mes_Pagado = @Mes_Pagado, Nombre_E = @Nombre_E WHERE ID_Cliente = @ID_Cliente", Conn);
                 }
                 else
                 {

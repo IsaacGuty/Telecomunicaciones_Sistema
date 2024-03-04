@@ -107,9 +107,9 @@ namespace Telecomunicaciones_Sistema
                 {
                     txtNombre.Text = rowView["Nombre"].ToString();
                     txtApellido.Text = rowView["Apellido"].ToString();
-                    txtDirección.Text = rowView["Direccion"].ToString();
+                    txtDirección.Text = rowView["Dirección"].ToString();
                     txtNumT.Text = rowView["Teléfono"].ToString();
-                    txtTpServicio.Text = rowView["Apellido"].ToString();
+                    txtTpServicio.Text = rowView["Servicio"].ToString();
                 }
             }
         }
