@@ -21,14 +21,16 @@ namespace Telecomunicaciones_Sistema
     /// </summary>
     public partial class Window3 : Window
     {
+        public static Pagos PagoSeleccionado { get; set; }
+
         public Window3()
         {
             InitializeComponent();
             Conn = new SqlConnection("Data source = DESKTOP-KIBLMD6\\SQLEXPRESS; Initial catalog = TelecomunicacionesBD; Integrated security = true");
             CargarDatos();
 
-            Window9 frmAg = new Window9(this);
-            frmAg.PagoAgregado += (sender, args) => CargarDatos();
+            /*Window9 frmAg = new Window9(this);
+            frmAg.PagoAgregado += (sender, args) => CargarDatos();*/
         }
 
         public partial class NuevoPagoDialog : Window
@@ -49,7 +51,7 @@ namespace Telecomunicaciones_Sistema
             public string ID_Cliente;
             public string Nombre;
             public string Apellido;
-            public int Dirección;
+            public string Dirección;
             public string Teléfono;
             public string Servicio;
             public string Monto;
@@ -98,7 +100,8 @@ namespace Telecomunicaciones_Sistema
 
             if (result == MessageBoxResult.OK)
             {
-                Window9 frmAg = new Window9(this);
+                Window9 frmAg = new Window9();
+                frmAg.Closed += (s, args) => CargarDatos();
                 frmAg.Show();
             }
         }
@@ -112,6 +115,53 @@ namespace Telecomunicaciones_Sistema
         private void BtnBuscar_Click(object sender, RoutedEventArgs e)
         {
             DatGridP.ItemsSource = ClienteDAL.BuscarCliente(txtBuscar.Text);
+        }
+
+        private void DatGridP_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (DatGridP.SelectedItem != null && DatGridP.SelectedItem is DataRowView)
+            {
+                DataRowView rowView = DatGridP.SelectedItem as DataRowView;
+
+                PagoSeleccionado = new Pagos
+                {
+                    ID_Cliente = rowView["ID_Cliente"].ToString(),
+                    Nombre = rowView["Nombre"].ToString(),
+                    Apellido = rowView["Apellido"].ToString(),
+                    Dirección = rowView["Dirección"].ToString(),
+                    Teléfono = rowView["Teléfono"].ToString(),
+                    Servicio = rowView["Servicio"].ToString(),
+                    Monto = rowView["Monto"].ToString(),
+                    MesPagado = rowView["Mes_Pagado"].ToString(),
+                    Nombre_E = rowView["Nombre_E"].ToString()
+                };
+            }
+            else
+            {
+                PagoSeleccionado = default(Pagos);
+            }
+        }
+
+        private void BtnModificar_Click(object sender, RoutedEventArgs e)
+        {
+
+            MessageBoxResult result = MessageBox.Show("Por favor, ingrese la modificación del pago.", "Modificación", MessageBoxButton.OKCancel);
+
+            if (!PagoSeleccionado.Equals(default(Pagos)))
+            {
+                Window9 frmMd = new Window9(PagoSeleccionado);
+                frmMd.PagoModificado += ActualizarDatosPago;
+                frmMd.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("No se ha seleccionado ningún pago.");
+            }
+        }
+
+        private void ActualizarDatosPago(object sender, EventArgs e)
+        {
+            CargarDatos();
         }
     }
 }

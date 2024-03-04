@@ -21,7 +21,7 @@
         <Image Margin="15,45,601.6,359.2" Source="logoTele.png" Stretch="Fill"/>
         <Label Content="ID:" HorizontalAlignment="Left" Margin="212,120,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
         <TextBox x:Name="txtIDC" HorizontalAlignment="Left" Height="23" Margin="305,123,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14"/>
-        <Button x:Name="btnAceptar" Content="Aceptar" HorizontalAlignment="Left" Margin="324,417,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnAceptar_Click"/>
+        <Button x:Name="btnAceptar" Content="Aceptar" HorizontalAlignment="Left" Margin="258,413,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnAceptar_Click"/>
         <Label Content="Nombre:" HorizontalAlignment="Left" Margin="212,162,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
         <TextBox x:Name="txtNombreC" HorizontalAlignment="Left" Height="23" Margin="305,165,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14"/>
         <Label Content="Apellido:" HorizontalAlignment="Left" Margin="212,209,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
@@ -32,5 +32,6 @@
         <TextBox x:Name="txtCorreoC" HorizontalAlignment="Left" Height="23" Margin="305,302,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14"/>
         <Label Content="Dirección:" HorizontalAlignment="Left" Margin="212,346,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
         <TextBox x:Name="txtDireccionC" HorizontalAlignment="Left" Height="23" Margin="305,349,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14"/>
+        <Button x:Name="btnRegresar" Content="Regresar" HorizontalAlignment="Left" Margin="391,413,0,0" VerticalAlignment="Top" Width="82" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnRegresar_Click"/>
     </Grid>
 </Window>

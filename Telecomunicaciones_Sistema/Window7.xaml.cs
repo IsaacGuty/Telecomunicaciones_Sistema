@@ -56,7 +56,6 @@ namespace Telecomunicaciones_Sistema
                 Correo = txtCorreoC.Text,
                 ID_Dirección = txtDireccionC.Text
             };
-
             try
             {
                 Conn.Open();
@@ -127,6 +126,13 @@ namespace Telecomunicaciones_Sistema
             txtCorreoC.Text = clienteSeleccionado.Correo;
             txtTelefonoC.Text = clienteSeleccionado.Teléfono;
             txtDireccionC.Text = clienteSeleccionado.ID_Dirección;
+        }
+
+        private void BtnRegresar_Click(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+
+            Window2 frmPr = new Window2();
         }
     }
 }

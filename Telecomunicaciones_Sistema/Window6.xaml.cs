@@ -21,6 +21,7 @@ namespace Telecomunicaciones_Sistema
     /// </summary>
     public partial class Window6 : Window
     {
+        public static Empleados EmpleadoSeleccionado { get; set; }
 
         SqlConnection Conn = new SqlConnection("Data source = DESKTOP-KIBLMD6\\SQLEXPRESS; Initial catalog = TelecomunicacionesBD; Integrated security = true");
 
@@ -109,6 +110,51 @@ namespace Telecomunicaciones_Sistema
         private void BtnBuscar_Click(object sender, RoutedEventArgs e)
         {
             DataGridEMP.ItemsSource = EmpleadoDAL.BuscarEmpleado(txtBuscar.Text);
+        }
+
+        private void BtnModificar_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("Por favor, ingrese la modificación del empleado.", "Modificación", MessageBoxButton.OKCancel);
+
+            if (!EmpleadoSeleccionado.Equals(default(Empleados)))
+            {
+                Window8 frmMd = new Window8(EmpleadoSeleccionado);
+                frmMd.EmpleadoModificado += ActualizarDatosEmpleado;
+                frmMd.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("No se ha seleccionado ningún empleado.");
+            }
+        }
+
+        private void ActualizarDatosEmpleado(object sender, EventArgs e)
+        {
+            CargarDatos();
+        }
+
+        private void DataGridEMP_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (DataGridEMP.SelectedItem != null && DataGridEMP.SelectedItem is DataRowView)
+            {
+                DataRowView rowView = DataGridEMP.SelectedItem as DataRowView;
+
+                EmpleadoSeleccionado = new Empleados
+                {
+                    ID_Empleado = rowView["ID_Empleado"].ToString(),
+                    Nombre_E = rowView["Nombre_E"].ToString(),
+                    Apellido_E = rowView["Apellido_E"].ToString(),
+                    Teléfono_E = rowView["Teléfono_E"].ToString(),
+                    Correo_E = rowView["Correo_E"].ToString(),
+                    ID_Dirección = rowView["ID_Dirección"].ToString(),
+                    Puesto = rowView["Puesto"].ToString(),
+                    Estado = rowView["Estado"].ToString()
+                };
+            }
+            else
+            {
+                EmpleadoSeleccionado = default(Empleados);
+            }
         }
     }
 }

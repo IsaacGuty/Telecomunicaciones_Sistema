@@ -140,9 +140,9 @@ namespace Telecomunicaciones_Sistema
 
             if (!ClienteSeleccionado.Equals(default(Clientes)))
             {
-                Window7 frmAg = new Window7(ClienteSeleccionado);
-                frmAg.ClienteModificado += ActualizarDatosCliente;
-                frmAg.ShowDialog(); 
+                Window7 frmMd = new Window7(ClienteSeleccionado);
+                frmMd.ClienteModificado += ActualizarDatosCliente;
+                frmMd.ShowDialog(); 
             }
             else
             {
