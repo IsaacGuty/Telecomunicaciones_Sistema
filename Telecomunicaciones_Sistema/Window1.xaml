@@ -34,6 +34,10 @@
         <Button x:Name="btnSalir" Content="Salir" Grid.Column="2" HorizontalAlignment="Left" Margin="43.4,223,0,0" Grid.Row="1" VerticalAlignment="Top" Width="78" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnSalir_Click"/>
         <Image Margin="194.8,45,104,28.2" Source="logoTele.png" Stretch="Fill" Grid.Column="1"/>
         <Button x:Name="BtnEmpleados" Content="Registro de Empleados" Grid.Column="1" HorizontalAlignment="Left" Margin="220.8,135,0,0" Grid.Row="1" VerticalAlignment="Top" Width="154" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnEmpleados_Click"/>
+        <Label Content="Usuario:" HorizontalAlignment="Left" Margin="10,1,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontWeight="Bold"/>
+        <Label Content="Cargo:" HorizontalAlignment="Left" Margin="10,25,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontWeight="Bold"/>
+        <Label x:Name="lblUsuario" Content="" HorizontalAlignment="Left" Margin="89,1,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" Grid.ColumnSpan="2" Width="212"/>
+        <Label x:Name="lblCargo" Content="" HorizontalAlignment="Left" Margin="89,25,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" Grid.ColumnSpan="2" Width="152"/>
 
     </Grid>
 </Window>

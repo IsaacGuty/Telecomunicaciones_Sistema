@@ -19,9 +19,58 @@ namespace Telecomunicaciones_Sistema
     /// </summary>
     public partial class Window1 : Window
     {
-        public Window1()
+        public Window1(String usuario, String contraseña)
         {
             InitializeComponent();
+            Loaded += Window1_Loaded;
+        }
+
+        public Window1()
+        {
+        }
+
+        private void Window1_Loaded(object sender, RoutedEventArgs e)
+        {
+            lblUsuario.Content = MainWindow.Usuario_L;
+            lblCargo.Content = MainWindow.Rol_L;
+
+            String rol = MainWindow.Rol_L;
+
+            if (rol == "Gerente General")
+            {
+                btnRegistro.IsEnabled = true;
+                btnPago.IsEnabled = true;
+                Btn_OrT.IsEnabled = true;
+                BtnEmpleados.IsEnabled = true;
+            }
+            if (rol == "Gerente Tecnico")
+            {
+                btnRegistro.IsEnabled = false;
+                btnPago.IsEnabled = false;
+                Btn_OrT.IsEnabled = false;
+                BtnEmpleados.IsEnabled = false;
+            }
+            if (rol == "Tecnico")
+            {
+                btnRegistro.IsEnabled = false;
+                btnPago.IsEnabled = false;
+                Btn_OrT.IsEnabled = false;
+                BtnEmpleados.IsEnabled = false;
+            }
+            if (rol == "Secretaria" || rol == "Secretario")
+            {
+                btnRegistro.IsEnabled = false;
+                btnPago.IsEnabled = false;
+                Btn_OrT.IsEnabled = false;
+                BtnEmpleados.IsEnabled = false;
+            }
+            if (rol == "Contadora" || rol == "Contador")
+            {
+                btnRegistro.IsEnabled = false;
+                btnPago.IsEnabled = false;
+                Btn_OrT.IsEnabled = false;
+                BtnEmpleados.IsEnabled = false;
+            }
         }
 
         private void Btn_Registro_Click(object sender, RoutedEventArgs e)

@@ -20,11 +20,20 @@
         <Label Content="Usuario:" HorizontalAlignment="Left" Margin="321,171,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
         <Label x:Name="txtContraseña" Content="Contraseña:" HorizontalAlignment="Left" Margin="312,272,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
         <TextBox x:Name="txtUsuario" HorizontalAlignment="Left" Height="23" Margin="227,219,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="244" FontFamily="Times New Roman" FontSize="14"/>
-        <TextBox HorizontalAlignment="Left" Height="22" Margin="227,320,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="244" FontFamily="Times New Roman" FontSize="14"/>
         <Button x:Name="BtnIngresar" Content="Ingresar" HorizontalAlignment="Left" Margin="320,418,0,0" VerticalAlignment="Top" Width="75" FontWeight="Bold" FontFamily="Times New Roman" FontSize="14" Click="Button_Click"/>
         <Image Margin="302,45,284,323.4" Source="logoTele.png" Stretch="Fill"/>
         <Label x:Name="lblContraO" Content="He olvidado mi contraseña" Foreground="DarkBlue" HorizontalAlignment="Left" Margin="292,360,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontWeight="Bold" RenderTransformOrigin="0.529,1.07" IsEnabled="False"/>
         <Label x:Name="lblContraO_Copy" Content="Cambiar contraseña" Foreground="Black" HorizontalAlignment="Left" Margin="302,381,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontWeight="Bold" RenderTransformOrigin="0.529,1.07" IsEnabled="False"/>
+        <PasswordBox x:Name="txtContra" HorizontalAlignment="Left" Margin="229,321,0,0" VerticalAlignment="Top" Height="24" RenderTransformOrigin="0.5,0.5" Width="241">
+            <PasswordBox.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="-1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </PasswordBox.RenderTransform>
+        </PasswordBox>
 
     </Grid>
 </Window>

@@ -21,7 +21,7 @@ namespace Telecomunicaciones_Sistema
     /// </summary>
     public partial class Window9 : Window
     {
-        public event EventHandler PagoAgregado;
+        //public event EventHandler PagoAgregado;
 
         public event EventHandler PagoModificado;
 

@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using System.Data;
+
 namespace Telecomunicaciones_Sistema
 {
     /// <summary>
@@ -20,6 +22,47 @@ namespace Telecomunicaciones_Sistema
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        Login Objlog = new Login();
+        Pantalla ObjPan = new Pantalla();
+
+        public static String Usuario_L;
+        public static String Contraseña_L;
+        public static String Rol_L;
+
+        void P_Login()
+        {
+            DataTable DT = new DataTable();
+            Objlog.usuario = txtUsuario.Text;
+            Objlog.contraseña = txtContra.Password;
+
+            DT = ObjPan.Pan_Users(Objlog);
+
+            if (DT.Rows.Count > 0)
+            {
+                MessageBox.Show("Bienvenido " + DT.Rows[0][2].ToString() + " " + DT.Rows[0][3].ToString(), "Mensaje",
+                    MessageBoxButton.OK, MessageBoxImage.Information);
+
+                Usuario_L = DT.Rows[0][2].ToString() + " " + DT.Rows[0][3].ToString();
+                Contraseña_L = DT.Rows[0][1].ToString();
+                Rol_L = DT.Rows[0][4].ToString();
+
+                Window1 ObjPrinci = new Window1(Usuario_L, Contraseña_L);
+                ObjPrinci.Show();
+
+                this.Close();
+
+                txtUsuario.Clear();
+                txtContra.Clear();
+            }
+            else
+            {
+                MessageBox.Show("Usuario o Contraseña Incorrecta", "Advertencia", MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+            }
+
+        }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -29,9 +72,9 @@ namespace Telecomunicaciones_Sistema
         {
             Window1 formularioD = new Window1();
 
-            formularioD.Show();
-
             this.Hide();
+
+            P_Login();
         }
     }
 }
