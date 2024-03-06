@@ -44,13 +44,11 @@ namespace Telecomunicaciones_Sistema
                     MessageBoxButton.OK, MessageBoxImage.Information);
 
                 Usuario_L = DT.Rows[0][2].ToString() + " " + DT.Rows[0][3].ToString();
-                Contraseña_L = DT.Rows[0][1].ToString();
+                Contraseña_L = DT.Rows[0][1].ToString();    
                 Rol_L = DT.Rows[0][4].ToString();
 
                 Window1 ObjPrinci = new Window1(Usuario_L, Contraseña_L);
                 ObjPrinci.Show();
-
-                this.Close();
 
                 txtUsuario.Clear();
                 txtContra.Clear();
@@ -59,22 +57,29 @@ namespace Telecomunicaciones_Sistema
             {
                 MessageBox.Show("Usuario o Contraseña Incorrecta", "Advertencia", MessageBoxButton.OK,
                     MessageBoxImage.Information);
+                txtUsuario.Clear();
+                txtContra.Clear();
             }
-
+            return;
         }
 
-        public MainWindow()
-        {
-            InitializeComponent();
-        }
+            public MainWindow()
+            {
+                 InitializeComponent();
+            }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Window1 formularioD = new Window1();
-
-            this.Hide();
-
-            P_Login();
+            if (string.IsNullOrEmpty(txtUsuario.Text) || string.IsNullOrEmpty(txtContra.Password))
+            {
+                MessageBox.Show("Por favor, ingresa tanto el usuario como la contraseña.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            else
+            {
+                Window1 formularioD = new Window1();
+                this.Hide();
+                P_Login();
+            }
         }
     }
 }

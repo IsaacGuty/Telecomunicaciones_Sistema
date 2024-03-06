@@ -59,7 +59,7 @@ namespace Telecomunicaciones_Sistema
             }
             if (rol == "Secretaria" || rol == "Secretario")
             {
-                btnRegistro.IsEnabled = false;
+                btnRegistro.IsEnabled = true;
                 btnPago.IsEnabled = false;
                 Btn_OrT.IsEnabled = false;
                 BtnEmpleados.IsEnabled = false;
