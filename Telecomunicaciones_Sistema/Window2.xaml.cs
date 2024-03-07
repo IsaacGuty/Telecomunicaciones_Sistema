@@ -51,6 +51,7 @@ namespace Telecomunicaciones_Sistema
         }
 
         private SqlConnection Conn;
+        private bool isMainWindow;
 
         private void CargarDatos()
         {
@@ -71,12 +72,15 @@ namespace Telecomunicaciones_Sistema
         }
 
         private void BtnRegresar_Click(object sender, RoutedEventArgs e)
-        {
-            this.Hide();
-
-            Window1 frmPr = new Window1();
-
+        {            
+            Window1 frmPr = new Window1(isMainWindow: true);
             frmPr.Show();
+
+            if (!isMainWindow)
+            {
+                this.Close();
+            }
+
         }
 
         private void DatGridRC_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -138,15 +142,18 @@ namespace Telecomunicaciones_Sistema
         {
             MessageBoxResult result = MessageBox.Show("Por favor, ingrese la modificación del cliente.", "Modificación", MessageBoxButton.OKCancel);
 
-            if (!ClienteSeleccionado.Equals(default(Clientes)))
+            if (result == MessageBoxResult.OK)
             {
-                Window7 frmMd = new Window7(ClienteSeleccionado);
-                frmMd.ClienteModificado += ActualizarDatosCliente;
-                frmMd.ShowDialog(); 
-            }
-            else
-            {
-                MessageBox.Show("No se ha seleccionado ningún cliente.");
+                if (!ClienteSeleccionado.Equals(default(Clientes)))
+                {
+                    Window7 frmMd = new Window7(ClienteSeleccionado);
+                    frmMd.ClienteModificado += ActualizarDatosCliente;
+                    frmMd.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("No se ha seleccionado ningún cliente.");
+                }
             }
         }
 

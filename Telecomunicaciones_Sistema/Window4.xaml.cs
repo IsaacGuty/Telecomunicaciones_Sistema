@@ -38,6 +38,8 @@ namespace Telecomunicaciones_Sistema
         }
 
         SqlConnection Conn = new SqlConnection("Data source = DESKTOP-KIBLMD6\\SQLEXPRESS; Initial catalog = TelecomunicacionesBD; Integrated security = true");
+        private bool isMainWindow;
+
 
         private void CargarDatos()
         {
@@ -59,11 +61,13 @@ namespace Telecomunicaciones_Sistema
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            this.Hide();
+            Window1 frmPr = new Window1(isMainWindow: true);
+            frmPr.Show();
 
-            Window1 frmAn = new Window1();
-
-            frmAn.Show();
+            if (!isMainWindow)
+            {
+                this.Close();
+            }
         }
 
         private void BtnImprimir_Click(object sender, RoutedEventArgs e)

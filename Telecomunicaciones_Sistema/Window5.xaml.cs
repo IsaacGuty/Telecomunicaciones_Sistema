@@ -24,6 +24,8 @@ namespace Telecomunicaciones_Sistema
             InitializeComponent();
         }
 
+        private bool isMainWindow;
+
         private void BtnSalir_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
@@ -31,11 +33,13 @@ namespace Telecomunicaciones_Sistema
 
         private void BtnRegresar_Click(object sender, RoutedEventArgs e)
         {
-            this.Hide();
+            Window1 frmPr = new Window1(isMainWindow: true);
+            frmPr.Show();
 
-            Window1 frmAn = new Window1();
-
-            frmAn.Show();
+            if (!isMainWindow)
+            {
+                this.Close();
+            }
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)

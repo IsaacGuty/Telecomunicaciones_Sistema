@@ -12,7 +12,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
 using System.Data;
 
 namespace Telecomunicaciones_Sistema
@@ -52,11 +51,12 @@ namespace Telecomunicaciones_Sistema
 
                 txtUsuario.Clear();
                 txtContra.Clear();
+
+                this.Hide();
             }
             else
             {
-                MessageBox.Show("Usuario o Contraseña Incorrecta", "Advertencia", MessageBoxButton.OK,
-                    MessageBoxImage.Information);
+                MessageBox.Show("Usuario o Contraseña Incorrecta", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
                 txtUsuario.Clear();
                 txtContra.Clear();
             }
@@ -76,8 +76,6 @@ namespace Telecomunicaciones_Sistema
             }
             else
             {
-                Window1 formularioD = new Window1();
-                this.Hide();
                 P_Login();
             }
         }

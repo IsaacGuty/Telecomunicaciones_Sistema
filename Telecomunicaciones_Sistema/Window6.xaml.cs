@@ -56,6 +56,8 @@ namespace Telecomunicaciones_Sistema
             public string Estado;
         }
 
+        private bool isMainWindow;
+
         private void CargarDatos()
         {
             try
@@ -76,11 +78,13 @@ namespace Telecomunicaciones_Sistema
 
         private void BtnRegresar_Click(object sender, RoutedEventArgs e)
         {
-            this.Hide();
-
-            Window1 frmPr = new Window1();
-
+            Window1 frmPr = new Window1(isMainWindow: true);
             frmPr.Show();
+
+            if (!isMainWindow)
+            {
+                this.Close();
+            }
         }
 
         private void BtnAgregar_Click(object sender, RoutedEventArgs e)
@@ -116,15 +120,18 @@ namespace Telecomunicaciones_Sistema
         {
             MessageBoxResult result = MessageBox.Show("Por favor, ingrese la modificación del empleado.", "Modificación", MessageBoxButton.OKCancel);
 
-            if (!EmpleadoSeleccionado.Equals(default(Empleados)))
+            if (result == MessageBoxResult.OK)
             {
-                Window8 frmMd = new Window8(EmpleadoSeleccionado);
-                frmMd.EmpleadoModificado += ActualizarDatosEmpleado;
-                frmMd.ShowDialog();
-            }
-            else
-            {
-                MessageBox.Show("No se ha seleccionado ningún empleado.");
+                if (!EmpleadoSeleccionado.Equals(default(Empleados)))
+                {
+                    Window8 frmMd = new Window8(EmpleadoSeleccionado);
+                    frmMd.EmpleadoModificado += ActualizarDatosEmpleado;
+                    frmMd.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("No se ha seleccionado ningún empleado.");
+                }
             }
         }
 

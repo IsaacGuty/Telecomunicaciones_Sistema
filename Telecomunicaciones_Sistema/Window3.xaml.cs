@@ -57,6 +57,7 @@ namespace Telecomunicaciones_Sistema
         }
 
         private SqlConnection Conn;
+        private bool isMainWindow;
 
         public void CargarDatos()
         {
@@ -76,20 +77,21 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
-
         private void BtnRegresar_Click(object sender, RoutedEventArgs e)
         {
-            this.Hide();
-
-            Window1 frmPr = new Window1();
-
+            Window1 frmPr = new Window1(isMainWindow: true);
             frmPr.Show();
+
+            if (!isMainWindow)
+            {
+                this.Close();
+            }
         }
 
-        private void BtnAgregar_Click(object sender, RoutedEventArgs e)
+       /* private void BtnAgregar_Click(object sender, RoutedEventArgs e)
         {
             SolicitarInformacionPago();
-        }
+        }*/
 
         private void SolicitarInformacionPago()
         {
@@ -141,18 +143,20 @@ namespace Telecomunicaciones_Sistema
 
         private void BtnModificar_Click(object sender, RoutedEventArgs e)
         {
-
             MessageBoxResult result = MessageBox.Show("Por favor, ingrese la modificación del pago.", "Modificación", MessageBoxButton.OKCancel);
 
-            if (!PagoSeleccionado.Equals(default(Pagos)))
+            if (result == MessageBoxResult.OK)
             {
-                Window9 frmMd = new Window9(PagoSeleccionado);
-                frmMd.PagoModificado += ActualizarDatosPago;
-                frmMd.ShowDialog();
-            }
-            else
-            {
-                MessageBox.Show("No se ha seleccionado ningún pago.");
+                if (result == MessageBoxResult.OK && !PagoSeleccionado.Equals(default(Pagos)))
+                {
+                    Window9 frmMd = new Window9(PagoSeleccionado);
+                    frmMd.PagoModificado += ActualizarDatosPago;
+                    frmMd.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("No se ha seleccionado ningún cliente.");
+                }
             }
         }
 

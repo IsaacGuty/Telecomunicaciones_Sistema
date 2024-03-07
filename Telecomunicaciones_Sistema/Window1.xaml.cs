@@ -19,9 +19,18 @@ namespace Telecomunicaciones_Sistema
     /// </summary>
     public partial class Window1 : Window
     {
+        private bool isMainWindow;
+
         public Window1(String usuario, String contraseña)
         {
             InitializeComponent();
+            Loaded += Window1_Loaded;
+        }
+
+        public Window1(bool isMainWindow = false)
+        {
+            InitializeComponent();
+            this.isMainWindow = isMainWindow;
             Loaded += Window1_Loaded;
         }
 
@@ -60,9 +69,9 @@ namespace Telecomunicaciones_Sistema
             if (rol == "Secretaria" || rol == "Secretario")
             {
                 btnRegistro.IsEnabled = true;
-                btnPago.IsEnabled = false;
-                Btn_OrT.IsEnabled = false;
-                BtnEmpleados.IsEnabled = false;
+                btnPago.IsEnabled = true;
+                Btn_OrT.IsEnabled = true;
+                BtnEmpleados.IsEnabled = true;
             }
             if (rol == "Contadora" || rol == "Contador")
             {

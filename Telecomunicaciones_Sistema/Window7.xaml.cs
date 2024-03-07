@@ -42,6 +42,10 @@ namespace Telecomunicaciones_Sistema
             MostrarDetallesCliente();
         }
 
+        public Window7(Clientes clienteSeleccionado1)
+        {
+        }
+
         private SqlConnection Conn;
         private Window2.Clientes clienteSeleccionado;
 
@@ -59,15 +63,13 @@ namespace Telecomunicaciones_Sistema
             try
             {
                 Conn.Open();
-                /* SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM Clientes WHERE ID_Cliente = @ID_Cliente", Conn);
-                 cmd.Parameters.AddWithValue("@ID_Cliente", NuevoCliente.ID_Cliente);*/
+
                 SqlCommand cmd = new SqlCommand("NombreProcedimientoAlmacenado", Conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 int count = (int)cmd.ExecuteScalar();
 
                 if (count > 0)
                 {
-                    //cmd = new SqlCommand("UPDATE Clientes SET Nombre = @Nombre, Apellido = @Apellido, Teléfono = @Teléfono, Correo = @Correo, ID_Dirección = @ID_Dirección WHERE ID_Cliente = @ID_Cliente", Conn);
                     cmd = new SqlCommand("UPDATE proal_Cliente", Conn);
                 }
                 else
