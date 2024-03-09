@@ -79,5 +79,12 @@ namespace Telecomunicaciones_Sistema
                 P_Login();
             }
         }
+
+        private void lblContraO_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            EstContra restCon = new EstContra();
+            restCon.ShowDialog();
+        }
+
     }
 }

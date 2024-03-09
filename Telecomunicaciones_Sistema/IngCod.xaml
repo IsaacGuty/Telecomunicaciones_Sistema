@@ -1,0 +1,28 @@
+﻿<Window x:Class="Telecomunicaciones_Sistema.IngCod"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Telecomunicaciones_Sistema"
+        mc:Ignorable="d"
+        Title="Restablecer contraseña" Height="450" Width="590"
+        WindowStartupLocation="CenterScreen"
+        Background="LightBlue">
+
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="Black"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Label Content="Introduzca el código enviado a su correo electrónico:" HorizontalAlignment="Left" Margin="100,185,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14"/>
+        <Label Content="Código:" HorizontalAlignment="Left" Margin="100,237,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
+        <TextBox x:Name="txtCod" HorizontalAlignment="Left" Height="23" Margin="100,268,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="383" RenderTransformOrigin="-0.359,0.955" FontFamily="Times New Roman"/>
+        <Button x:Name="btnAceptar" Content="Aceptar" HorizontalAlignment="Left" Margin="155,364,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnAceptar_Click"/>
+        <Button x:Name="btnReeC" Content="Reenviar código" HorizontalAlignment="Left" Margin="271,364,0,0" VerticalAlignment="Top" Width="123" FontFamily="Times New Roman" FontWeight="Bold" FontSize="14" Click="BtnReeC_Click"/>
+        <Image Margin="238,44,243,277" Source="logoTele.png" Stretch="Fill" RenderTransformOrigin="-0.074,0.454"/>
+
+    </Grid>
+</Window>

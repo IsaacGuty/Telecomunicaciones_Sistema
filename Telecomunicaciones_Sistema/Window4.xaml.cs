@@ -28,14 +28,7 @@ namespace Telecomunicaciones_Sistema
             CargarDatos();
         }
 
-        public struct Ordenes
-        {
-            public string Nombre { get; set; }
-            public string Apellido { get; set; }
-            public string Dirección { get; set; }
-            public decimal Teléfono { get; set; }
-            public string Servicio { get; set; }
-        }
+        public Ordenes DatosOrden { get; set; }
 
         SqlConnection Conn = new SqlConnection("Data source = DESKTOP-KIBLMD6\\SQLEXPRESS; Initial catalog = TelecomunicacionesBD; Integrated security = true");
         private bool isMainWindow;
@@ -45,13 +38,13 @@ namespace Telecomunicaciones_Sistema
         {
             try
             {
-                    Conn.Open();
-                    string query = "select c.Nombre, c.Apellido, d.Dirección, c.Teléfono, s.Servicio from Clientes c join Dirección d on d.ID_Dirección = c.ID_Dirección join Pago p on p.ID_Cliente = c.ID_Cliente join Servicios s on s.ID_Servicio = p.ID_TpServicio";
-                    SqlDataAdapter adapter = new SqlDataAdapter(query, Conn);
-                    DataSet dataSet = new DataSet();
-                    adapter.Fill(dataSet, "Ordenes");
-                    DatGridOT.ItemsSource = dataSet.Tables["Ordenes"].DefaultView;
-                    Conn.Close();
+                Conn.Open();
+                string query = "select c.Nombre, c.Apellido, d.Dirección, c.Teléfono, s.Servicio from Clientes c join Dirección d on d.ID_Dirección = c.ID_Dirección join Pago p on p.ID_Cliente = c.ID_Cliente join Servicios s on s.ID_Servicio = p.ID_TpServicio";
+                SqlDataAdapter adapter = new SqlDataAdapter(query, Conn);
+                DataSet dataSet = new DataSet();
+                adapter.Fill(dataSet, "Ordenes");
+                DatGridOT.ItemsSource = dataSet.Tables["Ordenes"].DefaultView;
+                Conn.Close();
             }
             catch (Exception ex)
             {
@@ -72,11 +65,7 @@ namespace Telecomunicaciones_Sistema
 
         private void BtnImprimir_Click(object sender, RoutedEventArgs e)
         {
-            Window5 formularioD = new Window5();
 
-            formularioD.Show();
-
-            this.Hide();
         }
 
         private void BtnLimpiar_Click(object sender, RoutedEventArgs e)
@@ -92,7 +81,7 @@ namespace Telecomunicaciones_Sistema
 
             if (string.IsNullOrEmpty(txtBuscar.Text))
             {
-                CargarDatos(); 
+                CargarDatos();
             }
         }
 
@@ -116,6 +105,65 @@ namespace Telecomunicaciones_Sistema
                     txtTpServicio.Text = rowView["Servicio"].ToString();
                 }
             }
+        }
+
+        private string valorSeleccionadoTipoT;
+        private string valorSeleccionadoNombreE;
+
+        private void CmbTipoT_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cmbTipoT.SelectedItem != null)
+            {
+                ListBoxItem itemSeleccionado = cmbTipoT.SelectedItem as ListBoxItem;
+                if (itemSeleccionado != null)
+                {
+                    valorSeleccionadoTipoT = itemSeleccionado.Content.ToString(); 
+
+                    Window5 ventana5 = new Window5();
+                    ventana5.ActualizarDatos(valorSeleccionadoTipoT, valorSeleccionadoNombreE); 
+                }
+            }
+        }
+
+        private void CmbNombreE_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cmbNombreE.SelectedItem != null)
+            {
+                ListBoxItem itemSeleccionado = cmbNombreE.SelectedItem as ListBoxItem;
+                if (itemSeleccionado != null)
+                {
+                    valorSeleccionadoNombreE = itemSeleccionado.Content.ToString(); 
+
+                    Window5 ventana5 = new Window5();
+                    ventana5.ActualizarDatos(valorSeleccionadoTipoT, valorSeleccionadoNombreE); 
+                }
+            }
+        }
+
+        private void BtnMostrar_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtNombre.Text) || string.IsNullOrEmpty(txtApellido.Text) || string.IsNullOrEmpty(txtDirección.Text) || string.IsNullOrEmpty(txtNumT.Text) || string.IsNullOrEmpty(txtTpServicio.Text) || cmbTipoT.SelectedItem == null || cmbNombreE.SelectedItem == null)
+            {
+                MessageBox.Show("Por favor, complete todos los campos antes de imprimir.", "Datos Incompletos", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            Window5 ventana5 = new Window5();
+
+            ventana5.DatosOrden = new Ordenes
+            {
+                Nombre = txtNombre.Text,
+                Apellido = txtApellido.Text,
+                Dirección = txtDirección.Text,
+                Teléfono = Convert.ToDecimal(txtNumT.Text),
+                Servicio = txtTpServicio.Text
+            };
+
+            ventana5.ActualizarDatos(valorSeleccionadoTipoT, valorSeleccionadoNombreE);
+
+            ventana5.Show();
+
+            this.Hide();
         }
     }
 }

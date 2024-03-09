@@ -18,7 +18,6 @@
 
     <Grid Height="570" Margin="0,0,-0.4,0" VerticalAlignment="Top">
         <Button x:Name="btnRegresar" Content="Regresar" HorizontalAlignment="Left" Margin="586,366,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontWeight="Bold" FontSize="14" Click="Button_Click"/>
-        <Button x:Name="btnImprimir" Content="Imprimir" HorizontalAlignment="Left" Margin="586,455,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnImprimir_Click"/>
         <Button x:Name="BtnLimpiar" Content="Limpiar" HorizontalAlignment="Left" Margin="586,412,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnLimpiar_Click"/>
         <Label Content="Orden de trabajo" HorizontalAlignment="Left" Margin="111,56,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="24" FontWeight="Bold" Width="195"/>
         <DataGrid x:Name="DatGridOT" HorizontalAlignment="Left" Height="152" Margin="97,142,0,0" VerticalAlignment="Top" Width="504" SelectionChanged="DatGridOT_SelectionChanged"/>
@@ -34,12 +33,12 @@
         <Label x:Name="lblTipoT" Content="Tipo de trabajo:" HorizontalAlignment="Left" Margin="49,494,0,0" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Times New Roman" FontSize="14"/>
         <Label x:Name="lblNombreE" Content="Nombre del Empleado:" HorizontalAlignment="Left" Margin="49,526,0,0" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Times New Roman" FontSize="14" RenderTransformOrigin="0.525,1.945"/>
         <TextBox x:Name="txtNombre" HorizontalAlignment="Left" Height="26" Margin="235,327,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="266" FontFamily="Times New Roman" FontSize="14"/>
-        <ComboBox x:Name="cmbNombreE" HorizontalAlignment="Left" Margin="235,526,0,0" VerticalAlignment="Top" Width="266" FontFamily="Times New Roman" FontSize="14">
+        <ComboBox x:Name="cmbNombreE" HorizontalAlignment="Left" Margin="235,526,0,0" VerticalAlignment="Top" Width="266" FontFamily="Times New Roman" FontSize="14" SelectionChanged="CmbNombreE_SelectionChanged">
             <ListBoxItem Content="Jonny Alexis Giron"/>
             <ListBoxItem Content="Khenen Isaac Giron"/>
             <ListBoxItem Content="Walter Salgado"/>
         </ComboBox>
-        <ComboBox x:Name="cmbTipoT" HorizontalAlignment="Left" Margin="235,497,0,0" VerticalAlignment="Top" Width="266" FontFamily="Times New Roman" FontSize="14" IsReadOnly="True">
+        <ComboBox x:Name="cmbTipoT" HorizontalAlignment="Left" Margin="235,497,0,0" VerticalAlignment="Top" Width="266" FontFamily="Times New Roman" FontSize="14" IsReadOnly="True" SelectionChanged="CmbTipoT_SelectionChanged">
             <ListBoxItem Content="Instalación"/>
             <ListBoxItem Content="Reparación"/>
             <ListBoxItem Content="Corte"/>
@@ -52,5 +51,6 @@
         <Image Margin="15,45,601.6,458.4" Source="logoTele.png" Stretch="Fill"/>
         <Label x:Name="lblNumT_Copy" Content="Tipo de servicio:" HorizontalAlignment="Left" Margin="49,461,0,0" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Times New Roman" FontSize="14"/>
         <TextBox x:Name="txtTpServicio" HorizontalAlignment="Left" Height="26" Margin="235,463,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="266" FontFamily="Times New Roman" FontSize="14"/>
+        <Button x:Name="btnMostrar" Content="Mostrar" HorizontalAlignment="Left" Margin="586,459,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontWeight="Bold" FontSize="14" Click="BtnMostrar_Click"/>
     </Grid>
 </Window>
