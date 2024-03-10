@@ -17,15 +17,19 @@
     </Window.Resources>
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="261*"/>
+            <RowDefinition Height="229*"/>
+        </Grid.RowDefinitions>
         <Label Content="Obtener contraseña" HorizontalAlignment="Left" Margin="154,160,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
         <Label Content="Introduzca su nombre de usuario y el correo registrado en el sistema," HorizontalAlignment="Left" Margin="154,186,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14"/>
         <Label Content="para así enviar un código con el cual podrá recuperar su contraseña." HorizontalAlignment="Left" Margin="154,212,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14"/>
-        <Label Content="Usuario:" HorizontalAlignment="Left" Margin="154,270,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
-        <TextBox x:Name="txtUsuario" HorizontalAlignment="Left" Height="23" Margin="156,301,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="387" FontFamily="Times New Roman" FontSize="14"/>
-        <Label Content="Correo electrónico:" HorizontalAlignment="Left" Margin="154,355,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
-        <TextBox x:Name="txtCorreoE" HorizontalAlignment="Left" Height="23" Margin="156,386,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="387" FontFamily="Times New Roman" FontSize="14"/>
-        <Image Margin="310,32,300.6,359.4" Source="logoTele.png" Stretch="Fill" RenderTransformOrigin="-0.074,0.454"/>
-        <Button x:Name="btnEnviar" Content="Enviar" HorizontalAlignment="Left" Margin="297,448,0,0" VerticalAlignment="Top" Width="75" FontWeight="Bold" FontFamily="Times New Roman" FontSize="14" Click="BtnEnviar_Click"/>
+        <Label Content="Usuario:" HorizontalAlignment="Left" Margin="154,9,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Grid.Row="1"/>
+        <TextBox x:Name="txtUsuario" HorizontalAlignment="Left" Height="23" Margin="156,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="387" FontFamily="Times New Roman" FontSize="14" Grid.Row="1"/>
+        <Label Content="Correo electrónico:" HorizontalAlignment="Left" Margin="154,94,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Grid.Row="1"/>
+        <TextBox x:Name="txtCorreoE" HorizontalAlignment="Left" Height="23" Margin="156,125,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="387" FontFamily="Times New Roman" FontSize="14" Grid.Row="1"/>
+        <Image Margin="310,32,300.6,130" Source="logoTele.png" Stretch="Fill" RenderTransformOrigin="-0.074,0.454"/>
+        <Button x:Name="btnEnviar" Content="Enviar" HorizontalAlignment="Left" Margin="297,187,0,0" VerticalAlignment="Top" Width="75" FontWeight="Bold" FontFamily="Times New Roman" FontSize="14" Click="BtnEnviar_Click" Grid.Row="1"/>
 
     </Grid>
 </Window>

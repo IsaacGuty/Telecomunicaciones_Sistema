@@ -11,103 +11,131 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using System.Data.SqlClient;
 using System.Net;
 using System.Net.Mail;
+using System.Data.SqlClient;
+using System.IO;
+using System.Text.RegularExpressions;
 
 namespace Telecomunicaciones_Sistema
 {
     public partial class EstContra : Window
     {
-        public EstContra()
+        private readonly string remitente = "telecomunicacioness.2024@gmail.com";
+        private readonly string contraseña = "fast hqaz dejf uxro";
+        private int userId;
+
+        public EstContra(int userId)
         {
             InitializeComponent();
+            this.userId = userId; // Inicializa userId con el valor proporcionado
         }
-
-        private bool ExisteUsuario(string idUsuario)
-        {
-            string connectionString = "Data source = DESKTOP-KIBLMD6\\SQLEXPRESS; Initial catalog = TelecomunicacionesBD; Integrated security = true";
-            string query = "SELECT COUNT(*) FROM Inicio_Sesión WHERE ID_Usuario = @ID_Usuario";
-
-            int count = 0;
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            using (SqlCommand command = new SqlCommand(query, connection))
-            {
-                command.Parameters.AddWithValue("@ID_Usuario", idUsuario);
-
-                try
-                {
-                    connection.Open();
-                    count = (int)command.ExecuteScalar();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error al verificar la existencia del ID de usuario en la base de datos: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }
-            return count > 0;
-        }
-
-        private string GenerarCodigoAleatorio()
-        {
-            Random random = new Random();
-            int codigo = random.Next(100000, 999999); 
-            return codigo.ToString();
-        }
-
-        private void EnviarCorreo(string correoDestino, string codigo)
-        {
-            try
-            {
-                string nombreRemitente = "Soporte técnico";
-                string direccionRemitente = "telecomunicaciones_24@gmail.com";
-                SmtpClient smtpClient = new SmtpClient("smtp.gmail.com", 587);
-                smtpClient.EnableSsl = true;
-                smtpClient.UseDefaultCredentials = false;
-                smtpClient.Credentials = new NetworkCredential("tucorreo@gmail.com", "tucontraseña");
-
-                MailMessage mailMessage = new MailMessage();
-                mailMessage.From = new MailAddress(direccionRemitente, nombreRemitente);
-                mailMessage.To.Add(correoDestino);
-                mailMessage.Subject = "Código de recuperación de contraseña";
-                mailMessage.Body = "Tu código de recuperación de contraseña es: " + codigo;
-
-                smtpClient.Send(mailMessage);
-
-                MessageBox.Show("Se ha enviado un código de recuperación al correo electrónico proporcionado.", "Confirmación", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al enviar el correo electrónico: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
 
         private void BtnEnviar_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtUsuario.Text) || string.IsNullOrWhiteSpace(txtCorreoE.Text))
+            try
             {
-                MessageBox.Show("Por favor, complete todos los campos antes de enviar.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
+                int codigo = GenerarCodVerif();
 
-            string idUsuario = txtUsuario.Text;
-            string correoElectronico = txtCorreoE.Text;
+                if (string.IsNullOrEmpty(txtUsuario.Text) || string.IsNullOrEmpty(txtCorreoE.Text))
+                {
+                    MessageBox.Show("Por favor, complete todos los campos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
 
-            if (ExisteUsuario(idUsuario))
-            {
-                string codigoRecuperacion = GenerarCodigoAleatorio();
-                EnviarCorreo(correoElectronico, codigoRecuperacion);
+                string usuario = txtUsuario.Text;
+                string correo = txtCorreoE.Text;
 
-                IngCod winCod = new IngCod(codigoRecuperacion, correoElectronico);
+                if (!CorreoValido(correo))
+                {
+                    MessageBox.Show("Por favor, ingrese un correo electrónico válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                if (!UsuarioExiste(usuario))
+                {
+                    MessageBox.Show("El usuario proporcionado no existe en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                EnviarCorreo(correo, codigo);
+                RegistrarActividad("Envío de código de verificación", usuario, correo);
+
+                MessageBox.Show($"Se ha enviado un código de verificación al correo electrónico asociado al usuario.", "Código de verificación", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                this.Close();
+                IngCod winCod = new IngCod(codigo.ToString(), correo, userId);
                 winCod.ShowDialog();
             }
-            else
+            catch (SqlException ex)
             {
-                MessageBox.Show("El usuario especificado no existe en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Error al conectarse a la base de datos: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (SmtpException ex)
+            {
+                MessageBox.Show("Error al enviar el correo electrónico: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Se produjo un error: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private int GenerarCodVerif()
+        {
+            Random rnd = new Random();
+            return rnd.Next(100000, 999999);
+        }
+
+        private void RegistrarActividad(string actividad, string usuario, string correo)
+        {
+            string logMessage = $"{DateTime.Now}: {actividad} - Usuario: {usuario}, Correo: {correo}";
+            string filePath = "log.txt";
+            File.AppendAllText(filePath, logMessage + Environment.NewLine);
+        }
+
+        private bool CorreoValido(string correo)
+        {
+            string patron = @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
+            return Regex.IsMatch(correo, patron);
+        }
+
+        private void EnviarCorreo(string destinatario, int codigo)
+        {
+            using (SmtpClient clienteSmtp = new SmtpClient("smtp.gmail.com", 587))
+            {
+                clienteSmtp.EnableSsl = true;
+                clienteSmtp.UseDefaultCredentials = false;
+                clienteSmtp.Credentials = new NetworkCredential(remitente, contraseña);
+
+                using (MailMessage mensaje = new MailMessage(remitente, destinatario))
+                {
+                    mensaje.Subject = "Código de verificación";
+                    mensaje.Body = $"Tu código de verificación es: {codigo}";
+
+                    clienteSmtp.Send(mensaje);
+                }
+            }
+        }
+
+        private bool UsuarioExiste(string usuario)
+        {
+            string connectionString = "Data Source=DESKTOP-KIBLMD6\\SQLEXPRESS;Initial Catalog=TelecomunicacionesBD;Integrated Security=true";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string query = "SELECT COUNT(*) FROM Inicio_Sesión WHERE ID_Usuario = @Usuario";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Usuario", usuario);
+
+                    connection.Open();
+
+                    int count = (int)command.ExecuteScalar();
+
+                    return count > 0;
+                }
             }
         }
     }
 }
-

@@ -16,24 +16,31 @@ using System.Net.Mail;
 
 namespace Telecomunicaciones_Sistema
 {
-    /// <summary>
-    /// Lógica de interacción para IngCod.xaml
-    /// </summary>
     public partial class IngCod : Window
     {
         private string codRec;
-        private string correoDestino; 
+        private string correoDestino;
+        private int userId;
+        private readonly Random random = new Random();
+        private RestCon ventanaRestCon;
 
-        public IngCod(string codigo, string correo)
+        public IngCod(string codigo, string correo, int userId)
         {
             InitializeComponent();
             codRec = codigo;
-            correoDestino = correo; 
+            correoDestino = correo;
+            this.userId = userId;
+            InitializeWindowEvents();
+        }
+
+        private void InitializeWindowEvents()
+        {
+            btnAceptar.Click += BtnAceptar_Click;
+            btnReeC.Click += BtnReeC_Click;
         }
 
         private string GenerarCodigoAleatorio()
         {
-            Random random = new Random();
             int codigo = random.Next(100000, 999999);
             return codigo.ToString();
         }
@@ -51,15 +58,19 @@ namespace Telecomunicaciones_Sistema
                 mailMessage.From = new MailAddress("tucorreo@gmail.com");
                 mailMessage.To.Add(correoDestino);
                 mailMessage.Subject = "Código de recuperación de contraseña";
-                mailMessage.Body = "Tu nuevo código de recuperación de contraseña es: " + codigo; 
+                mailMessage.Body = "Tu nuevo código de recuperación de contraseña es: " + codigo;
 
                 smtpClient.Send(mailMessage);
 
                 MessageBox.Show("Se ha enviado un código de recuperación actualizado al correo electrónico proporcionado.", "Confirmación", MessageBoxButton.OK, MessageBoxImage.Information);
             }
-            catch (Exception ex)
+            catch (SmtpException ex)
             {
                 MessageBox.Show("Error al enviar el correo electrónico: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ocurrió un error inesperado: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -69,8 +80,13 @@ namespace Telecomunicaciones_Sistema
             {
                 MessageBox.Show("Código correcto. Ahora puedes restablecer tu contraseña.", "Confirmación", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                RestCon winCon = new RestCon();
-                winCon.ShowDialog();
+                if (ventanaRestCon == null || !ventanaRestCon.IsVisible) // Verificar si la ventana RestCon ya está abierta
+                {
+                    ventanaRestCon = new RestCon(userId); // Crear una nueva instancia solo si no existe
+                    ventanaRestCon.Closed += (s, args) => this.Show(); // Mostrar esta ventana cuando RestCon se cierre
+                    ventanaRestCon.Show();
+                    this.Hide(); // Ocultar esta ventana mientras RestCon está abierta
+                }
             }
             else
             {

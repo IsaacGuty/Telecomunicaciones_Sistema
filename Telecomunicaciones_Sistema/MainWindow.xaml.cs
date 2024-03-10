@@ -28,6 +28,7 @@ namespace Telecomunicaciones_Sistema
         public static String Usuario_L;
         public static String Contraseña_L;
         public static String Rol_L;
+        private int userId;
 
         void P_Login()
         {
@@ -82,9 +83,8 @@ namespace Telecomunicaciones_Sistema
 
         private void lblContraO_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            EstContra restCon = new EstContra();
+            EstContra restCon = new EstContra(userId);
             restCon.ShowDialog();
         }
-
     }
 }
