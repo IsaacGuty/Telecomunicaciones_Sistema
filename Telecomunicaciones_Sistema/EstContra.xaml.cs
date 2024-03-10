@@ -64,8 +64,9 @@ namespace Telecomunicaciones_Sistema
                 MessageBox.Show($"Se ha enviado un código de verificación al correo electrónico asociado al usuario.", "Código de verificación", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 this.Close();
-                IngCod winCod = new IngCod(codigo.ToString(), correo, userId);
+                IngCod winCod = new IngCod(codigo.ToString(), correo, usuario, userId);
                 winCod.ShowDialog();
+
             }
             catch (SqlException ex)
             {
@@ -120,6 +121,12 @@ namespace Telecomunicaciones_Sistema
 
         private bool UsuarioExiste(string usuario)
         {
+            if (!int.TryParse(usuario, out int userId))
+            {
+                MessageBox.Show("El usuario proporcionado no es válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
             string connectionString = "Data Source=DESKTOP-KIBLMD6\\SQLEXPRESS;Initial Catalog=TelecomunicacionesBD;Integrated Security=true";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -127,7 +134,7 @@ namespace Telecomunicaciones_Sistema
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@Usuario", usuario);
+                    command.Parameters.AddWithValue("@Usuario", userId);
 
                     connection.Open();
 

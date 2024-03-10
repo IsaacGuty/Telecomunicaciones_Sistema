@@ -21,15 +21,17 @@ namespace Telecomunicaciones_Sistema
         private string codRec;
         private string correoDestino;
         private int userId;
+        private string usuario;
         private readonly Random random = new Random();
         private RestCon ventanaRestCon;
 
-        public IngCod(string codigo, string correo, int userId)
+        public IngCod(string codigo, string correo, string usuario, int userId)
         {
             InitializeComponent();
             codRec = codigo;
             correoDestino = correo;
             this.userId = userId;
+            this.usuario = usuario;
             InitializeWindowEvents();
         }
 
@@ -80,12 +82,13 @@ namespace Telecomunicaciones_Sistema
             {
                 MessageBox.Show("Código correcto. Ahora puedes restablecer tu contraseña.", "Confirmación", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                if (ventanaRestCon == null || !ventanaRestCon.IsVisible) // Verificar si la ventana RestCon ya está abierta
+                if (ventanaRestCon == null || !ventanaRestCon.IsVisible)
                 {
-                    ventanaRestCon = new RestCon(userId); // Crear una nueva instancia solo si no existe
-                    ventanaRestCon.Closed += (s, args) => this.Show(); // Mostrar esta ventana cuando RestCon se cierre
+                    ventanaRestCon = new RestCon(userId); // Pasar userId al constructor de RestCon
+                    ventanaRestCon.SetUsuario(usuario); // Pasar el valor de usuario a RestCon
+                    ventanaRestCon.Closed += (s, args) => this.Show();
                     ventanaRestCon.Show();
-                    this.Hide(); // Ocultar esta ventana mientras RestCon está abierta
+                    this.Hide();
                 }
             }
             else
