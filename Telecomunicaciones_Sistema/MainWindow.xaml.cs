@@ -87,5 +87,11 @@ namespace Telecomunicaciones_Sistema
             EstContra restCon = new EstContra(usuario);
             restCon.ShowDialog();
         }
+
+        private void lblContraC_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            CambContra cmbCon = new CambContra(usuario);
+            cmbCon.ShowDialog();
+        }
     }
 }

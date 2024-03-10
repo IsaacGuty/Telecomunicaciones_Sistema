@@ -62,6 +62,12 @@
       <DependentUpon>Ayuda.xaml</DependentUpon>
     </Compile>
     <Compile Include="BD.cs" />
+    <Compile Include="CambContra.xaml.cs">
+      <DependentUpon>CambContra.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CamCon.xaml.cs">
+      <DependentUpon>CamCon.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Datos.cs" />
     <Compile Include="ClienteDAL.cs" />
     <Compile Include="Clientes.cs" />
@@ -113,6 +119,14 @@
       <DependentUpon>Window9.xaml</DependentUpon>
     </Compile>
     <Page Include="Ayuda.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CambContra.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CamCon.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

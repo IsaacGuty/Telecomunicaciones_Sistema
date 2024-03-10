@@ -23,7 +23,9 @@ namespace Telecomunicaciones_Sistema
         private int userId;
         private string usuario;
         private readonly Random random = new Random();
-        private RestCon ventanaRestCon;
+        private RestCon winRestCon;
+        private CamCon winCamCon;
+        private bool esRestablecer;
 
         public IngCod(string codigo, string correo, string usuario, int userId)
         {
@@ -82,13 +84,29 @@ namespace Telecomunicaciones_Sistema
             {
                 MessageBox.Show("Código correcto. Ahora puedes restablecer tu contraseña.", "Confirmación", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                if (ventanaRestCon == null || !ventanaRestCon.IsVisible)
+                if (esRestablecer)
                 {
-                    ventanaRestCon = new RestCon(userId); // Pasar userId al constructor de RestCon
-                    ventanaRestCon.SetUsuario(usuario); // Pasar el valor de usuario a RestCon
-                    ventanaRestCon.Closed += (s, args) => this.Show();
-                    ventanaRestCon.Show();
-                    this.Hide();
+                    // Abre la ventana para restablecer la contraseña (RestCon)
+                    if (winRestCon == null || !winRestCon.IsVisible)
+                    {
+                        winRestCon = new RestCon(userId); // Pasar userId al constructor de RestCon
+                        winRestCon.SetUsuario(usuario); // Pasar el valor de usuario a RestCon
+                        winRestCon.Closed += (s, args) => this.Show();
+                        winRestCon.Show();
+                        this.Hide();
+                    }
+                }
+                else
+                {
+                    // Abre la ventana para cambiar la contraseña (CamCon)
+                    if (winCamCon == null || !winCamCon.IsVisible)
+                    {
+                        winCamCon = new CamCon(userId); // Pasar userId al constructor de CamCon
+                        winCamCon.SetUsuario(usuario); // Pasar el valor de usuario a CamCon
+                        winCamCon.Closed += (s, args) => this.Show();
+                        winCamCon.Show();
+                        this.Hide();
+                    }
                 }
             }
             else
@@ -96,6 +114,7 @@ namespace Telecomunicaciones_Sistema
                 MessageBox.Show("El código ingresado es incorrecto. Por favor, verifica e intenta nuevamente.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
 
         private void BtnReeC_Click(object sender, RoutedEventArgs e)
         {
