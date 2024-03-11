@@ -112,8 +112,6 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
-
-
         // Genera un código de verificación aleatorio de 6 dígitos
         private int GenerarCodVerif()
         {

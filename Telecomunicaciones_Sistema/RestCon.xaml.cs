@@ -56,9 +56,16 @@ namespace Telecomunicaciones_Sistema
             try
             {
                 // Intenta actualizar la contraseña
-                ActualizarContraseña(nuevaContra);
+                string usuario = lblusuario.Content.ToString(); // Obtener el nombre de usuario desde el control lblusuario
+                Validaciones.ActualizarContraseñaa(usuario, nuevaContra); // Llamar a la validación pasando el nombre de usuario y la nueva contraseña como parámetros
 
-                // Cierra la ventana RestCon
+                // Mostrar mensaje de éxito
+                MessageBox.Show("¡La contraseña se ha cambiado exitosamente!", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                MainWindow formulario = new MainWindow();
+                formulario.Show();
+
+                // Cerrar la ventana actual
                 this.Close();
             }
             catch (SqlException ex)
@@ -70,57 +77,6 @@ namespace Telecomunicaciones_Sistema
                 MessageBox.Show("Se produjo un error inesperado al cambiar la contraseña: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
-        // Método para actualizar la contraseña en la base de datos
-        private void ActualizarContraseña(string nuevaContra)
-        {
-            // Cadena de conexión a la base de datos
-            string connectionString = "Data Source=DESKTOP-KIBLMD6\\SQLEXPRESS;Initial Catalog=TelecomunicacionesBD;Integrated Security=true";
-
-            try
-            {
-                // Abre la conexión a la base de datos
-                using (SqlConnection connection = new SqlConnection(connectionString))
-                {
-                    string query = "UPDATE Inicio_Sesión SET Contraseña = @NuevaContra WHERE ID_Usuario = @Usuario";
-
-                    // Prepara y ejecuta la consulta SQL para actualizar la contraseña
-                    using (SqlCommand command = new SqlCommand(query, connection))
-                    {
-                        command.Parameters.AddWithValue("@NuevaContra", nuevaContra);
-                        command.Parameters.AddWithValue("@Usuario", lblusuario.Content.ToString());
-
-                        connection.Open();
-                        int rowsAffected = command.ExecuteNonQuery();
-
-                        // Verifica si se actualizaron filas en la base de datos
-                        if (rowsAffected > 0)
-                        {
-                            MessageBox.Show("¡La contraseña se ha cambiado exitosamente!", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                            // Oculta la ventana actual
-                            this.Hide();
-
-                            // Cierra la ventana actual
-                            this.Close();
-                        }
-                        else
-                        {
-                            MessageBox.Show("No se encontró el usuario en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                        }
-                    }
-                }
-            }
-            catch (SqlException ex)
-            {
-                MessageBox.Show("Error de SQL al cambiar la contraseña: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Se produjo un error inesperado al cambiar la contraseña: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
 
         private void BtnCancelar_Click(object sender, RoutedEventArgs e)
         {

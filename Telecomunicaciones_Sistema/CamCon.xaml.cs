@@ -73,8 +73,13 @@ namespace Telecomunicaciones_Sistema
                 // Actualizar la contraseña en la base de datos
                 Validaciones.ActualizarContraseña(lblusuario.Content.ToString(), nuevaContra);
 
+                // Mostrar mensaje de éxito
                 MessageBox.Show("¡La contraseña se ha cambiado exitosamente!", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
 
+                MainWindow formulario = new MainWindow();
+                formulario.Show();
+
+                // Cerrar la ventana actual
                 this.Close();
             }
             catch (Exception ex)
