@@ -21,17 +21,30 @@ namespace Telecomunicaciones_Sistema
     /// </summary>
     public partial class Window2 : Window
     {
+        private Window7 ventana7;
+
+        // Propiedad estática para almacenar el cliente seleccionado
         public static Clientes ClienteSeleccionado { get; set; }
 
+        // Constructor de la ventana
         public Window2()
         {
             InitializeComponent();
             Conn = new SqlConnection("Data source = DESKTOP-KIBLMD6\\SQLEXPRESS; Initial catalog = TelecomunicacionesBD; Integrated security = true");
             CargarDatos();
+
+            // Crear una instancia de Window7
+            ventana7 = new Window7();
+
+            // Suscribirte al evento ClienteAgregado
+            ventana7.ClienteAgregado += ActualizarDatosCliente;
         }
 
+
+        // Clase interna para el diálogo de nuevo cliente
         public partial class NuevoClienteDialog : Window
         {
+            // Propiedades del diálogo de nuevo cliente
             public string ID_Cliente { get; set; }
             public string Nombre { get; set; }
             public string Apellido { get; set; }
@@ -40,6 +53,7 @@ namespace Telecomunicaciones_Sistema
             public string ID_Dirección { get; set; }
         }
 
+        // Estructura para representar un cliente
         public struct Clientes
         {
             public string ID_Cliente;
@@ -50,20 +64,17 @@ namespace Telecomunicaciones_Sistema
             public string ID_Dirección;
         }
 
+        // Variables de clase
         private SqlConnection Conn;
         private bool isMainWindow;
 
+        // Método para cargar los datos de los clientes
         private void CargarDatos()
         {
             try
             {
-                    Conn.Open();
-                    string query = "SELECT * FROM Clientes";
-                    SqlDataAdapter adapter = new SqlDataAdapter(query, Conn);
-                    DataSet dataSet = new DataSet();
-                    adapter.Fill(dataSet, "Clientes");
-                    DatGridRC.ItemsSource = dataSet.Tables["Clientes"].DefaultView;
-                    Conn.Close();
+                DataTable dataTable = ClienteDAL.ObtenerTodosClientes();
+                DatGridRC.ItemsSource = dataTable.DefaultView;
             }
             catch (Exception ex)
             {
@@ -72,7 +83,7 @@ namespace Telecomunicaciones_Sistema
         }
 
         private void BtnRegresar_Click(object sender, RoutedEventArgs e)
-        {            
+        {
             Window1 frmPr = new Window1(isMainWindow: true);
             frmPr.Show();
 
@@ -80,9 +91,9 @@ namespace Telecomunicaciones_Sistema
             {
                 this.Close();
             }
-
         }
 
+        // Manejador de eventos para el cambio de selección en el DataGrid
         private void DatGridRC_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (DatGridRC.SelectedItem != null && DatGridRC.SelectedItem is DataRowView)
@@ -105,6 +116,7 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
+        // Método para inicialización de la ventana
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
@@ -112,26 +124,40 @@ namespace Telecomunicaciones_Sistema
 
         private void BtnAgregar_Click(object sender, RoutedEventArgs e)
         {
-            SolicitarInformacionCliente();
+            SolicitarInformacionCliente(false);
+            
         }
 
-        private void SolicitarInformacionCliente()
+        // Método para solicitar información de un nuevo cliente
+        private void SolicitarInformacionCliente(bool esModificacion)
         {
-            MessageBoxResult result = MessageBox.Show("Por favor, ingrese la información del nuevo cliente.", "Nuevo Cliente", MessageBoxButton.OKCancel);
+            MessageBoxResult result;
+            if (esModificacion)
+            {
+                result = MessageBox.Show("Por favor, ingrese la información del cliente a modificar.", "Modificar Cliente", MessageBoxButton.OKCancel);
+            }
+            else
+            {
+                result = MessageBox.Show("Por favor, ingrese la información del nuevo cliente.", "Nuevo Cliente", MessageBoxButton.OKCancel);
+            }
 
             if (result == MessageBoxResult.OK)
             {
-                Window7 frmAg = new Window7();
-                frmAg.Closed += (s, args) => CargarDatos();
+                // Pasar información sobre si es una modificación o no a Window7
+                Window7 frmAg = new Window7(esModificacion);
+                frmAg.Closed += (s, args) => CargarDatos(); // Refrescar los datos del DataGrid cuando se cierre la ventana 7
                 frmAg.Show();
             }
         }
 
         private void BtnBuscar_Click(object sender, RoutedEventArgs e)
         {
-            DatGridRC.ItemsSource = ClienteDAL.BuscarCliente(txtBuscar.Text);
+            DataTable dataTable = ClienteDAL.BuscarCliente(txtBuscar.Text);
+            DataView dataView = new DataView(dataTable);
+            DatGridRC.ItemsSource = dataView;
         }
 
+        // Manejador de eventos para el botón de limpiar búsqueda
         private void BtnLimpiar_Click(object sender, RoutedEventArgs e)
         {
             txtBuscar.Clear();
@@ -146,9 +172,17 @@ namespace Telecomunicaciones_Sistema
             {
                 if (!ClienteSeleccionado.Equals(default(Clientes)))
                 {
-                    Window7 frmMd = new Window7(ClienteSeleccionado);
-                    frmMd.ClienteModificado += ActualizarDatosCliente;
-                    frmMd.ShowDialog();
+                    if (ventana7 == null || !ventana7.IsVisible) // Verifica si la ventana7 ya está abierta
+                    {
+                        ventana7 = new Window7(ClienteSeleccionado, true); // Pasa el cliente seleccionado a la ventana7
+                        ventana7.ClienteModificado += ActualizarDatosCliente;
+                        ventana7.Closed += (s, args) => CargarDatos(); // Refrescar los datos del DataGrid cuando se cierre la ventana 7
+                        ventana7.Show();
+                    }
+                    else
+                    {
+                        ventana7.Activate(); // Muestra la ventana7 si ya está abierta
+                    }
                 }
                 else
                 {
@@ -157,9 +191,13 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
+
+        // Método para actualizar los datos del cliente
         private void ActualizarDatosCliente(object sender, EventArgs e)
         {
-            CargarDatos(); 
+            // Cargar los datos nuevamente para reflejar el nuevo cliente agregado
+            CargarDatos();
         }
     }
 }
+

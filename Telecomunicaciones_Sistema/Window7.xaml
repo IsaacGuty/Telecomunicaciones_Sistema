@@ -16,7 +16,7 @@
         </Style>
     </Window.Resources>
     <Grid>
-        <Label Content="Agregar un nuevo cliente" HorizontalAlignment="Left" Margin="113,56,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="24" FontWeight="Bold" Width="271"/>
+        <Label x:Name="lblNom" Content="Agregar un nuevo cliente" HorizontalAlignment="Left" Margin="113,56,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="24" FontWeight="Bold" Width="271"/>
         <Image Margin="87,45,548.6,469" Source="logoTele.png" Stretch="Fill"/>
         <Image Margin="15,45,601.6,359.2" Source="logoTele.png" Stretch="Fill"/>
         <Label Content="ID:" HorizontalAlignment="Left" Margin="212,120,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>

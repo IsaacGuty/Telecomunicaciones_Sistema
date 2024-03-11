@@ -18,82 +18,88 @@ namespace Telecomunicaciones_Sistema
 {
     public partial class IngCod : Window
     {
-        private string codRec;
-        private string correoDestino;
-        private int userId;
-        private string usuario;
-        private readonly Random random = new Random();
-        private RestCon winRestCon;
-        private CamCon winCamCon;
-        private bool esRestablecer;
+        private string codRec; // Almacena el código de verificación recibido
+        private string correoDestino; // Almacena la dirección de correo electrónico del usuario
+        private int userId; // Almacena el ID del usuario
+        private string usuario; // Almacena el nombre de usuario
+        private readonly Random random = new Random(); // Generador de números aleatorios
+        private RestCon winRestCon; // Referencia a la ventana RestCon
+        private CamCon winCamCon; // Referencia a la ventana CamCon
+        private bool esRestablecer; // Indica si se está restableciendo la contraseña o cambiándola
 
-        public IngCod(string codigo, string correo, string usuario, int userId)
+        // Constructor de la ventana IngCod
+        public IngCod(string codigo, string correo, string usuario, int userId, bool esRestablecer)
         {
             InitializeComponent();
             codRec = codigo;
             correoDestino = correo;
             this.userId = userId;
             this.usuario = usuario;
-            InitializeWindowEvents();
+            this.esRestablecer = esRestablecer; // Asigna el valor de esRestablecer al campo correspondiente
+            InitializeWindowEvents(); // Inicializa los eventos de la ventana
         }
 
+        // Inicializa los eventos de la ventana
         private void InitializeWindowEvents()
         {
-            btnAceptar.Click += BtnAceptar_Click;
-            btnReeC.Click += BtnReeC_Click;
+            btnAceptar.Click += BtnAceptar_Click; // Asigna el evento Click al botón Aceptar
+            btnReeC.Click += BtnReeC_Click; // Asigna el evento Click al botón ReeC
         }
 
+        // Genera un código de verificación aleatorio
         private string GenerarCodigoAleatorio()
         {
-            int codigo = random.Next(100000, 999999);
-            return codigo.ToString();
+            int codigo = random.Next(100000, 999999); // Genera un número aleatorio de 6 dígitos
+            return codigo.ToString(); // Convierte el número aleatorio a una cadena y lo devuelve
         }
 
+        // Envía un correo electrónico con un nuevo código de recuperación de contraseña
         private void EnviarCorreo(string correoDestino, string codigo)
         {
             try
             {
+                // Configura el cliente SMTP para enviar correos electrónicos
                 SmtpClient smtpClient = new SmtpClient("smtp.gmail.com", 587);
                 smtpClient.EnableSsl = true;
                 smtpClient.UseDefaultCredentials = false;
-                smtpClient.Credentials = new NetworkCredential("tucorreo@gmail.com", "tucontraseña");
+                smtpClient.Credentials = new NetworkCredential("telecomunicacioness.2024@gmail.com", "fast hqaz dejf uxro");
 
+                // Crea un nuevo mensaje de correo electrónico
                 MailMessage mailMessage = new MailMessage();
-                mailMessage.From = new MailAddress("tucorreo@gmail.com");
-                mailMessage.To.Add(correoDestino);
-                mailMessage.Subject = "Código de recuperación de contraseña";
-                mailMessage.Body = "Tu nuevo código de recuperación de contraseña es: " + codigo;
+                mailMessage.From = new MailAddress("tucorreo@gmail.com"); // Configura el remitente del correo
+                mailMessage.To.Add(correoDestino); // Agrega el destinatario del correo
+                mailMessage.Subject = "Código"; // Asigna el asunto del correo
+                mailMessage.Body = "Tu nuevo código es: " + codigo; // Asigna el cuerpo del correo
 
+                // Envía el correo electrónico
                 smtpClient.Send(mailMessage);
-
-                MessageBox.Show("Se ha enviado un código de recuperación actualizado al correo electrónico proporcionado.", "Confirmación", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (SmtpException ex)
             {
-                MessageBox.Show("Error al enviar el correo electrónico: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            catch (Exception ex)
-            {
+                // Muestra un mensaje de error genérico si ocurre un problema inesperado
                 MessageBox.Show("Ocurrió un error inesperado: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         private void BtnAceptar_Click(object sender, RoutedEventArgs e)
         {
+            // Verifica si el código ingresado coincide con el código recibido
             if (txtCod.Text == codRec)
             {
-                MessageBox.Show("Código correcto. Ahora puedes restablecer tu contraseña.", "Confirmación", MessageBoxButton.OK, MessageBoxImage.Information);
 
+                // Verifica si se está restableciendo la contraseña
                 if (esRestablecer)
                 {
                     // Abre la ventana para restablecer la contraseña (RestCon)
                     if (winRestCon == null || !winRestCon.IsVisible)
                     {
-                        winRestCon = new RestCon(userId); // Pasar userId al constructor de RestCon
-                        winRestCon.SetUsuario(usuario); // Pasar el valor de usuario a RestCon
-                        winRestCon.Closed += (s, args) => this.Show();
-                        winRestCon.Show();
-                        this.Hide();
+                        // Muestra un mensaje de confirmación si el código es correcto
+                        MessageBox.Show("Código correcto. Ahora puedes restablecer tu contraseña.", "Confirmación", MessageBoxButton.OK, MessageBoxImage.Information);
+                        winRestCon = new RestCon(userId); // Crea una instancia de RestCon pasando el userId al constructor
+                        winRestCon.SetUsuario(usuario); // Establece el nombre de usuario en la ventana RestCon
+                        winRestCon.Closed += (s, args) => this.Show(); // Muestra esta ventana cuando se cierre RestCon
+                        winRestCon.Show(); // Muestra la ventana RestCon
+                        this.Hide(); // Oculta esta ventana
                     }
                 }
                 else
@@ -101,27 +107,40 @@ namespace Telecomunicaciones_Sistema
                     // Abre la ventana para cambiar la contraseña (CamCon)
                     if (winCamCon == null || !winCamCon.IsVisible)
                     {
-                        winCamCon = new CamCon(userId); // Pasar userId al constructor de CamCon
-                        winCamCon.SetUsuario(usuario); // Pasar el valor de usuario a CamCon
-                        winCamCon.Closed += (s, args) => this.Show();
-                        winCamCon.Show();
-                        this.Hide();
+                        // Muestra un mensaje de confirmación si el código es correcto
+                        MessageBox.Show("Código correcto. Ahora puedes cambiar tu contraseña.", "Confirmación", MessageBoxButton.OK, MessageBoxImage.Information);
+                        winCamCon = new CamCon(userId); // Crea una instancia de CamCon pasando el userId al constructor
+                        winCamCon.SetUsuario(usuario); // Establece el nombre de usuario en la ventana CamCon
+                        winCamCon.Closed += (s, args) => this.Show(); // Muestra esta ventana cuando se cierre CamCon
+                        winCamCon.Show(); // Muestra la ventana CamCon
+                        this.Hide(); // Oculta esta ventana
                     }
                 }
             }
             else
             {
+                // Muestra un mensaje de error si el código ingresado es incorrecto
                 MessageBox.Show("El código ingresado es incorrecto. Por favor, verifica e intenta nuevamente.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
-
         private void BtnReeC_Click(object sender, RoutedEventArgs e)
         {
-            string nuevoCodigoRecuperacion = GenerarCodigoAleatorio();
-            EnviarCorreo(correoDestino, nuevoCodigoRecuperacion);
-            MessageBox.Show("Se ha vuelto a enviar un código de recuperación al correo electrónico proporcionado.", "Confirmación", MessageBoxButton.OK, MessageBoxImage.Information);
+            try
+            {
+                string nuevoCodigoRecuperacion = GenerarCodigoAleatorio();
+
+                codRec = nuevoCodigoRecuperacion;
+
+                EnviarCorreo(correoDestino, nuevoCodigoRecuperacion);
+
+                MessageBox.Show("Se ha vuelto a enviar un código al correo electrónico proporcionado.", "Confirmación", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al reenviar el correo electrónico: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
+
     }
 }
-

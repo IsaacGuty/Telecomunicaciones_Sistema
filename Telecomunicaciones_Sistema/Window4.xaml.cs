@@ -25,26 +25,27 @@ namespace Telecomunicaciones_Sistema
         {
             InitializeComponent();
 
+            // Al inicializar la ventana, carga los datos en el DataGrid
             CargarDatos();
         }
 
+        // Propiedad para almacenar los datos de la orden
         public Ordenes DatosOrden { get; set; }
 
+        // Conexión a la base de datos
         SqlConnection Conn = new SqlConnection("Data source = DESKTOP-KIBLMD6\\SQLEXPRESS; Initial catalog = TelecomunicacionesBD; Integrated security = true");
+
+        // Variable para identificar si esta ventana es la ventana principal
         private bool isMainWindow;
 
-
+        // Método para cargar los datos en el DataGrid al iniciar la ventana
         private void CargarDatos()
         {
             try
             {
-                Conn.Open();
-                string query = "select c.Nombre, c.Apellido, d.Dirección, c.Teléfono, s.Servicio from Clientes c join Dirección d on d.ID_Dirección = c.ID_Dirección join Pago p on p.ID_Cliente = c.ID_Cliente join Servicios s on s.ID_Servicio = p.ID_TpServicio";
-                SqlDataAdapter adapter = new SqlDataAdapter(query, Conn);
-                DataSet dataSet = new DataSet();
-                adapter.Fill(dataSet, "Ordenes");
-                DatGridOT.ItemsSource = dataSet.Tables["Ordenes"].DefaultView;
-                Conn.Close();
+                // Obtiene los datos de las órdenes y los muestra en el DataGrid
+                DataTable dataTable = OrdenDAL.ObtenerOrdenes();
+                DatGridOT.ItemsSource = dataTable.DefaultView;
             }
             catch (Exception ex)
             {
@@ -54,9 +55,11 @@ namespace Telecomunicaciones_Sistema
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            // Crea una nueva instancia de la ventana principal y la muestra
             Window1 frmPr = new Window1(isMainWindow: true);
             frmPr.Show();
 
+            // Cierra esta ventana si no es la ventana principal
             if (!isMainWindow)
             {
                 this.Close();
@@ -65,11 +68,12 @@ namespace Telecomunicaciones_Sistema
 
         private void BtnImprimir_Click(object sender, RoutedEventArgs e)
         {
-
+            // Implementación para imprimir
         }
 
         private void BtnLimpiar_Click(object sender, RoutedEventArgs e)
         {
+            // Limpia los campos de búsqueda
             txtNombre.Clear();
             txtApellido.Clear();
             txtDirección.Clear();
@@ -79,6 +83,7 @@ namespace Telecomunicaciones_Sistema
             cmbNombreE.Items.Clear();
             txtBuscar.Clear();
 
+            // Recarga los datos en el DataGrid
             if (string.IsNullOrEmpty(txtBuscar.Text))
             {
                 CargarDatos();
@@ -87,11 +92,16 @@ namespace Telecomunicaciones_Sistema
 
         private void BtnBuscar_Click(object sender, RoutedEventArgs e)
         {
-            DatGridOT.ItemsSource = OrdenDAL.BuscarOrden(txtBuscar.Text);
+            // Obtiene los datos de las órdenes que coinciden con el criterio de búsqueda y los muestra en el DataGrid
+            DataTable dataTable = OrdenDAL.BuscarOrden(txtBuscar.Text);
+            DataView dataView = dataTable.DefaultView;
+            DatGridOT.ItemsSource = dataView;
         }
 
+        // Evento que se ejecuta cuando se selecciona una fila en el DataGrid
         private void DatGridOT_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            // Muestra los detalles de la orden seleccionada en los campos correspondientes
             if (DatGridOT.SelectedItem != null)
             {
                 DataRowView rowView = DatGridOT.SelectedItem as DataRowView;
@@ -107,35 +117,40 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
+        // Variables para almacenar la selección en los ComboBox
         private string valorSeleccionadoTipoT;
         private string valorSeleccionadoNombreE;
 
+        // Evento que se ejecuta al cambiar la selección en el ComboBox de Tipo de Trabajo
         private void CmbTipoT_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            // Actualiza la selección en el ComboBox de Nombre de Empleado en otra ventana
             if (cmbTipoT.SelectedItem != null)
             {
                 ListBoxItem itemSeleccionado = cmbTipoT.SelectedItem as ListBoxItem;
                 if (itemSeleccionado != null)
                 {
-                    valorSeleccionadoTipoT = itemSeleccionado.Content.ToString(); 
+                    valorSeleccionadoTipoT = itemSeleccionado.Content.ToString();
 
                     Window5 ventana5 = new Window5();
-                    ventana5.ActualizarDatos(valorSeleccionadoTipoT, valorSeleccionadoNombreE); 
+                    ventana5.ActualizarDatos(valorSeleccionadoTipoT, valorSeleccionadoNombreE);
                 }
             }
         }
 
+        // Evento que se ejecuta al cambiar la selección en el ComboBox de Nombre de Empleado
         private void CmbNombreE_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            // Actualiza la selección en el ComboBox de Tipo de Trabajo en otra ventana
             if (cmbNombreE.SelectedItem != null)
             {
                 ListBoxItem itemSeleccionado = cmbNombreE.SelectedItem as ListBoxItem;
                 if (itemSeleccionado != null)
                 {
-                    valorSeleccionadoNombreE = itemSeleccionado.Content.ToString(); 
+                    valorSeleccionadoNombreE = itemSeleccionado.Content.ToString();
 
                     Window5 ventana5 = new Window5();
-                    ventana5.ActualizarDatos(valorSeleccionadoTipoT, valorSeleccionadoNombreE); 
+                    ventana5.ActualizarDatos(valorSeleccionadoTipoT, valorSeleccionadoNombreE);
                 }
             }
         }
@@ -150,6 +165,7 @@ namespace Telecomunicaciones_Sistema
 
             Window5 ventana5 = new Window5();
 
+            // Asigna los datos de la orden a la nueva ventana
             ventana5.DatosOrden = new Ordenes
             {
                 Nombre = txtNombre.Text,
@@ -159,11 +175,12 @@ namespace Telecomunicaciones_Sistema
                 Servicio = txtTpServicio.Text
             };
 
+            // Actualiza los datos en la nueva ventana
             ventana5.ActualizarDatos(valorSeleccionadoTipoT, valorSeleccionadoNombreE);
 
             ventana5.Show();
-
             this.Hide();
         }
     }
 }
+

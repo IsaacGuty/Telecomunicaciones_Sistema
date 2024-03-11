@@ -21,10 +21,16 @@ namespace Telecomunicaciones_Sistema
 {
     public partial class EstContra : Window
     {
+        // Dirección de correo electrónico del remitente
         private readonly string remitente = "telecomunicacioness.2024@gmail.com";
+
+        // Contraseña del remitente
         private readonly string contraseña = "fast hqaz dejf uxro";
+
+        // ID del usuario
         private int userId;
 
+        // Constructor de la ventana EstContra
         public EstContra(int userId)
         {
             InitializeComponent();
@@ -35,9 +41,11 @@ namespace Telecomunicaciones_Sistema
         {
             try
             {
+                // Genera un código de verificación aleatorio
                 int codigo = GenerarCodVerif();
 
-                if (string.IsNullOrEmpty(txtUsuario.Text) || string.IsNullOrEmpty(txtCorreoE.Text))
+                // Verifica si los campos de usuario y correo están vacíos
+                if (Validaciones.CamposCorreoUsuarioVacios(txtUsuario.Text, txtCorreoE.Text))
                 {
                     MessageBox.Show("Por favor, complete todos los campos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
@@ -46,27 +54,33 @@ namespace Telecomunicaciones_Sistema
                 string usuario = txtUsuario.Text;
                 string correo = txtCorreoE.Text;
 
-                if (!CorreoValido(correo))
+                // Valida el formato del correo electrónico
+                if (!Validaciones.CorreoValido(correo))
                 {
                     MessageBox.Show("Por favor, ingrese un correo electrónico válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
-                if (!UsuarioExiste(usuario))
+                // Verifica si el usuario existe en la base de datos
+                if (!Validaciones.UsuarioExiste(usuario))
                 {
                     MessageBox.Show("El usuario proporcionado no existe en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
+                // Envía el código de verificación por correo electrónico
                 EnviarCorreo(correo, codigo);
+
+                // Registra la actividad de envío de código de verificación
                 RegistrarActividad("Envío de código de verificación", usuario, correo);
 
+                // Muestra un mensaje de éxito al usuario
                 MessageBox.Show($"Se ha enviado un código de verificación al correo electrónico asociado al usuario.", "Código de verificación", MessageBoxButton.OK, MessageBoxImage.Information);
 
+                // Cierra la ventana actual y abre la ventana IngCod
                 this.Close();
-                IngCod winCod = new IngCod(codigo.ToString(), correo, usuario, userId);
+                IngCod winCod = new IngCod(codigo.ToString(), correo, usuario, userId, true);
                 winCod.ShowDialog();
-
             }
             catch (SqlException ex)
             {
@@ -82,12 +96,14 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
+        // Genera un código de verificación aleatorio de 6 dígitos
         private int GenerarCodVerif()
         {
             Random rnd = new Random();
             return rnd.Next(100000, 999999);
         }
 
+        // Registra la actividad realizada en un archivo de registro
         private void RegistrarActividad(string actividad, string usuario, string correo)
         {
             string logMessage = $"{DateTime.Now}: {actividad} - Usuario: {usuario}, Correo: {correo}";
@@ -95,12 +111,7 @@ namespace Telecomunicaciones_Sistema
             File.AppendAllText(filePath, logMessage + Environment.NewLine);
         }
 
-        private bool CorreoValido(string correo)
-        {
-            string patron = @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
-            return Regex.IsMatch(correo, patron);
-        }
-
+        // Envía un correo electrónico con el código de verificación
         private void EnviarCorreo(string destinatario, int codigo)
         {
             using (SmtpClient clienteSmtp = new SmtpClient("smtp.gmail.com", 587))
@@ -118,31 +129,6 @@ namespace Telecomunicaciones_Sistema
                 }
             }
         }
-
-        private bool UsuarioExiste(string usuario)
-        {
-            if (!int.TryParse(usuario, out int userId))
-            {
-                MessageBox.Show("El usuario proporcionado no es válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return false;
-            }
-
-            string connectionString = "Data Source=DESKTOP-KIBLMD6\\SQLEXPRESS;Initial Catalog=TelecomunicacionesBD;Integrated Security=true";
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                string query = "SELECT COUNT(*) FROM Inicio_Sesión WHERE ID_Usuario = @Usuario";
-
-                using (SqlCommand command = new SqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@Usuario", userId);
-
-                    connection.Open();
-
-                    int count = (int)command.ExecuteScalar();
-
-                    return count > 0;
-                }
-            }
-        }
     }
 }
+

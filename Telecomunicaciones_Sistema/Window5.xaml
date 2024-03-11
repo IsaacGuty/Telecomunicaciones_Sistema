@@ -29,7 +29,6 @@
         <TextBox x:Name="txtServicio" HorizontalAlignment="Left" Height="25" Margin="73,236,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="358" FontFamily="Times New Roman" FontSize="14" Grid.Row="1"/>
         <TextBox x:Name="txtTipoT1" HorizontalAlignment="Left" Height="25" Margin="73,274,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="358" FontFamily="Times New Roman" FontSize="14" Grid.Row="1"/>
         <TextBox x:Name="txtFecha" HorizontalAlignment="Left" Height="25" Margin="453,152,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="192" FontFamily="Times New Roman" FontSize="14" Grid.Row="1"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="356,75.6,0,0" Grid.Row="2" TextWrapping="Wrap" Text="______________________________________" VerticalAlignment="Top" Width="275" FontFamily="Times New Roman" FontSize="14" Background="Transparent" TextChanged="TextBox_TextChanged"/>
         <TextBox x:Name="txtNombreE" HorizontalAlignment="Left" Height="25" Margin="73,315,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="358" FontFamily="Times New Roman" FontSize="14" Grid.Row="1" Grid.RowSpan="2"/>
         <Label Content="Orden de trabajo" HorizontalAlignment="Left" Margin="276,29,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="24" FontWeight="Bold" Width="195" Grid.Row="1"/>
         <Image Margin="15,17,581.6,235.2" Source="logoTele.png" Stretch="Fill" Grid.Row="1"/>
@@ -38,6 +37,7 @@
         <Label x:Name="lblNombre_Copy1" Content="Cel: 9755-1953" HorizontalAlignment="Left" Margin="497,17,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" Grid.Row="1"/>
         <Label x:Name="lblNombre_Copy2" Content="E-Mail: isaacguty@gmail.com" HorizontalAlignment="Left" Margin="501,40,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" Grid.Row="1"/>
         <Button x:Name="btnImprimir" Content="Imprimir" HorizontalAlignment="Left" Margin="570,117.6,0,0" Grid.Row="2" VerticalAlignment="Top" Width="75" Click="BtnImprimir_Click" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
+        <Label x:Name="lblFirma" Content="___________________________________________________________________________" HorizontalAlignment="Left" Margin="370,66.6,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" Grid.Row="2" Width="275"/>
 
     </Grid>
 </Window>

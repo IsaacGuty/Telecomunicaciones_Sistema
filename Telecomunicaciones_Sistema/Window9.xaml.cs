@@ -25,6 +25,7 @@ namespace Telecomunicaciones_Sistema
 
         public event EventHandler PagoModificado;
 
+
         private List<Pagos> pagos;
 
         public Pagos NuevoPago { get; private set; }
@@ -50,64 +51,27 @@ namespace Telecomunicaciones_Sistema
 
         private void BtnAceptar_Click(object sender, RoutedEventArgs e)
         {
-            NuevoPago = new Pagos
-            {
-                ID_Cliente = txtIDC.Text,
-                Nombre = txtNombreC.Text,
-                Apellido = txtApellidoC.Text,
-                Dirección = txtDirecciónC.Text,
-                Teléfono = Convert.ToDecimal(txtTeléfonoC.Text),
-                Servicio = txtServicio.Text,
-                Monto = Convert.ToDecimal(txtMonto.Text),
-                MesPagado = txtMesP.Text,
-                Nombre_E = txtNombreE.Text,
-                };
             try
             {
-                Conn.Open();
-                SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM Pago WHERE ID_Cliente = @ID_Cliente", Conn);
-                cmd.Parameters.AddWithValue("@ID_Cliente", NuevoPago.ID_Cliente);
-                int count = (int)cmd.ExecuteScalar();
-
-                if (count > 0)
+                Pagos nuevoPago = new Pagos
                 {
-                    cmd = new SqlCommand("UPDATE Pago SET Mes_Pagado = @MesPagado WHERE ID_Cliente = @ID_Cliente", Conn);
-                }
+                    ID_Cliente = txtIDC.Text,
+                    MesPagado = txtMesP.Text,
+                    Servicio = txtServicio.Text,
+                };
 
-                cmd.Parameters.AddWithValue("@ID_Cliente", NuevoPago.ID_Cliente);
-                cmd.Parameters.AddWithValue("@MesPagado", NuevoPago.MesPagado);
-                cmd.ExecuteNonQuery();
-
-                SqlCommand updateServiceCmd = new SqlCommand("UPDATE Servicios SET Servicio = @Servicio WHERE ID_Servicio = (SELECT ID_TpServicio FROM Pago WHERE ID_Cliente = @ID_Cliente)", Conn);
-                updateServiceCmd.Parameters.AddWithValue("@ID_Cliente", NuevoPago.ID_Cliente);
-                updateServiceCmd.Parameters.AddWithValue("@Servicio", NuevoPago.Servicio);
-                updateServiceCmd.ExecuteNonQuery();
-
-                Conn.Close();
-
-                if (count > 0)
-                {
-                    MessageBox.Show("Pago modificado correctamente.");
-                }
+                PagoDAL.ActualizarPago(nuevoPago);
+                MessageBox.Show("Pago modificado correctamente.");
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error al modificar el pago: " + ex.Message);
             }
-            finally
-            {
-                Conn.Close();
-            }
 
             OnPagoModificado();
-
             this.Close();
         }
 
-       /* private void OnPagoAgregado()
-        {
-            PagoAgregado?.Invoke(this, EventArgs.Empty);
-        }*/
 
         private void OnPagoModificado()
         {

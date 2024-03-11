@@ -32,6 +32,7 @@ namespace Telecomunicaciones_Sistema
             CargarDatos();
         }
 
+
         public partial class NuevoEmpleadoDialog : Window
         {
             public string ID_Empleado { get; set; }
@@ -62,13 +63,8 @@ namespace Telecomunicaciones_Sistema
         {
             try
             {
-                Conn.Open();
-                string query = "SELECT * FROM Empleados";
-                SqlDataAdapter adapter = new SqlDataAdapter(query, Conn);
-                DataSet dataSet = new DataSet();
-                adapter.Fill(dataSet, "Empleados");
-                DataGridEMP.ItemsSource = dataSet.Tables["Empleados"].DefaultView;
-                Conn.Close();
+                DataTable dataTable = EmpleadoDAL.ObtenerTodosEmpleados();
+                DataGridEMP.ItemsSource = dataTable.DefaultView;
             }
             catch (Exception ex)
             {
@@ -89,16 +85,16 @@ namespace Telecomunicaciones_Sistema
 
         private void BtnAgregar_Click(object sender, RoutedEventArgs e)
         {
-            SolicitarInformacionEmpleado();
+            SolicitarInformacionEmpleado(false);
         }
 
-        private void SolicitarInformacionEmpleado()
+        private void SolicitarInformacionEmpleado(bool esModificacion)
         {
             MessageBoxResult result = MessageBox.Show("Por favor, ingrese la información del nuevo empleado.", "Nuevo Empleado", MessageBoxButton.OKCancel);
 
             if (result == MessageBoxResult.OK)
             {
-                Window8 frmAg = new Window8();
+                Window8 frmAg = new Window8(esModificacion);
                 frmAg.Closed += (s, args) => CargarDatos();
                 frmAg.Show();
             }
@@ -113,7 +109,9 @@ namespace Telecomunicaciones_Sistema
 
         private void BtnBuscar_Click(object sender, RoutedEventArgs e)
         {
-            DataGridEMP.ItemsSource = EmpleadoDAL.BuscarEmpleado(txtBuscar.Text);
+            DataTable dataTable = EmpleadoDAL.BuscarEmpleado(txtBuscar.Text);
+            DataView dataView = new DataView(dataTable);
+            DataGridEMP.ItemsSource = dataView;
         }
 
         private void BtnModificar_Click(object sender, RoutedEventArgs e)
@@ -124,8 +122,9 @@ namespace Telecomunicaciones_Sistema
             {
                 if (!EmpleadoSeleccionado.Equals(default(Empleados)))
                 {
-                    Window8 frmMd = new Window8(EmpleadoSeleccionado);
+                    Window8 frmMd = new Window8(EmpleadoSeleccionado, true); // Pasar el empleado seleccionado a Window8
                     frmMd.EmpleadoModificado += ActualizarDatosEmpleado;
+                    frmMd.Closed += (s, args) => CargarDatos(); // Refrescar los datos del DataGrid cuando se cierre la ventana 8
                     frmMd.ShowDialog();
                 }
                 else

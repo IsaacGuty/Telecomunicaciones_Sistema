@@ -17,14 +17,16 @@ namespace Telecomunicaciones_Sistema
 {
     public partial class CamCon : Window
     {
-        private int usuarioId;
+        private int usuarioId; // Almacena el ID del usuario
 
+        // Constructor de la ventana CamCon que acepta el userId como parámetro
         public CamCon(int userId)
         {
             InitializeComponent();
-            usuarioId = userId; // Asigna userId a la variable local
+            usuarioId = userId; // Asigna userId a la variable local usuarioId
         }
 
+        // Método para establecer el nombre de usuario en la etiqueta de la ventana
         public void SetUsuario(string ID_Usuario)
         {
             lblusuario.Content = ID_Usuario;
@@ -32,23 +34,27 @@ namespace Telecomunicaciones_Sistema
 
         private void BtnAceptar_Click(object sender, RoutedEventArgs e)
         {
+            // Obtener las contraseñas ingresadas por el usuario
             string anteriorContra = txtAnteriorC.Password;
             string nuevaContra = txtNuevaC.Password;
             string confirmarContra = txtConfirmarC.Password;
 
-            if (string.IsNullOrEmpty(anteriorContra) || string.IsNullOrEmpty(nuevaContra) || string.IsNullOrEmpty(confirmarContra))
+            // Validar que todos los campos de contraseña estén completos
+            if (!Validaciones.CamposContraseñaCompletos(anteriorContra, nuevaContra, confirmarContra))
             {
                 MessageBox.Show("Por favor, complete todos los campos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
-            if (nuevaContra != confirmarContra)
+            // Validar que las nuevas contraseñas coincidan
+            if (!Validaciones.ContraseñasCoinciden(nuevaContra, confirmarContra))
             {
                 MessageBox.Show("Las contraseñas no coinciden. Por favor, inténtalo de nuevo.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
-            if (!VerAntContr(anteriorContra))
+            // Validar que la contraseña anterior sea correcta
+            if (!Validaciones.VerificarAntiguaContraseña(lblusuario.Content.ToString(), anteriorContra))
             {
                 MessageBox.Show("La contraseña anterior ingresada es incorrecta. Por favor, inténtalo de nuevo.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
@@ -56,70 +62,19 @@ namespace Telecomunicaciones_Sistema
 
             try
             {
-                ActualizarContraseña(nuevaContra);
+                // Actualizar la contraseña en la base de datos
+                Validaciones.ActualizarContraseña(lblusuario.Content.ToString(), nuevaContra);
 
                 MessageBox.Show("¡La contraseña se ha cambiado exitosamente!", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 this.Close();
             }
-            catch (SqlException ex)
-            {
-                MessageBox.Show("Error de SQL al cambiar la contraseña: " + ex.Message, "Error de SQL", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
             catch (Exception ex)
             {
-                MessageBox.Show("Se produjo un error inesperado al cambiar la contraseña: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
-        private bool VerAntContr(string antiguaContra)
-        {
-            string connectionString = "Data Source=DESKTOP-KIBLMD6\\SQLEXPRESS;Initial Catalog=TelecomunicacionesBD;Integrated Security=true";
-            string query = "SELECT Contraseña FROM Inicio_Sesión WHERE ID_Usuario = @Usuario";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                using (SqlCommand command = new SqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@Usuario", lblusuario.Content.ToString());
-                    connection.Open();
-                    string contraseñaAlmacenada = (string)command.ExecuteScalar();
-
-                    return (contraseñaAlmacenada == antiguaContra);
-                }
-            }
-        }
-
-        private void ActualizarContraseña(string nuevaContra)
-        {
-            string connectionString = "Data Source=DESKTOP-KIBLMD6\\SQLEXPRESS;Initial Catalog=TelecomunicacionesBD;Integrated Security=true";
-
-            try
-            {
-                using (SqlConnection connection = new SqlConnection(connectionString))
-                {
-                    string query = "UPDATE Inicio_Sesión SET Contraseña = @NuevaContra WHERE ID_Usuario = @Usuario";
-
-                    using (SqlCommand command = new SqlCommand(query, connection))
-                    {
-                        command.Parameters.AddWithValue("@NuevaContra", nuevaContra);
-                        command.Parameters.AddWithValue("@Usuario", lblusuario.Content.ToString());
-
-                        connection.Open();
-                        int rowsAffected = command.ExecuteNonQuery();
-
-                        if (rowsAffected <= 0)
-                        {
-                            MessageBox.Show("No se encontró el usuario en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                        }
-                    }
-                }
-            }
-            catch (SqlException ex)
-            {
-                throw new Exception("Error de SQL al cambiar la contraseña.", ex);
+                MessageBox.Show("Se produjo un error al cambiar la contraseña: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }
 }
+
 

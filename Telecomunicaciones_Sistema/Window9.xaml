@@ -35,7 +35,7 @@
         <Button x:Name="btnAceptar" Content="Aceptar" HorizontalAlignment="Left" Margin="267,459,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnAceptar_Click" RenderTransformOrigin="0.544,-0.391"/>
         <Label Content="Nombre del empleado:" HorizontalAlignment="Left" Margin="138,409,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
         <TextBox x:Name="txtNombreE" HorizontalAlignment="Left" Height="23" Margin="305,412,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14"/>
-        <Label Content="Agregar un nuevo pago" HorizontalAlignment="Left" Margin="108,40,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="24" FontWeight="Bold" Width="312"/>
+        <Label Content="Modificar pago" HorizontalAlignment="Left" Margin="108,40,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="24" FontWeight="Bold" Width="312"/>
         <Image Margin="82,29,553.6,471" Source="logoTele.png" Stretch="Fill"/>
         <Image Margin="10,29,606.6,405.007" Source="logoTele.png" Stretch="Fill"/>
         <Button x:Name="btnRegresar" Content="Regresar" HorizontalAlignment="Left" Margin="378,459,0,0" VerticalAlignment="Top" Width="87" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnRegresar_Click"/>

@@ -26,23 +26,57 @@ namespace Telecomunicaciones_Sistema
 
         public Clientes NuevoCliente { get; private set; }
 
-        public Window7()
+        private bool esModificacion;
+
+        public Window7(bool esModificacion)
         {
             InitializeComponent();
-            Conn = new SqlConnection("Data source = DESKTOP-KIBLMD6\\SQLEXPRESS; Initial catalog = TelecomunicacionesBD; Integrated security = true");
-            clientes = new List<Clientes>();
+            this.esModificacion = esModificacion;
+            if (esModificacion)
+            {
+                lblNom.Content = "Modificar cliente";
+            }
+            else
+            {
+                lblNom.Content = "Agregar un nuevo cliente";
+            }
         }
 
-        public Window7(Window2.Clientes clienteSeleccionado)
+        public Window7(Window2.Clientes clienteSeleccionado, bool esModificacion)
         {
             InitializeComponent();
+            this.esModificacion = esModificacion;
             Conn = new SqlConnection("Data source = DESKTOP-KIBLMD6\\SQLEXPRESS; Initial catalog = TelecomunicacionesBD; Integrated security = true");
             clientes = new List<Clientes>();
             this.clienteSeleccionado = clienteSeleccionado;
             MostrarDetallesCliente();
+            ActualizarLabel();
         }
 
-        public Window7(Clientes clienteSeleccionado1)
+        private void ActualizarLabel()
+        {
+            if (esModificacion)
+            {
+                lblNom.Content = "Modificar cliente";
+            }
+            else
+            {
+                lblNom.Content = "Agregar un nuevo cliente";
+            }
+        }
+
+        public Window7(bool esModificacion, bool esOtraModificacion)
+        {
+            InitializeComponent();
+            if (esOtraModificacion)
+            {
+                // Haz algo con esOtraModificacion si es necesario
+            }
+            Conn = new SqlConnection("Data source = DESKTOP-KIBLMD6\\SQLEXPRESS; Initial catalog = TelecomunicacionesBD; Integrated security = true");
+            clientes = new List<Clientes>();
+        }
+
+        public Window7()
         {
         }
 
@@ -53,61 +87,41 @@ namespace Telecomunicaciones_Sistema
         {
             NuevoCliente = new Clientes
             {
-                ID_Cliente = txtIDC.Text,
+                ID_Cliente = txtIDC.Text, // Mantenemos el ID_Cliente original
                 Nombre = txtNombreC.Text,
                 Apellido = txtApellidoC.Text,
                 Teléfono = Convert.ToDecimal(txtTelefonoC.Text),
                 Correo = txtCorreoC.Text,
                 ID_Dirección = txtDireccionC.Text
             };
+
             try
             {
-                Conn.Open();
-
-                SqlCommand cmd = new SqlCommand("NombreProcedimientoAlmacenado", Conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                int count = (int)cmd.ExecuteScalar();
-
-                if (count > 0)
+                if (ClienteDAL.ClienteExiste(NuevoCliente.ID_Cliente))
                 {
-                    cmd = new SqlCommand("UPDATE proal_Cliente", Conn);
-                }
-                else
-                {
-                    cmd = new SqlCommand("INSERT INTO Clientes (ID_Cliente, Nombre, Apellido, Teléfono, Correo, ID_Dirección) VALUES (@ID_Cliente, @Nombre, @Apellido, @Teléfono, @Correo, @ID_Dirección)", Conn);
-                    cmd = new SqlCommand("INSERT INTO proal_Cliente", Conn);
-                }
-
-                cmd.Parameters.AddWithValue("@Nombre", NuevoCliente.Nombre);
-                cmd.Parameters.AddWithValue("@Apellido", NuevoCliente.Apellido);
-                cmd.Parameters.AddWithValue("@Teléfono", NuevoCliente.Teléfono);
-                cmd.Parameters.AddWithValue("@Correo", NuevoCliente.Correo);
-                cmd.Parameters.AddWithValue("@ID_Dirección", NuevoCliente.ID_Dirección);
-                cmd.Parameters.AddWithValue("@ID_Cliente", NuevoCliente.ID_Cliente);
-                cmd.ExecuteNonQuery();
-
-                if (count > 0)
-                {
+                    // Cliente existente, actualiza los datos excepto el ID_Cliente
+                    ClienteDAL.ActualizarCliente(NuevoCliente);
                     MessageBox.Show("Cliente modificado correctamente.");
                 }
                 else
                 {
+                    // Cliente no existente, agrega un nuevo cliente
+                    ClienteDAL.AgregarCliente(NuevoCliente);
                     MessageBox.Show("Cliente agregado correctamente.");
+
+                    // Llama al evento ClienteAgregado antes de cerrar la ventana
+                    OnClienteAgregado();
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error al modificar/agregar el cliente: " + ex.Message);
             }
-            finally
-            {
-                Conn.Close(); 
-            }
 
-            OnClienteModificado();
-
+            // Cierra la ventana después de procesar el cliente
             this.Close();
         }
+
 
         private void OnClienteAgregado()
         {

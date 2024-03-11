@@ -20,12 +20,14 @@ namespace Telecomunicaciones_Sistema
     {
         private int usuarioId;
 
-        public RestCon(int userId) // Modifica el constructor para aceptar userId
+        // Constructor de la ventana RestCon que acepta el userId como parámetro
+        public RestCon(int userId)
         {
             InitializeComponent();
-            usuarioId = userId; // Asigna userId a la variable local
+            usuarioId = userId; // Asigna userId a la variable local usuarioId
         }
 
+        // Método para establecer el nombre de usuario en la etiqueta de la ventana
         public void SetUsuario(string ID_Usuario)
         {
             lblusuario.Content = ID_Usuario;
@@ -36,19 +38,23 @@ namespace Telecomunicaciones_Sistema
             string nuevaContra = txtNueva.Password;
             string confirmarContra = txtConfirmar.Password;
 
-            if (string.IsNullOrEmpty(nuevaContra) || string.IsNullOrEmpty(confirmarContra))
+            // Validar si los campos de contraseña están vacíos
+            if (Validaciones.CamposContraseñaVacios(nuevaContra, confirmarContra))
             {
                 MessageBox.Show("Por favor, ingrese y confirme la nueva contraseña.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
-            if (nuevaContra != confirmarContra)
+            // Validar si las contraseñas no coinciden
+            if (Validaciones.ContraseñasNoCoinciden(nuevaContra, confirmarContra))
             {
                 MessageBox.Show("Las contraseñas no coinciden. Por favor, inténtalo de nuevo.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
+
             try
             {
+                // Intenta actualizar la contraseña
                 ActualizarContraseña(nuevaContra);
 
                 MessageBox.Show("¡La contraseña se ha cambiado exitosamente!", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -65,16 +71,20 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
+        // Método para actualizar la contraseña en la base de datos
         private void ActualizarContraseña(string nuevaContra)
         {
+            // Cadena de conexión a la base de datos
             string connectionString = "Data Source=DESKTOP-KIBLMD6\\SQLEXPRESS;Initial Catalog=TelecomunicacionesBD;Integrated Security=true";
 
             try
             {
+                // Abre la conexión a la base de datos
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     string query = "UPDATE Inicio_Sesión SET Contraseña = @NuevaContra WHERE ID_Usuario = @Usuario";
 
+                    // Prepara y ejecuta la consulta SQL para actualizar la contraseña
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@NuevaContra", nuevaContra);
@@ -83,6 +93,7 @@ namespace Telecomunicaciones_Sistema
                         connection.Open();
                         int rowsAffected = command.ExecuteNonQuery();
 
+                        // Verifica si se actualizaron filas en la base de datos
                         if (rowsAffected > 0)
                         {
                             MessageBox.Show("¡La contraseña se ha cambiado exitosamente!", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -103,9 +114,9 @@ namespace Telecomunicaciones_Sistema
                 MessageBox.Show("Se produjo un error inesperado al cambiar la contraseña: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
     }
 }
+
 
 
 

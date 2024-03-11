@@ -91,6 +91,7 @@
     <Compile Include="RestCon.xaml.cs">
       <DependentUpon>RestCon.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Validaciones.cs" />
     <Compile Include="Window1.xaml.cs">
       <DependentUpon>Window1.xaml</DependentUpon>
     </Compile>

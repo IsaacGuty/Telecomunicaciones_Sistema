@@ -21,8 +21,10 @@ namespace Telecomunicaciones_Sistema
     /// </summary>
     public partial class Window3 : Window
     {
+        // Estructura para representar los pagos
         public static Pagos PagoSeleccionado { get; set; }
 
+        // Constructor de la ventana
         public Window3()
         {
             InitializeComponent();
@@ -30,8 +32,10 @@ namespace Telecomunicaciones_Sistema
             CargarDatos();
         }
 
+        // Clase para el diálogo de nuevo pago
         public partial class NuevoPagoDialog : Window
         {
+            // Propiedades para los datos del nuevo pago
             public string ID_Cliente { get; set; }
             public string Nombre { get; set; }
             public string Apellido { get; set; }
@@ -43,6 +47,7 @@ namespace Telecomunicaciones_Sistema
             public string Nombre_E { get; set; }
         }
 
+        // Estructura para representar los pagos
         public struct Pagos
         {
             public string ID_Cliente;
@@ -56,20 +61,17 @@ namespace Telecomunicaciones_Sistema
             public string Nombre_E;
         }
 
+        // Conexión a la base de datos y variable de control para la ventana principal
         private SqlConnection Conn;
         private bool isMainWindow;
 
+        // Método para cargar los datos de los pagos desde la base de datos
         public void CargarDatos()
         {
             try
             {
-                Conn.Open();
-                string query = "select c.ID_Cliente, c.Nombre, c.Apellido, d.Dirección, c.Teléfono, s.Servicio, p.Monto, p.Mes_Pagado, e.Nombre_E from Clientes c join Pago p on p.ID_Cliente = c.ID_Cliente join Servicios s on s.ID_Servicio = p.ID_TpServicio join Empleados e on e.ID_Empleado = p.ID_Empleado join Dirección d on d.ID_Dirección = c.ID_Dirección";
-                SqlDataAdapter adapter = new SqlDataAdapter(query, Conn);
-                DataSet dataSet = new DataSet();
-                adapter.Fill(dataSet, "Pago");
-                DatGridP.ItemsSource = dataSet.Tables["Pago"].DefaultView;
-                Conn.Close();
+                DataTable dataTable = PagoDAL.ObtenerTodosPagos();
+                DatGridP.ItemsSource = dataTable.DefaultView;
             }
             catch (Exception ex)
             {
@@ -77,6 +79,7 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
+        // Manejador del evento click del botón "Regresar"
         private void BtnRegresar_Click(object sender, RoutedEventArgs e)
         {
             Window1 frmPr = new Window1(isMainWindow: true);
@@ -88,11 +91,7 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
-       /* private void BtnAgregar_Click(object sender, RoutedEventArgs e)
-        {
-            SolicitarInformacionPago();
-        }*/
-
+        // Método para solicitar la información de un nuevo pago
         private void SolicitarInformacionPago()
         {
             MessageBoxResult result = MessageBox.Show("Por favor, ingrese la información del nuevo pago.", "Nuevo Pago", MessageBoxButton.OKCancel);
@@ -113,11 +112,13 @@ namespace Telecomunicaciones_Sistema
 
         private void BtnBuscar_Click(object sender, RoutedEventArgs e)
         {
-            DatGridP.ItemsSource = ClienteDAL.BuscarCliente(txtBuscar.Text);
+            DatGridP.ItemsSource = ClienteDAL.BuscarCliente(txtBuscar.Text).DefaultView;
         }
 
+        // Manejador del evento SelectionChanged del DataGrid
         private void DatGridP_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            // Obtiene y guarda la información del pago seleccionado en la estructura Pagos
             if (DatGridP.SelectedItem != null && DatGridP.SelectedItem is DataRowView)
             {
                 DataRowView rowView = DatGridP.SelectedItem as DataRowView;
@@ -147,6 +148,7 @@ namespace Telecomunicaciones_Sistema
 
             if (result == MessageBoxResult.OK)
             {
+                // Abre la ventana de modificación de pago si se seleccionó un pago
                 if (result == MessageBoxResult.OK && !PagoSeleccionado.Equals(default(Pagos)))
                 {
                     Window9 frmMd = new Window9(PagoSeleccionado);
@@ -160,6 +162,7 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
+        // Método para actualizar los datos de los pagos después de una modificación
         private void ActualizarDatosPago(object sender, EventArgs e)
         {
             CargarDatos();
