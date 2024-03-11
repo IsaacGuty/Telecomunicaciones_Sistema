@@ -38,15 +38,19 @@ namespace Telecomunicaciones_Sistema
             this.userId = userId; // Inicializa userId con el valor proporcionado
         }
 
+        public CambContra()
+        {
+        }
+
         private void BtnEnviar_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                // Genera un código de verificación
+                // Genera un código de verificación aleatorio
                 int codigo = GenerarCodVerif();
 
-                // Verifica que se hayan completado los campos de usuario y correo electrónico
-                if (string.IsNullOrEmpty(txtUsuario.Text) || string.IsNullOrEmpty(txtCorreoE.Text))
+                // Verifica si los campos de usuario y correo están vacíos
+                if (Validaciones.CamposCorreoUsuarioVacios(txtUsuario.Text, txtCorreoE.Text))
                 {
                     MessageBox.Show("Por favor, complete todos los campos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
@@ -69,18 +73,31 @@ namespace Telecomunicaciones_Sistema
                     return;
                 }
 
-                // Envía un correo electrónico con el código de verificación
+                // Verifica si el correo electrónico está registrado en la base de datos
+                if (!Validaciones.CorreoRegistrado(correo))
+                {
+                    MessageBox.Show("El correo electrónico proporcionado no está registrado en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                // Envía el código de verificación por correo electrónico
                 EnviarCorreo(correo, codigo);
 
-                // Registra la actividad de envío de código de verificación en un archivo de registro
+                // Registra la actividad de envío de código de verificación
                 RegistrarActividad("Envío de código de verificación", usuario, correo);
 
+                // Muestra un mensaje de éxito al usuario
                 MessageBox.Show($"Se ha enviado un código de verificación al correo electrónico asociado al usuario.", "Código de verificación", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                // Cierra la ventana actual y abre la ventana para ingresar el código de verificación
-                this.Close();
+                // Oculta la ventana actual
+                this.Hide();
+
+                // Abre la ventana IngCod
                 IngCod winCod = new IngCod(codigo.ToString(), correo, usuario, userId, false);
                 winCod.ShowDialog();
+
+                // Cierra la ventana actual
+                this.Close();
             }
             catch (SqlException ex)
             {

@@ -145,5 +145,26 @@ namespace Telecomunicaciones_Sistema
             return rol == "Contadora" || rol == "Contador";
         }
 
+        public static bool CorreoRegistrado(string correo)
+        {
+            string connectionString = "Data Source=DESKTOP-KIBLMD6\\SQLEXPRESS;Initial Catalog=TelecomunicacionesBD;Integrated Security=true";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string query = "SELECT COUNT(*) FROM Empleados WHERE Correo_E = @Correo";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Correo", correo);
+
+                    connection.Open();
+
+                    int count = (int)command.ExecuteScalar();
+
+                    return count > 0;
+                }
+            }
+        }
+
+
     }
 }

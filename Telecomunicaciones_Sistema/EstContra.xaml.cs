@@ -37,6 +37,10 @@ namespace Telecomunicaciones_Sistema
             this.userId = userId; // Inicializa userId con el valor proporcionado
         }
 
+        public EstContra()
+        {
+        }
+
         private void BtnEnviar_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -68,6 +72,13 @@ namespace Telecomunicaciones_Sistema
                     return;
                 }
 
+                // Verifica si el correo electrónico está registrado en la base de datos
+                if (!Validaciones.CorreoRegistrado(correo))
+                {
+                    MessageBox.Show("El correo electrónico proporcionado no está registrado en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
                 // Envía el código de verificación por correo electrónico
                 EnviarCorreo(correo, codigo);
 
@@ -77,10 +88,15 @@ namespace Telecomunicaciones_Sistema
                 // Muestra un mensaje de éxito al usuario
                 MessageBox.Show($"Se ha enviado un código de verificación al correo electrónico asociado al usuario.", "Código de verificación", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                // Cierra la ventana actual y abre la ventana IngCod
-                this.Close();
+                // Oculta la ventana actual
+                this.Hide();
+
+                // Abre la ventana IngCod
                 IngCod winCod = new IngCod(codigo.ToString(), correo, usuario, userId, true);
                 winCod.ShowDialog();
+
+                // Cierra la ventana actual
+                this.Close();
             }
             catch (SqlException ex)
             {
@@ -95,6 +111,8 @@ namespace Telecomunicaciones_Sistema
                 MessageBox.Show("Se produjo un error: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+
 
         // Genera un código de verificación aleatorio de 6 dígitos
         private int GenerarCodVerif()

@@ -86,8 +86,6 @@ namespace Telecomunicaciones_Sistema
             // Verifica si el código ingresado coincide con el código recibido
             if (txtCod.Text == codRec)
             {
-
-                // Verifica si se está restableciendo la contraseña
                 if (esRestablecer)
                 {
                     // Abre la ventana para restablecer la contraseña (RestCon)
@@ -97,9 +95,19 @@ namespace Telecomunicaciones_Sistema
                         MessageBox.Show("Código correcto. Ahora puedes restablecer tu contraseña.", "Confirmación", MessageBoxButton.OK, MessageBoxImage.Information);
                         winRestCon = new RestCon(userId); // Crea una instancia de RestCon pasando el userId al constructor
                         winRestCon.SetUsuario(usuario); // Establece el nombre de usuario en la ventana RestCon
-                        winRestCon.Closed += (s, args) => this.Show(); // Muestra esta ventana cuando se cierre RestCon
-                        winRestCon.Show(); // Muestra la ventana RestCon
-                        this.Hide(); // Oculta esta ventana
+
+                        // Asocia el evento Closed para mostrar la ventana principal cuando se cierre RestCon
+                        winRestCon.Closed += (s, args) =>
+                        {
+                            // Muestra esta ventana cuando se cierre RestCon
+                            this.Show();
+                        };
+
+                        // Muestra la ventana RestCon
+                        winRestCon.Show();
+
+                        // Oculta esta ventana
+                        this.Hide();
                     }
                 }
                 else
@@ -111,9 +119,19 @@ namespace Telecomunicaciones_Sistema
                         MessageBox.Show("Código correcto. Ahora puedes cambiar tu contraseña.", "Confirmación", MessageBoxButton.OK, MessageBoxImage.Information);
                         winCamCon = new CamCon(userId); // Crea una instancia de CamCon pasando el userId al constructor
                         winCamCon.SetUsuario(usuario); // Establece el nombre de usuario en la ventana CamCon
-                        winCamCon.Closed += (s, args) => this.Show(); // Muestra esta ventana cuando se cierre CamCon
-                        winCamCon.Show(); // Muestra la ventana CamCon
-                        this.Hide(); // Oculta esta ventana
+
+                        // Asocia el evento Closed para mostrar la ventana principal cuando se cierre CamCon
+                        winCamCon.Closed += (s, args) =>
+                        {
+                            // Muestra esta ventana cuando se cierre CamCon
+                            this.Show();
+                        };
+
+                        // Muestra la ventana CamCon
+                        winCamCon.Show();
+
+                        // Oculta esta ventana
+                        this.Hide();
                     }
                 }
             }

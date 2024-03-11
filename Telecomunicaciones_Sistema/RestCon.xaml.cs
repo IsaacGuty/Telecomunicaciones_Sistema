@@ -58,8 +58,7 @@ namespace Telecomunicaciones_Sistema
                 // Intenta actualizar la contraseña
                 ActualizarContraseña(nuevaContra);
 
-                MessageBox.Show("¡La contraseña se ha cambiado exitosamente!", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
-
+                // Cierra la ventana RestCon
                 this.Close();
             }
             catch (SqlException ex)
@@ -98,6 +97,12 @@ namespace Telecomunicaciones_Sistema
                         if (rowsAffected > 0)
                         {
                             MessageBox.Show("¡La contraseña se ha cambiado exitosamente!", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                            // Oculta la ventana actual
+                            this.Hide();
+
+                            // Cierra la ventana actual
+                            this.Close();
                         }
                         else
                         {
@@ -115,6 +120,7 @@ namespace Telecomunicaciones_Sistema
                 MessageBox.Show("Se produjo un error inesperado al cambiar la contraseña: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
 
         private void BtnCancelar_Click(object sender, RoutedEventArgs e)
         {

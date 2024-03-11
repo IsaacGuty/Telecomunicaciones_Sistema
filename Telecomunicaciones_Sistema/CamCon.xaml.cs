@@ -19,12 +19,19 @@ namespace Telecomunicaciones_Sistema
     {
         private int usuarioId; // Almacena el ID del usuario
         private bool isMainWindow;
+        private string usuario;
 
         // Constructor de la ventana CamCon que acepta el userId como parámetro
         public CamCon(int userId)
         {
             InitializeComponent();
             usuarioId = userId; // Asigna userId a la variable local usuarioId
+        }
+
+        public CamCon(string usuario)
+        {
+            InitializeComponent();
+            this.usuario = usuario;
         }
 
         // Método para establecer el nombre de usuario en la etiqueta de la ventana

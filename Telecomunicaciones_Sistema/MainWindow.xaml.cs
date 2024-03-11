@@ -45,7 +45,7 @@ namespace Telecomunicaciones_Sistema
                     MessageBoxButton.OK, MessageBoxImage.Information);
 
                 Usuario_L = DT.Rows[0][2].ToString() + " " + DT.Rows[0][3].ToString();
-                Contraseña_L = DT.Rows[0][1].ToString();    
+                Contraseña_L = DT.Rows[0][1].ToString();
                 Rol_L = DT.Rows[0][4].ToString();
 
                 Window1 ObjPrinci = new Window1(Usuario_L, Contraseña_L);
@@ -65,10 +65,10 @@ namespace Telecomunicaciones_Sistema
             return;
         }
 
-            public MainWindow()
-            {
-                 InitializeComponent();
-            }
+        public MainWindow()
+        {
+            InitializeComponent();
+        }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -85,13 +85,20 @@ namespace Telecomunicaciones_Sistema
         private void lblContraO_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             EstContra restCon = new EstContra(usuario);
+            restCon.Closed += (s, args) => CloseMainWindow(); // Cierra la ventana principal cuando se cierre la ventana EstContra
             restCon.ShowDialog();
         }
 
         private void lblContraC_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             CambContra cmbCon = new CambContra(usuario);
+            cmbCon.Closed += (s, args) => CloseMainWindow(); // Cierra la ventana principal cuando se cierre la ventana CambContra
             cmbCon.ShowDialog();
+        }
+
+        private void CloseMainWindow()
+        {
+            Application.Current.MainWindow?.Close(); // Cierra la ventana principal si está abierta
         }
     }
 }
