@@ -21,38 +21,50 @@ namespace Telecomunicaciones_Sistema
     /// </summary>
     public partial class Window9 : Window
     {
-        //public event EventHandler PagoAgregado;
-
+        // Declaración del evento PagoModificado
         public event EventHandler PagoModificado;
 
-
+        // Lista para almacenar los pagos
         private List<Pagos> pagos;
 
+        // Propiedad para obtener el nuevo pago
         public Pagos NuevoPago { get; private set; }
 
+        // Constructor sin parámetros
         public Window9()
         {
             InitializeComponent();
+            // Inicialización de la conexión a la base de datos
             Conn = new SqlConnection("Data source = DESKTOP-KIBLMD6\\SQLEXPRESS; Initial catalog = TelecomunicacionesBD; Integrated security = true");
+            // Inicialización de la lista de pagos
             pagos = new List<Pagos>();
         }
 
+        // Constructor con parámetro de pago seleccionado
         public Window9(Window3.Pagos pagoSeleccionado)
         {
             InitializeComponent();
+            // Inicialización de la conexión a la base de datos
             Conn = new SqlConnection("Data source = DESKTOP-KIBLMD6\\SQLEXPRESS; Initial catalog = TelecomunicacionesBD; Integrated security = true");
+            // Inicialización de la lista de pagos
             pagos = new List<Pagos>();
+            // Asignación del pago seleccionado
             this.pagoSeleccionado = pagoSeleccionado;
+            // Mostrar los detalles del pago seleccionado
             MostrarDetallesPago();
         }
 
+        // Objeto de conexión a la base de datos
         private SqlConnection Conn;
+
+        // Objeto para almacenar el pago seleccionado
         private Window3.Pagos pagoSeleccionado;
 
         private void BtnAceptar_Click(object sender, RoutedEventArgs e)
         {
             try
             {
+                // Crear un nuevo objeto de pago con los datos ingresados en el formulario
                 Pagos nuevoPago = new Pagos
                 {
                     ID_Cliente = txtIDC.Text,
@@ -60,24 +72,30 @@ namespace Telecomunicaciones_Sistema
                     Servicio = txtServicio.Text,
                 };
 
+                // Actualizar el pago en la base de datos
                 PagoDAL.ActualizarPago(nuevoPago);
+                // Mostrar un mensaje de éxito
                 MessageBox.Show("Pago modificado correctamente.");
             }
             catch (Exception ex)
             {
+                // Mostrar un mensaje de error en caso de excepción
                 MessageBox.Show("Error al modificar el pago: " + ex.Message);
             }
 
+            // Invocar el evento PagoModificado
             OnPagoModificado();
+            // Cerrar la ventana
             this.Close();
         }
 
-
+        // Método para invocar el evento PagoModificado
         private void OnPagoModificado()
         {
             PagoModificado?.Invoke(this, EventArgs.Empty);
         }
 
+        // Método para mostrar los detalles del pago seleccionado en los campos del formulario
         private void MostrarDetallesPago()
         {
             txtIDC.Text = pagoSeleccionado.ID_Cliente;
@@ -93,9 +111,10 @@ namespace Telecomunicaciones_Sistema
 
         private void BtnRegresar_Click(object sender, RoutedEventArgs e)
         {
+            // Ocultar la ventana actual y mostrar la ventana3
             this.Hide();
-
             Window3 frmPr = new Window3();
         }
     }
 }
+

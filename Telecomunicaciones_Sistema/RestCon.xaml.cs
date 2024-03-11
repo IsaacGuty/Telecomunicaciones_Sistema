@@ -19,6 +19,7 @@ namespace Telecomunicaciones_Sistema
     public partial class RestCon : Window
     {
         private int usuarioId;
+        private bool isMainWindow;
 
         // Constructor de la ventana RestCon que acepta el userId como parámetro
         public RestCon(int userId)
@@ -112,6 +113,17 @@ namespace Telecomunicaciones_Sistema
             catch (Exception ex)
             {
                 MessageBox.Show("Se produjo un error inesperado al cambiar la contraseña: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void BtnCancelar_Click(object sender, RoutedEventArgs e)
+        {
+            Window1 frmPr = new Window1(isMainWindow: true);
+            frmPr.Show();
+
+            if (!isMainWindow)
+            {
+                this.Close();
             }
         }
     }

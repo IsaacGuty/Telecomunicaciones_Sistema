@@ -18,6 +18,7 @@ namespace Telecomunicaciones_Sistema
     public partial class CamCon : Window
     {
         private int usuarioId; // Almacena el ID del usuario
+        private bool isMainWindow;
 
         // Constructor de la ventana CamCon que acepta el userId como parámetro
         public CamCon(int userId)
@@ -72,6 +73,17 @@ namespace Telecomunicaciones_Sistema
             catch (Exception ex)
             {
                 MessageBox.Show("Se produjo un error al cambiar la contraseña: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void BtnCancelar_Click(object sender, RoutedEventArgs e)
+        {
+            Window1 frmPr = new Window1(isMainWindow: true);
+            frmPr.Show();
+
+            if (!isMainWindow)
+            {
+                this.Close();
             }
         }
     }

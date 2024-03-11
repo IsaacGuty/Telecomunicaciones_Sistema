@@ -18,30 +18,35 @@ namespace Telecomunicaciones_Sistema
 {
     public partial class Window7 : Window
     {
+        // Eventos para notificar cuando se agrega o modifica un cliente
         public event EventHandler ClienteAgregado;
-
         public event EventHandler ClienteModificado;
 
+        // Lista para almacenar clientes (aunque no se utiliza en este fragmento de código)
         private List<Clientes> clientes;
 
+        // Propiedad para acceder al nuevo cliente desde fuera de la clase
         public Clientes NuevoCliente { get; private set; }
 
+        // Variable para indicar si se está modificando un cliente existente
         private bool esModificacion;
 
+        // Constructor para la ventana de agregar o modificar cliente
         public Window7(bool esModificacion)
         {
             InitializeComponent();
             this.esModificacion = esModificacion;
             if (esModificacion)
             {
-                lblNom.Content = "Modificar cliente";
+                lblNom.Content = "Modificar cliente"; // Cambia el título de la ventana si se está modificando
             }
             else
             {
-                lblNom.Content = "Agregar un nuevo cliente";
+                lblNom.Content = "Agregar un nuevo cliente"; // Cambia el título de la ventana si se está agregando
             }
         }
 
+        // Constructor sobrecargado para la ventana de agregar o modificar cliente, recibiendo el cliente a modificar
         public Window7(Window2.Clientes clienteSeleccionado, bool esModificacion)
         {
             InitializeComponent();
@@ -49,10 +54,11 @@ namespace Telecomunicaciones_Sistema
             Conn = new SqlConnection("Data source = DESKTOP-KIBLMD6\\SQLEXPRESS; Initial catalog = TelecomunicacionesBD; Integrated security = true");
             clientes = new List<Clientes>();
             this.clienteSeleccionado = clienteSeleccionado;
-            MostrarDetallesCliente();
+            MostrarDetallesCliente(); // Muestra los detalles del cliente a modificar en los campos correspondientes
             ActualizarLabel();
         }
 
+        // Método para actualizar el contenido de la etiqueta según si se está modificando o agregando un cliente
         private void ActualizarLabel()
         {
             if (esModificacion)
@@ -65,6 +71,7 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
+        // Constructor sobrecargado (sin uso en este fragmento de código)
         public Window7(bool esModificacion, bool esOtraModificacion)
         {
             InitializeComponent();
@@ -76,11 +83,15 @@ namespace Telecomunicaciones_Sistema
             clientes = new List<Clientes>();
         }
 
+        // Constructor por defecto 
         public Window7()
         {
         }
 
+        // Conexión a la base de datos SQL Server 
         private SqlConnection Conn;
+
+        // Cliente seleccionado para modificar 
         private Window2.Clientes clienteSeleccionado;
 
         private void BtnAceptar_Click(object sender, RoutedEventArgs e)
@@ -122,22 +133,13 @@ namespace Telecomunicaciones_Sistema
             this.Close();
         }
 
-
+        // Método invocado cuando se agrega un cliente, activa el evento ClienteAgregado
         private void OnClienteAgregado()
         {
             ClienteAgregado?.Invoke(this, EventArgs.Empty);
         }
 
-        private void GuardarCambios()
-        {
-            
-        }
-
-        private void OnClienteModificado()
-        {
-            ClienteModificado?.Invoke(this, EventArgs.Empty);
-        }
-
+        // Método para mostrar los detalles del cliente seleccionado para modificar
         private void MostrarDetallesCliente()
         {
             txtIDC.Text = clienteSeleccionado.ID_Cliente;
@@ -151,8 +153,8 @@ namespace Telecomunicaciones_Sistema
         private void BtnRegresar_Click(object sender, RoutedEventArgs e)
         {
             this.Hide();
-
             Window2 frmPr = new Window2();
         }
     }
 }
+

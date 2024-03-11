@@ -16,7 +16,7 @@
         </Style>
     </Window.Resources>
 
-    <Grid Loaded="Window_Loaded">
+    <Grid>
         <Button x:Name="btnAgregar" Content="Agregar" HorizontalAlignment="Left" Margin="152,409,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnAgregar_Click"/>
         <Button x:Name="BtnModificar" Content="Modificar" HorizontalAlignment="Left" Margin="272,409,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnModificar_Click"/>
         <Button x:Name="btnRegresar" Content="Regresar" HorizontalAlignment="Left" Margin="503,409,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnRegresar_Click"/>
@@ -28,6 +28,5 @@
         <Label Content="Registro de Clientes" HorizontalAlignment="Left" Margin="97,56,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="24" FontWeight="Bold" Width="246"/>
         <Image Margin="15,45,620.8,359.2" Source="logoTele.png" Stretch="Fill"/>
         <Button x:Name="BtnLimpiar" Content="Limpiar" HorizontalAlignment="Left" Margin="389,409,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnLimpiar_Click"/>
-
     </Grid>
 </Window>

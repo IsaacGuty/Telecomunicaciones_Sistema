@@ -79,9 +79,9 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
-        // Manejador del evento click del botón "Regresar"
         private void BtnRegresar_Click(object sender, RoutedEventArgs e)
         {
+            // Regresar a la ventana principal
             Window1 frmPr = new Window1(isMainWindow: true);
             frmPr.Show();
 
@@ -94,10 +94,12 @@ namespace Telecomunicaciones_Sistema
         // Método para solicitar la información de un nuevo pago
         private void SolicitarInformacionPago()
         {
+            // Mostrar un diálogo para ingresar información de un nuevo pago
             MessageBoxResult result = MessageBox.Show("Por favor, ingrese la información del nuevo pago.", "Nuevo Pago", MessageBoxButton.OKCancel);
 
             if (result == MessageBoxResult.OK)
             {
+                // Abrir la ventana para agregar un nuevo pago
                 Window9 frmAg = new Window9();
                 frmAg.Closed += (s, args) => CargarDatos();
                 frmAg.Show();
@@ -106,19 +108,21 @@ namespace Telecomunicaciones_Sistema
 
         private void BtnLimpiar_Click(object sender, RoutedEventArgs e)
         {
+            // Limpiar el cuadro de búsqueda y recargar los datos
             txtBuscar.Clear();
             CargarDatos();
         }
 
         private void BtnBuscar_Click(object sender, RoutedEventArgs e)
         {
+            // Realizar una búsqueda y mostrar los resultados en el DataGrid
             DatGridP.ItemsSource = ClienteDAL.BuscarCliente(txtBuscar.Text).DefaultView;
         }
 
         // Manejador del evento SelectionChanged del DataGrid
         private void DatGridP_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            // Obtiene y guarda la información del pago seleccionado en la estructura Pagos
+            // Obtener y guardar la información del pago seleccionado en la estructura Pagos
             if (DatGridP.SelectedItem != null && DatGridP.SelectedItem is DataRowView)
             {
                 DataRowView rowView = DatGridP.SelectedItem as DataRowView;
@@ -144,13 +148,14 @@ namespace Telecomunicaciones_Sistema
 
         private void BtnModificar_Click(object sender, RoutedEventArgs e)
         {
+            // Solicitar la modificación de un pago si se seleccionó uno
             MessageBoxResult result = MessageBox.Show("Por favor, ingrese la modificación del pago.", "Modificación", MessageBoxButton.OKCancel);
 
             if (result == MessageBoxResult.OK)
             {
-                // Abre la ventana de modificación de pago si se seleccionó un pago
-                if (result == MessageBoxResult.OK && !PagoSeleccionado.Equals(default(Pagos)))
+                if (!PagoSeleccionado.Equals(default(Pagos)))
                 {
+                    // Abrir la ventana de modificación de pago si se seleccionó un pago
                     Window9 frmMd = new Window9(PagoSeleccionado);
                     frmMd.PagoModificado += ActualizarDatosPago;
                     frmMd.ShowDialog();
@@ -169,3 +174,4 @@ namespace Telecomunicaciones_Sistema
         }
     }
 }
+
