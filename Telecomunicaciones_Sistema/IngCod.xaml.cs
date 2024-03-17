@@ -91,11 +91,11 @@ namespace Telecomunicaciones_Sistema
                     // Abre la ventana para restablecer la contraseña (RestCon)
                     if (winRestCon == null || !winRestCon.IsVisible)
                     {
-                        // Cierra la ventana IngCod antes de abrir RestCon
-                        this.Close();
-
                         // Muestra un mensaje de confirmación si el código es correcto
                         MessageBox.Show("Código correcto. Ahora puedes restablecer tu contraseña.", "Confirmación", MessageBoxButton.OK, MessageBoxImage.Information);
+                        
+                        // Cierra la ventana IngCod antes de abrir RestCon
+                        this.Close();
 
                         winRestCon = new RestCon(userId); // Crea una instancia de RestCon pasando el userId al constructor
                         winRestCon.SetUsuario(usuario); // Establece el nombre de usuario en la ventana RestCon
@@ -109,11 +109,11 @@ namespace Telecomunicaciones_Sistema
                     // Abre la ventana para cambiar la contraseña (CamCon)
                     if (winCamCon == null || !winCamCon.IsVisible)
                     {
-                        // Cierra la ventana IngCod antes de abrir CamCon
-                        this.Close();
-
                         // Muestra un mensaje de confirmación si el código es correcto
                         MessageBox.Show("Código correcto. Ahora puedes cambiar tu contraseña.", "Confirmación", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                        // Cierra la ventana IngCod antes de abrir CamCon
+                        this.Close();
 
                         winCamCon = new CamCon(userId); // Crea una instancia de CamCon pasando el userId al constructor
                         winCamCon.SetUsuario(usuario); // Establece el nombre de usuario en la ventana CamCon

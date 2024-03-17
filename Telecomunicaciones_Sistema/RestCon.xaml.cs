@@ -68,13 +68,9 @@ namespace Telecomunicaciones_Sistema
                 // Cerrar la ventana actual
                 this.Close();
             }
-            catch (SqlException ex)
-            {
-                MessageBox.Show("Error de SQL al cambiar la contraseña: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
             catch (Exception ex)
             {
-                MessageBox.Show("Se produjo un error inesperado al cambiar la contraseña: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

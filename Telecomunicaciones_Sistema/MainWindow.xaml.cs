@@ -16,9 +16,6 @@ using System.Data;
 
 namespace Telecomunicaciones_Sistema
 {
-    /// <summary>
-    /// Lógica de interacción para MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
 
@@ -31,6 +28,7 @@ namespace Telecomunicaciones_Sistema
         private int userId;
         private int usuario;
 
+        // Método para realizar el inicio de sesión
         void P_Login()
         {
             DataTable DT = new DataTable();
@@ -54,7 +52,7 @@ namespace Telecomunicaciones_Sistema
                 txtUsuario.Clear();
                 txtContra.Clear();
 
-                this.Hide();
+                this.Hide(); // Oculta MainWindow después de mostrar Window1
             }
             else
             {
@@ -65,6 +63,7 @@ namespace Telecomunicaciones_Sistema
             return;
         }
 
+        // Constructor de la clase MainWindow
         public MainWindow()
         {
             InitializeComponent();
@@ -78,27 +77,33 @@ namespace Telecomunicaciones_Sistema
             }
             else
             {
-                P_Login();
+                P_Login(); // Llama al método para realizar el inicio de sesión
             }
         }
 
         private void lblContraO_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            this.Hide(); // Oculta MainWindow antes de mostrar EstContra
+
             EstContra restCon = new EstContra(usuario);
-            restCon.Closed += (s, args) => CloseMainWindow(); // Cierra la ventana principal cuando se cierre la ventana EstContra
+            restCon.Closed += (s, args) => CloseMainWindow(); // Cierra MainWindow cuando se cierre EstContra
             restCon.ShowDialog();
         }
 
         private void lblContraC_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            this.Hide();  // Oculta MainWindow antes de mostrar CambContra
+
             CambContra cmbCon = new CambContra(usuario);
-            cmbCon.Closed += (s, args) => CloseMainWindow(); // Cierra la ventana principal cuando se cierre la ventana CambContra
+            cmbCon.Closed += (s, args) => CloseMainWindow(); // Cierra MainWindow cuando se cierre CambContra
             cmbCon.ShowDialog();
         }
 
+        // Método para cerrar la ventana MainWindow
         private void CloseMainWindow()
         {
-            Application.Current.MainWindow?.Close(); // Cierra la ventana principal si está abierta
+            this.Close(); // Cierra la ventana principal si está abierta
         }
     }
 }
+

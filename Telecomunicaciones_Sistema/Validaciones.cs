@@ -187,25 +187,49 @@ namespace Telecomunicaciones_Sistema
                         int rowsAffected = command.ExecuteNonQuery();
 
                         // Verifica si se actualizaron filas en la base de datos
-                        if (rowsAffected > 0)
+                        if (rowsAffected <= 0)
                         {
-                            MessageBox.Show("¡La contraseña se ha cambiado exitosamente!", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
-                        }
-                        else
-                        {
-                            MessageBox.Show("No se encontró el usuario en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                            throw new Exception("No se encontró el usuario en la base de datos.");
                         }
                     }
                 }
             }
             catch (SqlException ex)
             {
-                MessageBox.Show("Error de SQL al cambiar la contraseña: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                throw new Exception("Error de SQL al cambiar la contraseña: " + ex.Message);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Se produjo un error inesperado al cambiar la contraseña: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                throw new Exception("Se produjo un error inesperado al cambiar la contraseña: " + ex.Message);
             }
+        }
+
+        public static bool CamposClienteVacios(Clientes cliente)
+        {
+            return string.IsNullOrWhiteSpace(cliente.ID_Cliente) ||
+                   string.IsNullOrWhiteSpace(cliente.Nombre) ||
+                   string.IsNullOrWhiteSpace(cliente.Apellido) ||
+                   string.IsNullOrWhiteSpace(cliente.Teléfono.ToString()) ||
+                   string.IsNullOrWhiteSpace(cliente.Correo) ||
+                   string.IsNullOrWhiteSpace(cliente.ID_Dirección);
+        }
+
+        public static bool EsTelefonoValido(string telefono)
+        {
+            decimal numero;
+            return decimal.TryParse(telefono, out numero);
+        }
+
+        public static bool CamposEmpleadosVacios(Empleados empleado)
+        {
+            return string.IsNullOrWhiteSpace(empleado.ID_Empleado) ||
+                   string.IsNullOrWhiteSpace(empleado.Nombre_E) ||
+                   string.IsNullOrWhiteSpace(empleado.Apellido_E) ||
+                   string.IsNullOrWhiteSpace(empleado.Teléfono_E.ToString()) ||
+                   string.IsNullOrWhiteSpace(empleado.Correo_E) ||
+                   string.IsNullOrWhiteSpace(empleado.ID_Dirección) ||
+                   string.IsNullOrWhiteSpace(empleado.Puesto) ||
+                   string.IsNullOrWhiteSpace(empleado.Estado);
         }
     }
 }

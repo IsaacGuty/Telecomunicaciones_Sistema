@@ -96,32 +96,96 @@ namespace Telecomunicaciones_Sistema
 
         private void BtnAceptar_Click(object sender, RoutedEventArgs e)
         {
-            NuevoCliente = new Clientes
-            {
-                ID_Cliente = txtIDC.Text, // Mantenemos el ID_Cliente original
-                Nombre = txtNombreC.Text,
-                Apellido = txtApellidoC.Text,
-                Teléfono = Convert.ToDecimal(txtTelefonoC.Text),
-                Correo = txtCorreoC.Text,
-                ID_Dirección = txtDireccionC.Text
-            };
-
             try
             {
-                if (ClienteDAL.ClienteExiste(NuevoCliente.ID_Cliente))
+                string idCliente = txtIDC.Text;
+
+                // Verificar si el ID del cliente ya existe en la base de datos
+                bool clienteExistente = ClienteDAL.ClienteExiste(idCliente);
+
+                // Si estamos en modo modificación y el cliente no existe, mostrar un mensaje de error
+                if (esModificacion && !clienteExistente)
                 {
-                    // Cliente existente, actualiza los datos excepto el ID_Cliente
+                    MessageBox.Show("El cliente con este ID no existe en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                // Si estamos en modo modificación y el cliente existe, actualizar los datos del cliente
+                if (esModificacion && clienteExistente)
+                {
+                    // Crear el objeto NuevoCliente con los datos modificados
+                    NuevoCliente = new Clientes
+                    {
+                        ID_Cliente = idCliente,
+                        Nombre = txtNombreC.Text,
+                        Apellido = txtApellidoC.Text,
+                        Correo = txtCorreoC.Text,
+                        ID_Dirección = txtDireccionC.Text
+                    };
+
+                    // Verificar si algún campo del cliente está vacío
+                    if (Validaciones.CamposClienteVacios(NuevoCliente))
+                    {
+                        MessageBox.Show("Todos los campos del cliente deben llenarse.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+
+                    // Verificar si el texto del campo de teléfono es un número válido
+                    if (!decimal.TryParse(txtTelefonoC.Text, out decimal telefonoDecimal))
+                    {
+                        MessageBox.Show("El teléfono debe ser un número válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+
+                    // Asignar el valor convertido a decimal al Teléfono del NuevoCliente
+                    NuevoCliente.Teléfono = telefonoDecimal;
+
+                    // Actualizar el cliente existente en la base de datos
                     ClienteDAL.ActualizarCliente(NuevoCliente);
                     MessageBox.Show("Cliente modificado correctamente.");
                 }
-                else
+                // Si estamos en modo agregado y el cliente no existe, agregar el nuevo cliente
+                else if (!esModificacion && !clienteExistente)
                 {
-                    // Cliente no existente, agrega un nuevo cliente
+                    // Crear el objeto NuevoCliente con los datos del nuevo cliente
+                    NuevoCliente = new Clientes
+                    {
+                        ID_Cliente = idCliente,
+                        Nombre = txtNombreC.Text,
+                        Apellido = txtApellidoC.Text,
+                        Correo = txtCorreoC.Text,
+                        ID_Dirección = txtDireccionC.Text
+                    };
+
+                    // Verificar si algún campo del cliente está vacío
+                    if (Validaciones.CamposClienteVacios(NuevoCliente))
+                    {
+                        MessageBox.Show("Todos los campos del cliente deben llenarse.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+
+                    // Verificar si el texto del campo de teléfono es un número válido
+                    if (!decimal.TryParse(txtTelefonoC.Text, out decimal telefonoDecimal))
+                    {
+                        MessageBox.Show("El teléfono debe ser un número válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+
+                    // Asignar el valor convertido a decimal al Teléfono del NuevoCliente
+                    NuevoCliente.Teléfono = telefonoDecimal;
+
+                    // Agregar el nuevo cliente a la base de datos
                     ClienteDAL.AgregarCliente(NuevoCliente);
                     MessageBox.Show("Cliente agregado correctamente.");
 
                     // Llama al evento ClienteAgregado antes de cerrar la ventana
                     OnClienteAgregado();
+                }
+                // Si estamos en modo agregado y el cliente ya existe, mostrar un mensaje de error
+                else if (!esModificacion && clienteExistente)
+                {
+                    MessageBox.Show("El cliente con este ID ya existe en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
                 }
             }
             catch (Exception ex)
@@ -132,6 +196,7 @@ namespace Telecomunicaciones_Sistema
             // Cierra la ventana después de procesar el cliente
             this.Close();
         }
+
 
         // Método invocado cuando se agrega un cliente, activa el evento ClienteAgregado
         private void OnClienteAgregado()

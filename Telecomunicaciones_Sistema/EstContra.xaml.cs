@@ -145,6 +145,17 @@ namespace Telecomunicaciones_Sistema
                 }
             }
         }
+
+        private void BtnRegresar_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = new MainWindow();
+
+            // Mostrar la nueva instancia de MainWindow
+            mainWindow.Show();
+
+            // Cerrar la ventana actual
+            this.Close();
+        }
     }
 }
 

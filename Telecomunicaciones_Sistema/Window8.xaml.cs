@@ -81,41 +81,105 @@ namespace Telecomunicaciones_Sistema
 
         private void BtnAceptar_Click(object sender, RoutedEventArgs e)
         {
-            // Crea un nuevo objeto Empleados con la información ingresada en los campos
-            NuevoEmpleado = new Empleados
-            {
-                ID_Empleado = txtIDE.Text,
-                Nombre_E = txtNombreE.Text,
-                Apellido_E = txtApellidoE.Text,
-                Teléfono_E = Convert.ToDecimal(txtTelefonoE.Text),
-                Correo_E = txtCorreoE.Text,
-                ID_Dirección = txtDireccionE.Text,
-                Puesto = txtPuesto.Text,
-                Estado = txtEstado.Text
-            };
-
             try
             {
-                // Verifica si el empleado ya existe en la base de datos
-                if (EmpleadoDAL.EmpleadoExiste(NuevoEmpleado.ID_Empleado))
+                string idEmpleado = txtIDE.Text;
+
+                // Verificar si el ID del empleado ya existe en la base de datos
+                bool EmpleadoExistente = EmpleadoDAL.EmpleadoExiste(idEmpleado);
+
+                // Si estamos en modo modificación y el empleado no existe, mostrar un mensaje de error
+                if (esModificacion && !EmpleadoExistente)
                 {
-                    // Si el empleado existe, se actualizan sus datos
-                    EmpleadoDAL.ActualizarEmpleado(NuevoEmpleado);
-                    MessageBox.Show("Empleado modificado correctamente.");
+                    MessageBox.Show("El cliente con este ID no existe en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
                 }
-                else
+
+                // Si estamos en modo modificación y el empleado existe, actualizar los datos del empleado
+                if (esModificacion && EmpleadoExistente)
                 {
-                    // Si el empleado no existe, se agrega como nuevo empleado
+                    // Crear el objeto NuevoCliente con los datos modificados
+                    NuevoEmpleado = new Empleados
+                    {
+                        ID_Empleado = idEmpleado,
+                        Nombre_E = txtNombreE.Text,
+                        Apellido_E = txtApellidoE.Text,
+                        Correo_E = txtCorreoE.Text,
+                        ID_Dirección = txtDireccionE.Text,
+                        Puesto = txtPuesto.Text,
+                        Estado = txtEstado.Text
+                    };
+
+                    // Verificar si algún campo del empleado está vacío
+                    if (Validaciones.CamposEmpleadosVacios(NuevoEmpleado))
+                    {
+                        MessageBox.Show("Todos los campos del cliente deben llenarse.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+
+                    // Verificar si el texto del campo de teléfono es un número válido
+                    if (!decimal.TryParse(txtTelefonoE.Text, out decimal telefonoDecimal))
+                    {
+                        MessageBox.Show("El teléfono debe ser un número válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+
+                    // Asignar el valor convertido a decimal al Teléfono del NuevoEmpleado
+                    NuevoEmpleado.Teléfono_E = telefonoDecimal;
+
+                    // Actualizar el empleado existente en la base de datos
+                    EmpleadoDAL.ActualizarEmpleado(NuevoEmpleado);
+                    MessageBox.Show("Cliente modificado correctamente.");
+                }
+                // Si estamos en modo agregado y el empleado no existe, agregar el nuevo empleado
+                else if (!esModificacion && !EmpleadoExistente)
+                {
+                    // Crear el objeto NuevoEmpleado con los datos del nuevo empleado
+                    NuevoEmpleado = new Empleados
+                    {
+                        ID_Empleado = idEmpleado,
+                        Nombre_E = txtNombreE.Text,
+                        Apellido_E = txtApellidoE.Text,
+                        Correo_E = txtCorreoE.Text,
+                        ID_Dirección = txtDireccionE.Text,
+                        Puesto = txtPuesto.Text,
+                        Estado = txtEstado.Text
+                    };
+
+                    // Verificar si algún campo del empleado está vacío
+                    if (Validaciones.CamposEmpleadosVacios(NuevoEmpleado))
+                    {
+                        MessageBox.Show("Todos los campos del cliente deben llenarse.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+
+                    // Verificar si el texto del campo de teléfono es un número válido
+                    if (!decimal.TryParse(txtTelefonoE.Text, out decimal telefonoDecimal))
+                    {
+                        MessageBox.Show("El teléfono debe ser un número válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+
+                    // Asignar el valor convertido a decimal al Teléfono del NuevoEmpleado
+                    NuevoEmpleado.Teléfono_E = telefonoDecimal;
+
+                    // Agregar el nuevo empleado a la base de datos
                     EmpleadoDAL.AgregarEmpleado(NuevoEmpleado);
                     MessageBox.Show("Empleado agregado correctamente.");
 
                     // Llama al evento EmpleadoAgregado antes de cerrar la ventana
                     OnEmpleadoAgregado();
                 }
+                // Si estamos en modo agregado y el cliente ya existe, mostrar un mensaje de error
+                else if (!esModificacion && EmpleadoExistente)
+                {
+                    MessageBox.Show("El empleado con este ID ya existe en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al modificar/agregar el empleado: " + ex.Message);
+                MessageBox.Show("Error al modificar/agregar el cliente: " + ex.Message);
             }
 
             // Cierra la ventana después de procesar el empleado

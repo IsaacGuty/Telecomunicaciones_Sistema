@@ -21,19 +21,37 @@ namespace Telecomunicaciones_Sistema
     /// </summary>
     public partial class Window6 : Window
     {
+        private Window8 ventana8;
+
         // Propiedad estática para almacenar el empleado seleccionado
         public static Empleados EmpleadoSeleccionado { get; set; }
 
-        // Conexión a la base de datos
-        SqlConnection Conn = new SqlConnection("Data source = DESKTOP-KIBLMD6\\SQLEXPRESS; Initial catalog = TelecomunicacionesBD; Integrated security = true");
-        private bool isMainWindow;
+        //private bool isMainWindow;
 
         // Constructor de la ventana
         public Window6()
         {
             InitializeComponent();
-            // Cargar los datos de los empleados al iniciar la ventana
+            Conn = new SqlConnection("Data source = DESKTOP-KIBLMD6\\SQLEXPRESS; Initial catalog = TelecomunicacionesBD; Integrated security = true");
             CargarDatos();
+            ventana8 = new Window8();
+
+            // Suscribir al evento ClienteAgregado de Window7 para actualizar los datos en esta ventana
+            ventana8.EmpleadoAgregado += ActualizarDatosEmpleado;
+        }
+
+        // Clase interna para el diálogo de nuevo empleado 
+        public partial class NuevoEmpleadoDialog : Window
+        {
+            // Propiedades del diálogo de nuevo cliente
+            public string ID_Empleado { get; set; }
+            public string Nombre_E { get; set; }
+            public string Apellido_E { get; set; }
+            public string Teléfono_E { get; set; }
+            public string Correo_E { get; set; }
+            public string ID_Dirección { get; set; }
+            public string Puesto { get; set; }
+            public string Estado { get; set; }
         }
 
         // Estructura para representar un empleado
@@ -48,6 +66,9 @@ namespace Telecomunicaciones_Sistema
             public string Puesto;
             public string Estado;
         }
+
+        private SqlConnection Conn; // Conexión a la base de datos
+        private bool isMainWindow;
 
         // Método para cargar los datos de los empleados desde la base de datos al DataGrid
         private void CargarDatos()
@@ -85,14 +106,21 @@ namespace Telecomunicaciones_Sistema
         // Método para solicitar información de un nuevo empleado
         private void SolicitarInformacionEmpleado(bool esModificacion)
         {
-            // Mostrar un mensaje para solicitar la información del nuevo empleado
-            MessageBoxResult result = MessageBox.Show("Por favor, ingrese la información del nuevo empleado.", "Nuevo Empleado", MessageBoxButton.OKCancel);
+            MessageBoxResult result;
+            if (esModificacion)
+            {
+                result = MessageBox.Show("Por favor, ingrese la información del empleado a modificar.", "Modificar Empleado", MessageBoxButton.OKCancel);
+            }
+            else
+            {
+                result = MessageBox.Show("Por favor, ingrese la información del nuevo empleado.", "Nuevo Empleado", MessageBoxButton.OKCancel);
+            }
 
             if (result == MessageBoxResult.OK)
             {
-                // Abrir la ventana de agregar/modificar empleado
+                // Mostrar la ventana8 para agregar o modificar un empleado
                 Window8 frmAg = new Window8(esModificacion);
-                frmAg.Closed += (s, args) => CargarDatos(); // Refrescar los datos del DataGrid cuando se cierre la ventana
+                frmAg.Closed += (s, args) => CargarDatos(); // Refrescar los datos del DataGrid cuando se cierre la ventana 8
                 frmAg.Show();
             }
         }
@@ -114,23 +142,28 @@ namespace Telecomunicaciones_Sistema
 
         private void BtnModificar_Click(object sender, RoutedEventArgs e)
         {
-            // Mostrar un mensaje para solicitar la modificación del empleado seleccionado
             MessageBoxResult result = MessageBox.Show("Por favor, ingrese la modificación del empleado.", "Modificación", MessageBoxButton.OKCancel);
 
             if (result == MessageBoxResult.OK)
             {
-                // Verificar si hay un empleado seleccionado
                 if (!EmpleadoSeleccionado.Equals(default(Empleados)))
                 {
-                    // Abrir la ventana de modificar empleado y pasar el empleado seleccionado
-                    Window8 frmMd = new Window8(EmpleadoSeleccionado, true);
-                    frmMd.EmpleadoModificado += ActualizarDatosEmpleado; // Suscribirse al evento de modificación de empleado
-                    frmMd.Closed += (s, args) => CargarDatos(); // Refrescar los datos del DataGrid cuando se cierre la ventana
-                    frmMd.ShowDialog();
+                    if (ventana8 == null || !ventana8.IsVisible) // Verifica si la ventan8 ya está abierta
+                    {
+                        // Abre la ventana7 para modificar el cliente seleccionado
+                        ventana8 = new Window8(EmpleadoSeleccionado, true);
+                        ventana8.EmpleadoModificado += ActualizarDatosEmpleado;
+                        ventana8.Closed += (s, args) => CargarDatos(); // Refrescar los datos del DataGrid cuando se cierre la ventana 8
+                        ventana8.Show();
+                    }
+                    else
+                    {
+                        ventana8.Activate(); // Muestra la ventana si ya está abierta
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("No se ha seleccionado ningún empleado.");
+                    MessageBox.Show("No se ha seleccionado ningún cliente."); // Mensaje si no hay ningún cliente seleccionado
                 }
             }
         }
