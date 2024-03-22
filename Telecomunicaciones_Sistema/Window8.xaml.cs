@@ -23,6 +23,7 @@ namespace Telecomunicaciones_Sistema
     {
         // Declaración de eventos para notificar cuando se agrega o modifica un empleado
         public event EventHandler EmpleadoAgregado;
+
         public event EventHandler EmpleadoModificado;
 
         // Lista para almacenar empleados
@@ -70,7 +71,7 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
-        // Constructor sin parámetros (no se utiliza)
+        // Constructor sin parámetros 
         public Window8()
         {
         }
@@ -124,12 +125,19 @@ namespace Telecomunicaciones_Sistema
                         return;
                     }
 
+                    // Validar el formato del correo electrónico
+                    if (!Validaciones.CorreoValido(txtCorreoE.Text))
+                    {
+                        MessageBox.Show("El formato del correo electrónico no es válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+
                     // Asignar el valor convertido a decimal al Teléfono del NuevoEmpleado
                     NuevoEmpleado.Teléfono_E = telefonoDecimal;
 
                     // Actualizar el empleado existente en la base de datos
                     EmpleadoDAL.ActualizarEmpleado(NuevoEmpleado);
-                    MessageBox.Show("Cliente modificado correctamente.");
+                    MessageBox.Show("Empleado modificado correctamente.");
                 }
                 // Si estamos en modo agregado y el empleado no existe, agregar el nuevo empleado
                 else if (!esModificacion && !EmpleadoExistente)
@@ -149,7 +157,7 @@ namespace Telecomunicaciones_Sistema
                     // Verificar si algún campo del empleado está vacío
                     if (Validaciones.CamposEmpleadosVacios(NuevoEmpleado))
                     {
-                        MessageBox.Show("Todos los campos del cliente deben llenarse.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("Todos los campos del empleado deben llenarse.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
 
@@ -157,6 +165,13 @@ namespace Telecomunicaciones_Sistema
                     if (!decimal.TryParse(txtTelefonoE.Text, out decimal telefonoDecimal))
                     {
                         MessageBox.Show("El teléfono debe ser un número válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+
+                    // Validar el formato del correo electrónico
+                    if (!Validaciones.CorreoValido(txtCorreoE.Text))
+                    {
+                        MessageBox.Show("El formato del correo electrónico no es válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
 
@@ -179,7 +194,7 @@ namespace Telecomunicaciones_Sistema
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al modificar/agregar el cliente: " + ex.Message);
+                MessageBox.Show("Error al modificar/agregar el empleado: " + ex.Message);
             }
 
             // Cierra la ventana después de procesar el empleado
@@ -196,7 +211,7 @@ namespace Telecomunicaciones_Sistema
         {
             this.Hide();
 
-            // Crea una nueva instancia de Window6 (presumiblemente la ventana principal de empleados) y la muestra
+            // Crea una nueva instancia de Window6 (ventana principal de empleados) y la muestra
             Window6 frmPr = new Window6();
         }
 

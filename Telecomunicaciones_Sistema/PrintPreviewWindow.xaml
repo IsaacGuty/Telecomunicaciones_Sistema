@@ -81,14 +81,16 @@
         </StackPanel>
 
         <ScrollViewer Grid.Column="1" Margin="0,0,0,0">
-            <DocumentViewer x:Name="documentViewer" Height="430"/>
+            <DocumentViewer x:Name="documentViewer" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </ScrollViewer>
 
         <ToolBar Grid.Row="1" Grid.ColumnSpan="2" Band="1" BandIndex="1">
             <Button Content="Ayuda" Width="70" Height="30" Click="btnAyuda_Click" FontFamily="Times New Roman" FontSize="12" FontWeight="Bold"/>
+            <Button Content="Salir" Width="70" Height="30" Click="BtnSalir_Click" FontFamily="Times New Roman" FontSize="12" FontWeight="Bold" Margin="10"/>
         </ToolBar>
     </Grid>
 </Window>
+
 
 
 

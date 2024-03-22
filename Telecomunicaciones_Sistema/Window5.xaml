@@ -34,10 +34,9 @@
         <Image Margin="15,17,581.6,235.2" Source="logoTele.png" Stretch="Fill" Grid.Row="1"/>
         <Label x:Name="lblNombre" Content="Sistema en" HorizontalAlignment="Left" Margin="117,22,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" Grid.Row="1"/>
         <Label x:Name="lblNombre_Copy" Content="Telecomunicaciones" HorizontalAlignment="Left" Margin="117,48,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" Grid.Row="1"/>
-        <Label x:Name="lblNombre_Copy1" Content="Cel: 9755-1953" HorizontalAlignment="Left" Margin="497,17,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" Grid.Row="1"/>
-        <Label x:Name="lblNombre_Copy2" Content="E-Mail: isaacguty@gmail.com" HorizontalAlignment="Left" Margin="501,40,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" Grid.Row="1"/>
-        <Button x:Name="btnImprimir" HorizontalAlignment="Left" Margin="570,98.6,0,0" Grid.Row="2" VerticalAlignment="Top" Width="75" Click="BtnImprimir_Click" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold">
-            <Image Source="Image4.png" Stretch="Fill" Height="43" Width="65"/>
+        <Label x:Name="lblTelefono" Content="Cel: 9755-1953" HorizontalAlignment="Left" Margin="497,17,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" Grid.Row="1"/>
+        <Label x:Name="lblCorreo" Content="E-Mail: isaacguty@gmail.com" HorizontalAlignment="Left" Margin="501,40,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" Grid.Row="1"/>
+        <Button x:Name="btnImprimir" HorizontalAlignment="Left" Margin="570,112.6,0,0" Grid.Row="2" VerticalAlignment="Top" Width="75" Click="BtnImprimir_Click" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Height="19" Content="Imprimir">
         </Button>
         <Label x:Name="lblFirma" Content="___________________________________________________________________________" HorizontalAlignment="Left" Margin="370,66.6,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" Grid.Row="2" Width="275"/>
 

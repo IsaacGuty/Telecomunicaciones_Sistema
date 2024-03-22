@@ -26,6 +26,14 @@ namespace Telecomunicaciones_Sistema
         {
             InitializeComponent();
 
+            txtNombre.IsReadOnly = true;
+            txtDirección.IsReadOnly = true;
+            txtNumT.IsReadOnly = true;
+            txtServicio.IsReadOnly = true;
+            txtFecha.IsReadOnly = true;
+            txtTipoT1.IsReadOnly = true;
+            txtNombreE.IsReadOnly = true;
+
             if (DatosOrden != null)
             {
                 txtNombre.Text = DatosOrden.Nombre;

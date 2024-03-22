@@ -20,9 +20,10 @@ namespace Telecomunicaciones_Sistema
     {
         // Eventos para notificar cuando se agrega o modifica un cliente
         public event EventHandler ClienteAgregado;
+
         public event EventHandler ClienteModificado;
 
-        // Lista para almacenar clientes (aunque no se utiliza en este fragmento de código)
+        // Lista para almacenar clientes 
         private List<Clientes> clientes;
 
         // Propiedad para acceder al nuevo cliente desde fuera de la clase
@@ -71,7 +72,7 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
-        // Constructor sobrecargado (sin uso en este fragmento de código)
+        // Constructor 
         public Window7(bool esModificacion, bool esOtraModificacion)
         {
             InitializeComponent();
@@ -137,6 +138,13 @@ namespace Telecomunicaciones_Sistema
                         return;
                     }
 
+                    // Verificar si el texto del campo de correo electrónico es válido
+                    if (!Validaciones.CorreoValido(txtCorreoC.Text))
+                    {
+                        MessageBox.Show("El formato del correo electrónico no es válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+
                     // Asignar el valor convertido a decimal al Teléfono del NuevoCliente
                     NuevoCliente.Teléfono = telefonoDecimal;
 
@@ -168,6 +176,13 @@ namespace Telecomunicaciones_Sistema
                     if (!decimal.TryParse(txtTelefonoC.Text, out decimal telefonoDecimal))
                     {
                         MessageBox.Show("El teléfono debe ser un número válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+
+                    // Validar el formato del correo electrónico
+                    if (!Validaciones.CorreoValido(txtCorreoC.Text))
+                    {
+                        MessageBox.Show("El formato del correo electrónico no es válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
 

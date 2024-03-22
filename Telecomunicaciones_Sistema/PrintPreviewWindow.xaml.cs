@@ -189,5 +189,10 @@ namespace Telecomunicaciones_Sistema
         {
             public BitmapImage Thumbnail { get; set; }
         }
+
+        private void BtnSalir_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }
