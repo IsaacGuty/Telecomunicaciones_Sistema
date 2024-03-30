@@ -21,19 +21,19 @@ namespace Telecomunicaciones_Sistema
     /// </summary>
     public partial class Window4 : Window
     {
+        private SqlConnection Conn;
+
         public Window4()
         {
             InitializeComponent();
-
+            // Conexión a la base de datos
+            Conn = BD.ObtenerConexion();
             // Al inicializar la ventana, carga los datos en el DataGrid
             CargarDatos();
         }
 
         // Propiedad para almacenar los datos de la orden
         public Ordenes DatosOrden { get; set; }
-
-        // Conexión a la base de datos
-        SqlConnection Conn = new SqlConnection("Data source = DESKTOP-KIBLMD6\\SQLEXPRESS; Initial catalog = TelecomunicacionesBD; Integrated security = true");
 
         // Variable para identificar si esta ventana es la ventana principal
         private bool isMainWindow;

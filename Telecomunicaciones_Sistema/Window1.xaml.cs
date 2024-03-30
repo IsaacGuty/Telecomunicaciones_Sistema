@@ -38,18 +38,10 @@ namespace Telecomunicaciones_Sistema
 
             string rol = MainWindow.Rol_L;
 
-            btnRegistro.IsEnabled = Validaciones.IsGerenteGeneral(rol);
-            btnPago.IsEnabled = Validaciones.IsGerenteGeneral(rol);
-            Btn_OrT.IsEnabled = Validaciones.IsGerenteGeneral(rol);
+            btnRegistro.IsEnabled = Validaciones.IsGerenteGeneral(rol) || Validaciones.IsSecretaria(rol) || Validaciones.IsContadora(rol);
+            btnPago.IsEnabled = Validaciones.IsGerenteGeneral(rol) || Validaciones.IsSecretaria(rol);
+            Btn_OrT.IsEnabled = Validaciones.IsGerenteGeneral(rol) || Validaciones.IsSecretaria(rol) || Validaciones.IsTecnico(rol);
             BtnEmpleados.IsEnabled = Validaciones.IsGerenteGeneral(rol);
-
-            btnRegistro.IsEnabled = Validaciones.IsSecretaria(rol);
-            btnPago.IsEnabled = Validaciones.IsSecretaria(rol);
-            Btn_OrT.IsEnabled = Validaciones.IsSecretaria(rol);
-
-            Btn_OrT.IsEnabled = Validaciones.IsTecnico(rol);
-
-            btnRegistro.IsEnabled = Validaciones.IsContadora(rol);
         }
 
         private void Btn_Registro_Click(object sender, RoutedEventArgs e)

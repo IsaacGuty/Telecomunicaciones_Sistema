@@ -50,7 +50,7 @@ namespace Telecomunicaciones_Sistema
             InitializeComponent();
             this.esModificacion = esModificacion;
             // Conexión a la base de datos y carga de detalles del empleado seleccionado
-            Conn = new SqlConnection("Data source = DESKTOP-KIBLMD6\\SQLEXPRESS; Initial catalog = TelecomunicacionesBD; Integrated security = true");
+            Conn = BD.ObtenerConexion();
             empleados = new List<Empleados>();
             this.empleadoSeleccionado = empleadoSeleccionado;
             MostrarDetallesEmpleado();
@@ -125,6 +125,12 @@ namespace Telecomunicaciones_Sistema
                         return;
                     }
 
+                    if (!Validaciones.EsTelefonoValido(txtTelefonoE.Text))
+                    {
+                        MessageBox.Show("El teléfono debe tener 8 dígitos y comenzar con 3, 8 o 9.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+
                     // Validar el formato del correo electrónico
                     if (!Validaciones.CorreoValido(txtCorreoE.Text))
                     {
@@ -165,6 +171,12 @@ namespace Telecomunicaciones_Sistema
                     if (!decimal.TryParse(txtTelefonoE.Text, out decimal telefonoDecimal))
                     {
                         MessageBox.Show("El teléfono debe ser un número válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+
+                    if (!Validaciones.EsTelefonoValido(txtTelefonoE.Text))
+                    {
+                        MessageBox.Show("El teléfono debe tener 8 dígitos y comenzar con 3, 8 o 9.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
 

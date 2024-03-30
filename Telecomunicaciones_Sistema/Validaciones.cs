@@ -28,8 +28,7 @@ namespace Telecomunicaciones_Sistema
                 return false;
             }
 
-            string connectionString = "Data Source=DESKTOP-KIBLMD6\\SQLEXPRESS;Initial Catalog=TelecomunicacionesBD;Integrated Security=true";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = BD.ObtenerConexion())
             {
                 string query = "SELECT COUNT(*) FROM Inicio_Sesión WHERE ID_Usuario = @Usuario";
 
@@ -58,10 +57,9 @@ namespace Telecomunicaciones_Sistema
 
         public static bool VerificarAntiguaContraseña(string usuario, string antiguaContra)
         {
-            string connectionString = "Data Source=DESKTOP-KIBLMD6\\SQLEXPRESS;Initial Catalog=TelecomunicacionesBD;Integrated Security=true";
             string query = "SELECT Contraseña FROM Inicio_Sesión WHERE ID_Usuario = @Usuario";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = BD.ObtenerConexion())
             {
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -76,11 +74,9 @@ namespace Telecomunicaciones_Sistema
 
         public static void ActualizarContraseña(string usuario, string nuevaContra)
         {
-            string connectionString = "Data Source=DESKTOP-KIBLMD6\\SQLEXPRESS;Initial Catalog=TelecomunicacionesBD;Integrated Security=true";
-
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection connection = BD.ObtenerConexion())
                 {
                     string query = "UPDATE Inicio_Sesión SET Contraseña = @NuevaContra WHERE ID_Usuario = @Usuario";
 
@@ -147,8 +143,7 @@ namespace Telecomunicaciones_Sistema
 
         public static bool CorreoRegistrado(string correo)
         {
-            string connectionString = "Data Source=DESKTOP-KIBLMD6\\SQLEXPRESS;Initial Catalog=TelecomunicacionesBD;Integrated Security=true";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = BD.ObtenerConexion())
             {
                 string query = "SELECT COUNT(*) FROM Empleados WHERE Correo_E = @Correo";
 
@@ -167,13 +162,10 @@ namespace Telecomunicaciones_Sistema
 
         public static void ActualizarContraseñaa(string usuario, string nuevaContra)
         {
-            // Cadena de conexión a la base de datos
-            string connectionString = "Data Source=DESKTOP-KIBLMD6\\SQLEXPRESS;Initial Catalog=TelecomunicacionesBD;Integrated Security=true";
-
             try
             {
                 // Abre la conexión a la base de datos
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection connection = BD.ObtenerConexion())
                 {
                     string query = "UPDATE Inicio_Sesión SET Contraseña = @NuevaContra WHERE ID_Usuario = @Usuario";
 
@@ -216,8 +208,8 @@ namespace Telecomunicaciones_Sistema
 
         public static bool EsTelefonoValido(string telefono)
         {
-            decimal numero;
-            return decimal.TryParse(telefono, out numero);
+            // Verificar si el teléfono tiene 8 dígitos y comienza con 3, 8 o 9
+            return telefono.Length == 8 && (telefono.StartsWith("3") || telefono.StartsWith("8") || telefono.StartsWith("9"));
         }
 
         public static bool CamposEmpleadosVacios(Empleados empleado)
@@ -231,5 +223,6 @@ namespace Telecomunicaciones_Sistema
                    string.IsNullOrWhiteSpace(empleado.Puesto) ||
                    string.IsNullOrWhiteSpace(empleado.Estado);
         }
+
     }
 }

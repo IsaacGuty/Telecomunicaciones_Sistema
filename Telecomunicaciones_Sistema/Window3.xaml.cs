@@ -28,7 +28,7 @@ namespace Telecomunicaciones_Sistema
         public Window3()
         {
             InitializeComponent();
-            Conn = new SqlConnection("Data source = DESKTOP-KIBLMD6\\SQLEXPRESS; Initial catalog = TelecomunicacionesBD; Integrated security = true");
+            Conn = BD.ObtenerConexion();
             CargarDatos();
         }
 

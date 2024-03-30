@@ -39,20 +39,33 @@ namespace Telecomunicaciones_Sistema
 
             if (DT.Rows.Count > 0)
             {
-                MessageBox.Show("Bienvenido " + DT.Rows[0][2].ToString() + " " + DT.Rows[0][3].ToString(), "Mensaje",
-                    MessageBoxButton.OK, MessageBoxImage.Information);
+                // Verifica si el usuario y la contraseña coinciden exactamente con los almacenados en la base de datos
+                string usuarioBD = DT.Rows[0]["ID_Usuario"].ToString();
+                string contraseñaBD = DT.Rows[0]["Contraseña"].ToString();
 
-                Usuario_L = DT.Rows[0][2].ToString() + " " + DT.Rows[0][3].ToString();
-                Contraseña_L = DT.Rows[0][1].ToString();
-                Rol_L = DT.Rows[0][4].ToString();
+                if (Objlog.usuario == usuarioBD && Objlog.contraseña == contraseñaBD)
+                {
+                    MessageBox.Show("Bienvenido " + DT.Rows[0][2].ToString() + " " + DT.Rows[0][3].ToString(), "Mensaje",
+                        MessageBoxButton.OK, MessageBoxImage.Information);
 
-                Window1 ObjPrinci = new Window1(Usuario_L, Contraseña_L);
-                ObjPrinci.Show();
+                    Usuario_L = DT.Rows[0][2].ToString() + " " + DT.Rows[0][3].ToString();
+                    Contraseña_L = contraseñaBD; // Almacena la contraseña de la base de datos
+                    Rol_L = DT.Rows[0][4].ToString();
 
-                txtUsuario.Clear();
-                txtContra.Clear();
+                    Window1 ObjPrinci = new Window1(Usuario_L, Contraseña_L);
+                    ObjPrinci.Show();
 
-                this.Hide(); // Oculta MainWindow después de mostrar Window1
+                    txtUsuario.Clear();
+                    txtContra.Clear();
+
+                    this.Hide(); // Oculta MainWindow después de mostrar Window1
+                }
+                else
+                {
+                    MessageBox.Show("Usuario o Contraseña Incorrecta", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
+                    txtUsuario.Clear();
+                    txtContra.Clear();
+                }
             }
             else
             {
@@ -62,6 +75,7 @@ namespace Telecomunicaciones_Sistema
             }
             return;
         }
+
 
         // Constructor de la clase MainWindow
         public MainWindow()

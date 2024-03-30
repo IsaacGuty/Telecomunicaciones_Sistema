@@ -31,7 +31,7 @@ namespace Telecomunicaciones_Sistema
         {
             InitializeComponent();
             // Establecer conexión a la base de datos
-            Conn = new SqlConnection("Data source = DESKTOP-KIBLMD6\\SQLEXPRESS; Initial catalog = TelecomunicacionesBD; Integrated security = true");
+            Conn = BD.ObtenerConexion();           
             // Cargar los datos de los clientes en el DataGrid
             CargarDatos();
 

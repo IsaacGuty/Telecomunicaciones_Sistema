@@ -35,7 +35,7 @@ namespace Telecomunicaciones_Sistema
         {
             InitializeComponent();
             // Inicialización de la conexión a la base de datos
-            Conn = new SqlConnection("Data source = DESKTOP-KIBLMD6\\SQLEXPRESS; Initial catalog = TelecomunicacionesBD; Integrated security = true");
+            Conn = BD.ObtenerConexion();
             // Inicialización de la lista de pagos
             pagos = new List<Pagos>();
         }
@@ -45,7 +45,7 @@ namespace Telecomunicaciones_Sistema
         {
             InitializeComponent();
             // Inicialización de la conexión a la base de datos
-            Conn = new SqlConnection("Data source = DESKTOP-KIBLMD6\\SQLEXPRESS; Initial catalog = TelecomunicacionesBD; Integrated security = true");
+            Conn = BD.ObtenerConexion();
             // Inicialización de la lista de pagos
             pagos = new List<Pagos>();
             // Asignación del pago seleccionado

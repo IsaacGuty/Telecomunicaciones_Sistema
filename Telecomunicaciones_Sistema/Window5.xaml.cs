@@ -84,9 +84,16 @@ namespace Telecomunicaciones_Sistema
 
         private void BtnImprimir_Click(object sender, RoutedEventArgs e)
         {
-            // Ocultar los botones antes de mostrar la vista previa
+            // Ocultar los botones y etiquetas antes de mostrar la vista previa
             btnRegresar.Visibility = Visibility.Collapsed;
             btnImprimir.Visibility = Visibility.Collapsed;
+            lblNombreC.Visibility = Visibility.Collapsed;
+            lblDire.Visibility = Visibility.Collapsed;
+            lblTel.Visibility = Visibility.Collapsed;
+            lblSer.Visibility = Visibility.Collapsed;
+            lblTrab.Visibility = Visibility.Collapsed;
+            lblEmp.Visibility = Visibility.Collapsed;
+            lblFec.Visibility = Visibility.Collapsed;
 
             // Capturar una representación visual de la ventana
             RenderTargetBitmap renderTargetBitmap = new RenderTargetBitmap((int)this.ActualWidth, (int)this.ActualHeight, 96, 96, PixelFormats.Pbgra32);
@@ -96,9 +103,26 @@ namespace Telecomunicaciones_Sistema
             FixedDocument fixedDocument = new FixedDocument();
             PageContent pageContent = new PageContent();
             FixedPage fixedPage = new FixedPage();
+
+            // Ajustar el ancho y alto al de la ventana principal
             fixedPage.Width = this.ActualWidth;
             fixedPage.Height = this.ActualHeight;
-            fixedPage.Children.Add(new Image { Source = renderTargetBitmap });
+
+            // Establecer márgenes a cero para eliminar espacios en blanco alrededor del contenido
+            fixedPage.Margin = new Thickness(0);
+
+            // Agregar la imagen al contenido de la página
+            Image image = new Image
+            {
+                Source = renderTargetBitmap,
+                Stretch = Stretch.Fill // Ajustar la imagen para llenar toda la página
+            };
+
+            // Ajustar el tamaño de la imagen para que se ajuste a la página fija
+            image.Width = this.ActualWidth;
+            image.Height = this.ActualHeight;
+
+            fixedPage.Children.Add(image);
             pageContent.Child = fixedPage;
             fixedDocument.Pages.Add(pageContent);
 
@@ -109,9 +133,16 @@ namespace Telecomunicaciones_Sistema
             printPreviewWindow.SetDocument(fixedDocument);
             printPreviewWindow.ShowDialog();
 
-            // Restaurar la visibilidad de los botones después de imprimir o cerrar el cuadro de diálogo
+            // Restaurar la visibilidad de los botones y etiquetas después de imprimir o cerrar el cuadro de diálogo
             btnRegresar.Visibility = Visibility.Visible;
             btnImprimir.Visibility = Visibility.Visible;
+            lblNombreC.Visibility = Visibility.Visible;
+            lblDire.Visibility = Visibility.Visible;
+            lblTel.Visibility = Visibility.Visible;
+            lblSer.Visibility = Visibility.Visible;
+            lblTrab.Visibility = Visibility.Visible;
+            lblEmp.Visibility = Visibility.Visible;
+            lblFec.Visibility = Visibility.Visible;
         }
     }
 }

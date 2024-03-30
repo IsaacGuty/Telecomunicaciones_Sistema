@@ -52,7 +52,7 @@ namespace Telecomunicaciones_Sistema
         {
             InitializeComponent();
             this.esModificacion = esModificacion;
-            Conn = new SqlConnection("Data source = DESKTOP-KIBLMD6\\SQLEXPRESS; Initial catalog = TelecomunicacionesBD; Integrated security = true");
+            Conn = BD.ObtenerConexion();
             clientes = new List<Clientes>();
             this.clienteSeleccionado = clienteSeleccionado;
             MostrarDetallesCliente(); // Muestra los detalles del cliente a modificar en los campos correspondientes
@@ -80,7 +80,7 @@ namespace Telecomunicaciones_Sistema
             {
                 // Haz algo con esOtraModificacion si es necesario
             }
-            Conn = new SqlConnection("Data source = DESKTOP-KIBLMD6\\SQLEXPRESS; Initial catalog = TelecomunicacionesBD; Integrated security = true");
+            Conn = BD.ObtenerConexion();
             clientes = new List<Clientes>();
         }
 
@@ -138,6 +138,12 @@ namespace Telecomunicaciones_Sistema
                         return;
                     }
 
+                    if (!Validaciones.EsTelefonoValido(txtTelefonoC.Text))
+                    {
+                        MessageBox.Show("El teléfono debe tener 8 dígitos y comenzar con 3, 8 o 9.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+
                     // Verificar si el texto del campo de correo electrónico es válido
                     if (!Validaciones.CorreoValido(txtCorreoC.Text))
                     {
@@ -173,13 +179,21 @@ namespace Telecomunicaciones_Sistema
                     }
 
                     // Verificar si el texto del campo de teléfono es un número válido
+                    // Verificar si el texto del campo de teléfono es un número válido
                     if (!decimal.TryParse(txtTelefonoC.Text, out decimal telefonoDecimal))
                     {
                         MessageBox.Show("El teléfono debe ser un número válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
 
-                    // Validar el formato del correo electrónico
+                    // Verificar si el teléfono cumple con los criterios de validación
+                    if (!Validaciones.EsTelefonoValido(txtTelefonoC.Text))
+                    {
+                        MessageBox.Show("El teléfono debe tener 8 dígitos y comenzar con 3, 8 o 9.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+
+                    // Verificar si el texto del campo de correo electrónico es válido
                     if (!Validaciones.CorreoValido(txtCorreoC.Text))
                     {
                         MessageBox.Show("El formato del correo electrónico no es válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -211,7 +225,6 @@ namespace Telecomunicaciones_Sistema
             // Cierra la ventana después de procesar el cliente
             this.Close();
         }
-
 
         // Método invocado cuando se agrega un cliente, activa el evento ClienteAgregado
         private void OnClienteAgregado()
