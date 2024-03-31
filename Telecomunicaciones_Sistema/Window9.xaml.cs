@@ -30,6 +30,13 @@ namespace Telecomunicaciones_Sistema
         // Propiedad para obtener el nuevo pago
         public Pagos NuevoPago { get; private set; }
 
+        // Lista de meses completos
+        private List<string> mesesCompletos = new List<string>
+        {
+            "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio",
+            "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+        };
+
         // Constructor sin parámetros
         public Window9()
         {
@@ -64,6 +71,13 @@ namespace Telecomunicaciones_Sistema
         {
             try
             {
+                // Validar que el mes ingresado sea completo
+                if (!mesesCompletos.Contains(txtMesP.Text))
+                {
+                    MessageBox.Show("Por favor, ingrese el nombre completo del mes.");
+                    return;
+                }
+
                 // Crear un nuevo objeto de pago con los datos ingresados en el formulario
                 Pagos nuevoPago = new Pagos
                 {

@@ -76,13 +76,10 @@ namespace Telecomunicaciones_Sistema
 
         private void BtnCancelar_Click(object sender, RoutedEventArgs e)
         {
-            Window1 frmPr = new Window1(isMainWindow: true);
-            frmPr.Show();
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
 
-            if (!isMainWindow)
-            {
-                this.Close();
-            }
+            this.Close();
         }
     }
 }

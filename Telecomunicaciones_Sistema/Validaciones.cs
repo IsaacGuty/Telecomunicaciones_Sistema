@@ -76,6 +76,16 @@ namespace Telecomunicaciones_Sistema
         {
             try
             {
+                // Obtener la contraseña almacenada en la base de datos para el usuario dado
+                string contraseñaAlmacenada = ContraAlm(usuario);
+
+                // Verificar si la nueva contraseña es diferente de la contraseña almacenada
+                if (nuevaContra == contraseñaAlmacenada)
+                {
+                    throw new Exception("La nueva contraseña es igual a la contraseña actual. Por favor, elija una contraseña diferente.");
+                }
+
+                // Si la nueva contraseña es diferente, proceder con la actualización en la base de datos
                 using (SqlConnection connection = BD.ObtenerConexion())
                 {
                     string query = "UPDATE Inicio_Sesión SET Contraseña = @NuevaContra WHERE ID_Usuario = @Usuario";
@@ -90,7 +100,7 @@ namespace Telecomunicaciones_Sistema
 
                         if (rowsAffected <= 0)
                         {
-                            MessageBox.Show("No se encontró el usuario en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                            throw new Exception("No se encontró el usuario en la base de datos.");
                         }
                     }
                 }
@@ -98,6 +108,10 @@ namespace Telecomunicaciones_Sistema
             catch (SqlException ex)
             {
                 throw new Exception("Error de SQL al cambiar la contraseña.", ex);
+            }
+            catch (Exception ex)
+            {
+                throw; // Dejar que la excepción sea relanzada tal como está, sin agregar mensaje adicional
             }
         }
 
@@ -164,12 +178,20 @@ namespace Telecomunicaciones_Sistema
         {
             try
             {
-                // Abre la conexión a la base de datos
+                // Obtener la contraseña almacenada en la base de datos para el usuario dado
+                string contraseñaAlmacenada = ContraAlm(usuario);
+
+                // Verificar si la nueva contraseña es diferente de la contraseña almacenada
+                if (nuevaContra == contraseñaAlmacenada)
+                {
+                    throw new Exception("La nueva contraseña es igual a la contraseña actual. Por favor, elija una contraseña diferente.");
+                }
+
+                // Si la nueva contraseña es diferente, proceder con la actualización en la base de datos
                 using (SqlConnection connection = BD.ObtenerConexion())
                 {
                     string query = "UPDATE Inicio_Sesión SET Contraseña = @NuevaContra WHERE ID_Usuario = @Usuario";
 
-                    // Prepara y ejecuta la consulta SQL para actualizar la contraseña
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@NuevaContra", nuevaContra);
@@ -178,7 +200,6 @@ namespace Telecomunicaciones_Sistema
                         connection.Open();
                         int rowsAffected = command.ExecuteNonQuery();
 
-                        // Verifica si se actualizaron filas en la base de datos
                         if (rowsAffected <= 0)
                         {
                             throw new Exception("No se encontró el usuario en la base de datos.");
@@ -188,23 +209,40 @@ namespace Telecomunicaciones_Sistema
             }
             catch (SqlException ex)
             {
-                throw new Exception("Error de SQL al cambiar la contraseña: " + ex.Message);
+                throw new Exception("Error de SQL al cambiar la contraseña.", ex);
             }
             catch (Exception ex)
             {
-                throw new Exception("Se produjo un error inesperado al cambiar la contraseña: " + ex.Message);
+                throw new Exception("Se produjo un error al cambiar la contraseña: " + ex.Message);
             }
         }
 
-        public static bool CamposClienteVacios(Clientes cliente)
+        private static string ContraAlm(string usuario)
         {
-            return string.IsNullOrWhiteSpace(cliente.ID_Cliente) ||
-                   string.IsNullOrWhiteSpace(cliente.Nombre) ||
-                   string.IsNullOrWhiteSpace(cliente.Apellido) ||
-                   string.IsNullOrWhiteSpace(cliente.Teléfono.ToString()) ||
-                   string.IsNullOrWhiteSpace(cliente.Correo) ||
-                   string.IsNullOrWhiteSpace(cliente.ID_Dirección);
+            string query = "SELECT Contraseña FROM Inicio_Sesión WHERE ID_Usuario = @Usuario";
+
+            using (SqlConnection connection = BD.ObtenerConexion())
+            {
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Usuario", usuario);
+                    connection.Open();
+                    string contraseñaAlmacenada = (string)command.ExecuteScalar();
+
+                    return contraseñaAlmacenada;
+                }
+            }
         }
+
+        public static bool CamposClienteVacios(string nombre, string apellido, string telefono, string correo, string direccion)
+        {
+            return string.IsNullOrWhiteSpace(nombre) ||
+                   string.IsNullOrWhiteSpace(apellido) ||
+                   string.IsNullOrWhiteSpace(telefono) ||
+                   string.IsNullOrWhiteSpace(correo) ||
+                   string.IsNullOrWhiteSpace(direccion);
+        }
+
 
         public static bool EsTelefonoValido(string telefono)
         {
@@ -223,6 +261,5 @@ namespace Telecomunicaciones_Sistema
                    string.IsNullOrWhiteSpace(empleado.Puesto) ||
                    string.IsNullOrWhiteSpace(empleado.Estado);
         }
-
     }
 }

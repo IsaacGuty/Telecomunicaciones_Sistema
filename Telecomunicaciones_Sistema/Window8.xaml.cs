@@ -42,6 +42,13 @@ namespace Telecomunicaciones_Sistema
             this.esModificacion = esModificacion;
             // Actualiza la etiqueta según si se está modificando o agregando un empleado
             ActualizarLabel();
+
+            if (!esModificacion)
+            {
+                cmbEstado.Items.Clear(); // Limpiar cualquier elemento existente
+                cmbEstado.Items.Add("Activo"); // Agregar solo la opción "Activo"
+                cmbEstado.SelectedIndex = 0; // Establecer "Activo" como seleccionado
+            }
         }
 
         // Constructor para ventana de modificación de empleado con empleado seleccionado
@@ -96,9 +103,16 @@ namespace Telecomunicaciones_Sistema
                     return;
                 }
 
+                if (!esModificacion && EmpleadoDAL.EmpleadoDI(txtNombreE.Text, txtApellidoE.Text, txtCorreoE.Text, txtTelefonoE.Text, txtDireccionE.Text))
+                {
+                    MessageBox.Show("Ya existe un cliente con la misma información en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
                 // Si estamos en modo modificación y el empleado existe, actualizar los datos del empleado
                 if (esModificacion && EmpleadoExistente)
                 {
+                    string puestoSeleccionado = cmbPuesto.SelectedItem?.ToString();
                     // Crear el objeto NuevoCliente con los datos modificados
                     NuevoEmpleado = new Empleados
                     {
@@ -107,8 +121,8 @@ namespace Telecomunicaciones_Sistema
                         Apellido_E = txtApellidoE.Text,
                         Correo_E = txtCorreoE.Text,
                         ID_Dirección = txtDireccionE.Text,
-                        Puesto = txtPuesto.Text,
-                        Estado = txtEstado.Text
+                        Puesto = (cmbPuesto.SelectedItem as ComboBoxItem)?.Content.ToString(),
+                        Estado = (cmbEstado.SelectedItem as ComboBoxItem)?.Content.ToString(),
                     };
 
                     // Verificar si algún campo del empleado está vacío
@@ -156,8 +170,8 @@ namespace Telecomunicaciones_Sistema
                         Apellido_E = txtApellidoE.Text,
                         Correo_E = txtCorreoE.Text,
                         ID_Dirección = txtDireccionE.Text,
-                        Puesto = txtPuesto.Text,
-                        Estado = txtEstado.Text
+                        Puesto = (cmbPuesto.SelectedItem as ComboBoxItem)?.Content.ToString(),
+                        Estado = (cmbEstado.SelectedItem as ComboBoxItem)?.Content.ToString(),
                     };
 
                     // Verificar si algún campo del empleado está vacío
@@ -236,8 +250,32 @@ namespace Telecomunicaciones_Sistema
             txtCorreoE.Text = empleadoSeleccionado.Correo_E;
             txtTelefonoE.Text = empleadoSeleccionado.Teléfono_E;
             txtDireccionE.Text = empleadoSeleccionado.ID_Dirección;
-            txtPuesto.Text = empleadoSeleccionado.Puesto;
-            txtEstado.Text = empleadoSeleccionado.Estado;
+
+            // Obtener el puesto del empleado seleccionado
+            string puestoEmpleado = empleadoSeleccionado.Puesto;
+
+            string estadoEmpleado = empleadoSeleccionado.Estado;
+
+            // Buscar el puesto en los elementos del ComboBox
+            foreach (ComboBoxItem item in cmbPuesto.Items)
+            {
+                if (item.Content.ToString() == puestoEmpleado)
+                {
+                    // Establecer el elemento correspondiente como seleccionado en el ComboBox
+                    cmbPuesto.SelectedItem = item;
+                    break;
+                }
+            }
+
+            foreach (ComboBoxItem item in cmbEstado.Items)
+            {
+                if (item.Content.ToString() == estadoEmpleado)
+                {
+                    // Establecer el elemento correspondiente como seleccionado en el ComboBox cmbEstado
+                    cmbEstado.SelectedItem = item;
+                    break;
+                }
+            }
         }
     }
 }

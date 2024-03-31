@@ -36,6 +36,7 @@ namespace Telecomunicaciones_Sistema
         public Window7(bool esModificacion)
         {
             InitializeComponent();
+            MostrarNuevoID();
             this.esModificacion = esModificacion;
             if (esModificacion)
             {
@@ -45,6 +46,9 @@ namespace Telecomunicaciones_Sistema
             {
                 lblNom.Content = "Agregar un nuevo cliente"; // Cambia el título de la ventana si se está agregando
             }
+
+            // Inicializar NuevoCliente
+            NuevoCliente = new Clientes();
         }
 
         // Constructor sobrecargado para la ventana de agregar o modificar cliente, recibiendo el cliente a modificar
@@ -71,6 +75,18 @@ namespace Telecomunicaciones_Sistema
                 lblNom.Content = "Agregar un nuevo cliente";
             }
         }
+
+        private void MostrarNuevoID()
+        {
+            if (!esModificacion)
+            {
+                // Obtener el nuevo ID generado
+                int nuevoID = GenerarNuevoID();
+                // Asignar el nuevo ID al campo txtIDC
+                txtIDC.Text = nuevoID.ToString();
+            }
+        }
+
 
         // Constructor 
         public Window7(bool esModificacion, bool esOtraModificacion)
@@ -111,6 +127,20 @@ namespace Telecomunicaciones_Sistema
                     return;
                 }
 
+                if (!esModificacion && ClienteDAL.ClienteDI(txtIDC.Text, txtNombreC.Text, txtApellidoC.Text, txtCorreoC.Text, txtTelefonoC.Text, txtDireccionC.Text))
+                {
+                    MessageBox.Show("Ya existe un cliente con la misma información en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                // Verificar si algún campo del cliente está vacío
+                // Verificar si algún campo del cliente está vacío
+                if (Validaciones.CamposClienteVacios(txtNombreC.Text, txtApellidoC.Text, txtTelefonoC.Text, txtCorreoC.Text, txtDireccionC.Text))
+                {
+                    MessageBox.Show("Todos los campos del cliente deben llenarse.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
                 // Si estamos en modo modificación y el cliente existe, actualizar los datos del cliente
                 if (esModificacion && clienteExistente)
                 {
@@ -123,13 +153,6 @@ namespace Telecomunicaciones_Sistema
                         Correo = txtCorreoC.Text,
                         ID_Dirección = txtDireccionC.Text
                     };
-
-                    // Verificar si algún campo del cliente está vacío
-                    if (Validaciones.CamposClienteVacios(NuevoCliente))
-                    {
-                        MessageBox.Show("Todos los campos del cliente deben llenarse.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                        return;
-                    }
 
                     // Verificar si el texto del campo de teléfono es un número válido
                     if (!decimal.TryParse(txtTelefonoC.Text, out decimal telefonoDecimal))
@@ -171,14 +194,6 @@ namespace Telecomunicaciones_Sistema
                         ID_Dirección = txtDireccionC.Text
                     };
 
-                    // Verificar si algún campo del cliente está vacío
-                    if (Validaciones.CamposClienteVacios(NuevoCliente))
-                    {
-                        MessageBox.Show("Todos los campos del cliente deben llenarse.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                        return;
-                    }
-
-                    // Verificar si el texto del campo de teléfono es un número válido
                     // Verificar si el texto del campo de teléfono es un número válido
                     if (!decimal.TryParse(txtTelefonoC.Text, out decimal telefonoDecimal))
                     {
@@ -247,6 +262,21 @@ namespace Telecomunicaciones_Sistema
         {
             this.Hide();
             Window2 frmPr = new Window2();
+        }
+        private int GenerarNuevoID()
+        {
+            int nuevoID = 0;
+            try
+            {
+                // Simplemente puedes obtener la cantidad actual de clientes y sumarle 1 para generar el nuevo ID
+                int cantidadClientes = ClienteDAL.ObtenerCantidadClientes();
+                nuevoID = cantidadClientes + 1;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al generar el nuevo ID: " + ex.Message);
+            }
+            return nuevoID;
         }
     }
 }

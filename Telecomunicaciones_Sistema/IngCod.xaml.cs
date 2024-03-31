@@ -26,6 +26,7 @@ namespace Telecomunicaciones_Sistema
         private RestCon winRestCon; // Referencia a la ventana RestCon
         private CamCon winCamCon; // Referencia a la ventana CamCon
         private bool esRestablecer; // Indica si se está restableciendo la contraseña o cambiándola
+        private DateTime codigoGeneradoTime; // Almacenar la fecha y hora de generación del código
 
         // Constructor de la ventana IngCod
         public IngCod(string codigo, string correo, string usuario, int userId, bool esRestablecer)
@@ -37,6 +38,7 @@ namespace Telecomunicaciones_Sistema
             this.usuario = usuario;
             this.esRestablecer = esRestablecer; // Asigna el valor de esRestablecer al campo correspondiente
             InitializeWindowEvents(); // Inicializa los eventos de la ventana
+            codigoGeneradoTime = DateTime.Now; // Almacena la fecha y hora actual al momento de generar el código
         }
 
         // Inicializa los eventos de la ventana
@@ -86,6 +88,19 @@ namespace Telecomunicaciones_Sistema
             // Verifica si el código ingresado coincide con el código recibido
             if (txtCod.Text == codRec)
             {
+                // Calcula la diferencia de tiempo entre el momento actual y el momento de generación del código
+                TimeSpan diferenciaTiempo = DateTime.Now - codigoGeneradoTime;
+                
+                // Define el tiempo de vida útil del código en minutos (por ejemplo, 10 minutos)
+                int tiempoVidaCodigo = 5;
+
+                if (diferenciaTiempo.TotalMinutes > tiempoVidaCodigo)
+                {
+                    // Muestra un mensaje de error si el código ha caducado
+                    MessageBox.Show("El código ha caducado. Por favor, solicita un nuevo código.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
                 if (esRestablecer)
                 {
                     // Abre la ventana para restablecer la contraseña (RestCon)
@@ -147,6 +162,5 @@ namespace Telecomunicaciones_Sistema
                 MessageBox.Show("Error al reenviar el correo electrónico: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
     }
 }
