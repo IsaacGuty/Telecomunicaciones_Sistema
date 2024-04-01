@@ -87,7 +87,6 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
-
         // Constructor 
         public Window7(bool esModificacion, bool esOtraModificacion)
         {
@@ -127,15 +126,29 @@ namespace Telecomunicaciones_Sistema
                     return;
                 }
 
-                if (!esModificacion && ClienteDAL.ClienteDI(txtIDC.Text, txtNombreC.Text, txtApellidoC.Text, txtCorreoC.Text, txtTelefonoC.Text, txtDireccionC.Text))
+                // Obtener el valor seleccionado del ComboBox y convertirlo a string
+                ComboBoxItem itemSeleccionado = (ComboBoxItem)cmbDire.SelectedItem;
+                string direccion = itemSeleccionado?.Content?.ToString();
+
+                // Verificar si se seleccionó una dirección
+                if (string.IsNullOrEmpty(direccion))
+                {
+                    MessageBox.Show("Por favor, seleccione una dirección.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                // Extraer solo el número de la dirección
+                string[] partesDireccion = direccion.Split('-');
+                string numeroDireccion = partesDireccion[0].Trim();
+
+                if (!esModificacion && ClienteDAL.ClienteDI(txtIDC.Text, txtNombreC.Text, txtApellidoC.Text, txtCorreoC.Text, txtTelefonoC.Text, numeroDireccion))
                 {
                     MessageBox.Show("Ya existe un cliente con la misma información en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
                 // Verificar si algún campo del cliente está vacío
-                // Verificar si algún campo del cliente está vacío
-                if (Validaciones.CamposClienteVacios(txtNombreC.Text, txtApellidoC.Text, txtTelefonoC.Text, txtCorreoC.Text, txtDireccionC.Text))
+                if (Validaciones.CamposClienteVacios(txtNombreC.Text, txtApellidoC.Text, txtTelefonoC.Text, txtCorreoC.Text, numeroDireccion))
                 {
                     MessageBox.Show("Todos los campos del cliente deben llenarse.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
@@ -151,7 +164,7 @@ namespace Telecomunicaciones_Sistema
                         Nombre = txtNombreC.Text,
                         Apellido = txtApellidoC.Text,
                         Correo = txtCorreoC.Text,
-                        ID_Dirección = txtDireccionC.Text
+                        ID_Dirección = numeroDireccion
                     };
 
                     // Verificar si el texto del campo de teléfono es un número válido
@@ -191,7 +204,7 @@ namespace Telecomunicaciones_Sistema
                         Nombre = txtNombreC.Text,
                         Apellido = txtApellidoC.Text,
                         Correo = txtCorreoC.Text,
-                        ID_Dirección = txtDireccionC.Text
+                        ID_Dirección = numeroDireccion
                     };
 
                     // Verificar si el texto del campo de teléfono es un número válido
@@ -241,6 +254,7 @@ namespace Telecomunicaciones_Sistema
             this.Close();
         }
 
+
         // Método invocado cuando se agrega un cliente, activa el evento ClienteAgregado
         private void OnClienteAgregado()
         {
@@ -255,22 +269,38 @@ namespace Telecomunicaciones_Sistema
             txtApellidoC.Text = clienteSeleccionado.Apellido;
             txtCorreoC.Text = clienteSeleccionado.Correo;
             txtTelefonoC.Text = clienteSeleccionado.Teléfono;
-            txtDireccionC.Text = clienteSeleccionado.ID_Dirección;
-        }
 
+            // Obtener el valor actual del campo de dirección del cliente seleccionado
+            string direccionSeleccionada = clienteSeleccionado.ID_Dirección;
+
+            // Iterar sobre los elementos del ComboBox para seleccionar el que coincida con la dirección del cliente seleccionado
+            foreach (ComboBoxItem item in cmbDire.Items)
+            {
+                string direccion = item.Content?.ToString().Split('-')[0].Trim(); // Obtener solo el número de dirección
+                if (direccion == direccionSeleccionada)
+                {
+                    // Establecer este elemento como seleccionado en el ComboBox
+                    cmbDire.SelectedItem = item;
+                    break; // Salir del bucle una vez que se haya encontrado la dirección correcta
+                }
+            }
+        }
+       
         private void BtnRegresar_Click(object sender, RoutedEventArgs e)
         {
             this.Hide();
             Window2 frmPr = new Window2();
         }
+
         private int GenerarNuevoID()
         {
             int nuevoID = 0;
             try
             {
-                // Simplemente puedes obtener la cantidad actual de clientes y sumarle 1 para generar el nuevo ID
-                int cantidadClientes = ClienteDAL.ObtenerCantidadClientes();
-                nuevoID = cantidadClientes + 1;
+                // Obtener el último ID registrado en la base de datos
+                int ultimoIDRegistrado = ClienteDAL.ObtenerUltimoIDRegistrado();
+                // Sumar 1 al último ID para obtener el nuevo ID
+                nuevoID = ultimoIDRegistrado + 1;
             }
             catch (Exception ex)
             {

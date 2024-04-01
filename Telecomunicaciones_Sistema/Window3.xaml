@@ -27,16 +27,17 @@
             <ColumnDefinition Width="0*"/>
             <ColumnDefinition Width="480*"/>
         </Grid.ColumnDefinitions>
-        <Button x:Name="BtnModificar" Content="Modificar" Grid.Column="1" HorizontalAlignment="Left" Margin="196,114.4,0,0" VerticalAlignment="Top" Width="75" FontWeight="Bold" FontFamily="Times New Roman" FontSize="14" Grid.Row="1" Grid.ColumnSpan="3" Click="BtnModificar_Click"/>
-        <Button x:Name="btnRegresar" Content="Regresar" Grid.Column="3" HorizontalAlignment="Left" Margin="171.4,114.4,0,0" VerticalAlignment="Top" Width="75" FontWeight="Bold" FontFamily="Times New Roman" FontSize="14" Click="BtnRegresar_Click" Grid.Row="1" RenderTransformOrigin="1.021,0.51"/>
-        <DataGrid x:Name="DatGridP" AutoGenerateColumns ="True" HorizontalAlignment="Left" Height="218" Margin="24,151,0,0" VerticalAlignment="Top" Width="629" Grid.ColumnSpan="3" Grid.RowSpan="2" Grid.Column="1" SelectionChanged="DatGridP_SelectionChanged"/>
+        <Button x:Name="BtnModificar" Content="Modificar" Grid.Column="1" HorizontalAlignment="Left" Margin="249,115.4,0,0" VerticalAlignment="Top" Width="75" FontWeight="Bold" FontFamily="Times New Roman" FontSize="14" Grid.Row="1" Click="BtnModificar_Click" Grid.ColumnSpan="3"/>
+        <Button x:Name="btnRegresar" Content="Regresar" Grid.Column="3" HorizontalAlignment="Left" Margin="226.4,115.4,0,0" VerticalAlignment="Top" Width="75" FontWeight="Bold" FontFamily="Times New Roman" FontSize="14" Click="BtnRegresar_Click" Grid.Row="1" RenderTransformOrigin="1.021,0.51"/>
+        <DataGrid x:Name="DatGridP" AutoGenerateColumns ="True" HorizontalAlignment="Left" Height="218" Margin="73,152,0,0" VerticalAlignment="Top" Width="522" Grid.ColumnSpan="3" Grid.RowSpan="2" Grid.Column="1" SelectionChanged="DatGridP_SelectionChanged"/>
         <TextBox x:Name="txtBuscar" HorizontalAlignment="Left" Height="23" Margin="123.4,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="165" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Grid.Column="3"/>
         <Button x:Name="BtnBuscar" HorizontalAlignment="Left" Margin="304.4,86,0,0" VerticalAlignment="Top" Width="56" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Height="28" Grid.Column="3" Click="BtnBuscar_Click">
             <Image x:Name="Buscar" Height="23" Source="buscar.png" Stretch="Fill" Width="24"/>
         </Button>
         <Label Content="Pagos" HorizontalAlignment="Left" Margin="73,56,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="24" FontWeight="Bold" Width="246" Grid.ColumnSpan="3" Grid.Column="1"/>
         <Image Margin="15,45,188.8,190.4" Source="logoTele.png" Stretch="Fill" Grid.ColumnSpan="2"/>
-        <Button x:Name="BtnLimpiar" Content="Limpiar" Grid.Column="3" HorizontalAlignment="Left" Margin="56.4,114.4,0,0" VerticalAlignment="Top" Width="75" FontWeight="Bold" FontFamily="Times New Roman" FontSize="14" Grid.Row="1" Click="BtnLimpiar_Click"/>
+        <Button x:Name="BtnLimpiar" Content="Limpiar" Grid.Column="3" HorizontalAlignment="Left" Margin="111.4,115.4,0,0" VerticalAlignment="Top" Width="75" FontWeight="Bold" FontFamily="Times New Roman" FontSize="14" Grid.Row="1" Click="BtnLimpiar_Click"/>
+        <Button x:Name="btnAgregar" Content="Agregar" HorizontalAlignment="Left" Margin="127,115.4,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnAgregar_Click" Grid.Column="1" Grid.Row="1"/>
 
     </Grid>
 </Window>

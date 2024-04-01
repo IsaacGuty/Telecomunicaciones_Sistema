@@ -21,6 +21,7 @@ namespace Telecomunicaciones_Sistema
     /// </summary>
     public partial class Window3 : Window
     {
+        private Window9 ventana9;
         // Estructura para representar los pagos
         public static Pagos PagoSeleccionado { get; set; }
 
@@ -30,35 +31,32 @@ namespace Telecomunicaciones_Sistema
             InitializeComponent();
             Conn = BD.ObtenerConexion();
             CargarDatos();
+            ventana9 = new Window9();
         }
 
         // Clase para el diálogo de nuevo pago
         public partial class NuevoPagoDialog : Window
         {
             // Propiedades para los datos del nuevo pago
+            public string ID_Pago { get; set; }
             public string ID_Cliente { get; set; }
-            public string Nombre { get; set; }
-            public string Apellido { get; set; }
-            public string Dirección { get; set; }
-            public string Teléfono { get; set; }
-            public string Servicio { get; set; }
-            public string Monto { get; set; }
+            public decimal Monto { get; set; }
+            public string ID_TpServicio { get; set; }
             public string MesPagado { get; set; }
-            public string Nombre_E { get; set; }
+            public decimal Fecha { get; set; }
+            public string ID_Empleado { get; set; }
         }
 
         // Estructura para representar los pagos
         public struct Pagos
         {
+            public string ID_Pago;
             public string ID_Cliente;
-            public string Nombre;
-            public string Apellido;
-            public string Dirección;
-            public string Teléfono;
-            public string Servicio;
             public string Monto;
+            public string ID_TpServicio;
             public string MesPagado;
-            public string Nombre_E;
+            public string Fecha;
+            public string ID_Empleado;
         }
 
         // Conexión a la base de datos y variable de control para la ventana principal
@@ -101,7 +99,7 @@ namespace Telecomunicaciones_Sistema
             {
                 // Abrir la ventana para agregar un nuevo pago
                 Window9 frmAg = new Window9();
-                frmAg.Closed += (s, args) => CargarDatos();
+                frmAg.PagoModificado += (s, args) => CargarDatos(); // Suscribirse al evento PagoModificado
                 frmAg.Show();
             }
         }
@@ -129,15 +127,13 @@ namespace Telecomunicaciones_Sistema
 
                 PagoSeleccionado = new Pagos
                 {
+                    ID_Pago = rowView["ID_Pago"].ToString(),
                     ID_Cliente = rowView["ID_Cliente"].ToString(),
-                    Nombre = rowView["Nombre"].ToString(),
-                    Apellido = rowView["Apellido"].ToString(),
-                    Dirección = rowView["Dirección"].ToString(),
-                    Teléfono = rowView["Teléfono"].ToString(),
-                    Servicio = rowView["Servicio"].ToString(),
+                    ID_TpServicio = rowView["ID_TpServicio"].ToString(),
                     Monto = rowView["Monto"].ToString(),
                     MesPagado = rowView["Mes_Pagado"].ToString(),
-                    Nombre_E = rowView["Nombre_E"].ToString()
+                    Fecha = rowView["Fecha"].ToString(),
+                    ID_Empleado = rowView["ID_Empleado"].ToString()
                 };
             }
             else
@@ -148,22 +144,19 @@ namespace Telecomunicaciones_Sistema
 
         private void BtnModificar_Click(object sender, RoutedEventArgs e)
         {
-            // Solicitar la modificación de un pago si se seleccionó uno
-            MessageBoxResult result = MessageBox.Show("Por favor, ingrese la modificación del pago.", "Modificación", MessageBoxButton.OKCancel);
-
-            if (result == MessageBoxResult.OK)
+            // Verificar si hay un pago seleccionado
+            if (!PagoSeleccionado.Equals(default(Window3.Pagos)))
             {
-                if (!PagoSeleccionado.Equals(default(Pagos)))
-                {
-                    // Abrir la ventana de modificación de pago si se seleccionó un pago
-                    Window9 frmMd = new Window9(PagoSeleccionado);
-                    frmMd.PagoModificado += ActualizarDatosPago;
-                    frmMd.ShowDialog();
-                }
-                else
-                {
-                    MessageBox.Show("No se ha seleccionado ningún cliente.");
-                }
+                // Mostrar la ventana9 para modificar el pago seleccionado
+                ventana9 = new Window9(PagoSeleccionado, true); // Aquí se está pasando true como indicador de modificación
+                ventana9.PagoModificado += ActualizarDatosPago;
+                ventana9.Closed += (s, args) => CargarDatos(); // Refrescar los datos del DataGrid cuando se cierre la ventana 9
+                ventana9.Show();
+            }
+            else
+            {
+                // Mostrar un mensaje si no se ha seleccionado ningún pago
+                MessageBox.Show("No se ha seleccionado ningún pago.");
             }
         }
 
@@ -171,6 +164,11 @@ namespace Telecomunicaciones_Sistema
         private void ActualizarDatosPago(object sender, EventArgs e)
         {
             CargarDatos();
+        }
+
+        private void BtnAgregar_Click(object sender, RoutedEventArgs e)
+        {
+            SolicitarInformacionPago();
         }
     }
 }

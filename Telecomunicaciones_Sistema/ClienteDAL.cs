@@ -5,18 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data;
+using System.Windows;
 
 namespace Telecomunicaciones_Sistema
 {
     public static class ClienteDAL
     {
-        private static string connectionString = "Data source = DESKTOP-KIBLMD6\\SQLEXPRESS; Initial catalog = TelecomunicacionesBD; Integrated security = true";
-
         public static DataTable ObtenerTodosClientes()
         {
             DataTable dataTable = new DataTable();
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = BD.ObtenerConexion())
             {
                 connection.Open();
                 string query = "SELECT * FROM Cliente";
@@ -30,7 +29,7 @@ namespace Telecomunicaciones_Sistema
         public static DataTable BuscarCliente(string cID_Cliente)
         {
             DataTable dataTable = new DataTable();
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = BD.ObtenerConexion())
             {
                 connection.Open();
                 SqlCommand comando = new SqlCommand(string.Format(
@@ -45,7 +44,7 @@ namespace Telecomunicaciones_Sistema
 
         public static int ObtenerCantidadClientes()
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = BD.ObtenerConexion())
             {
                 connection.Open();
                 SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM Cliente", connection);
@@ -55,7 +54,7 @@ namespace Telecomunicaciones_Sistema
 
         public static void ActualizarCliente(Clientes cliente)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = BD.ObtenerConexion())
             {
                 connection.Open();
                 SqlCommand cmd = new SqlCommand("UPDATE Cliente SET Nombre = @Nombre, Apellido = @Apellido, Teléfono = @Teléfono, Correo = @Correo, ID_Dirección = @ID_Dirección WHERE ID_Cliente = @ID_Cliente", connection);
@@ -71,27 +70,31 @@ namespace Telecomunicaciones_Sistema
 
         public static void AgregarCliente(Clientes cliente)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            try
             {
-                connection.Open();
-                SqlCommand cmd = new SqlCommand("INSERT INTO Cliente (Nombre, Apellido, Teléfono, Correo, ID_Dirección) VALUES (@Nombre, @Apellido, @Teléfono, @Correo, @ID_Dirección); SELECT SCOPE_IDENTITY();", connection);
-                cmd.Parameters.AddWithValue("@Nombre", cliente.Nombre);
-                cmd.Parameters.AddWithValue("@Apellido", cliente.Apellido);
-                cmd.Parameters.AddWithValue("@Teléfono", cliente.Teléfono);
-                cmd.Parameters.AddWithValue("@Correo", cliente.Correo);
-                cmd.Parameters.AddWithValue("@ID_Dirección", cliente.ID_Dirección);
+                using (SqlConnection connection = BD.ObtenerConexion())
+                {
+                    connection.Open();
+                    SqlCommand cmd = new SqlCommand("INSERT INTO Cliente (Nombre, Apellido, Teléfono, Correo, ID_Dirección) VALUES (@Nombre, @Apellido, @Teléfono, @Correo, @ID_Dirección)", connection);
+                    cmd.Parameters.AddWithValue("@Nombre", cliente.Nombre);
+                    cmd.Parameters.AddWithValue("@Apellido", cliente.Apellido);
+                    cmd.Parameters.AddWithValue("@Teléfono", cliente.Teléfono);
+                    cmd.Parameters.AddWithValue("@Correo", cliente.Correo);
+                    cmd.Parameters.AddWithValue("@ID_Dirección", cliente.ID_Dirección);
 
-                // Obtener el ID generado automáticamente
-                int nuevoID = Convert.ToInt32(cmd.ExecuteScalar());
-
-                // Asignar el nuevo ID al cliente
-                cliente.ID_Cliente = nuevoID.ToString();
+                    // Ejecutar el comando de inserción
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al agregar el cliente: " + ex.Message);
             }
         }
 
         public static bool ClienteExiste(string idCliente)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = BD.ObtenerConexion())
             {
                 connection.Open();
                 SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM Cliente WHERE ID_Cliente = @ID_Cliente", connection);
@@ -103,7 +106,7 @@ namespace Telecomunicaciones_Sistema
 
         public static bool ClienteDI(string idCliente, string nombre, string apellido, string correo, string telefono, string direccion)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = BD.ObtenerConexion())
             {
                 connection.Open();
                 SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM Cliente WHERE ID_Cliente != @ID_Cliente AND Nombre = @Nombre AND Apellido = @Apellido AND Correo = @Correo AND Teléfono = @Teléfono AND ID_Dirección = @Direccion", connection);
@@ -116,6 +119,36 @@ namespace Telecomunicaciones_Sistema
                 int count = (int)cmd.ExecuteScalar();
                 return count > 0; // Devuelve true si se encuentra al menos un cliente con los mismos datos personales pero ID diferente
             }
+        }
+
+        public static int ObtenerUltimoIDRegistrado()
+        {
+            int ultimoID = 0;
+            try
+            {
+                using (SqlConnection connection = BD.ObtenerConexion())
+                {
+                    // Abre la conexión
+                    connection.Open();
+
+                    // Crea un comando SQL para obtener el último ID registrado
+                    SqlCommand command = new SqlCommand("SELECT MAX(ID_Cliente) FROM Cliente", connection);
+
+                    // Ejecuta el comando y obtén el resultado
+                    object result = command.ExecuteScalar();
+
+                    // Verifica si el resultado no es nulo y si es un número entero
+                    if (result != DBNull.Value && int.TryParse(result.ToString(), out int id))
+                    {
+                        ultimoID = id;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al obtener el último ID registrado: " + ex.Message);
+            }
+            return ultimoID;
         }
     }
 }

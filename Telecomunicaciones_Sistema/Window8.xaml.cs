@@ -94,43 +94,57 @@ namespace Telecomunicaciones_Sistema
                 string idEmpleado = txtIDE.Text;
 
                 // Verificar si el ID del empleado ya existe en la base de datos
-                bool EmpleadoExistente = EmpleadoDAL.EmpleadoExiste(idEmpleado);
+                bool empleadoExistente = EmpleadoDAL.EmpleadoExiste(idEmpleado);
 
                 // Si estamos en modo modificación y el empleado no existe, mostrar un mensaje de error
-                if (esModificacion && !EmpleadoExistente)
+                if (esModificacion && !empleadoExistente)
                 {
-                    MessageBox.Show("El cliente con este ID no existe en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("El empleado con este ID no existe en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
-                if (!esModificacion && EmpleadoDAL.EmpleadoDI(txtNombreE.Text, txtApellidoE.Text, txtCorreoE.Text, txtTelefonoE.Text, txtDireccionE.Text))
+                // Obtener el valor seleccionado del ComboBox y convertirlo a string
+                ComboBoxItem itemSeleccionado = (ComboBoxItem)cmbDireccion.SelectedItem;
+                string direccion = itemSeleccionado?.Content?.ToString();
+
+                // Verificar si se seleccionó una dirección
+                if (string.IsNullOrEmpty(direccion))
                 {
-                    MessageBox.Show("Ya existe un cliente con la misma información en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Por favor, seleccione una dirección.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                // Extraer solo el número de la dirección
+                string[] partesDireccion = direccion.Split('-');
+                string numeroDireccion = partesDireccion[0].Trim();
+
+                if (!esModificacion && EmpleadoDAL.EmpleadoDI(txtNombreE.Text, txtApellidoE.Text, txtCorreoE.Text, txtTelefonoE.Text, numeroDireccion))
+                {
+                    MessageBox.Show("Ya existe un empleado con la misma información en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                // Verificar si algún campo del empleado está vacío
+                if (Validaciones.CamposEmpleadosVacios(txtIDE.Text, txtNombreE.Text, txtApellidoE.Text, txtTelefonoE.Text, txtCorreoE.Text, numeroDireccion))
+                {
+                    MessageBox.Show("Todos los campos del empleado deben llenarse.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
                 // Si estamos en modo modificación y el empleado existe, actualizar los datos del empleado
-                if (esModificacion && EmpleadoExistente)
+                if (esModificacion && empleadoExistente)
                 {
-                    string puestoSeleccionado = cmbPuesto.SelectedItem?.ToString();
-                    // Crear el objeto NuevoCliente con los datos modificados
+                    // Crear el objeto NuevoEmpleado con los datos modificados
                     NuevoEmpleado = new Empleados
                     {
                         ID_Empleado = idEmpleado,
                         Nombre_E = txtNombreE.Text,
                         Apellido_E = txtApellidoE.Text,
                         Correo_E = txtCorreoE.Text,
-                        ID_Dirección = txtDireccionE.Text,
+                        ID_Dirección = numeroDireccion,
                         Puesto = (cmbPuesto.SelectedItem as ComboBoxItem)?.Content.ToString(),
                         Estado = (cmbEstado.SelectedItem as ComboBoxItem)?.Content.ToString(),
                     };
-
-                    // Verificar si algún campo del empleado está vacío
-                    if (Validaciones.CamposEmpleadosVacios(NuevoEmpleado))
-                    {
-                        MessageBox.Show("Todos los campos del cliente deben llenarse.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                        return;
-                    }
 
                     // Verificar si el texto del campo de teléfono es un número válido
                     if (!decimal.TryParse(txtTelefonoE.Text, out decimal telefonoDecimal))
@@ -160,8 +174,9 @@ namespace Telecomunicaciones_Sistema
                     MessageBox.Show("Empleado modificado correctamente.");
                 }
                 // Si estamos en modo agregado y el empleado no existe, agregar el nuevo empleado
-                else if (!esModificacion && !EmpleadoExistente)
+                else if (!esModificacion && !empleadoExistente)
                 {
+                    // Crear el objeto NuevoEmpleado con los datos del nuevo empleado
                     // Crear el objeto NuevoEmpleado con los datos del nuevo empleado
                     NuevoEmpleado = new Empleados
                     {
@@ -169,17 +184,10 @@ namespace Telecomunicaciones_Sistema
                         Nombre_E = txtNombreE.Text,
                         Apellido_E = txtApellidoE.Text,
                         Correo_E = txtCorreoE.Text,
-                        ID_Dirección = txtDireccionE.Text,
+                        ID_Dirección = numeroDireccion,
                         Puesto = (cmbPuesto.SelectedItem as ComboBoxItem)?.Content.ToString(),
-                        Estado = (cmbEstado.SelectedItem as ComboBoxItem)?.Content.ToString(),
+                        Estado = "Activo", // Establecer el estado como "Activo" por defecto
                     };
-
-                    // Verificar si algún campo del empleado está vacío
-                    if (Validaciones.CamposEmpleadosVacios(NuevoEmpleado))
-                    {
-                        MessageBox.Show("Todos los campos del empleado deben llenarse.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                        return;
-                    }
 
                     // Verificar si el texto del campo de teléfono es un número válido
                     if (!decimal.TryParse(txtTelefonoE.Text, out decimal telefonoDecimal))
@@ -212,7 +220,7 @@ namespace Telecomunicaciones_Sistema
                     OnEmpleadoAgregado();
                 }
                 // Si estamos en modo agregado y el cliente ya existe, mostrar un mensaje de error
-                else if (!esModificacion && EmpleadoExistente)
+                else if (!esModificacion && empleadoExistente)
                 {
                     MessageBox.Show("El empleado con este ID ya existe en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
@@ -249,7 +257,7 @@ namespace Telecomunicaciones_Sistema
             txtApellidoE.Text = empleadoSeleccionado.Apellido_E;
             txtCorreoE.Text = empleadoSeleccionado.Correo_E;
             txtTelefonoE.Text = empleadoSeleccionado.Teléfono_E;
-            txtDireccionE.Text = empleadoSeleccionado.ID_Dirección;
+            cmbDireccion.Text = empleadoSeleccionado.ID_Dirección;
 
             // Obtener el puesto del empleado seleccionado
             string puestoEmpleado = empleadoSeleccionado.Puesto;

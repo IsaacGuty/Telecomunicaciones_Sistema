@@ -15,10 +15,10 @@ namespace Telecomunicaciones_Sistema
         {
             try
             {
-                using (SqlConnection Conn = new SqlConnection("Data source = DESKTOP-KIBLMD6\\SQLEXPRESS; Initial catalog = TelecomunicacionesBD; Integrated security = true"))
+                using (SqlConnection Conn = BD.ObtenerConexion())
                 {
                     Conn.Open();
-                    string query = "SELECT c.Nombre, c.Apellido, d.Dirección, c.Teléfono, s.Servicio FROM Clientes c JOIN Dirección d ON d.ID_Dirección = c.ID_Dirección JOIN Pago p ON p.ID_Cliente = c.ID_Cliente JOIN Servicios s ON s.ID_Servicio = p.ID_TpServicio";
+                    string query = "SELECT c.Nombre, c.Apellido, d.Dirección, c.Teléfono, s.Servicio FROM Cliente c JOIN Dirección d ON d.ID_Dirección = c.ID_Dirección JOIN Pagos p ON p.ID_Cliente = c.ID_Cliente JOIN Servicios s ON s.ID_Servicio = p.ID_TpServicio";
                     SqlDataAdapter adapter = new SqlDataAdapter(query, Conn);
                     DataTable dataTable = new DataTable();
                     adapter.Fill(dataTable);
@@ -35,10 +35,10 @@ namespace Telecomunicaciones_Sistema
         {
             try
             {
-                using (SqlConnection Conn = new SqlConnection("Data source = DESKTOP-KIBLMD6\\SQLEXPRESS; Initial catalog = TelecomunicacionesBD; Integrated security = true"))
+                using (SqlConnection Conn = BD.ObtenerConexion())
                 {
                     Conn.Open();
-                    string query = "SELECT c.Nombre, c.Apellido, d.Dirección, c.Teléfono, s.Servicio FROM Clientes c JOIN Dirección d ON d.ID_Dirección = c.ID_Dirección JOIN Pago p ON p.ID_Cliente = c.ID_Cliente JOIN Servicios s ON s.ID_Servicio = p.ID_TpServicio WHERE c.Nombre LIKE '%" + criterio + "%'";
+                    string query = "SELECT c.Nombre, c.Apellido, d.Dirección, c.Teléfono, s.Servicio FROM Cliente c JOIN Dirección d ON d.ID_Dirección = c.ID_Dirección JOIN Pagos p ON p.ID_Cliente = c.ID_Cliente JOIN Servicios s ON s.ID_Servicio = p.ID_TpServicio WHERE c.Nombre LIKE '%" + criterio + "%'";
                     SqlDataAdapter adapter = new SqlDataAdapter(query, Conn);
                     DataTable dataTable = new DataTable();
                     adapter.Fill(dataTable);

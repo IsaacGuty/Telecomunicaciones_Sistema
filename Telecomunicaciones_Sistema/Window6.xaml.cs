@@ -148,18 +148,11 @@ namespace Telecomunicaciones_Sistema
             {
                 if (!EmpleadoSeleccionado.Equals(default(Empleados)))
                 {
-                    if (ventana8 == null || !ventana8.IsVisible) // Verifica si la ventan8 ya está abierta
-                    {
-                        // Abre la ventana7 para modificar el cliente seleccionado
-                        ventana8 = new Window8(EmpleadoSeleccionado, true);
-                        ventana8.EmpleadoModificado += ActualizarDatosEmpleado;
-                        ventana8.Closed += (s, args) => CargarDatos(); // Refrescar los datos del DataGrid cuando se cierre la ventana 8
-                        ventana8.Show();
-                    }
-                    else
-                    {
-                        ventana8.Activate(); // Muestra la ventana si ya está abierta
-                    }
+                    // Crear una nueva ventana8 para modificar el cliente seleccionado
+                    ventana8 = new Window8(EmpleadoSeleccionado, true);
+                    ventana8.EmpleadoModificado += ActualizarDatosEmpleado;
+                    ventana8.Closed += (s, args) => CargarDatos(); // Refrescar los datos del DataGrid cuando se cierre la ventana 8
+                    ventana8.Show();
                 }
                 else
                 {

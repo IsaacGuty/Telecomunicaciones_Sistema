@@ -250,16 +250,14 @@ namespace Telecomunicaciones_Sistema
             return telefono.Length == 8 && (telefono.StartsWith("3") || telefono.StartsWith("8") || telefono.StartsWith("9"));
         }
 
-        public static bool CamposEmpleadosVacios(Empleados empleado)
+        public static bool CamposEmpleadosVacios(string idEmpleado, string nombre, string apellido, string telefono, string correo, string direccion)
         {
-            return string.IsNullOrWhiteSpace(empleado.ID_Empleado) ||
-                   string.IsNullOrWhiteSpace(empleado.Nombre_E) ||
-                   string.IsNullOrWhiteSpace(empleado.Apellido_E) ||
-                   string.IsNullOrWhiteSpace(empleado.Teléfono_E.ToString()) ||
-                   string.IsNullOrWhiteSpace(empleado.Correo_E) ||
-                   string.IsNullOrWhiteSpace(empleado.ID_Dirección) ||
-                   string.IsNullOrWhiteSpace(empleado.Puesto) ||
-                   string.IsNullOrWhiteSpace(empleado.Estado);
+            return string.IsNullOrWhiteSpace(idEmpleado) ||
+                   string.IsNullOrWhiteSpace(nombre) ||
+                   string.IsNullOrWhiteSpace(apellido) ||
+                   string.IsNullOrWhiteSpace(telefono) ||
+                   string.IsNullOrWhiteSpace(correo) ||
+                   string.IsNullOrWhiteSpace(direccion);
         }
     }
 }

@@ -16,29 +16,33 @@
     </Window.Resources>
 
     <Grid>
-        <Label Content="ID:" HorizontalAlignment="Left" Margin="138,97,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
-        <TextBox x:Name="txtIDC" HorizontalAlignment="Left" Height="23" Margin="305,100,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14"/>
-        <Label Content="Nombre:" HorizontalAlignment="Left" Margin="138,136,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
-        <TextBox x:Name="txtNombreC" HorizontalAlignment="Left" Height="23" Margin="305,139,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14"/>
-        <Label Content="Apellido:" HorizontalAlignment="Left" Margin="138,180,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
-        <TextBox x:Name="txtApellidoC" HorizontalAlignment="Left" Height="23" Margin="305,183,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14"/>
-        <Label Content="Dirección:" HorizontalAlignment="Left" Margin="138,223,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
-        <TextBox x:Name="txtDirecciónC" HorizontalAlignment="Left" Height="23" Margin="305,225,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14"/>
-        <Label Content="Teléfono:" HorizontalAlignment="Left" Margin="138,260,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
-        <TextBox x:Name="txtTeléfonoC" HorizontalAlignment="Left" Height="23" Margin="305,263,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14"/>
-        <Label Content="Servicio:" HorizontalAlignment="Left" Margin="138,297,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
-        <TextBox x:Name="txtServicio" HorizontalAlignment="Left" Height="23" Margin="305,300,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14"/>
-        <Label Content="Monto:" HorizontalAlignment="Left" Margin="138,338,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
-        <TextBox x:Name="txtMonto" HorizontalAlignment="Left" Height="23" Margin="305,338,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14"/>
-        <Label Content="Mes Pagado:" HorizontalAlignment="Left" Margin="138,372,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
-        <TextBox x:Name="txtMesP" HorizontalAlignment="Left" Height="23" Margin="305,375,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14"/>
-        <Button x:Name="btnAceptar" Content="Aceptar" HorizontalAlignment="Left" Margin="267,459,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnAceptar_Click" RenderTransformOrigin="0.544,-0.391"/>
-        <Label Content="Nombre del empleado:" HorizontalAlignment="Left" Margin="138,409,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
-        <TextBox x:Name="txtNombreE" HorizontalAlignment="Left" Height="23" Margin="305,412,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14"/>
-        <Label Content="Modificar pago" HorizontalAlignment="Left" Margin="108,40,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="24" FontWeight="Bold" Width="312"/>
+        <Label Content="ID:" HorizontalAlignment="Left" Margin="139,118,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
+        <TextBox x:Name="txtIDP" IsReadOnly="True" HorizontalAlignment="Left" Height="23" Margin="306,121,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14"/>
+        <Label Content="ID Cliente:" HorizontalAlignment="Left" Margin="139,157,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
+        <TextBox x:Name="txtIDC" IsReadOnly="True" HorizontalAlignment="Left" Height="23" Margin="306,160,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14"/>
+        <Label Content="ID Servicio:" HorizontalAlignment="Left" Margin="139,201,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
+        <ComboBox x:Name="cmbIDS" HorizontalAlignment="Left" Margin="306,201,0,0" VerticalAlignment="Top" Width="206" Height="25" FontFamily="Times New Roman" FontSize="14">
+            <ComboBoxItem>1 - Cable</ComboBoxItem>
+            <ComboBoxItem>2 - Internet 5MB</ComboBoxItem>
+            <ComboBoxItem>3 - Internet 8MB</ComboBoxItem>
+            <ComboBoxItem>4 - Internet 10MB</ComboBoxItem>
+            <ComboBoxItem>5 - Internet 15MB</ComboBoxItem>
+        </ComboBox>
+        <Label Content="Monto:" HorizontalAlignment="Left" Margin="139,240,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
+        <TextBox x:Name="txtMonto" HorizontalAlignment="Left" Height="23" Margin="306,244,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14"/>
+        <Label Content="Mes Pagado:" HorizontalAlignment="Left" Margin="139,277,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
+        <TextBox x:Name="txtMesP" HorizontalAlignment="Left" Height="23" Margin="306,280,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14"/>
+        <Label Content="Fecha:" HorizontalAlignment="Left" Margin="139,318,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
+        <TextBox x:Name="txtFecha" HorizontalAlignment="Left" Height="23" Margin="306,321,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14"/>
+        <Button x:Name="btnAceptar" Content="Aceptar" HorizontalAlignment="Left" Margin="265,445,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnAceptar_Click" RenderTransformOrigin="0.544,-0.391"/>
+        <Label Content="ID Empleado:" HorizontalAlignment="Left" Margin="139,363,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
+        <TextBox x:Name="txtNombreE" HorizontalAlignment="Left" Height="23" Margin="306,366,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14"/>
+        <Label x:Name="lblNom" Content="Agregar nuevo pago" HorizontalAlignment="Left" Margin="108,40,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="24" FontWeight="Bold" Width="312"/>
         <Image Margin="82,29,553.6,471" Source="logoTele.png" Stretch="Fill"/>
         <Image Margin="10,29,606.6,405.007" Source="logoTele.png" Stretch="Fill"/>
-        <Button x:Name="btnRegresar" Content="Regresar" HorizontalAlignment="Left" Margin="378,459,0,0" VerticalAlignment="Top" Width="87" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnRegresar_Click"/>
-
+        <Button x:Name="btnRegresar" Content="Regresar" HorizontalAlignment="Left" Margin="376,445,0,0" VerticalAlignment="Top" Width="87" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnRegresar_Click"/>
+        <Button x:Name="btnBusC" Click="BtnBusC_Click" HorizontalAlignment="Left" Margin="539,157,0,0" VerticalAlignment="Top" Width="40" FontFamily="Times New Roman" FontSize="14" Height="26">
+            <Image Source="Image5.png" Stretch="Fill" Height="23" Width="34"/>
+        </Button>
     </Grid>
 </Window>

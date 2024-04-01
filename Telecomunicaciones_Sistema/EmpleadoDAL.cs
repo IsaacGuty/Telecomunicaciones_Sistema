@@ -10,14 +10,12 @@ namespace Telecomunicaciones_Sistema
 {
     public static class EmpleadoDAL
     {
-        private static string connectionString = "Data source = DESKTOP-KIBLMD6\\SQLEXPRESS; Initial catalog = TelecomunicacionesBD; Integrated security = true";
-
         public static DataTable ObtenerTodosEmpleados()
         {
             DataTable dataTable = new DataTable();
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection connection = BD.ObtenerConexion())
                 {
                     connection.Open();
                     string query = "SELECT * FROM Empleados";
@@ -51,7 +49,7 @@ namespace Telecomunicaciones_Sistema
 
         public static void ActualizarEmpleado(Empleados empleado)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = BD.ObtenerConexion())
             {
                 connection.Open();
                 SqlCommand cmd = new SqlCommand("UPDATE Empleados SET Nombre_E = @Nombre_E, Apellido_E = @Apellido_E, Teléfono_E = @Teléfono_E, Correo_E = @Correo_E, ID_Dirección = @ID_Dirección, Puesto = @Puesto, Estado = @Estado WHERE ID_Empleado = @ID_Empleado", connection);
@@ -69,7 +67,7 @@ namespace Telecomunicaciones_Sistema
 
         public static void AgregarEmpleado(Empleados empleado)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = BD.ObtenerConexion())
             {
                 connection.Open();
                 SqlCommand cmd = new SqlCommand("INSERT INTO Empleados (ID_Empleado, Nombre_E, Apellido_E, Teléfono_E, Correo_E, ID_Dirección, Puesto, Estado) VALUES (@ID_Empleado, @Nombre_E, @Apellido_E, @Teléfono_E, @Correo_E, @ID_Dirección, @Puesto, @Estado)", connection);
@@ -80,14 +78,19 @@ namespace Telecomunicaciones_Sistema
                 cmd.Parameters.AddWithValue("@Correo_E", empleado.Correo_E);
                 cmd.Parameters.AddWithValue("@ID_Dirección", empleado.ID_Dirección);
                 cmd.Parameters.AddWithValue("@Puesto", empleado.Puesto);
-                cmd.Parameters.AddWithValue("@Estado", empleado.Estado);
+
+                // Verificar si el valor de Estado es null y asignar DBNull.Value en su lugar
+                object estadoValue = (object)empleado.Estado ?? DBNull.Value;
+                cmd.Parameters.AddWithValue("@Estado", estadoValue);
+
                 cmd.ExecuteNonQuery();
             }
         }
 
+
         public static bool EmpleadoExiste(string idEmpleado)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = BD.ObtenerConexion())
             {
                 connection.Open();
                 SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM Empleados WHERE ID_Empleado = @ID_Empleado", connection);
@@ -99,7 +102,7 @@ namespace Telecomunicaciones_Sistema
 
         public static bool EmpleadoDI(string nombre, string apellido, string correo, string telefono, string direccion)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = BD.ObtenerConexion())
             {
                 connection.Open();
                 SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM Empleados WHERE Nombre_E = @Nombre_E AND Apellido_E = @Apellido_E AND Correo_E = @Correo_E AND Teléfono_E = @Teléfono_E AND ID_Dirección = @ID_Dirección", connection);
@@ -112,7 +115,5 @@ namespace Telecomunicaciones_Sistema
                 return count > 0; // Devuelve true si se encuentra al menos un empleado con los mismos datos
             }
         }
-
-
     }
 }

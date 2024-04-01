@@ -21,10 +21,12 @@ namespace Telecomunicaciones_Sistema
     /// </summary>
     public partial class Window2 : Window
     {
+        public bool SeleccionDesdeVentana9 { get; set; }
+
         private Window7 ventana7; // Ventana para agregar o modificar clientes
 
         // Propiedad estática para almacenar el cliente seleccionado
-        public static Clientes ClienteSeleccionado { get; set; }
+        public Clientes ClienteSeleccionado { get; set; }
 
         // Constructor de la ventana
         public Window2()
@@ -185,12 +187,29 @@ namespace Telecomunicaciones_Sistema
 
         private void BtnRegresar_Click(object sender, RoutedEventArgs e)
         {
-            Window1 frmPr = new Window1(isMainWindow: true);
-            frmPr.Show();
-
-            if (!isMainWindow)
+            // Verificar si la selección del cliente se inició desde la ventana 9
+            if (SeleccionDesdeVentana9)
             {
-                this.Close();
+                // Ocultar la ventana actual y mostrar la ventana 9
+                this.Hide();
+                Window9 ventana9 = Window9.Instance;
+                if (ventana9 == null)
+                {
+                    ventana9 = new Window9();
+                }
+                ventana9.Show();
+            }
+            else
+            {
+                // Ocultar la ventana actual y mostrar la ventana 1
+                this.Hide();
+                Window1 frmPr = new Window1(isMainWindow: true);
+                frmPr.Show();
+
+                if (!isMainWindow)
+                {
+                    this.Close();
+                }
             }
         }
     }
