@@ -32,20 +32,22 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
-        public static DataTable BuscarCliente(string clienteID)
+        public static DataTable BuscarCliente(string textoBusqueda)
         {
             try
             {
-                using(SqlConnection Conn = BD.ObtenerConexion())
+                using (SqlConnection Conn = BD.ObtenerConexion())
                 {
                     Conn.Open();
-                    string query = "select c.ID_Cliente, c.Nombre, c.Apellido, d.Dirección, c.Teléfono, s.Servicio, c.Teléfono, s.Servicio, p.Monto, p.Mes_Pagado, e.Nombre_E from Cliente c join Dirección d on d.ID_Dirección = c.ID_Dirección join Pagos p on p.ID_Cliente = c.ID_Cliente join Servicios s on s.ID_Servicio = p.ID_TpServicio join Empleados e on e.ID_Empleado = p.ID_Empleado WHERE c.ID_Cliente = @ClienteID";
+                    string query = "SELECT ID_Pago, ID_Cliente, Monto, ID_TpServicio, Mes_Pagado, Fecha, ID_Empleado FROM Pagos " +
+                                   "WHERE ID_Pago LIKE @TextoBusqueda";
                     SqlCommand command = new SqlCommand(query, Conn);
-                    command.Parameters.AddWithValue("@ClienteID", clienteID);
+                    command.Parameters.AddWithValue("@TextoBusqueda", "%" + textoBusqueda + "%");
+
                     SqlDataAdapter adapter = new SqlDataAdapter(command);
                     DataSet dataSet = new DataSet();
-                    adapter.Fill(dataSet, "PagoCliente");
-                    return dataSet.Tables["PagoCliente"];
+                    adapter.Fill(dataSet, "Pago");
+                    return dataSet.Tables["Pago"];
                 }
             }
             catch (Exception ex)
@@ -81,8 +83,19 @@ namespace Telecomunicaciones_Sistema
                     cmd.Parameters.AddWithValue("@ID_Cliente", pago.ID_Cliente);
                     cmd.Parameters.AddWithValue("@ID_TpServicio", pago.ID_TpServicio);
                     cmd.Parameters.AddWithValue("@Monto", pago.Monto);
-                    cmd.Parameters.AddWithValue("@Mes_Pagado", pago.MesPagado);
-                    cmd.Parameters.AddWithValue("@Fecha", pago.Fecha); // Aquí se agrega el parámetro para la fecha
+
+                    // Verificar si el valor de MesPagado no es nulo ni está vacío antes de agregarlo como parámetro
+                    if (!string.IsNullOrEmpty(pago.MesPagado))
+                    {
+                        cmd.Parameters.AddWithValue("@Mes_Pagado", pago.MesPagado);
+                    }
+                    else
+                    {
+                        // Manejar el caso en que el valor de MesPagado sea nulo o esté vacío
+                        throw new ArgumentException("El valor de MesPagado no puede ser nulo ni estar vacío.");
+                    }
+
+                    cmd.Parameters.AddWithValue("@Fecha", pago.Fecha);
                     cmd.Parameters.AddWithValue("@ID_Empleado", pago.ID_Empleado);
 
                     cmd.ExecuteNonQuery();
@@ -116,6 +129,30 @@ namespace Telecomunicaciones_Sistema
                 MessageBox.Show("Error al obtener el último ID de pago: " + ex.Message);
             }
             return ultimoID + 1;
+        }
+
+        public static DataTable BuscarPagos(string textoBusqueda)
+        {
+            try
+            {
+                using (SqlConnection Conn = BD.ObtenerConexion())
+                {
+                    Conn.Open();
+                    string query = "SELECT ID_Pago, ID_Cliente, Monto, ID_TpServicio, Mes_Pagado, Fecha, ID_Empleado FROM Pagos " +
+                                   "WHERE ID_Pago LIKE @TextoBusqueda OR ID_Cliente LIKE @TextoBusqueda";
+                    SqlCommand command = new SqlCommand(query, Conn);
+                    command.Parameters.AddWithValue("@TextoBusqueda", "%" + textoBusqueda + "%");
+
+                    SqlDataAdapter adapter = new SqlDataAdapter(command);
+                    DataSet dataSet = new DataSet();
+                    adapter.Fill(dataSet, "Pago");
+                    return dataSet.Tables["Pago"];
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al buscar los pagos: " + ex.Message);
+            }
         }
     }
 }

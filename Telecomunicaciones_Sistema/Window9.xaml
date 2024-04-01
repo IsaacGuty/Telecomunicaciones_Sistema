@@ -31,7 +31,20 @@
         <Label Content="Monto:" HorizontalAlignment="Left" Margin="139,240,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
         <TextBox x:Name="txtMonto" HorizontalAlignment="Left" Height="23" Margin="306,244,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14"/>
         <Label Content="Mes Pagado:" HorizontalAlignment="Left" Margin="139,277,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
-        <TextBox x:Name="txtMesP" HorizontalAlignment="Left" Height="23" Margin="306,280,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14"/>
+        <ComboBox x:Name="cmbMes" HorizontalAlignment="Left" Margin="306,280,0,0" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14">
+            <ComboBoxItem>Enero</ComboBoxItem>
+            <ComboBoxItem>Febrero</ComboBoxItem>
+            <ComboBoxItem>Marzo</ComboBoxItem>
+            <ComboBoxItem>Abril</ComboBoxItem>
+            <ComboBoxItem>Mayo</ComboBoxItem>
+            <ComboBoxItem>Junio</ComboBoxItem>
+            <ComboBoxItem>Julio</ComboBoxItem>
+            <ComboBoxItem>Agosto</ComboBoxItem>
+            <ComboBoxItem>Septiembre</ComboBoxItem>
+            <ComboBoxItem>Octubre</ComboBoxItem>
+            <ComboBoxItem>Noviembre</ComboBoxItem>
+            <ComboBoxItem>Diciembre</ComboBoxItem>
+        </ComboBox>
         <Label Content="Fecha:" HorizontalAlignment="Left" Margin="139,318,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
         <TextBox x:Name="txtFecha" HorizontalAlignment="Left" Height="23" Margin="306,321,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14"/>
         <Button x:Name="btnAceptar" Content="Aceptar" HorizontalAlignment="Left" Margin="265,445,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnAceptar_Click" RenderTransformOrigin="0.544,-0.391"/>

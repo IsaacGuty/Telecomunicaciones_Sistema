@@ -114,7 +114,7 @@ namespace Telecomunicaciones_Sistema
         private void BtnBuscar_Click(object sender, RoutedEventArgs e)
         {
             // Realizar una búsqueda y mostrar los resultados en el DataGrid
-            DatGridP.ItemsSource = ClienteDAL.BuscarCliente(txtBuscar.Text).DefaultView;
+            DatGridP.ItemsSource = PagoDAL.BuscarCliente(txtBuscar.Text).DefaultView;
         }
 
         // Manejador del evento SelectionChanged del DataGrid
@@ -169,6 +169,14 @@ namespace Telecomunicaciones_Sistema
         private void BtnAgregar_Click(object sender, RoutedEventArgs e)
         {
             SolicitarInformacionPago();
+        }
+
+        private void BtnMostrar_Click(object sender, RoutedEventArgs e)
+        {
+            // Abre la ventana 10
+            Window10 ventana10 = new Window10();
+            ventana10.Show();
+            this.Close(); // Opcional: Cierra la ventana actual si es necesario
         }
     }
 }

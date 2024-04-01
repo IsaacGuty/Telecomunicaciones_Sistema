@@ -23,6 +23,8 @@ namespace Telecomunicaciones_Sistema
     {
         public bool SeleccionDesdeVentana9 { get; set; }
 
+        private bool SeleccionDesdeVentana10 = false;
+
         private Window7 ventana7; // Ventana para agregar o modificar clientes
 
         // Propiedad estática para almacenar el cliente seleccionado
@@ -187,16 +189,17 @@ namespace Telecomunicaciones_Sistema
 
         private void BtnRegresar_Click(object sender, RoutedEventArgs e)
         {
-            // Verificar si la selección del cliente se inició desde la ventana 9
-            if (SeleccionDesdeVentana9)
+            if (Window10.SeleccionDesdeVentana10)
+            {
+                // Ocultar la ventana actual y mostrar la ventana 10
+                this.Hide();
+                Window10 ventana10 = Window10.Instance;
+            }
+            else if (SeleccionDesdeVentana9)
             {
                 // Ocultar la ventana actual y mostrar la ventana 9
                 this.Hide();
                 Window9 ventana9 = Window9.Instance;
-                if (ventana9 == null)
-                {
-                    ventana9 = new Window9();
-                }
                 ventana9.Show();
             }
             else

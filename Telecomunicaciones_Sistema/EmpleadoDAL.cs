@@ -30,19 +30,24 @@ namespace Telecomunicaciones_Sistema
             return dataTable;
         }
 
-        public static DataTable BuscarEmpleado(string eID_Empleado)
+        public static DataTable BuscarEmpleado(string criterioBusqueda)
         {
             DataTable dataTable = new DataTable();
             using (SqlConnection Conn = BD.ObtenerConexion())
             {
-                SqlCommand comando = new SqlCommand(string.Format(
-                    "SELECT ID_Empleado, Nombre_E, Apellido_E, Teléfono_E, Correo_E, ID_Dirección, Puesto, Estado FROM Empleados WHERE ID_Empleado LIKE '%{0}%'", eID_Empleado), Conn);
+                Conn.Open(); // Abre la conexión antes de ejecutar la consulta
+
+                SqlCommand comando = new SqlCommand(
+                    "SELECT ID_Empleado, Nombre_E, Apellido_E, Teléfono_E, Correo_E, ID_Dirección, Puesto, Estado " +
+                    "FROM Empleados " +
+                    "WHERE ID_Empleado LIKE @Criterio OR Nombre_E LIKE @Criterio OR Apellido_E LIKE @Criterio", Conn);
+
+                // Agrega parámetros para evitar la concatenación directa del valor del criterio de búsqueda
+                comando.Parameters.AddWithValue("@Criterio", "%" + criterioBusqueda + "%");
 
                 SqlDataReader reader = comando.ExecuteReader();
 
                 dataTable.Load(reader); // Carga los datos directamente en el DataTable
-
-                Conn.Close();
             }
             return dataTable;
         }

@@ -35,14 +35,6 @@ namespace Telecomunicaciones_Sistema
         // Variable para indicar si se está modificando un pago existente
         private bool esModificacion;
 
-        // Lista de meses completos
-        private List<string> mesesCompletos = new List<string>
-        {
-            "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio",
-            "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
-        };
-
-        // Constructor sin parámetros para agregar un nuevo pago
         // Constructor sin parámetros para agregar un nuevo pago
         public Window9()
         {
@@ -102,10 +94,19 @@ namespace Telecomunicaciones_Sistema
         {
             try
             {
-                if (!mesesCompletos.Contains(txtMesP.Text))
+                // Verificar si se ha seleccionado un mes
+                if (cmbMes.SelectedItem == null)
                 {
-                    MessageBox.Show("Por favor, ingrese el nombre completo del mes.");
+                    MessageBox.Show("Por favor, seleccione un mes.");
                     return;
+                }
+
+                // Obtener el contenido del mes seleccionado del ComboBox cmbMes
+                string mesPagado = cmbMes.SelectedItem.ToString();
+                ComboBoxItem selectedComboBoxItem = cmbMes.SelectedItem as ComboBoxItem;
+                if (selectedComboBoxItem != null)
+                {
+                    mesPagado = selectedComboBoxItem.Content.ToString();
                 }
 
                 decimal monto;
@@ -117,7 +118,7 @@ namespace Telecomunicaciones_Sistema
                         ID_Cliente = txtIDC.Text,
                         ID_TpServicio = ObtenerNumeroServicioSeleccionado(),
                         Monto = monto,
-                        MesPagado = txtMesP.Text,
+                        MesPagado = mesPagado, // Utiliza el contenido del mes seleccionado del ComboBox
                         ID_Empleado = txtNombreE.Text,
                         Fecha = DateTime.Now
                     };
@@ -147,7 +148,6 @@ namespace Telecomunicaciones_Sistema
             {
                 MessageBox.Show("Error al agregar/modificar el pago: " + ex.Message);
             }
-
             this.Close();
         }
 
@@ -163,10 +163,9 @@ namespace Telecomunicaciones_Sistema
             txtIDP.Text = pagoSeleccionado.ID_Pago;
             txtIDC.Text = pagoSeleccionado.ID_Cliente;
             txtMonto.Text = pagoSeleccionado.Monto;
-            txtMesP.Text = pagoSeleccionado.MesPagado;
             txtFecha.Text = pagoSeleccionado.Fecha; // Mostrar la fecha del pago seleccionado
             txtNombreE.Text = pagoSeleccionado.ID_Empleado;
-
+            cmbMes.SelectedItem = pagoSeleccionado.MesPagado;
             // Obtener el ID_TpServicio del pago seleccionado
             string idTpServicioSeleccionado = pagoSeleccionado.ID_TpServicio;
 
@@ -187,6 +186,10 @@ namespace Telecomunicaciones_Sistema
             // Abre la ventana 2
             Window2 ventana2 = new Window2();
             ventana2.SeleccionDesdeVentana9 = true; // Establecer la bandera
+
+            // Deshabilitar los botones en la ventana 2
+            ventana2.btnAgregar.IsEnabled = false; // Desea deshabilitar este botón también?
+            ventana2.BtnModificar.IsEnabled = false;
             ventana2.ShowDialog();
 
             // Verifica si se seleccionó un cliente en la ventana 2

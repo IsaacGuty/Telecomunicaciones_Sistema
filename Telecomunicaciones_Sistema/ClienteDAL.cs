@@ -26,14 +26,16 @@ namespace Telecomunicaciones_Sistema
             return dataTable;
         }
 
-        public static DataTable BuscarCliente(string cID_Cliente)
+        public static DataTable BuscarCliente(string textoBusqueda)
         {
             DataTable dataTable = new DataTable();
             using (SqlConnection connection = BD.ObtenerConexion())
             {
                 connection.Open();
+                // Modificamos la consulta SQL para buscar por ID_Cliente, Nombre o Apellido
                 SqlCommand comando = new SqlCommand(string.Format(
-                    "SELECT ID_Cliente, Nombre, Apellido, Teléfono, Correo, ID_Dirección FROM Cliente WHERE ID_Cliente LIKE '%{0}%'", cID_Cliente), connection);
+                    "SELECT ID_Cliente, Nombre, Apellido, Teléfono, Correo, ID_Dirección FROM Cliente " +
+                    "WHERE ID_Cliente LIKE '%{0}%' OR Nombre LIKE '%{0}%' OR Apellido LIKE '%{0}%'", textoBusqueda), connection);
 
                 SqlDataReader reader = comando.ExecuteReader();
 
