@@ -116,16 +116,6 @@ namespace Telecomunicaciones_Sistema
             {
                 string idCliente = txtIDC.Text;
 
-                // Verificar si el ID del cliente ya existe en la base de datos
-                bool clienteExistente = ClienteDAL.ClienteExiste(idCliente);
-
-                // Si estamos en modo modificación y el cliente no existe, mostrar un mensaje de error
-                if (esModificacion && !clienteExistente)
-                {
-                    MessageBox.Show("El cliente con este ID no existe en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-                }
-
                 // Obtener el valor seleccionado del ComboBox y convertirlo a string
                 ComboBoxItem itemSeleccionado = (ComboBoxItem)cmbDire.SelectedItem;
                 string direccion = itemSeleccionado?.Content?.ToString();
@@ -141,16 +131,20 @@ namespace Telecomunicaciones_Sistema
                 string[] partesDireccion = direccion.Split('-');
                 string numeroDireccion = partesDireccion[0].Trim();
 
-                if (!esModificacion && ClienteDAL.ClienteDI(txtIDC.Text, txtNombreC.Text, txtApellidoC.Text, txtCorreoC.Text, txtTelefonoC.Text, numeroDireccion))
+                // Verificar si algún campo del cliente está vacío
+                if (Validaciones.CamposClienteVacios(txtNombreC.Text, txtApellidoC.Text, txtTelefonoC.Text, txtCorreoC.Text, numeroDireccion, cmbDire))
                 {
-                    MessageBox.Show("Ya existe un cliente con la misma información en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Todos los campos del cliente deben llenarse.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
-                // Verificar si algún campo del cliente está vacío
-                if (Validaciones.CamposClienteVacios(txtNombreC.Text, txtApellidoC.Text, txtTelefonoC.Text, txtCorreoC.Text, numeroDireccion))
+                // Verificar si el ID del cliente ya existe en la base de datos
+                bool clienteExistente = ClienteDAL.ClienteExiste(idCliente);
+
+                // Si estamos en modo modificación y el cliente no existe, mostrar un mensaje de error
+                if (esModificacion && !clienteExistente)
                 {
-                    MessageBox.Show("Todos los campos del cliente deben llenarse.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("El cliente con este ID no existe en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
@@ -174,6 +168,7 @@ namespace Telecomunicaciones_Sistema
                         return;
                     }
 
+                    // Verificar si el teléfono cumple con los criterios de validación
                     if (!Validaciones.EsTelefonoValido(txtTelefonoC.Text))
                     {
                         MessageBox.Show("El teléfono debe tener 8 dígitos y comenzar con 3, 8 o 9.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);

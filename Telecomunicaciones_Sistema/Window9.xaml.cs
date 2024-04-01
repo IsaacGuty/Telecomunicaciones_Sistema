@@ -94,6 +94,12 @@ namespace Telecomunicaciones_Sistema
         {
             try
             {
+                if (!Validaciones.CamposPagoVacios(txtIDP.Text, txtIDC.Text, txtNombreE.Text, cmbMes, txtMonto.Text))
+                {
+                    MessageBox.Show("Todos los campos del pago deben llenarse.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
                 // Verificar si se ha seleccionado un mes
                 if (cmbMes.SelectedItem == null)
                 {
@@ -131,8 +137,15 @@ namespace Telecomunicaciones_Sistema
 
                 if (esModificacion)
                 {
+                    // Guardar el mes seleccionado actualmente
+                    string mesSeleccionadoAnteriormente = pagoSeleccionado.MesPagado;
+
+                    // Modificar el pago
                     PagoDAL.ModificarPago(NuevoPago);
                     MessageBox.Show("Pago modificado correctamente.");
+
+                    // Restaurar el mes seleccionado anteriormente
+                    NuevoPago.MesPagado = mesSeleccionadoAnteriormente;
                 }
                 else
                 {

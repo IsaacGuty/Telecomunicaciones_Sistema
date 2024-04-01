@@ -9,6 +9,7 @@ using System.Net.Mail;
 using System.Text.RegularExpressions;
 using System.Data.SqlClient;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Telecomunicaciones_Sistema
 {
@@ -234,14 +235,16 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
-        public static bool CamposClienteVacios(string nombre, string apellido, string telefono, string correo, string direccion)
+        public static bool CamposClienteVacios(string nombre, string apellido, string telefono, string correo, string direccion, ComboBox cmbDire)
         {
             return string.IsNullOrWhiteSpace(nombre) ||
                    string.IsNullOrWhiteSpace(apellido) ||
                    string.IsNullOrWhiteSpace(telefono) ||
                    string.IsNullOrWhiteSpace(correo) ||
-                   string.IsNullOrWhiteSpace(direccion);
+                   string.IsNullOrWhiteSpace(direccion) ||
+                   cmbDire.SelectedItem == null;
         }
+
 
 
         public static bool EsTelefonoValido(string telefono)
@@ -258,6 +261,15 @@ namespace Telecomunicaciones_Sistema
                    string.IsNullOrWhiteSpace(telefono) ||
                    string.IsNullOrWhiteSpace(correo) ||
                    string.IsNullOrWhiteSpace(direccion);
+        }
+
+        public static bool CamposPagoVacios(string idPago, string idCliente, string nombreEmpleado, ComboBox cmbMes, string monto)
+        {
+            return !string.IsNullOrEmpty(idPago) &&
+                   !string.IsNullOrEmpty(idCliente) &&
+                   !string.IsNullOrEmpty(nombreEmpleado) &&
+                   cmbMes.SelectedItem != null &&
+                   !string.IsNullOrEmpty(monto);
         }
     }
 }
