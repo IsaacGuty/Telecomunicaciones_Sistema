@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Data.SqlClient;
 using System.Data;
+using System.Globalization;
 
 namespace Telecomunicaciones_Sistema
 {
@@ -115,8 +116,9 @@ namespace Telecomunicaciones_Sistema
             try
             {
                 string idCliente = txtIDC.Text;
+                string numeroDireccion = "";
 
-                // Obtener el valor seleccionado del ComboBox y convertirlo a string
+                // Obtener la dirección seleccionada del ComboBox
                 ComboBoxItem itemSeleccionado = (ComboBoxItem)cmbDire.SelectedItem;
                 string direccion = itemSeleccionado?.Content?.ToString();
 
@@ -127,9 +129,70 @@ namespace Telecomunicaciones_Sistema
                     return;
                 }
 
+                if (!Validaciones.NoContieneEspaciosEnBlanco(txtNombreC.Text) || !Validaciones.NoContieneEspaciosEnBlanco(txtApellidoC.Text) ||
+                    !Validaciones.NoContieneEspaciosEnBlanco(txtTelefonoC.Text) || !Validaciones.NoContieneEspaciosEnBlanco(txtCorreoC.Text))
+                {
+                    MessageBox.Show("Todos los campos del cliente deben llenarse y no deben contener solo espacios en blanco.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                if (!Validaciones.NombreValido(txtNombreC.Text))
+                {
+                    MessageBox.Show("El nombre no es válido. No se permiten espacios en blanco al inicio ni entre caracteres.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                if (!Validaciones.NombreV(txtNombreC.Text))
+                {
+                    MessageBox.Show("El nombre no es válido. Debe tener al menos 3 letras.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                if (!Validaciones.TresVecesSeguidas(txtNombreC.Text))
+                {
+                    MessageBox.Show("El nombre no es válido. No se permiten más de 3 veces seguidas la misma letra.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                if (!Validaciones.ApellidoValido(txtApellidoC.Text))
+                {
+                    MessageBox.Show("El apellido no es válido. No se permiten espacios en blanco al inicio ni entre caracteres.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                if (!Validaciones.TresVecesSeguidas(txtApellidoC.Text))
+                {
+                    MessageBox.Show("El apellido no es válido. No se permiten más de 3 veces seguidas la misma letra.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                if (!Validaciones.ApellidoV(txtApellidoC.Text))
+                {
+                    MessageBox.Show("El apellido no es válido. Debe tener al menos 3 letras.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                if (!Validaciones.NoContieneEspaciosEnBlancoEnNumero(txtTelefonoC.Text))
+                {
+                    MessageBox.Show("El teléfono no debe contener espacios en blanco.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                if (!Validaciones.TelefonoValido(txtTelefonoC.Text))
+                {
+                    MessageBox.Show("El número de teléfono no puede contener demasiados ceros repetidos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                if (!Validaciones.CorreoValidoEspacios(txtCorreoC.Text))
+                {
+                    MessageBox.Show("El correo electrónico no es válido. No se permiten espacios en blanco.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
                 // Extraer solo el número de la dirección
                 string[] partesDireccion = direccion.Split('-');
-                string numeroDireccion = partesDireccion[0].Trim();
+                numeroDireccion = partesDireccion[0].Trim();
 
                 // Verificar si algún campo del cliente está vacío
                 if (Validaciones.CamposClienteVacios(txtNombreC.Text, txtApellidoC.Text, txtTelefonoC.Text, txtCorreoC.Text, numeroDireccion, cmbDire))
@@ -190,6 +253,7 @@ namespace Telecomunicaciones_Sistema
                     MessageBox.Show("Cliente modificado correctamente.");
                 }
                 // Si estamos en modo agregado y el cliente no existe, agregar el nuevo cliente
+                // Si estamos en modo agregado y el cliente no existe, agregar el nuevo cliente
                 else if (!esModificacion && !clienteExistente)
                 {
                     // Crear el objeto NuevoCliente con los datos del nuevo cliente
@@ -225,6 +289,13 @@ namespace Telecomunicaciones_Sistema
 
                     // Asignar el valor convertido a decimal al Teléfono del NuevoCliente
                     NuevoCliente.Teléfono = telefonoDecimal;
+
+                    // Verificar si ya existe un cliente con los mismos datos en la base de datos
+                    if (ClienteDAL.ClienteDI(idCliente, txtNombreC.Text, txtApellidoC.Text, txtCorreoC.Text, txtTelefonoC.Text, numeroDireccion))
+                    {
+                        MessageBox.Show("El cliente con estos datos ya existe en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
 
                     // Agregar el nuevo cliente a la base de datos
                     ClienteDAL.AgregarCliente(NuevoCliente);
@@ -302,6 +373,26 @@ namespace Telecomunicaciones_Sistema
                 MessageBox.Show("Error al generar el nuevo ID: " + ex.Message);
             }
             return nuevoID;
+        }
+
+        private void TxtNombreC_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtNombreC.Text))
+            {
+                CultureInfo cultureInfo = System.Threading.Thread.CurrentThread.CurrentCulture;
+                TextInfo textInfo = cultureInfo.TextInfo;
+                txtNombreC.Text = textInfo.ToTitleCase(txtNombreC.Text.ToLower());
+            }
+        }
+
+        private void TxtApellidoC_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtApellidoC.Text))
+            {
+                CultureInfo cultureInfo = System.Threading.Thread.CurrentThread.CurrentCulture;
+                TextInfo textInfo = cultureInfo.TextInfo;
+                txtApellidoC.Text = textInfo.ToTitleCase(txtApellidoC.Text.ToLower());
+            }
         }
     }
 }

@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Data;
+using System.Text.RegularExpressions;
 
 namespace Telecomunicaciones_Sistema
 {
@@ -27,6 +28,7 @@ namespace Telecomunicaciones_Sistema
         public static String Rol_L;
         private int userId;
         private int usuario;
+        public static int IdUsuario;
 
         // Método para realizar el inicio de sesión
         void P_Login()
@@ -52,6 +54,8 @@ namespace Telecomunicaciones_Sistema
                     Contraseña_L = contraseñaBD; // Almacena la contraseña de la base de datos
                     Rol_L = DT.Rows[0][4].ToString();
 
+                    IdUsuario = Convert.ToInt32(DT.Rows[0]["ID_Usuario"]);
+
                     Window1 ObjPrinci = new Window1(Usuario_L, Contraseña_L);
                     ObjPrinci.Show();
 
@@ -76,7 +80,6 @@ namespace Telecomunicaciones_Sistema
             return;
         }
 
-
         // Constructor de la clase MainWindow
         public MainWindow()
         {
@@ -85,15 +88,20 @@ namespace Telecomunicaciones_Sistema
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(txtUsuario.Text) || string.IsNullOrEmpty(txtContra.Password))
+            if (Validaciones.ValidarUsuarioYContraseña(txtUsuario.Text, txtContra.Password))
             {
                 MessageBox.Show("Por favor, ingresa tanto el usuario como la contraseña.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            else if (!Validaciones.ContieneSoloNumeros(txtUsuario.Text))
+            {
+                MessageBox.Show("Usuario o Contraseña Incorrecta", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
             {
                 P_Login(); // Llama al método para realizar el inicio de sesión
             }
         }
+
 
         private void lblContraO_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {

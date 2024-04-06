@@ -18,7 +18,7 @@
 
 
     <Grid>
-        <DataGrid x:Name="DatGridVP" AutoGenerateColumns ="True" HorizontalAlignment="Left" Height="218" Margin="97,152,0,0" VerticalAlignment="Top" Width="522" SelectionChanged="DatGridP_SelectionChanged"/>
+        <DataGrid x:Name="DatGridVP" IsReadOnly="True" AutoGenerateColumns ="True" HorizontalAlignment="Left" Height="218" Margin="97,152,0,0" VerticalAlignment="Top" Width="522" SelectionChanged="DatGridP_SelectionChanged"/>
         <TextBox x:Name="txtBuscar" IsReadOnly="True" HorizontalAlignment="Left" Height="23" Margin="405,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="165" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
         <Button x:Name="BtnBuscar" HorizontalAlignment="Left" Margin="586,86,0,0" VerticalAlignment="Top" Width="56" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Height="28" Click="BtnBuscar_Click">
             <Image x:Name="Buscar" Height="23" Source="buscar.png" Stretch="Fill" Width="24"/>

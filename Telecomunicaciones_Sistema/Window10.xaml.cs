@@ -84,6 +84,13 @@ namespace Telecomunicaciones_Sistema
                 ventana2.Close();
                 // Llama al método BuscarPagos de PagoDAL y asigna el resultado al DataGrid
                 DatGridVP.ItemsSource = PagoDAL.BuscarPagos(txtBuscar.Text).DefaultView;
+
+                DataTable searchResult = PagoDAL.BuscarPagos(txtBuscar.Text);
+                if (searchResult.Rows.Count == 0)
+                {
+                    MessageBox.Show("No se encontraron pagos para el cliente especificado.", "Búsqueda sin resultados", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                DatGridVP.ItemsSource = searchResult.DefaultView;
             }
         }
 

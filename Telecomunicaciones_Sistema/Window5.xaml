@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Telecomunicaciones_Sistema"
         mc:Ignorable="d"
-        Title="Sistema en telecomunicaciones" Height="530" Width="700"
+        Title="Sistema en telecomunicaciones" Height="588" Width="700"
         WindowStartupLocation="CenterScreen"
         Background="LightBlue">
 
@@ -17,37 +17,39 @@
 
     </Window.Resources>
 
-    <Grid>
+    <Grid Margin="0,0,-0.4,-3.6">
         <Grid.RowDefinitions>
             <RowDefinition Height="2*"/>
             <RowDefinition Height="318.4"/>
             <RowDefinition Height="11*"/>
         </Grid.RowDefinitions>
 
-        <Button x:Name="btnRegresar" Content="Regresar" HorizontalAlignment="Left" Margin="23,112.6,0,0" VerticalAlignment="Top" Width="71" FontWeight="Bold" FontSize="14" FontFamily="Times New Roman" Click="BtnRegresar_Click" Grid.Row="2"/>
+        <Button x:Name="btnRegresar" Content="Regresar" HorizontalAlignment="Left" Margin="39,160,0,0" VerticalAlignment="Top" Width="71" FontWeight="Bold" FontSize="14" FontFamily="Times New Roman" Click="BtnRegresar_Click" Grid.Row="2"/>
         <TextBox x:Name="txtNombre" HorizontalAlignment="Left" Height="25" Margin="179,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="409" FontFamily="Times New Roman" FontSize="14" Grid.Row="1"/>
         <TextBox x:Name="txtDirección" HorizontalAlignment="Left" Height="25" Margin="125,152,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="306" FontFamily="Times New Roman" FontSize="14" Grid.Row="1"/>
         <TextBox x:Name="txtNumT" HorizontalAlignment="Left" Height="25" Margin="125,195,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="306" FontFamily="Times New Roman" FontSize="14" Grid.Row="1"/>
         <TextBox x:Name="txtServicio" HorizontalAlignment="Left" Height="25" Margin="125,236,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="306" FontFamily="Times New Roman" FontSize="14" Grid.Row="1"/>
-        <TextBox x:Name="txtTipoT1" HorizontalAlignment="Left" Height="25" Margin="125,274,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="306" FontFamily="Times New Roman" FontSize="14" Grid.Row="1"/>
+        <TextBox x:Name="txtTrabajo" HorizontalAlignment="Left" Height="25" Margin="125,274,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="306" FontFamily="Times New Roman" FontSize="14" Grid.Row="1"/>
         <TextBox x:Name="txtFecha" HorizontalAlignment="Left" Height="25" Margin="504,152,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="141" FontFamily="Times New Roman" FontSize="14" Grid.Row="1"/>
-        <TextBox x:Name="txtNombreE" HorizontalAlignment="Left" Height="25" Margin="125,315,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="306" FontFamily="Times New Roman" FontSize="14" Grid.Row="1" Grid.RowSpan="2"/>
-        <Label Content="Orden de trabajo" HorizontalAlignment="Left" Margin="276,29,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="24" FontWeight="Bold" Width="195" Grid.Row="1"/>
-        <Image Margin="15,17,581.6,235.2" Source="logoTele.png" Stretch="Fill" Grid.Row="1"/>
-        <Label x:Name="lblNombre" Content="Sistema en" HorizontalAlignment="Left" Margin="117,22,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" Grid.Row="1"/>
-        <Label x:Name="lblNombre_Copy" Content="Telecomunicaciones" HorizontalAlignment="Left" Margin="117,48,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" Grid.Row="1"/>
-        <Label x:Name="lblTelefono" Content="Cel: 9755-1953" HorizontalAlignment="Left" Margin="497,17,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" Grid.Row="1"/>
-        <Label x:Name="lblCorreo" Content="E-Mail: isaacguty@gmail.com" HorizontalAlignment="Left" Margin="501,40,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" Grid.Row="1"/>
-        <Button x:Name="btnImprimir" HorizontalAlignment="Left" Margin="570,112.6,0,0" Grid.Row="2" VerticalAlignment="Top" Width="75" Click="BtnImprimir_Click" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Height="19" Content="Imprimir">
+        <TextBox x:Name="txtIDE" HorizontalAlignment="Left" Height="25" Margin="125,315,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="306" FontFamily="Times New Roman" FontSize="14" Grid.Row="1" Grid.RowSpan="2"/>
+        <Button x:Name="btnImprimir" HorizontalAlignment="Left" Margin="586,160,0,0" Grid.Row="2" VerticalAlignment="Top" Width="75" Click="BtnImprimir_Click" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Height="19" Content="Imprimir">
         </Button>
-        <Label x:Name="lblFirma" Content="___________________________________________________________________________" HorizontalAlignment="Left" Margin="370,66.6,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" Grid.Row="2" Width="275"/>
+        <Label x:Name="lblFirma" Content="___________________________________________________________________________" HorizontalAlignment="Left" Margin="386,114,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" Grid.Row="2" Width="275"/>
         <Label x:Name="lblNombreC" Content="Nombre:" HorizontalAlignment="Left" Margin="110,106,0,0" Grid.Row="1" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
         <Label x:Name="lblDire" Content="Dirección:" HorizontalAlignment="Left" Margin="48,152,0,0" Grid.Row="1" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
         <Label x:Name="lblTel" Content="Teléfono:" HorizontalAlignment="Left" Margin="48,195,0,0" Grid.Row="1" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
         <Label x:Name="lblSer" Content="Servicio:" HorizontalAlignment="Left" Margin="48,235,0,0" Grid.Row="1" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
         <Label x:Name="lblTrab" Content="Trabajo:" HorizontalAlignment="Left" Margin="48,274,0,0" Grid.Row="1" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
-        <Label x:Name="lblEmp" Content="Empleado:" HorizontalAlignment="Left" Margin="45,316,0,0" Grid.Row="1" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Grid.RowSpan="2"/>
+        <Label x:Name="lblIDE" Content="ID Empleado:" HorizontalAlignment="Left" Margin="31,314.6,0,0" Grid.Row="1" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Grid.RowSpan="2"/>
         <Label x:Name="lblFec" Content="Fecha:" HorizontalAlignment="Left" Margin="453,153,0,0" Grid.Row="1" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
+        <Label Content="Orden de trabajo" HorizontalAlignment="Left" Margin="276,18.6,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="24" FontWeight="Bold" Width="195" Grid.Row="1"/>
+        <Image Margin="15,6.6,581.6,245.6" Source="logoTele.png" Stretch="Fill" Grid.Row="1"/>
+        <Label x:Name="lblNombre" Content="Sistema en" HorizontalAlignment="Left" Margin="117,11.6,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" Grid.Row="1"/>
+        <Label x:Name="lblNombre_Copy" Content="Telecomunicaciones" HorizontalAlignment="Left" Margin="117,37.6,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" Grid.Row="1"/>
+        <Label x:Name="lblTelefono" Content="Cel: 9755-1953" HorizontalAlignment="Left" Margin="497,6.6,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" Grid.Row="1"/>
+        <Label x:Name="lblCorreo" Content="E-Mail: isaacguty@gmail.com" HorizontalAlignment="Left" Margin="501,29.6,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" Grid.Row="1"/>
+        <TextBox x:Name="txtNombre_E" HorizontalAlignment="Left" Height="25" Margin="125,39.2,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="306" FontFamily="Times New Roman" FontSize="14" Grid.Row="2"/>
+        <Label x:Name="lblEmp_Copy" Content="Empleado:" HorizontalAlignment="Left" Margin="45,41.2,0,0" Grid.Row="2" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
 
     </Grid>
 </Window>

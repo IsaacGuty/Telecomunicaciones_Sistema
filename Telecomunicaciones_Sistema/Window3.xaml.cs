@@ -61,7 +61,6 @@ namespace Telecomunicaciones_Sistema
 
         // Conexión a la base de datos y variable de control para la ventana principal
         private SqlConnection Conn;
-        private bool isMainWindow;
 
         // Método para cargar los datos de los pagos desde la base de datos
         public void CargarDatos()
@@ -70,6 +69,7 @@ namespace Telecomunicaciones_Sistema
             {
                 DataTable dataTable = PagoDAL.ObtenerTodosPagos();
                 DatGridP.ItemsSource = dataTable.DefaultView;
+                DatGridP.IsReadOnly = true; // Establecer el DataGrid como solo lectura
             }
             catch (Exception ex)
             {
@@ -83,10 +83,7 @@ namespace Telecomunicaciones_Sistema
             Window1 frmPr = new Window1(isMainWindow: true);
             frmPr.Show();
 
-            if (!isMainWindow)
-            {
-                this.Close();
-            }
+            this.Close();
         }
 
         // Método para solicitar la información de un nuevo pago
@@ -114,7 +111,16 @@ namespace Telecomunicaciones_Sistema
         private void BtnBuscar_Click(object sender, RoutedEventArgs e)
         {
             // Realizar una búsqueda y mostrar los resultados en el DataGrid
-            DatGridP.ItemsSource = PagoDAL.BuscarCliente(txtBuscar.Text).DefaultView;
+            DataTable searchResult = PagoDAL.BuscarCliente(txtBuscar.Text);
+
+            if (searchResult.Rows.Count > 0)
+            {
+                DatGridP.ItemsSource = searchResult.DefaultView;
+            }
+            else
+            {
+                MessageBox.Show("No se encontrar el ID_Pago especificado.", "Búsqueda sin resultados", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         // Manejador del evento SelectionChanged del DataGrid
@@ -142,30 +148,6 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
-        private void BtnModificar_Click(object sender, RoutedEventArgs e)
-        {
-            // Verificar si hay un pago seleccionado
-            if (!PagoSeleccionado.Equals(default(Window3.Pagos)))
-            {
-                // Mostrar la ventana9 para modificar el pago seleccionado
-                ventana9 = new Window9(PagoSeleccionado, true); // Aquí se está pasando true como indicador de modificación
-                ventana9.PagoModificado += ActualizarDatosPago;
-                ventana9.Closed += (s, args) => CargarDatos(); // Refrescar los datos del DataGrid cuando se cierre la ventana 9
-                ventana9.Show();
-            }
-            else
-            {
-                // Mostrar un mensaje si no se ha seleccionado ningún pago
-                MessageBox.Show("No se ha seleccionado ningún pago.");
-            }
-        }
-
-        // Método para actualizar los datos de los pagos después de una modificación
-        private void ActualizarDatosPago(object sender, EventArgs e)
-        {
-            CargarDatos();
-        }
-
         private void BtnAgregar_Click(object sender, RoutedEventArgs e)
         {
             SolicitarInformacionPago();
@@ -180,4 +162,3 @@ namespace Telecomunicaciones_Sistema
         }
     }
 }
-

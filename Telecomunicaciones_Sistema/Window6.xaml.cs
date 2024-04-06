@@ -77,6 +77,8 @@ namespace Telecomunicaciones_Sistema
             {
                 DataTable dataTable = EmpleadoDAL.ObtenerTodosEmpleados();
                 DataGridEMP.ItemsSource = dataTable.DefaultView;
+                DataGridEMP.IsReadOnly = true; // Establecer el DataGrid como solo lectura
+
             }
             catch (Exception ex)
             {
@@ -136,8 +138,17 @@ namespace Telecomunicaciones_Sistema
         {
             // Realizar una búsqueda de empleado según el texto ingresado en el cuadro de búsqueda
             DataTable dataTable = EmpleadoDAL.BuscarEmpleado(txtBuscar.Text);
-            DataView dataView = new DataView(dataTable);
-            DataGridEMP.ItemsSource = dataView;
+
+            if (dataTable.Rows.Count > 0)
+            {
+                DataView dataView = new DataView(dataTable);
+                DataGridEMP.ItemsSource = dataView;
+            }
+            else
+            {
+                MessageBox.Show("No se encontraron empleados que coincidan con la búsqueda.", "Búsqueda sin resultados", MessageBoxButton.OK, MessageBoxImage.Information);
+                DataGridEMP.ItemsSource = null; // Limpia el DataGrid si no se encontraron resultados
+            }
         }
 
         private void BtnModificar_Click(object sender, RoutedEventArgs e)

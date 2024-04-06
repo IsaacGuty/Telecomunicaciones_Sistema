@@ -80,6 +80,7 @@ namespace Telecomunicaciones_Sistema
             {
                 DataTable dataTable = ClienteDAL.ObtenerTodosClientes(); // Obtener datos de clientes desde la base de datos
                 DatGridRC.ItemsSource = dataTable.DefaultView; // Mostrar los datos en el DataGrid
+                DatGridRC.IsReadOnly = true; // Establecer el DataGrid como solo lectura
             }
             catch (Exception ex)
             {
@@ -144,6 +145,12 @@ namespace Telecomunicaciones_Sistema
             DataTable dataTable = ClienteDAL.BuscarCliente(txtBuscar.Text);
             DataView dataView = new DataView(dataTable);
             DatGridRC.ItemsSource = dataView;
+
+            // Verificar si el DataTable está vacío
+            if (dataTable.Rows.Count == 0)
+            {
+                MessageBox.Show("No se encontraron clientes que coincidan con la búsqueda.", "Búsqueda sin resultados", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         private void BtnLimpiar_Click(object sender, RoutedEventArgs e)

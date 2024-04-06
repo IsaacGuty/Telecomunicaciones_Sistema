@@ -52,12 +52,13 @@ namespace Telecomunicaciones_Sistema
             // Obtener la fecha actual y asignarla al campo txtFecha
             DateTime fechaActual = DateTime.Now;
             txtFecha.Text = fechaActual.ToString("yyyy-MM-dd");
+            // Asignar el ID del usuario al campo txtNombreE
+            txtNombreE.Text = MainWindow.IdUsuario.ToString();
             // Agregar un manejador de eventos para el evento SelectionChanged del ComboBox cmbIDS
             cmbIDS.SelectionChanged += CmbIDS_SelectionChanged;
             Instance = this; // Almacena la instancia actual
         }
 
-        // Constructor con parámetro de pago seleccionado para modificar un pago existente
         // Constructor con parámetro de pago seleccionado para modificar un pago existente
         public Window9(Window3.Pagos pagoSeleccionado, bool esModificacion) : this()
         {
@@ -134,28 +135,12 @@ namespace Telecomunicaciones_Sistema
                     MessageBox.Show("El monto ingresado no es válido.");
                     return;
                 }
-
-                if (esModificacion)
+                PagoDAL.AgregarPago(NuevoPago);
+                MessageBox.Show("Pago agregado correctamente.");
+                if (PagoModificado != null)
                 {
-                    // Guardar el mes seleccionado actualmente
-                    string mesSeleccionadoAnteriormente = pagoSeleccionado.MesPagado;
-
-                    // Modificar el pago
-                    PagoDAL.ModificarPago(NuevoPago);
-                    MessageBox.Show("Pago modificado correctamente.");
-
-                    // Restaurar el mes seleccionado anteriormente
-                    NuevoPago.MesPagado = mesSeleccionadoAnteriormente;
-                }
-                else
-                {
-                    PagoDAL.AgregarPago(NuevoPago);
-                    MessageBox.Show("Pago agregado correctamente.");
-                    if (PagoModificado != null)
-                    {
-                        PagoModificado(this, EventArgs.Empty);
-                    }
-                }
+                    PagoModificado(this, EventArgs.Empty);
+                }         
             }
             catch (Exception ex)
             {
@@ -176,9 +161,23 @@ namespace Telecomunicaciones_Sistema
             txtIDP.Text = pagoSeleccionado.ID_Pago;
             txtIDC.Text = pagoSeleccionado.ID_Cliente;
             txtMonto.Text = pagoSeleccionado.Monto;
-            txtFecha.Text = pagoSeleccionado.Fecha; // Mostrar la fecha del pago seleccionado
+            txtFecha.Text = pagoSeleccionado.Fecha;
             txtNombreE.Text = pagoSeleccionado.ID_Empleado;
-            cmbMes.SelectedItem = pagoSeleccionado.MesPagado;
+
+            // Verificar que el pago seleccionado tenga un mes pagado válido
+            if (!string.IsNullOrEmpty(pagoSeleccionado.MesPagado))
+            {
+                // Buscar el mes pagado en la lista de elementos del ComboBox cmbMes
+                string mesSeleccionado = pagoSeleccionado.MesPagado;
+                ComboBoxItem item = cmbMes.Items.Cast<ComboBoxItem>().FirstOrDefault(i => i.Content.ToString() == mesSeleccionado);
+
+                // Si se encuentra el mes, seleccionarlo
+                if (item != null)
+                {
+                    cmbMes.SelectedItem = item;
+                }
+            }
+
             // Obtener el ID_TpServicio del pago seleccionado
             string idTpServicioSeleccionado = pagoSeleccionado.ID_TpServicio;
 

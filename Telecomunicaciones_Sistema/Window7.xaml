@@ -23,9 +23,9 @@
         <TextBox x:Name="txtIDC" IsReadOnly="True" HorizontalAlignment="Left" Height="23" Margin="305,123,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14"/>
         <Button x:Name="btnAceptar" Content="Aceptar" HorizontalAlignment="Left" Margin="258,413,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnAceptar_Click"/>
         <Label Content="Nombre:" HorizontalAlignment="Left" Margin="212,162,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
-        <TextBox x:Name="txtNombreC" HorizontalAlignment="Left" Height="23" Margin="305,165,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14"/>
+        <TextBox x:Name="txtNombreC" HorizontalAlignment="Left" Height="23" Margin="305,165,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14" LostFocus="TxtNombreC_LostFocus"/>
         <Label Content="Apellido:" HorizontalAlignment="Left" Margin="212,209,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
-        <TextBox x:Name="txtApellidoC" HorizontalAlignment="Left" Height="23" Margin="305,212,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14"/>
+        <TextBox x:Name="txtApellidoC" HorizontalAlignment="Left" Height="23" Margin="305,212,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14" LostFocus="TxtApellidoC_LostFocus"/>
         <Label Content="Teléfono:" HorizontalAlignment="Left" Margin="212,255,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
         <TextBox x:Name="txtTelefonoC" HorizontalAlignment="Left" Height="23" Margin="305,258,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14"/>
         <Label Content="Correo:" HorizontalAlignment="Left" Margin="212,299,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>

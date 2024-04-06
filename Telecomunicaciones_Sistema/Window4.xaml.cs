@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Data.SqlClient;
 using System.Data;
+using System.Text.RegularExpressions;
 
 namespace Telecomunicaciones_Sistema
 {
@@ -30,6 +31,8 @@ namespace Telecomunicaciones_Sistema
             Conn = BD.ObtenerConexion();
             // Al inicializar la ventana, carga los datos en el DataGrid
             CargarDatos();
+
+            CargarEmpleadosTecnicos();
         }
 
         // Propiedad para almacenar los datos de la orden
@@ -46,10 +49,32 @@ namespace Telecomunicaciones_Sistema
                 // Obtiene los datos de las órdenes y los muestra en el DataGrid
                 DataTable dataTable = OrdenDAL.ObtenerOrdenes();
                 DatGridOT.ItemsSource = dataTable.DefaultView;
+                DatGridOT.IsReadOnly = true; // Establecer el DataGrid como solo lectura
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error al cargar los datos: " + ex.Message);
+            }
+        }
+
+        private void CargarEmpleadosTecnicos()
+        {
+            try
+            {
+                // Obtener los empleados técnicos
+                DataTable dataTable = EmpleadoDAL.ObtenerEmpleadosTecnicos();
+                // Limpiar ComboBox cmbNombreE
+                cmbNombreE.Items.Clear();
+                // Agregar empleados técnicos al ComboBox cmbNombreE
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    string nombreCompleto = row["Nombre_E"].ToString() + " " + row["Apellido_E"].ToString();
+                    cmbNombreE.Items.Add(nombreCompleto);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar los empleados técnicos: " + ex.Message);
             }
         }
 
@@ -124,17 +149,10 @@ namespace Telecomunicaciones_Sistema
         // Evento que se ejecuta al cambiar la selección en el ComboBox de Tipo de Trabajo
         private void CmbTipoT_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            // Actualiza la selección en el ComboBox de Nombre de Empleado en otra ventana
+            // Obtener el tipo de trabajo seleccionado del ComboBox cmbTipoT
             if (cmbTipoT.SelectedItem != null)
             {
-                ListBoxItem itemSeleccionado = cmbTipoT.SelectedItem as ListBoxItem;
-                if (itemSeleccionado != null)
-                {
-                    valorSeleccionadoTipoT = itemSeleccionado.Content.ToString();
-
-                    Window5 ventana5 = new Window5();
-                    ventana5.ActualizarDatos(valorSeleccionadoTipoT, valorSeleccionadoNombreE);
-                }
+                valorSeleccionadoTipoT = ((ComboBoxItem)cmbTipoT.SelectedItem).Content.ToString();
             }
         }
 
@@ -144,28 +162,45 @@ namespace Telecomunicaciones_Sistema
             // Actualiza la selección en el ComboBox de Tipo de Trabajo en otra ventana
             if (cmbNombreE.SelectedItem != null)
             {
-                ListBoxItem itemSeleccionado = cmbNombreE.SelectedItem as ListBoxItem;
-                if (itemSeleccionado != null)
-                {
-                    valorSeleccionadoNombreE = itemSeleccionado.Content.ToString();
+                valorSeleccionadoNombreE = cmbNombreE.SelectedItem.ToString();
 
-                    Window5 ventana5 = new Window5();
-                    ventana5.ActualizarDatos(valorSeleccionadoTipoT, valorSeleccionadoNombreE);
+                // Obtener el ID del empleado seleccionado
+                string idEmpleado = ObtenerIdEmpleadoSeleccionado(valorSeleccionadoNombreE);
+
+                // Crear una instancia de Window5 si no existe una instancia previa
+                Window5 ventana5 = Application.Current.Windows.OfType<Window5>().FirstOrDefault();
+                if (ventana5 == null)
+                {
+                    ventana5 = new Window5();
                 }
+
+                // Asignar los datos de la orden a la ventana5
+                ventana5.DatosOrden = DatosOrden;
+
+                // Actualizar los datos en la ventana5
+                ventana5.ActualizarDatos(valorSeleccionadoTipoT, valorSeleccionadoNombreE, idEmpleado);
             }
         }
 
         private void BtnMostrar_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(txtNombre.Text) || string.IsNullOrEmpty(txtApellido.Text) || string.IsNullOrEmpty(txtDirección.Text) || string.IsNullOrEmpty(txtNumT.Text) || string.IsNullOrEmpty(txtTpServicio.Text) || cmbTipoT.SelectedItem == null || cmbNombreE.SelectedItem == null)
+            if (!Validaciones.CamposOrdenVacios(txtNombre.Text, txtApellido.Text, txtDirección.Text, txtNumT.Text, txtTpServicio.Text, cmbTipoT.SelectedItem, cmbNombreE.SelectedItem))
             {
                 MessageBox.Show("Por favor, complete todos los campos antes de imprimir.", "Datos Incompletos", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            Window5 ventana5 = new Window5();
+            // Obtener el ID del empleado seleccionado
+            string idEmpleado = ObtenerIdEmpleadoSeleccionado(cmbNombreE.SelectedItem.ToString());
 
-            // Asigna los datos de la orden a la nueva ventana
+            // Crear una instancia de Window5 si no existe una instancia previa
+            Window5 ventana5 = Application.Current.Windows.OfType<Window5>().FirstOrDefault();
+            if (ventana5 == null)
+            {
+                ventana5 = new Window5();
+            }
+
+            // Asignar los datos de la orden a la ventana5
             ventana5.DatosOrden = new Ordenes
             {
                 Nombre = txtNombre.Text,
@@ -175,11 +210,33 @@ namespace Telecomunicaciones_Sistema
                 Servicio = txtTpServicio.Text
             };
 
-            // Actualiza los datos en la nueva ventana
-            ventana5.ActualizarDatos(valorSeleccionadoTipoT, valorSeleccionadoNombreE);
+            // Actualizar los datos en la ventana5
+            ventana5.ActualizarDatos(valorSeleccionadoTipoT, valorSeleccionadoNombreE, idEmpleado);
 
             ventana5.Show();
             this.Hide();
+        }
+
+        // Método para obtener el ID del empleado seleccionado en el ComboBox
+        private string ObtenerIdEmpleadoSeleccionado(string nombreCompleto)
+        {
+            try
+            {
+                // Buscar el ID del empleado en base al nombre completo
+                DataTable dataTable = EmpleadoDAL.BuscarEmpleadoNombreCompleto(nombreCompleto);
+                if (dataTable.Rows.Count > 0)
+                {
+                    // Obtener el ID del primer empleado encontrado
+                    return dataTable.Rows[0]["ID_Empleado"].ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al obtener el ID del empleado: " + ex.Message);
+            }
+
+            // Si no se pudo encontrar el empleado, devolver null
+            return null;
         }
     }
 }

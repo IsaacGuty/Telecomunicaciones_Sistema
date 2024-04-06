@@ -33,17 +33,13 @@
         <Label x:Name="lblTipoT" Content="Tipo de trabajo:" HorizontalAlignment="Left" Margin="49,494,0,0" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Times New Roman" FontSize="14"/>
         <Label x:Name="lblNombreE" Content="Nombre del Empleado:" HorizontalAlignment="Left" Margin="49,526,0,0" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Times New Roman" FontSize="14" RenderTransformOrigin="0.525,1.945"/>
         <TextBox x:Name="txtNombre" HorizontalAlignment="Left" Height="26" Margin="235,327,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="266" FontFamily="Times New Roman" FontSize="14"/>
-        <ComboBox x:Name="cmbNombreE" HorizontalAlignment="Left" Margin="235,526,0,0" VerticalAlignment="Top" Width="266" FontFamily="Times New Roman" FontSize="14" SelectionChanged="CmbNombreE_SelectionChanged">
-            <ListBoxItem Content="Jonny Alexis Giron"/>
-            <ListBoxItem Content="Khenen Isaac Giron"/>
-            <ListBoxItem Content="Walter Salgado"/>
-        </ComboBox>
+        <ComboBox x:Name="cmbNombreE" HorizontalAlignment="Left" Margin="235,526,0,0" VerticalAlignment="Top" Width="266" FontFamily="Times New Roman" FontSize="14" SelectionChanged="CmbNombreE_SelectionChanged"/>
         <ComboBox x:Name="cmbTipoT" HorizontalAlignment="Left" Margin="235,497,0,0" VerticalAlignment="Top" Width="266" FontFamily="Times New Roman" FontSize="14" IsReadOnly="True" SelectionChanged="CmbTipoT_SelectionChanged">
-            <ListBoxItem Content="Instalación"/>
-            <ListBoxItem Content="Reparación"/>
-            <ListBoxItem Content="Corte"/>
-            <ListBoxItem Content="Reconexión"/>
-            <ListBoxItem Content="Activación"/>
+            <ComboBoxItem>Instalación</ComboBoxItem>
+            <ComboBoxItem>Reparación</ComboBoxItem>
+            <ComboBoxItem>Corte</ComboBoxItem>
+            <ComboBoxItem>Reconexión</ComboBoxItem>
+            <ComboBoxItem>Activación</ComboBoxItem>
         </ComboBox>
         <TextBox x:Name="txtApellido" HorizontalAlignment="Left" Height="26" Margin="235,361,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="266" FontFamily="Times New Roman" FontSize="14"/>
         <TextBox x:Name="txtDirección" HorizontalAlignment="Left" Height="26" Margin="235,397,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="266" FontFamily="Times New Roman" FontSize="14"/>

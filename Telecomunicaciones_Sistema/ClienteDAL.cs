@@ -74,6 +74,14 @@ namespace Telecomunicaciones_Sistema
         {
             try
             {
+                // Verificar si el cliente ya existe con los mismos datos
+                if (ClienteDI(cliente.ID_Cliente, cliente.Nombre, cliente.Apellido, cliente.Correo, cliente.Teléfono.ToString(), cliente.ID_Dirección))
+                {
+                    MessageBox.Show("El cliente con estos datos ya existe en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                // Agregar el cliente solo si no existe
                 using (SqlConnection connection = BD.ObtenerConexion())
                 {
                     connection.Open();

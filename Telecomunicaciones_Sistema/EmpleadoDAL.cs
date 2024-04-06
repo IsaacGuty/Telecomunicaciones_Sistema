@@ -92,7 +92,6 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
-
         public static bool EmpleadoExiste(string idEmpleado)
         {
             using (SqlConnection connection = BD.ObtenerConexion())
@@ -100,8 +99,27 @@ namespace Telecomunicaciones_Sistema
                 connection.Open();
                 SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM Empleados WHERE ID_Empleado = @ID_Empleado", connection);
                 cmd.Parameters.AddWithValue("@ID_Empleado", idEmpleado);
+
                 int count = (int)cmd.ExecuteScalar();
-                return count > 0; // Devuelve true si se encuentra al menos un empleado con el ID_Empleado dado
+                return count > 0;
+            }
+        }
+
+        public static bool EmpleadoExisteConDatos(string idEmpleado, string nombre, string apellido, string correo, string telefono, string idDireccion)
+        {
+            using (SqlConnection connection = BD.ObtenerConexion())
+            {
+                connection.Open();
+                SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM Empleados WHERE ID_Empleado = @ID_Empleado OR (Nombre_E = @Nombre_E AND Apellido_E = @Apellido_E AND Correo_E = @Correo_E AND Teléfono_E = @Teléfono_E AND ID_Dirección = @ID_Dirección)", connection);
+                cmd.Parameters.AddWithValue("@ID_Empleado", idEmpleado);
+                cmd.Parameters.AddWithValue("@Nombre_E", nombre);
+                cmd.Parameters.AddWithValue("@Apellido_E", apellido);
+                cmd.Parameters.AddWithValue("@Correo_E", correo);
+                cmd.Parameters.AddWithValue("@Teléfono_E", telefono);
+                cmd.Parameters.AddWithValue("@ID_Dirección", idDireccion);
+
+                int count = (int)cmd.ExecuteScalar();
+                return count > 0;
             }
         }
 
@@ -119,6 +137,47 @@ namespace Telecomunicaciones_Sistema
                 int count = (int)cmd.ExecuteScalar();
                 return count > 0; // Devuelve true si se encuentra al menos un empleado con los mismos datos
             }
+        }
+
+        public static DataTable ObtenerEmpleadosTecnicos()
+        {
+            DataTable dataTable = new DataTable();
+            try
+            {
+                using (SqlConnection connection = BD.ObtenerConexion())
+                {
+                    connection.Open();
+                    string query = "SELECT * FROM Empleados WHERE Puesto = 'Tecnico'";
+                    SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
+                    adapter.Fill(dataTable);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener los empleados técnicos: " + ex.Message);
+            }
+            return dataTable;
+        }
+
+        public static DataTable BuscarEmpleadoNombreCompleto(string nombreCompleto)
+        {
+            DataTable dataTable = new DataTable();
+            using (SqlConnection Conn = BD.ObtenerConexion())
+            {
+                Conn.Open();
+
+                SqlCommand comando = new SqlCommand(
+                    "SELECT * " +
+                    "FROM Empleados " +
+                    "WHERE CONCAT(Nombre_E, ' ', Apellido_E) = @NombreCompleto", Conn);
+
+                comando.Parameters.AddWithValue("@NombreCompleto", nombreCompleto);
+
+                SqlDataReader reader = comando.ExecuteReader();
+
+                dataTable.Load(reader);
+            }
+            return dataTable;
         }
     }
 }

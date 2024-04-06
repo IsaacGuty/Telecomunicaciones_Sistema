@@ -20,7 +20,7 @@ namespace Telecomunicaciones_Sistema
     /// </summary>
     public partial class Window5 : Window
     {
-        public Ordenes DatosOrden { get; set; } 
+        public Ordenes DatosOrden { get; set; }
 
         public Window5()
         {
@@ -31,15 +31,18 @@ namespace Telecomunicaciones_Sistema
             txtNumT.IsReadOnly = true;
             txtServicio.IsReadOnly = true;
             txtFecha.IsReadOnly = true;
-            txtTipoT1.IsReadOnly = true;
-            txtNombreE.IsReadOnly = true;
+            txtTrabajo.IsReadOnly = true;
+            txtIDE.IsReadOnly = true;
+            txtNombre_E.IsReadOnly = true;
 
+            // Comprobar si DatosOrden no es nulo antes de asignar los valores
             if (DatosOrden != null)
             {
-                txtNombre.Text = DatosOrden.Nombre;
+                txtNombre.Text = DatosOrden.Nombre + " " + DatosOrden.Apellido;
                 txtDirección.Text = DatosOrden.Dirección;
                 txtNumT.Text = DatosOrden.Teléfono.ToString();
                 txtServicio.Text = DatosOrden.Servicio;
+                txtFecha.Text = DateTime.Now.ToShortDateString();
             }
         }
 
@@ -65,7 +68,7 @@ namespace Telecomunicaciones_Sistema
         {
         }
 
-        public void ActualizarDatos(string valorSeleccionadoTipoT, string valorSeleccionadoNombreE)
+        public void ActualizarDatos(string valorSeleccionadoTipoT, string valorSeleccionadoNombreE, string idEmpleado)
         {
             if (DatosOrden != null)
             {
@@ -75,8 +78,9 @@ namespace Telecomunicaciones_Sistema
                 txtServicio.Text = DatosOrden.Servicio;
                 txtFecha.Text = DateTime.Now.ToShortDateString();
 
-                txtTipoT1.Text = valorSeleccionadoTipoT;
-                txtNombreE.Text = valorSeleccionadoNombreE;
+                txtTrabajo.Text = valorSeleccionadoTipoT;
+                txtNombre_E.Text = valorSeleccionadoNombreE;
+                txtIDE.Text = idEmpleado;
             }
         }
 
