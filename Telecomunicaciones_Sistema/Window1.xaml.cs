@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Diagnostics;
 
 namespace Telecomunicaciones_Sistema
 {
@@ -77,6 +78,51 @@ namespace Telecomunicaciones_Sistema
             Window6 formularioO = new Window6();
             formularioO.Show();
             this.Hide();
+        }
+
+        private void BtnSoporteTecnico_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("¡Bienvenido al servicio de soporte técnico!\n\n" +
+                "Para mayor información puede contactarse a:\n" +
+                "1. Número teléfonico: 9755-1953\n" +
+                "2. C orreo electrónico: telecomunicaciones_2024@gmail.com\n\n" +
+                "¿Desea realizar una acción?",
+                "Soporte Técnico", MessageBoxButton.YesNo);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                actionPanel.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void AcceptButton_Click(object sender, RoutedEventArgs e)
+        {
+            int action;
+            if (int.TryParse(actionInput.Text, out action))
+            {
+                switch (action)
+                {
+                    case 1:
+                        System.Diagnostics.Process.Start("https://api.whatsapp.com/send?phone=97551953");
+                        break;
+                    case 2:
+                        System.Diagnostics.Process.Start("mailto:telecomunicaciones_2024@gmail.com");
+                        break;
+                    default:
+                        MessageBox.Show("Por favor, seleccione una opción válida.");
+                        break;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Por favor, ingrese un número válido.");
+            }
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            actionPanel.Visibility = Visibility.Collapsed;
+            actionInput.Text = ""; // Limpiar el contenido del TextBox
         }
     }
 }

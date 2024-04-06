@@ -253,7 +253,6 @@ namespace Telecomunicaciones_Sistema
                     MessageBox.Show("Cliente modificado correctamente.");
                 }
                 // Si estamos en modo agregado y el cliente no existe, agregar el nuevo cliente
-                // Si estamos en modo agregado y el cliente no existe, agregar el nuevo cliente
                 else if (!esModificacion && !clienteExistente)
                 {
                     // Crear el objeto NuevoCliente con los datos del nuevo cliente
@@ -375,22 +374,32 @@ namespace Telecomunicaciones_Sistema
             return nuevoID;
         }
 
+        // Método invocado cuando el campo de nombre pierde el foco
         private void TxtNombreC_LostFocus(object sender, RoutedEventArgs e)
         {
+            // Verificar si el campo de nombre no está vacío
             if (!string.IsNullOrEmpty(txtNombreC.Text))
             {
+                // Obtener la información de formato de la cultura actual
                 CultureInfo cultureInfo = System.Threading.Thread.CurrentThread.CurrentCulture;
+                // Crear un objeto TextInfo para realizar operaciones de formato de texto
                 TextInfo textInfo = cultureInfo.TextInfo;
+                // Convertir el texto del campo de nombre a título
                 txtNombreC.Text = textInfo.ToTitleCase(txtNombreC.Text.ToLower());
             }
         }
 
+        // Método invocado cuando el campo de apellido pierde el foco
         private void TxtApellidoC_LostFocus(object sender, RoutedEventArgs e)
         {
+            // Verificar si el campo de apellido no está vacío
             if (!string.IsNullOrEmpty(txtApellidoC.Text))
             {
+                // Obtener la información de formato de la cultura actual
                 CultureInfo cultureInfo = System.Threading.Thread.CurrentThread.CurrentCulture;
+                // Crear un objeto TextInfo para realizar operaciones de formato de texto
                 TextInfo textInfo = cultureInfo.TextInfo;
+                // Convertir el texto del campo de apellido a título
                 txtApellidoC.Text = textInfo.ToTitleCase(txtApellidoC.Text.ToLower());
             }
         }
