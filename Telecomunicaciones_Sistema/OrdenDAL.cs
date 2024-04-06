@@ -50,5 +50,32 @@ namespace Telecomunicaciones_Sistema
                 throw new Exception("Error al buscar órdenes: " + ex.Message);
             }
         }
+
+        public static void GuardarOrden(Ordenes orden)
+        {
+            try
+            {
+                using (SqlConnection Conn = BD.ObtenerConexion())
+                {
+                    Conn.Open();
+                    string query = "INSERT INTO Ordenes (Nombre, Apellido, Dirección, Teléfono, Servicio, Tp_Servicio, Nombre_E, ID_Empleado) VALUES (@Nombre, @Apellido, @Dirección, @Teléfono, @Servicio, @Tp_Servicio, @Nombre_E, @ID_Empleado)";
+                    SqlCommand command = new SqlCommand(query, Conn);
+                    command.Parameters.AddWithValue("@Nombre", orden.Nombre);
+                    command.Parameters.AddWithValue("@Apellido", orden.Apellido);
+                    command.Parameters.AddWithValue("@Dirección", orden.Dirección);
+                    command.Parameters.AddWithValue("@Teléfono", orden.Teléfono);
+                    command.Parameters.AddWithValue("@Servicio", orden.Servicio);
+                    command.Parameters.AddWithValue("@Tp_Servicio", orden.Tp_Servicio);
+                    command.Parameters.AddWithValue("@Nombre_E", orden.Nombre_E);
+                    command.Parameters.AddWithValue("@ID_Empleado", orden.ID_Empleado);
+                    command.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al guardar la orden: " + ex.Message);
+            }
+        }
+
     }
 }

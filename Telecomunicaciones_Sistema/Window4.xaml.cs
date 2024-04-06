@@ -190,31 +190,51 @@ namespace Telecomunicaciones_Sistema
                 return;
             }
 
-            // Obtener el ID del empleado seleccionado
-            string idEmpleado = ObtenerIdEmpleadoSeleccionado(cmbNombreE.SelectedItem.ToString());
-
-            // Crear una instancia de Window5 si no existe una instancia previa
-            Window5 ventana5 = Application.Current.Windows.OfType<Window5>().FirstOrDefault();
-            if (ventana5 == null)
+            try
             {
-                ventana5 = new Window5();
+                // Obtener el ID del empleado seleccionado
+                string idEmpleado = ObtenerIdEmpleadoSeleccionado(cmbNombreE.SelectedItem.ToString());
+
+                // Guardar la orden en la base de datos
+                OrdenDAL.GuardarOrden(new Ordenes
+                {
+                    Nombre = txtNombre.Text,
+                    Apellido = txtApellido.Text,
+                    Dirección = txtDirección.Text,
+                    Teléfono = Convert.ToDecimal(txtNumT.Text),
+                    Servicio = txtTpServicio.Text,
+                    Tp_Servicio = valorSeleccionadoTipoT,
+                    Nombre_E = cmbNombreE.SelectedItem.ToString(),
+                    ID_Empleado = idEmpleado
+                });
+
+                // Crear una instancia de Window5 si no existe una instancia previa
+                Window5 ventana5 = Application.Current.Windows.OfType<Window5>().FirstOrDefault();
+                if (ventana5 == null)
+                {
+                    ventana5 = new Window5();
+                }
+
+                // Asignar los datos de la orden a la ventana5
+                ventana5.DatosOrden = new Ordenes
+                {
+                    Nombre = txtNombre.Text,
+                    Apellido = txtApellido.Text,
+                    Dirección = txtDirección.Text,
+                    Teléfono = Convert.ToDecimal(txtNumT.Text),
+                    Servicio = txtTpServicio.Text
+                };
+
+                // Actualizar los datos en la ventana5
+                ventana5.ActualizarDatos(valorSeleccionadoTipoT, valorSeleccionadoNombreE, idEmpleado);
+
+                ventana5.Show();
+                this.Hide();
             }
-
-            // Asignar los datos de la orden a la ventana5
-            ventana5.DatosOrden = new Ordenes
+            catch (Exception ex)
             {
-                Nombre = txtNombre.Text,
-                Apellido = txtApellido.Text,
-                Dirección = txtDirección.Text,
-                Teléfono = Convert.ToDecimal(txtNumT.Text),
-                Servicio = txtTpServicio.Text
-            };
-
-            // Actualizar los datos en la ventana5
-            ventana5.ActualizarDatos(valorSeleccionadoTipoT, valorSeleccionadoNombreE, idEmpleado);
-
-            ventana5.Show();
-            this.Hide();
+                MessageBox.Show("Error al guardar la orden: " + ex.Message);
+            }
         }
 
         // Método para obtener el ID del empleado seleccionado en el ComboBox
