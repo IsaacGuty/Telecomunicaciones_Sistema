@@ -197,6 +197,12 @@ namespace Telecomunicaciones_Sistema
                 // Si estamos en modo modificación y el empleado existe, actualizar los datos del empleado
                 if (esModificacion && empleadoExistente)
                 {
+                    if (EmpleadoDAL.EmpleadoDI(txtNombreE.Text, txtApellidoE.Text, txtCorreoE.Text, txtTelefonoE.Text, numeroDireccion, idEmpleado))
+                    {
+                        MessageBox.Show("Los datos del empleado son iguales a los de otro empleado en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+
                     // Crear el objeto NuevoEmpleado con los datos modificados
                     NuevoEmpleado = new Empleados
                     {
@@ -236,7 +242,6 @@ namespace Telecomunicaciones_Sistema
                     EmpleadoDAL.ActualizarEmpleado(NuevoEmpleado);
                     MessageBox.Show("Empleado modificado correctamente.");
                 }
-                // Si estamos en modo agregado y el empleado no existe, agregar el nuevo empleado
                 // Si estamos en modo agregado y el empleado no existe, agregar el nuevo empleado
                 else if (!esModificacion && !empleadoExistente)
                 {

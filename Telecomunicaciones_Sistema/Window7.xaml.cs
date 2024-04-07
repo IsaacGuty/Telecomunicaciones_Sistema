@@ -129,6 +129,7 @@ namespace Telecomunicaciones_Sistema
                     return;
                 }
 
+                // Validar campos del cliente
                 if (!Validaciones.NoContieneEspaciosEnBlanco(txtNombreC.Text) || !Validaciones.NoContieneEspaciosEnBlanco(txtApellidoC.Text) ||
                     !Validaciones.NoContieneEspaciosEnBlanco(txtTelefonoC.Text) || !Validaciones.NoContieneEspaciosEnBlanco(txtCorreoC.Text))
                 {
@@ -136,57 +137,27 @@ namespace Telecomunicaciones_Sistema
                     return;
                 }
 
-                if (!Validaciones.NombreValido(txtNombreC.Text))
+                if (!Validaciones.NombreValido(txtNombreC.Text) || !Validaciones.NombreV(txtNombreC.Text) || !Validaciones.TresVecesSeguidas(txtNombreC.Text))
                 {
-                    MessageBox.Show("El nombre no es válido. No se permiten espacios en blanco al inicio ni entre caracteres.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("El nombre no es válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
-                if (!Validaciones.NombreV(txtNombreC.Text))
+                if (!Validaciones.ApellidoValido(txtApellidoC.Text) || !Validaciones.TresVecesSeguidas(txtApellidoC.Text) || !Validaciones.ApellidoV(txtApellidoC.Text))
                 {
-                    MessageBox.Show("El nombre no es válido. Debe tener al menos 3 letras.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("El apellido no es válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
-                if (!Validaciones.TresVecesSeguidas(txtNombreC.Text))
+                if (!Validaciones.NoContieneEspaciosEnBlancoEnNumero(txtTelefonoC.Text) || !Validaciones.TelefonoValido(txtTelefonoC.Text))
                 {
-                    MessageBox.Show("El nombre no es válido. No se permiten más de 3 veces seguidas la misma letra.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-                }
-
-                if (!Validaciones.ApellidoValido(txtApellidoC.Text))
-                {
-                    MessageBox.Show("El apellido no es válido. No se permiten espacios en blanco al inicio ni entre caracteres.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-                }
-
-                if (!Validaciones.TresVecesSeguidas(txtApellidoC.Text))
-                {
-                    MessageBox.Show("El apellido no es válido. No se permiten más de 3 veces seguidas la misma letra.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-                }
-
-                if (!Validaciones.ApellidoV(txtApellidoC.Text))
-                {
-                    MessageBox.Show("El apellido no es válido. Debe tener al menos 3 letras.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-                }
-
-                if (!Validaciones.NoContieneEspaciosEnBlancoEnNumero(txtTelefonoC.Text))
-                {
-                    MessageBox.Show("El teléfono no debe contener espacios en blanco.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-                }
-
-                if (!Validaciones.TelefonoValido(txtTelefonoC.Text))
-                {
-                    MessageBox.Show("El número de teléfono no puede contener demasiados ceros repetidos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("El teléfono no es válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
                 if (!Validaciones.CorreoValidoEspacios(txtCorreoC.Text))
                 {
-                    MessageBox.Show("El correo electrónico no es válido. No se permiten espacios en blanco.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("El correo electrónico no es válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
@@ -211,9 +182,15 @@ namespace Telecomunicaciones_Sistema
                     return;
                 }
 
-                // Si estamos en modo modificación y el cliente existe, actualizar los datos del cliente
+                // Si estamos en modo modificación y el cliente existe, verificar si la información es igual a la de otro cliente
                 if (esModificacion && clienteExistente)
                 {
+                    if (ClienteDAL.ClienteDI(idCliente, txtNombreC.Text, txtApellidoC.Text, txtCorreoC.Text, txtTelefonoC.Text, numeroDireccion))
+                    {
+                        MessageBox.Show("Los datos del cliente son iguales a los de otro cliente en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+
                     // Crear el objeto NuevoCliente con los datos modificados
                     NuevoCliente = new Clientes
                     {
@@ -231,6 +208,9 @@ namespace Telecomunicaciones_Sistema
                         return;
                     }
 
+                    // Asignar el valor convertido a decimal al Teléfono del NuevoCliente
+                    NuevoCliente.Teléfono = telefonoDecimal;
+
                     // Verificar si el teléfono cumple con los criterios de validación
                     if (!Validaciones.EsTelefonoValido(txtTelefonoC.Text))
                     {
@@ -244,9 +224,6 @@ namespace Telecomunicaciones_Sistema
                         MessageBox.Show("El formato del correo electrónico no es válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
-
-                    // Asignar el valor convertido a decimal al Teléfono del NuevoCliente
-                    NuevoCliente.Teléfono = telefonoDecimal;
 
                     // Actualizar el cliente existente en la base de datos
                     ClienteDAL.ActualizarCliente(NuevoCliente);
@@ -318,7 +295,6 @@ namespace Telecomunicaciones_Sistema
             // Cierra la ventana después de procesar el cliente
             this.Close();
         }
-
 
         // Método invocado cuando se agrega un cliente, activa el evento ClienteAgregado
         private void OnClienteAgregado()

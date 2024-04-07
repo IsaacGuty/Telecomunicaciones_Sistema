@@ -34,6 +34,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Logo Telecomunicaciones GG.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="ReachFramework" />
     <Reference Include="System" />
@@ -236,25 +239,16 @@
     <Resource Include="buscar.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Image1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Image2.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Image3.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Image4.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Image5.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Image6.png" />
+    <Resource Include="Logo Telecomunicaciones GG.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Image7.png" />
+    <Resource Include="customers-icon-3 %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="OIP %281%29.jpeg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
