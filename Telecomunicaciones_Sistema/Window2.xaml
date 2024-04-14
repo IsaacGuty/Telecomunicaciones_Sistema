@@ -17,16 +17,16 @@
     </Window.Resources>
 
     <Grid>
-        <Button x:Name="btnAgregar" Content="Agregar" HorizontalAlignment="Left" Margin="152,409,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnAgregar_Click"/>
-        <Button x:Name="BtnModificar" Content="Modificar" HorizontalAlignment="Left" Margin="272,409,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnModificar_Click"/>
-        <Button x:Name="btnRegresar" Content="Regresar" HorizontalAlignment="Left" Margin="503,409,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnRegresar_Click"/>
-        <DataGrid x:Name="DatGridRC" AutoGenerateColumns ="True" HorizontalAlignment="Left" Height="219" Margin="74,144,0,0" VerticalAlignment="Top" Width="568" SelectionChanged="DatGridRC_SelectionChanged"/>
-        <TextBox x:Name="txtBuscar" HorizontalAlignment="Left" Height="23" Margin="405,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="165" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
-        <Button x:Name="BtnBuscar" HorizontalAlignment="Left" Margin="586,86,0,0" VerticalAlignment="Top" Width="56" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Height="28" Click="BtnBuscar_Click">
+        <Button x:Name="btnAgregar" Content="Agregar" HorizontalAlignment="Left" Margin="152,409,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnAgregar_Click" TabIndex="0"/>
+        <Button x:Name="BtnModificar" Content="Modificar" HorizontalAlignment="Left" Margin="272,409,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnModificar_Click" TabIndex="1"/>
+        <Button x:Name="btnRegresar" Content="Regresar" HorizontalAlignment="Left" Margin="503,409,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnRegresar_Click" TabIndex="3"/>
+        <DataGrid x:Name="DatGridRC" AutoGenerateColumns ="True" HorizontalAlignment="Left" Height="219" Margin="74,144,0,0" VerticalAlignment="Top" Width="568" SelectionChanged="DatGridRC_SelectionChanged" KeyboardNavigation.TabNavigation="None"/>
+        <TextBox x:Name="txtBuscar" HorizontalAlignment="Left" Height="23" Margin="405,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="165" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" TabIndex="5"/>
+        <Button x:Name="BtnBuscar" HorizontalAlignment="Left" Margin="586,86,0,0" VerticalAlignment="Top" Width="56" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Height="28" Click="BtnBuscar_Click" TabIndex="6">
             <Image x:Name="Buscar" Height="23" Source="buscar.png" Stretch="Fill" Width="24"/>
         </Button>
         <Label Content="Registro de Clientes" HorizontalAlignment="Left" Margin="97,56,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="24" FontWeight="Bold" Width="246"/>
         <Image Margin="15,45,620.8,359.2" Source="logoTele.png" Stretch="Fill"/>
-        <Button x:Name="BtnLimpiar" Content="Limpiar" HorizontalAlignment="Left" Margin="389,409,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnLimpiar_Click"/>
+        <Button x:Name="BtnLimpiar" Content="Limpiar" HorizontalAlignment="Left" Margin="389,409,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnLimpiar_Click" TabIndex="2"/>
     </Grid>
 </Window>

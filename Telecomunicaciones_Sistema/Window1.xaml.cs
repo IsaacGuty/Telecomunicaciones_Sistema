@@ -85,7 +85,7 @@ namespace Telecomunicaciones_Sistema
             MessageBoxResult result = MessageBox.Show("¡Bienvenido al servicio de soporte técnico!\n\n" +
                 "Para mayor información puede contactarse a:\n" +
                 "1. Número teléfonico: 9755-1953\n" +
-                "2. C orreo electrónico: telecomunicaciones_2024@gmail.com\n\n" +
+                "2. Correo electrónico: telecomunicacioness.2024@gmail.com\n\n" +
                 "¿Desea realizar una acción?",
                 "Soporte Técnico", MessageBoxButton.YesNo);
 

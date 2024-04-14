@@ -20,22 +20,22 @@
         <Image Margin="87,45,548.6,469" Source="logoTele.png" Stretch="Fill"/>
         <Image Margin="15,45,601.6,359.2" Source="logoTele.png" Stretch="Fill"/>
         <Label Content="ID:" HorizontalAlignment="Left" Margin="212,120,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
-        <TextBox x:Name="txtIDC" IsReadOnly="True" HorizontalAlignment="Left" Height="23" Margin="305,123,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14"/>
-        <Button x:Name="btnAceptar" Content="Aceptar" HorizontalAlignment="Left" Margin="258,413,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnAceptar_Click"/>
+        <TextBox x:Name="txtIDC" IsReadOnly="True" HorizontalAlignment="Left" Height="23" Margin="305,123,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14" TabIndex="0"/>
+        <Button x:Name="btnAceptar" Content="Aceptar" HorizontalAlignment="Left" Margin="258,413,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnAceptar_Click" TabIndex="6"/>
         <Label Content="Nombre:" HorizontalAlignment="Left" Margin="212,162,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
-        <TextBox x:Name="txtNombreC" HorizontalAlignment="Left" Height="23" Margin="305,165,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14" LostFocus="TxtNombreC_LostFocus"/>
+        <TextBox x:Name="txtNombreC" HorizontalAlignment="Left" Height="23" Margin="305,165,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14" LostFocus="TxtNombreC_LostFocus" TabIndex="1"/>
         <Label Content="Apellido:" HorizontalAlignment="Left" Margin="212,209,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
-        <TextBox x:Name="txtApellidoC" HorizontalAlignment="Left" Height="23" Margin="305,212,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14" LostFocus="TxtApellidoC_LostFocus"/>
+        <TextBox x:Name="txtApellidoC" HorizontalAlignment="Left" Height="23" Margin="305,212,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14" LostFocus="TxtApellidoC_LostFocus" TabIndex="2"/>
         <Label Content="Teléfono:" HorizontalAlignment="Left" Margin="212,255,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
-        <TextBox x:Name="txtTelefonoC" HorizontalAlignment="Left" Height="23" Margin="305,258,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14"/>
+        <TextBox x:Name="txtTelefonoC" HorizontalAlignment="Left" Height="23" Margin="305,258,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14" TabIndex="3"/>
         <Label Content="Correo:" HorizontalAlignment="Left" Margin="212,299,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
-        <TextBox x:Name="txtCorreoC" HorizontalAlignment="Left" Height="23" Margin="305,302,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14"/>
+        <TextBox x:Name="txtCorreoC" HorizontalAlignment="Left" Height="23" Margin="305,302,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14" TabIndex="4"/>
         <Label Content="Dirección:" HorizontalAlignment="Left" Margin="212,346,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
-        <ComboBox x:Name="cmbDire" HorizontalAlignment="Left" Margin="305,346,0,0" VerticalAlignment="Top" Width="206" Height="25" FontFamily="Times New Roman" FontSize="14">
+        <ComboBox x:Name="cmbDire" HorizontalAlignment="Left" Margin="305,346,0,0" VerticalAlignment="Top" Width="206" Height="25" FontFamily="Times New Roman" FontSize="14" TabIndex="5">
             <ComboBoxItem>201 - Talanga</ComboBoxItem>
             <ComboBoxItem>202 - Jalaca</ComboBoxItem>
             <ComboBoxItem>203 - Tegucigalpa</ComboBoxItem>
         </ComboBox>
-        <Button x:Name="btnRegresar" Content="Regresar" HorizontalAlignment="Left" Margin="391,413,0,0" VerticalAlignment="Top" Width="82" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnRegresar_Click"/>
+        <Button x:Name="btnRegresar" Content="Regresar" HorizontalAlignment="Left" Margin="391,413,0,0" VerticalAlignment="Top" Width="82" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnRegresar_Click" TabIndex="7"/>
     </Grid>
 </Window>

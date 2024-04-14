@@ -133,15 +133,29 @@ namespace Telecomunicaciones_Sistema
 
         public static DataTable BuscarPagos(string textoBusqueda)
         {
+            // Intentar convertir textoBusqueda a entero
+            int idCliente;
+            bool esNumeroValido = int.TryParse(textoBusqueda, out idCliente);
+
+            if (!esNumeroValido)
+            {
+                // Si textoBusqueda no es un número entero válido, puedes manejarlo como prefieras,
+                throw new Exception("El texto de búsqueda debe ser un número entero válido para buscar por ID_Cliente.");
+            }
+
             try
             {
                 using (SqlConnection Conn = BD.ObtenerConexion())
                 {
                     Conn.Open();
+
+                    // Usar una búsqueda exacta en la columna ID_Cliente con el operador =
                     string query = "SELECT ID_Pago, ID_Cliente, Monto, ID_TpServicio, Mes_Pagado, Fecha, ID_Empleado FROM Pagos " +
-                                   "WHERE ID_Pago LIKE @TextoBusqueda OR ID_Cliente LIKE @TextoBusqueda";
+                                   "WHERE ID_Cliente = @TextoBusqueda";
+
                     SqlCommand command = new SqlCommand(query, Conn);
-                    command.Parameters.AddWithValue("@TextoBusqueda", "%" + textoBusqueda + "%");
+                    // Asigna el valor entero convertido al parámetro
+                    command.Parameters.AddWithValue("@TextoBusqueda", idCliente);
 
                     SqlDataAdapter adapter = new SqlDataAdapter(command);
                     DataSet dataSet = new DataSet();
@@ -154,6 +168,7 @@ namespace Telecomunicaciones_Sistema
                 throw new Exception("Error al buscar los pagos: " + ex.Message);
             }
         }
+
     }
 }
 
