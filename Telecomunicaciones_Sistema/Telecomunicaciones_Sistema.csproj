@@ -244,11 +244,5 @@
   <ItemGroup>
     <Resource Include="Logo Telecomunicaciones GG.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="customers-icon-3 %281%29.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="OIP %281%29.jpeg" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

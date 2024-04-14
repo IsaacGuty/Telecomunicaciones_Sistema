@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 using System.Data.SqlClient;
 using System.Windows;
 using System.Windows.Controls;
+using System.Printing;
 
 namespace Telecomunicaciones_Sistema
 {
@@ -367,6 +368,43 @@ namespace Telecomunicaciones_Sistema
         {
             // Verificar si el apellido tiene al menos 3 caracteres
             return apellido.Length >= 3 && !string.IsNullOrWhiteSpace(apellido) && !char.IsWhiteSpace(apellido[0]) && !apellido.Contains("  ");
+        }
+
+        public static bool ValidarImpresora(string selectedPrinter)
+        {
+            if (string.IsNullOrEmpty(selectedPrinter))
+            {
+                MessageBox.Show("Por favor, seleccione una impresora.");
+                return false;
+            }
+            return true;
+        }
+
+        public static bool ValidarPrintQueue(PrintQueue printQueue)
+        {
+            if (printQueue == null)
+            {
+                MessageBox.Show("Error al obtener la cola de impresión.");
+                return false;
+            }
+
+            if (printQueue.IsOffline)
+            {
+                MessageBox.Show("La impresora está desconectada o fuera de línea.");
+                return false;
+            }
+            return true;
+        }
+
+        public static bool ValidarCopias(string copiesText, out int copies)
+        {
+            if (string.IsNullOrEmpty(copiesText) || !int.TryParse(copiesText, out copies) || copies <= 0)
+            {
+                MessageBox.Show("Por favor, ingrese un número válido de copias.");
+                copies = 0;
+                return false;
+            }
+            return true;
         }
     }
 }

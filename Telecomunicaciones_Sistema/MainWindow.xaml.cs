@@ -14,25 +14,50 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Data;
 using System.Text.RegularExpressions;
+using System.IO;
 
 namespace Telecomunicaciones_Sistema
 {
     public partial class MainWindow : Window
     {
+        private Login Objlog = new Login();
+        private Pantalla ObjPan = new Pantalla();
 
-        Login Objlog = new Login();
-        Pantalla ObjPan = new Pantalla();
-
-        public static String Usuario_L;
-        public static String Contraseña_L;
-        public static String Rol_L;
+        public static string Usuario_L;
+        public static string Contraseña_L;
+        public static string Rol_L;
         private int userId;
         private int usuario;
         public static int IdUsuario;
 
+        // Contador de intentos de inicio de sesión
+        private int intentosI = 0;
+        private const int maxiI = 3;
+        private const int duracionI = 5; // Duración del bloqueo en minutos
+
+        // Archivo para almacenar la hora de bloqueo
+        private const string archivobloqueo = "lockout.txt";
+
+        // Constructor de la clase MainWindow
+        public MainWindow()
+        {
+            InitializeComponent();
+
+            // Verifica el bloqueo al iniciar la aplicación
+            RevisarBloqueo();
+        }
+
         // Método para realizar el inicio de sesión
         void P_Login()
         {
+            // Comprueba si el usuario está actualmente bloqueado
+            if (UsuarioBloqueado(out TimeSpan remainingTime))
+            {
+                MessageBox.Show($"Debes esperar {remainingTime.Minutes} minutos y {remainingTime.Seconds} segundos para intentar iniciar sesión nuevamente.",
+                                "Bloqueo de inicio de sesión", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return; // Sale de la función para evitar intentos de inicio de sesión
+            }
+
             DataTable DT = new DataTable();
             Objlog.usuario = txtUsuario.Text;
             Objlog.contraseña = txtContra.Password;
@@ -47,8 +72,11 @@ namespace Telecomunicaciones_Sistema
 
                 if (Objlog.usuario == usuarioBD && Objlog.contraseña == contraseñaBD)
                 {
-                    MessageBox.Show("Bienvenido " + DT.Rows[0][2].ToString() + " " + DT.Rows[0][3].ToString(), "Mensaje",
-                        MessageBoxButton.OK, MessageBoxImage.Information);
+                    // Restablece el contador de intentos en caso de inicio de sesión exitoso
+                    intentosI = 0;
+
+                    MessageBox.Show("Bienvenido " + DT.Rows[0][2].ToString() + " " + DT.Rows[0][3].ToString(),
+                                    "Mensaje", MessageBoxButton.OK, MessageBoxImage.Information);
 
                     Usuario_L = DT.Rows[0][2].ToString() + " " + DT.Rows[0][3].ToString();
                     Contraseña_L = contraseñaBD; // Almacena la contraseña de la base de datos
@@ -66,35 +94,63 @@ namespace Telecomunicaciones_Sistema
                 }
                 else
                 {
+                    // Incrementa el contador de intentos
+                    intentosI++;
+
                     MessageBox.Show("Usuario o Contraseña Incorrecta", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
                     txtUsuario.Clear();
                     txtContra.Clear();
+
+                    // Verifica si ha alcanzado el máximo de intentos
+                    if (intentosI >= maxiI)
+                    {
+                        // Guarda la hora actual en el archivo de bloqueo
+                        SetLockout();
+
+                        MessageBox.Show("Has excedido el número máximo de intentos de inicio de sesión. Por favor, intenta nuevamente más tarde.",
+                                        "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        // Cierra la aplicación
+                        this.Close();
+                    }
                 }
             }
             else
             {
+                // Incrementa el contador de intentos en caso de usuario no encontrado
+                intentosI++;
+
                 MessageBox.Show("Usuario o Contraseña Incorrecta", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
                 txtUsuario.Clear();
                 txtContra.Clear();
+
+                // Verifica si ha alcanzado el máximo de intentos
+                if (intentosI >= maxiI)
+                {
+                    // Guarda la hora actual en el archivo de bloqueo
+                    SetLockout();
+
+                    MessageBox.Show("Has excedido el número máximo de intentos de inicio de sesión. Por favor, intenta nuevamente más tarde.",
+                                    "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    // Cierra la aplicación
+                    this.Close();
+                }
             }
+
             return;
         }
 
-        // Constructor de la clase MainWindow
-        public MainWindow()
-        {
-            InitializeComponent();
-        }
-
+        // Evento que se dispara al hacer clic en el botón de inicio de sesión
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (Validaciones.ValidarUsuarioYContraseña(txtUsuario.Text, txtContra.Password))
             {
-                MessageBox.Show("Por favor, ingresa tanto el usuario como la contraseña.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Por favor, ingresa tanto el usuario como la contraseña.", "Advertencia",
+                                MessageBoxButton.OK, MessageBoxImage.Warning);
             }
             else if (!Validaciones.ContieneSoloNumeros(txtUsuario.Text))
             {
-                MessageBox.Show("Usuario o Contraseña Incorrecta", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Usuario o Contraseña Incorrecta", "Advertencia",
+                                MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
             {
@@ -102,7 +158,7 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
-
+        // Eventos para restablecer y cambiar la contraseña
         private void lblContraO_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             this.Hide(); // Oculta MainWindow antes de mostrar EstContra
@@ -125,6 +181,55 @@ namespace Telecomunicaciones_Sistema
         private void CloseMainWindow()
         {
             this.Close(); // Cierra la ventana principal si está abierta
+        }
+
+        private void SetLockout()
+        {
+            DateTime lockoutTime = DateTime.Now;
+            File.WriteAllText(archivobloqueo, lockoutTime.ToString("o"));
+        }
+
+        private bool UsuarioBloqueado(out TimeSpan remainingTime)
+        {
+            remainingTime = TimeSpan.Zero;
+
+            // Verifica si existe el archivo de bloqueo
+            if (File.Exists(archivobloqueo))
+            {
+                // Lee la hora de bloqueo del archivo
+                string lockoutTimeString = File.ReadAllText(archivobloqueo);
+                if (DateTime.TryParse(lockoutTimeString, out DateTime lockoutTime))
+                {
+                    // Calcula la duración del bloqueo
+                    TimeSpan lockoutDuration = DateTime.Now - lockoutTime;
+                    remainingTime = TimeSpan.FromMinutes(duracionI) - lockoutDuration;
+
+                    // Verifica si el bloqueo sigue vigente
+                    if (remainingTime.TotalSeconds > 0)
+                    {
+                        // El bloqueo sigue vigente
+                        return true;
+                    }
+                    else
+                    {
+                        // El bloqueo ha expirado, elimina el archivo
+                        File.Delete(archivobloqueo);
+                    }
+                }
+            }
+            // El usuario no está bloqueado
+            return false;
+        }
+
+        private void RevisarBloqueo()
+        {
+            if (UsuarioBloqueado(out TimeSpan remainingTime))
+            {
+                MessageBox.Show($"Debes esperar {remainingTime.Minutes} minutos y {remainingTime.Seconds} segundos para intentar iniciar sesión nuevamente.",
+                                "Bloqueo de inicio de sesión", MessageBoxButton.OK, MessageBoxImage.Warning);
+                // Cierra la aplicación
+                this.Close();
+            }
         }
     }
 }
