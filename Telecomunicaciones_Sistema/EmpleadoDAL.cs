@@ -148,7 +148,8 @@ namespace Telecomunicaciones_Sistema
                 using (SqlConnection connection = BD.ObtenerConexion())
                 {
                     connection.Open();
-                    string query = "SELECT * FROM Empleados WHERE Puesto = 'Tecnico'";
+                    // Consulta SQL para obtener solo empleados técnicos cuyo estado es "activo"
+                    string query = "SELECT * FROM Empleados WHERE Puesto = 'Tecnico' AND Estado = 'Activo'";
                     SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
                     adapter.Fill(dataTable);
                 }

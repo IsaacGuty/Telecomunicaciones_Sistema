@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using System.Data.SqlClient;
 using System.Data;
 using System.Text.RegularExpressions;
+using System.Globalization;
 
 namespace Telecomunicaciones_Sistema
 {
@@ -104,8 +105,6 @@ namespace Telecomunicaciones_Sistema
             txtDirección.Clear();
             txtNumT.Clear();
             txtTpServicio.Clear();
-            cmbTipoT.Items.Clear();
-            cmbNombreE.Items.Clear();
             txtBuscar.Clear();
 
             // Recarga los datos en el DataGrid
@@ -117,10 +116,26 @@ namespace Telecomunicaciones_Sistema
 
         private void BtnBuscar_Click(object sender, RoutedEventArgs e)
         {
-            // Obtiene los datos de las órdenes que coinciden con el criterio de búsqueda y los muestra en el DataGrid
-            DataTable dataTable = OrdenDAL.BuscarOrden(txtBuscar.Text);
-            DataView dataView = dataTable.DefaultView;
-            DatGridOT.ItemsSource = dataView;
+            try
+            {
+                // Obtiene los datos de las órdenes que coinciden con el criterio de búsqueda y los muestra en el DataGrid
+                DataTable dataTable = OrdenDAL.BuscarOrden(txtBuscar.Text);
+                DataView dataView = dataTable.DefaultView;
+
+                // Establece la fuente de datos del DataGrid
+                DatGridOT.ItemsSource = dataView;
+
+                // Verificar si la búsqueda no devolvió ningún resultado después de mostrar los datos
+                if (dataTable.Rows.Count == 0)
+                {
+                    // Mostrar mensaje indicando que no se encontró ningún cliente
+                    MessageBox.Show("No se encontró ningún cliente que coincida con el criterio de búsqueda.", "Búsqueda sin resultados", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al realizar la búsqueda: " + ex.Message);
+            }
         }
 
         // Evento que se ejecuta cuando se selecciona una fila en el DataGrid
@@ -257,6 +272,12 @@ namespace Telecomunicaciones_Sistema
 
             // Si no se pudo encontrar el empleado, devolver null
             return null;
+        }
+
+        private void TxtBuscar_LostFocus(object sender, RoutedEventArgs e)
+        {
+            // Convierte la primera letra de cada palabra a mayúscula
+            txtBuscar.Text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(txtBuscar.Text.ToLower());
         }
     }
 }

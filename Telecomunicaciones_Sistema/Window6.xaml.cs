@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Data.SqlClient;
 using System.Data;
+using System.Globalization;
 
 namespace Telecomunicaciones_Sistema
 {
@@ -138,16 +139,13 @@ namespace Telecomunicaciones_Sistema
         {
             // Realizar una búsqueda de empleado según el texto ingresado en el cuadro de búsqueda
             DataTable dataTable = EmpleadoDAL.BuscarEmpleado(txtBuscar.Text);
+            DataView dataView = new DataView(dataTable);
+            DataGridEMP.ItemsSource = dataView;
 
-            if (dataTable.Rows.Count > 0)
-            {
-                DataView dataView = new DataView(dataTable);
-                DataGridEMP.ItemsSource = dataView;
-            }
-            else
+            // Verificar si el DataTable está vacío
+            if (dataTable.Rows.Count == 0)
             {
                 MessageBox.Show("No se encontraron empleados que coincidan con la búsqueda.", "Búsqueda sin resultados", MessageBoxButton.OK, MessageBoxImage.Information);
-                DataGridEMP.ItemsSource = null; // Limpia el DataGrid si no se encontraron resultados
             }
         }
 
@@ -202,6 +200,12 @@ namespace Telecomunicaciones_Sistema
             {
                 EmpleadoSeleccionado = default(Empleados);
             }
+        }
+
+        private void TxtBuscar_LostFocus(object sender, RoutedEventArgs e)
+        {
+            // Convierte la primera letra de cada palabra a mayúscula
+            txtBuscar.Text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(txtBuscar.Text.ToLower());
         }
     }
 }

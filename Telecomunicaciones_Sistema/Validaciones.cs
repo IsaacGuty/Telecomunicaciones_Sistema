@@ -11,6 +11,8 @@ using System.Data.SqlClient;
 using System.Windows;
 using System.Windows.Controls;
 using System.Printing;
+using System.Globalization;
+using System.Windows.Input;
 
 namespace Telecomunicaciones_Sistema
 {
@@ -310,7 +312,7 @@ namespace Telecomunicaciones_Sistema
         public static bool NombreValido(string nombre)
         {
             // Expresión regular para verificar que el nombre contenga solo dos palabras separadas por un espacio
-            Regex regex = new Regex(@"^[a-zA-Z]+(?: [a-zA-Z]+)?$");
+            Regex regex = new Regex(@"^\p{L}+(?: \p{L}+)?$");
 
             // Verifica si el nombre coincide con la expresión regular
             return regex.IsMatch(nombre);
@@ -327,10 +329,10 @@ namespace Telecomunicaciones_Sistema
 
         public static bool ApellidoValido(string apellido)
         {
-            // Expresión regular para verificar que el nombre contenga solo dos palabras separadas por un espacio
-            Regex regex = new Regex(@"^[a-zA-Z]+(?: [a-zA-Z]+)?$");
+            // Expresión regular para verificar que el apellido contenga solo dos palabras separadas por un espacio
+            Regex regex = new Regex(@"^\p{L}+(?: \p{L}+)?$");
 
-            // Verifica si el nombre coincide con la expresión regular
+            // Verifica si el apellido coincide con la expresión regular
             return regex.IsMatch(apellido);
         }
 
@@ -340,14 +342,45 @@ namespace Telecomunicaciones_Sistema
             return !numero.Contains(" ");
         }
 
-        public static bool CorreoValidoEspacios(string correo)
+        // Función para verificar que el correo electrónico no contenga espacios en blanco
+        public static bool CorreoSinEspacios(string correo)
         {
-            // Expresión regular para verificar que el correo electrónico no contenga espacios en blanco
-            Regex regex = new Regex(@"^\S+@\S+$");
+            return !correo.Contains(' ');
+        }
 
-            // Verifica si el correo electrónico coincide con la expresión regular
+        // Función para verificar la estructura básica de un correo electrónico
+        public static bool CorreoValidoEstructura(string correo)
+        {
+            // Expresión regular para verificar la estructura básica de un correo electrónico
+            Regex regex = new Regex(@"^[^\s@]+@[^\s@]+\.[^\s@]+$");
             return regex.IsMatch(correo);
         }
+
+        public static bool CorreoValidoDominio(string correo)
+        {
+            // Lista de dominios válidos de proveedores populares
+            var dominiosValidos = new List<string>
+            {
+                "gmail.com",
+                "yahoo.com",
+                "hotmail.com"
+            };
+
+            // Verifica si el correo contiene un símbolo de arroba (@)
+            int atIndex = correo.IndexOf('@');
+            if (atIndex == -1)
+            {
+                // Si no hay símbolo de arroba, el correo es inválido
+                return false;
+            }
+
+            // Extrae el dominio del correo (todo lo que viene después de '@')
+            string dominio = correo.Substring(atIndex + 1).ToLower(); // Convertimos a minúsculas para comparar de forma insensible a mayúsculas
+
+            // Verifica si el dominio es uno de los dominios válidos
+            return dominiosValidos.Contains(dominio);
+        }
+
 
         public static bool TelefonoValido(string telefono)
         {
@@ -405,6 +438,37 @@ namespace Telecomunicaciones_Sistema
                 return false;
             }
             return true;
+        }
+
+        public static string FormatearTexto(string texto)
+        {
+            // Verifica si el texto no es nulo ni vacío
+            if (string.IsNullOrEmpty(texto))
+            {
+                return texto;
+            }
+
+            // Obtiene la cultura actual del hilo en ejecución
+            CultureInfo cultureInfo = System.Threading.Thread.CurrentThread.CurrentCulture;
+
+            // Obtiene un objeto TextInfo que contiene información sobre el formato de texto
+            TextInfo textInfo = cultureInfo.TextInfo;
+
+            // Convierte el texto a minúsculas y luego a formato de título
+            return textInfo.ToTitleCase(texto.ToLower());
+        }
+
+        public static void BloquearControles(KeyEventArgs e)
+        {
+            // Comprobar si se está presionando la tecla Ctrl
+            if ((Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+            {
+                // Si es una combinación de teclas Ctrl+C, Ctrl+V o Ctrl+X, bloquearla
+                if (e.Key == Key.C || e.Key == Key.V || e.Key == Key.X)
+                {
+                    e.Handled = true; // Detiene el evento
+                }
+            }
         }
     }
 }

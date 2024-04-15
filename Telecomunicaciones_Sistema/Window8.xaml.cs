@@ -167,16 +167,35 @@ namespace Telecomunicaciones_Sistema
                     return;
                 }
 
+                if (!Validaciones.EsTelefonoValido(txtTelefonoE.Text))
+                {
+                    MessageBox.Show("El teléfono debe tener 8 dígitos y comenzar con 3, 8 o 9.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
                 if (!Validaciones.TelefonoValido(txtTelefonoE.Text))
                 {
                     MessageBox.Show("El número de teléfono no puede contener demasiados ceros repetidos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
-
-                if (!Validaciones.CorreoValidoEspacios(txtCorreoE.Text))
+                // Validación de espacios en blanco
+                if (!Validaciones.CorreoSinEspacios(txtCorreoE.Text))
                 {
                     MessageBox.Show("El correo electrónico no es válido. No se permiten espacios en blanco.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                // Validación de la estructura básica del correo
+                if (!Validaciones.CorreoValidoEstructura(txtCorreoE.Text))
+                {
+                    MessageBox.Show("El correo electrónico no es válido. Debe contener un símbolo de arroba (@).", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                if (!Validaciones.CorreoValidoDominio(txtCorreoE.Text))
+                {
+                    MessageBox.Show("El correo electrónico debe tener un dominio válido (gmail.com, yahoo.com, hotmail.com).", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
@@ -365,22 +384,20 @@ namespace Telecomunicaciones_Sistema
 
         private void TxtNombreE_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrEmpty(txtNombreE.Text))
-            {
-                CultureInfo cultureInfo = System.Threading.Thread.CurrentThread.CurrentCulture;
-                TextInfo textInfo = cultureInfo.TextInfo;
-                txtNombreE.Text = textInfo.ToTitleCase(txtNombreE.Text.ToLower());
-            }
+            // Formatea el texto del control de texto (txtNombreE) 
+            txtNombreE.Text = Validaciones.FormatearTexto(txtNombreE.Text);
         }
 
         private void TxtApellidoE_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrEmpty(txtApellidoE.Text))
-            {
-                CultureInfo cultureInfo = System.Threading.Thread.CurrentThread.CurrentCulture;
-                TextInfo textInfo = cultureInfo.TextInfo;
-                txtApellidoE.Text = textInfo.ToTitleCase(txtApellidoE.Text.ToLower());
-            }
+            // Formatea el texto del control de texto (txtApellidoE) 
+            txtApellidoE.Text = Validaciones.FormatearTexto(txtApellidoE.Text);
+        }
+
+        private void InputControl_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            // Llama al método de Validaciones para bloquear copiar, pegar y cortar
+            Validaciones.BloquearControles(e);
         }
     }
 }

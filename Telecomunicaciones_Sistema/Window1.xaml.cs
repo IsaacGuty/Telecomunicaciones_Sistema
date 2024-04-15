@@ -19,69 +19,82 @@ namespace Telecomunicaciones_Sistema
     {
         private bool isMainWindow;
 
+        // Constructor que recibe el usuario y la contraseña (no se usan en este código)
         public Window1(string usuario, string contraseña)
         {
-            InitializeComponent();
-            Loaded += Window1_Loaded;
+            InitializeComponent(); // Inicializa los componentes de la ventana
+            Loaded += Window1_Loaded; // Asigna un controlador de eventos al evento Loaded de la ventana
         }
 
+        // Constructor que indica si esta ventana es la ventana principal
         public Window1(bool isMainWindow = false)
         {
-            InitializeComponent();
-            this.isMainWindow = isMainWindow;
-            Loaded += Window1_Loaded;
+            InitializeComponent(); // Inicializa los componentes de la ventana
+            this.isMainWindow = isMainWindow; // Establece si es la ventana principal
+            Loaded += Window1_Loaded; // Asigna un controlador de eventos al evento Loaded de la ventana
         }
 
+        // Controlador de eventos que se ejecuta cuando la ventana se carga
         private void Window1_Loaded(object sender, RoutedEventArgs e)
         {
+            // Muestra el usuario y el rol en las etiquetas correspondientes
             lblUsuario.Content = MainWindow.Usuario_L;
             lblCargo.Content = MainWindow.Rol_L;
 
             string rol = MainWindow.Rol_L;
 
-            btnRegistro.IsEnabled = Validaciones.IsGerenteGeneral(rol) || Validaciones.IsSecretaria(rol) || Validaciones.IsContadora(rol);
+            // Habilita o deshabilita los botones según el rol del usuario
+            btnRegistro.IsEnabled = Validaciones.IsGerenteGeneral(rol) || Validaciones.IsSecretaria(rol) || Validaciones.IsContadora(rol) || Validaciones.IsGerenteTecnico(rol);
             btnPago.IsEnabled = Validaciones.IsGerenteGeneral(rol) || Validaciones.IsSecretaria(rol);
-            Btn_OrT.IsEnabled = Validaciones.IsGerenteGeneral(rol) || Validaciones.IsSecretaria(rol) || Validaciones.IsTecnico(rol);
+            Btn_OrT.IsEnabled = Validaciones.IsGerenteGeneral(rol) || Validaciones.IsSecretaria(rol) || Validaciones.IsTecnico(rol) || Validaciones.IsGerenteTecnico(rol);
             BtnEmpleados.IsEnabled = Validaciones.IsGerenteGeneral(rol);
         }
 
         private void Btn_Registro_Click(object sender, RoutedEventArgs e)
         {
+            // Abre una nueva ventana (Window2) para el formulario de registro
             Window2 formularioD = new Window2();
-            formularioD.Show();
-            this.Hide();
+            formularioD.Show(); // Muestra la ventana de registro
+            this.Hide(); // Oculta la ventana actual
         }
 
         private void Btn_Pago(object sender, RoutedEventArgs e)
         {
+            // Abre una nueva ventana (Window3) para el formulario de pago
             Window3 formularioD = new Window3();
-            formularioD.Show();
-            this.Hide();
+            formularioD.Show(); // Muestra la ventana de pago
+            this.Hide(); // Oculta la ventana actual
         }
 
         private void BtnSalir_Click(object sender, RoutedEventArgs e)
         {
+            // Cierra la ventana actual
             this.Close();
+            // Abre la ventana principal (MainWindow)
             MainWindow frmAn = new MainWindow();
             frmAn.Show();
         }
 
+        // Controlador del evento de clic del botón para mostrar órdenes de trabajo
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
+            // Abre una nueva ventana (Window4) para mostrar órdenes de trabajo
             Window4 formularioO = new Window4();
-            formularioO.Show();
-            this.Hide();
+            formularioO.Show(); // Muestra la ventana de órdenes de trabajo
+            this.Hide(); // Oculta la ventana actual
         }
 
         private void BtnEmpleados_Click(object sender, RoutedEventArgs e)
         {
+            // Abre una nueva ventana (Window6) para mostrar empleados
             Window6 formularioO = new Window6();
-            formularioO.Show();
-            this.Hide();
+            formularioO.Show(); // Muestra la ventana de empleados
+            this.Hide(); // Oculta la ventana actual
         }
 
         private void BtnSoporteTecnico_Click(object sender, RoutedEventArgs e)
         {
+            // Muestra un mensaje de bienvenida al servicio de soporte técnico
             MessageBoxResult result = MessageBox.Show("¡Bienvenido al servicio de soporte técnico!\n\n" +
                 "Para mayor información puede contactarse a:\n" +
                 "1. Número teléfonico: 9755-1953\n" +
@@ -89,6 +102,7 @@ namespace Telecomunicaciones_Sistema
                 "¿Desea realizar una acción?",
                 "Soporte Técnico", MessageBoxButton.YesNo);
 
+            // Si el usuario elige realizar una acción, muestra el panel de acción
             if (result == MessageBoxResult.Yes)
             {
                 actionPanel.Visibility = Visibility.Visible;
@@ -98,31 +112,39 @@ namespace Telecomunicaciones_Sistema
         private void AcceptButton_Click(object sender, RoutedEventArgs e)
         {
             int action;
+            // Intenta analizar la entrada del usuario como un número entero
             if (int.TryParse(actionInput.Text, out action))
             {
+                // Realiza una acción según el número ingresado por el usuario
                 switch (action)
                 {
                     case 1:
+                        // Abre el enlace de WhatsApp
                         System.Diagnostics.Process.Start("https://api.whatsapp.com/send?phone=97551953");
                         break;
                     case 2:
+                        // Abre el correo electrónico
                         System.Diagnostics.Process.Start("mailto:telecomunicaciones_2024@gmail.com");
                         break;
                     default:
+                        // Muestra un mensaje indicando que la opción seleccionada no es válida
                         MessageBox.Show("Por favor, seleccione una opción válida.");
                         break;
                 }
             }
             else
             {
+                // Muestra un mensaje indicando que la entrada no es un número válido
                 MessageBox.Show("Por favor, ingrese un número válido.");
             }
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
+            // Oculta el panel de acción
             actionPanel.Visibility = Visibility.Collapsed;
-            actionInput.Text = ""; // Limpiar el contenido del TextBox
+            // Limpia el contenido del TextBox de entrada
+            actionInput.Text = "";
         }
     }
 }

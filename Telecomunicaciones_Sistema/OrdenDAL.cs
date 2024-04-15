@@ -18,7 +18,19 @@ namespace Telecomunicaciones_Sistema
                 using (SqlConnection Conn = BD.ObtenerConexion())
                 {
                     Conn.Open();
-                    string query = "SELECT c.Nombre, c.Apellido, d.Dirección, c.Teléfono, s.Servicio FROM Cliente c JOIN Dirección d ON d.ID_Dirección = c.ID_Dirección JOIN Pagos p ON p.ID_Cliente = c.ID_Cliente JOIN Servicios s ON s.ID_Servicio = p.ID_TpServicio";
+
+                    // Consulta SQL que agrupa por cliente y dirección, selecciona los detalles del cliente y muestra múltiples filas si el cliente tiene servicios distintos
+                    string query = @"
+                    SELECT c.Nombre, c.Apellido, d.Dirección, c.Teléfono, s.Servicio
+                    FROM Cliente c
+                    JOIN Dirección d ON d.ID_Dirección = c.ID_Dirección
+                    JOIN Pagos p ON p.ID_Cliente = c.ID_Cliente
+                    JOIN Servicios s ON s.ID_Servicio = p.ID_TpServicio
+                    WHERE p.ID_Cliente = c.ID_Cliente
+                    GROUP BY c.Nombre, c.Apellido, d.Dirección, c.Teléfono, s.Servicio
+                    ORDER BY c.Nombre, c.Apellido, d.Dirección, c.Teléfono;
+            ";
+
                     SqlDataAdapter adapter = new SqlDataAdapter(query, Conn);
                     DataTable dataTable = new DataTable();
                     adapter.Fill(dataTable);
@@ -38,11 +50,31 @@ namespace Telecomunicaciones_Sistema
                 using (SqlConnection Conn = BD.ObtenerConexion())
                 {
                     Conn.Open();
-                    string query = "SELECT c.Nombre, c.Apellido, d.Dirección, c.Teléfono, s.Servicio FROM Cliente c JOIN Dirección d ON d.ID_Dirección = c.ID_Dirección JOIN Pagos p ON p.ID_Cliente = c.ID_Cliente JOIN Servicios s ON s.ID_Servicio = p.ID_TpServicio WHERE c.Nombre LIKE '%" + criterio + "%'";
-                    SqlDataAdapter adapter = new SqlDataAdapter(query, Conn);
-                    DataTable dataTable = new DataTable();
-                    adapter.Fill(dataTable);
-                    return dataTable;
+
+                    // Consulta SQL que agrupa por cliente y dirección, selecciona los detalles del cliente y muestra múltiples filas si el cliente tiene servicios distintos
+                    string query = @"
+                    SELECT c.Nombre, c.Apellido, d.Dirección, c.Teléfono, s.Servicio
+                    FROM Cliente c
+                    JOIN Dirección d ON d.ID_Dirección = c.ID_Dirección
+                    JOIN Pagos p ON p.ID_Cliente = c.ID_Cliente
+                    JOIN Servicios s ON s.ID_Servicio = p.ID_TpServicio
+                    WHERE c.Nombre LIKE @criterio
+                    GROUP BY c.Nombre, c.Apellido, d.Dirección, c.Teléfono, s.Servicio
+                    ORDER BY c.Nombre, c.Apellido, d.Dirección, c.Teléfono;
+            ";
+
+                    // Usa SqlCommand y parámetros para prevenir la inyección de SQL
+                    using (SqlCommand cmd = new SqlCommand(query, Conn))
+                    {
+                        // Agregar parámetro @criterio a la consulta
+                        cmd.Parameters.AddWithValue("@criterio", "%" + criterio + "%");
+
+                        // Llena el DataTable utilizando un SqlDataAdapter
+                        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                        DataTable dataTable = new DataTable();
+                        adapter.Fill(dataTable);
+                        return dataTable;
+                    }
                 }
             }
             catch (Exception ex)

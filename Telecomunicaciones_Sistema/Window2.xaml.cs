@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Data.SqlClient;
 using System.Data;
+using System.Globalization;
 
 namespace Telecomunicaciones_Sistema
 {
@@ -221,6 +222,12 @@ namespace Telecomunicaciones_Sistema
                     this.Close();
                 }
             }
+        }
+
+        private void TxtBuscar_LostFocus(object sender, RoutedEventArgs e)
+        {
+            // Convierte la primera letra de cada palabra a mayúscula
+            txtBuscar.Text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(txtBuscar.Text.ToLower());
         }
     }
 }

@@ -16,7 +16,7 @@
     </Window.Resources>
 
     <Grid>
-        <Label Content="ID:" HorizontalAlignment="Left" Margin="139,118,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
+        <Label Content="ID Pago:" HorizontalAlignment="Left" Margin="139,118,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
         <TextBox x:Name="txtIDP" IsReadOnly="True" HorizontalAlignment="Left" Height="23" Margin="306,121,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14" TabIndex="0"/>
         <Label Content="ID Cliente:" HorizontalAlignment="Left" Margin="139,157,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
         <TextBox x:Name="txtIDC" IsReadOnly="True" HorizontalAlignment="Left" Height="23" Margin="306,160,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14" TabIndex="1"/>

@@ -137,27 +137,76 @@ namespace Telecomunicaciones_Sistema
                     return;
                 }
 
-                if (!Validaciones.NombreValido(txtNombreC.Text) || !Validaciones.NombreV(txtNombreC.Text) || !Validaciones.TresVecesSeguidas(txtNombreC.Text))
+                if (!Validaciones.NombreValido(txtNombreC.Text))
                 {
-                    MessageBox.Show("El nombre no es válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("El nombre no es válido. No se permiten espacios en blanco al inicio ni entre caracteres.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
-                if (!Validaciones.ApellidoValido(txtApellidoC.Text) || !Validaciones.TresVecesSeguidas(txtApellidoC.Text) || !Validaciones.ApellidoV(txtApellidoC.Text))
+                if (!Validaciones.TresVecesSeguidas(txtNombreC.Text))
                 {
-                    MessageBox.Show("El apellido no es válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("El nombre no es válido. No se permiten más de 3 veces seguidas la misma letra.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
-                if (!Validaciones.NoContieneEspaciosEnBlancoEnNumero(txtTelefonoC.Text) || !Validaciones.TelefonoValido(txtTelefonoC.Text))
+                if (!Validaciones.NombreV(txtNombreC.Text))
                 {
-                    MessageBox.Show("El teléfono no es válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("El nombre no es válido. Debe tener al menos 3 letras.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
-                if (!Validaciones.CorreoValidoEspacios(txtCorreoC.Text))
+                if (!Validaciones.ApellidoValido(txtApellidoC.Text))
                 {
-                    MessageBox.Show("El correo electrónico no es válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("El apellido no es válido. No se permiten espacios en blanco al inicio ni entre caracteres.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                if (!Validaciones.TresVecesSeguidas(txtApellidoC.Text))
+                {
+                    MessageBox.Show("El apellido no es válido. No se permiten más de 3 veces seguidas la misma letra.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                if (!Validaciones.ApellidoV(txtApellidoC.Text))
+                {
+                    MessageBox.Show("El apellido no es válido. Debe tener al menos 3 letras.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                if (!Validaciones.NoContieneEspaciosEnBlancoEnNumero(txtTelefonoC.Text))
+                {
+                    MessageBox.Show("El teléfono no debe contener espacios en blanco.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                if (!Validaciones.EsTelefonoValido(txtTelefonoC.Text))
+                {
+                    MessageBox.Show("El teléfono debe tener 8 dígitos y comenzar con 3, 8 o 9.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                if (!Validaciones.TelefonoValido(txtTelefonoC.Text))
+                {
+                    MessageBox.Show("El número de teléfono no puede contener demasiados ceros repetidos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                if (!Validaciones.CorreoSinEspacios(txtCorreoC.Text))
+                {
+                    MessageBox.Show("El correo electrónico no es válido. No se permiten espacios en blanco.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                // Validación de la estructura básica del correo
+                if (!Validaciones.CorreoValidoEstructura(txtCorreoC.Text))
+                {
+                    MessageBox.Show("El correo electrónico no es válido. Debe contener un símbolo de arroba (@).", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                if (!Validaciones.CorreoValidoDominio(txtCorreoC.Text))
+                {
+                    MessageBox.Show("El correo electrónico debe tener un dominio válido (gmail.com, yahoo.com, hotmail.com).", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
@@ -353,31 +402,22 @@ namespace Telecomunicaciones_Sistema
         // Método invocado cuando el campo de nombre pierde el foco
         private void TxtNombreC_LostFocus(object sender, RoutedEventArgs e)
         {
-            // Verificar si el campo de nombre no está vacío
-            if (!string.IsNullOrEmpty(txtNombreC.Text))
-            {
-                // Obtener la información de formato de la cultura actual
-                CultureInfo cultureInfo = System.Threading.Thread.CurrentThread.CurrentCulture;
-                // Crear un objeto TextInfo para realizar operaciones de formato de texto
-                TextInfo textInfo = cultureInfo.TextInfo;
-                // Convertir el texto del campo de nombre a título
-                txtNombreC.Text = textInfo.ToTitleCase(txtNombreC.Text.ToLower());
-            }
+            // Formatea el texto del control de texto (txtNombreC)
+            txtNombreC.Text = Validaciones.FormatearTexto(txtNombreC.Text);
+            
         }
 
         // Método invocado cuando el campo de apellido pierde el foco
         private void TxtApellidoC_LostFocus(object sender, RoutedEventArgs e)
         {
-            // Verificar si el campo de apellido no está vacío
-            if (!string.IsNullOrEmpty(txtApellidoC.Text))
-            {
-                // Obtener la información de formato de la cultura actual
-                CultureInfo cultureInfo = System.Threading.Thread.CurrentThread.CurrentCulture;
-                // Crear un objeto TextInfo para realizar operaciones de formato de texto
-                TextInfo textInfo = cultureInfo.TextInfo;
-                // Convertir el texto del campo de apellido a título
-                txtApellidoC.Text = textInfo.ToTitleCase(txtApellidoC.Text.ToLower());
-            }
+            // Formatea el texto del control de texto (txtApellidoC)
+            txtApellidoC.Text = Validaciones.FormatearTexto(txtApellidoC.Text);
+        }
+
+        private void InputControl_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            // Llama al método de Validaciones para bloquear copiar, pegar y cortar
+            Validaciones.BloquearControles(e);
         }
     }
 }

@@ -110,16 +110,15 @@ namespace Telecomunicaciones_Sistema
 
         private void BtnBuscar_Click(object sender, RoutedEventArgs e)
         {
-            // Realizar una búsqueda y mostrar los resultados en el DataGrid
-            DataTable searchResult = PagoDAL.BuscarCliente(txtBuscar.Text);
+            // Buscar pagos según el texto ingresado en el campo de búsqueda
+            DataTable dataTable = PagoDAL.BuscarPagos(txtBuscar.Text);
+            DataView dataView = new DataView(dataTable);
+            DatGridP.ItemsSource = dataView;
 
-            if (searchResult.Rows.Count > 0)
+            // Verificar si el DataTable está vacío
+            if (dataTable.Rows.Count == 0)
             {
-                DatGridP.ItemsSource = searchResult.DefaultView;
-            }
-            else
-            {
-                MessageBox.Show("No se encontrar el ID_Pago especificado.", "Búsqueda sin resultados", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("No se encontraron pagos que coincidan con la búsqueda.", "Búsqueda sin resultados", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
