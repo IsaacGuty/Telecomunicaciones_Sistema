@@ -149,10 +149,13 @@ namespace Telecomunicaciones_Sistema
         {
             try
             {
+                // Genera un nuevo código de recuperación aleatorio
                 string nuevoCodigoRecuperacion = GenerarCodigoAleatorio();
 
+                // Almacena el nuevo código de recuperación
                 codRec = nuevoCodigoRecuperacion;
 
+                // Envía un correo electrónico con el nuevo código de recuperación al correo destino
                 EnviarCorreo(correoDestino, nuevoCodigoRecuperacion);
 
                 MessageBox.Show("Se ha vuelto a enviar un código al correo electrónico proporcionado.", "Confirmación", MessageBoxButton.OK, MessageBoxImage.Information);

@@ -93,10 +93,31 @@ namespace Telecomunicaciones_Sistema
             try
             {
                 string idEmpleado = txtIDE.Text;
-
-                // Obtener el valor seleccionado del ComboBox y convertirlo a string
+                string nombre = txtNombreE.Text;
+                string apellido = txtApellidoE.Text;
+                string correo = txtCorreoE.Text;
+                string telefono = txtTelefonoE.Text;
                 ComboBoxItem itemSeleccionado = (ComboBoxItem)cmbDireccion.SelectedItem;
                 string direccion = itemSeleccionado?.Content?.ToString();
+
+                int resultado = EmpleadoDAL.EmpleadoExisteConDatos(idEmpleado, nombre, apellido, correo, telefono);
+
+                if (resultado == 1)
+                {
+                    MessageBox.Show("El empleado con el mismo nombre y apellido ya existe en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+                else if (resultado == 2)
+                {
+                    MessageBox.Show("El empleado con el mismo correo ya existe en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+                else if (resultado == 3)
+                {
+                    MessageBox.Show("El empleado con el mismo teléfono ya existe en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
 
                 // Verificar si se seleccionó una dirección
                 if (string.IsNullOrEmpty(direccion))
@@ -264,6 +285,8 @@ namespace Telecomunicaciones_Sistema
                 // Si estamos en modo agregado y el empleado no existe, agregar el nuevo empleado
                 else if (!esModificacion && !empleadoExistente)
                 {
+
+
                     // Crear el objeto NuevoEmpleado con los datos del nuevo empleado
                     NuevoEmpleado = new Empleados
                     {
@@ -299,14 +322,6 @@ namespace Telecomunicaciones_Sistema
                     // Asignar el valor convertido a decimal al Teléfono del NuevoEmpleado
                     NuevoEmpleado.Teléfono_E = telefonoDecimal;
 
-                    // Verificar si ya existe un empleado con los mismos datos en la base de datos
-                    if (EmpleadoDAL.EmpleadoExisteConDatos(idEmpleado, txtNombreE.Text, txtApellidoE.Text, txtCorreoE.Text, txtTelefonoE.Text, numeroDireccion))
-                    {
-                        MessageBox.Show("El empleado con estos datos ya existe en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                        return;
-                    }
-
-
                     // Agregar el nuevo empleado a la base de datos
                     EmpleadoDAL.AgregarEmpleado(NuevoEmpleado);
                     MessageBox.Show("Empleado agregado correctamente.");
@@ -329,7 +344,6 @@ namespace Telecomunicaciones_Sistema
             // Cierra la ventana después de procesar el empleado
             this.Close();
         }
-
 
         // Método para llamar al evento EmpleadoAgregado
         private void OnEmpleadoAgregado()

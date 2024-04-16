@@ -105,23 +105,46 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
-        public static bool EmpleadoExisteConDatos(string idEmpleado, string nombre, string apellido, string correo, string telefono, string idDireccion)
+        public static int EmpleadoExisteConDatos(string idEmpleado, string nombre, string apellido, string correo, string telefono)
         {
             using (SqlConnection connection = BD.ObtenerConexion())
             {
                 connection.Open();
-                SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM Empleados WHERE ID_Empleado = @ID_Empleado OR (Nombre_E = @Nombre_E AND Apellido_E = @Apellido_E AND Correo_E = @Correo_E AND Teléfono_E = @Teléfono_E AND ID_Dirección = @ID_Dirección)", connection);
+
+                // Consulta SQL que verifica si hay otro empleado con los mismos datos personales
+                // (nombre y apellido, correo o teléfono) y ID diferente al actual.
+                string query = @"
+                SELECT
+                CASE
+                    WHEN (Nombre_E = @Nombre_E AND Apellido_E = @Apellido_E) THEN 1
+                    WHEN Correo_E = @Correo_E THEN 2
+                    WHEN Teléfono_E = @Teléfono_E THEN 3
+                    ELSE 0
+                END AS Duplicado
+                FROM Empleados
+                WHERE ID_Empleado != @ID_Empleado
+                AND (
+                    (Nombre_E = @Nombre_E AND Apellido_E = @Apellido_E) 
+                    OR Correo_E = @Correo_E 
+                    OR Teléfono_E = @Teléfono_E
+                     );
+                ";
+
+                SqlCommand cmd = new SqlCommand(query, connection);
                 cmd.Parameters.AddWithValue("@ID_Empleado", idEmpleado);
                 cmd.Parameters.AddWithValue("@Nombre_E", nombre);
                 cmd.Parameters.AddWithValue("@Apellido_E", apellido);
                 cmd.Parameters.AddWithValue("@Correo_E", correo);
                 cmd.Parameters.AddWithValue("@Teléfono_E", telefono);
-                cmd.Parameters.AddWithValue("@ID_Dirección", idDireccion);
 
-                int count = (int)cmd.ExecuteScalar();
-                return count > 0;
+                object result = cmd.ExecuteScalar();
+
+                // Retornar el código de duplicado específico: 
+                // 1 para nombre y apellido, 2 para correo, 3 para teléfono, 0 para ninguno
+                return result != DBNull.Value ? Convert.ToInt32(result) : 0;
             }
         }
+
 
         public static bool EmpleadoDI(string nombre, string apellido, string correo, string telefono, string idDireccion, string idEmpleado)
         {

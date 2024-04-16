@@ -73,15 +73,7 @@ namespace Telecomunicaciones_Sistema
         public static void AgregarCliente(Clientes cliente)
         {
             try
-            {
-                // Verificar si el cliente ya existe con los mismos datos
-                if (ClienteDI(cliente.ID_Cliente, cliente.Nombre, cliente.Apellido, cliente.Correo, cliente.Teléfono.ToString(), cliente.ID_Dirección))
-                {
-                    MessageBox.Show("El cliente con estos datos ya existe en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-                }
-
-                // Agregar el cliente solo si no existe
+            {   
                 using (SqlConnection connection = BD.ObtenerConexion())
                 {
                     connection.Open();
@@ -114,20 +106,43 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
-        public static bool ClienteDI(string idCliente, string nombre, string apellido, string correo, string telefono, string direccion)
+        public static int ClienteDI(string idCliente, string nombre, string apellido, string correo, string telefono)
         {
             using (SqlConnection connection = BD.ObtenerConexion())
             {
                 connection.Open();
-                SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM Cliente WHERE ID_Cliente != @ID_Cliente AND Nombre = @Nombre AND Apellido = @Apellido AND Correo = @Correo AND Teléfono = @Teléfono AND ID_Dirección = @Direccion", connection);
-                cmd.Parameters.AddWithValue("@ID_Cliente", idCliente); // Excluir el ID del cliente actual
+
+                // Consulta SQL que verifica si hay otro cliente con los mismos datos personales
+                // (nombre y apellido, correo o teléfono) y ID diferente al actual.
+                string query = @"
+            SELECT
+            CASE
+                WHEN (Nombre = @Nombre AND Apellido = @Apellido) THEN 1
+                WHEN Correo = @Correo THEN 2
+                WHEN Teléfono = @Teléfono THEN 3
+                ELSE 0
+            END AS Duplicado
+            FROM Cliente
+            WHERE ID_Cliente != @ID_Cliente
+            AND (
+                (Nombre = @Nombre AND Apellido = @Apellido) 
+                OR Correo = @Correo 
+                OR Teléfono = @Teléfono
+            );
+        ";
+
+                SqlCommand cmd = new SqlCommand(query, connection);
+                cmd.Parameters.AddWithValue("@ID_Cliente", idCliente);
                 cmd.Parameters.AddWithValue("@Nombre", nombre);
                 cmd.Parameters.AddWithValue("@Apellido", apellido);
                 cmd.Parameters.AddWithValue("@Correo", correo);
                 cmd.Parameters.AddWithValue("@Teléfono", telefono);
-                cmd.Parameters.AddWithValue("@Direccion", direccion);
-                int count = (int)cmd.ExecuteScalar();
-                return count > 0; // Devuelve true si se encuentra al menos un cliente con los mismos datos personales pero ID diferente
+
+                object result = cmd.ExecuteScalar();
+
+                // Retornar el código de duplicado específico: 
+                // 1 para nombre y apellido, 2 para correo, 3 para teléfono, 0 para ninguno
+                return result != DBNull.Value ? Convert.ToInt32(result) : 0;
             }
         }
 

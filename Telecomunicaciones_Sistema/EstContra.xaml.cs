@@ -122,8 +122,10 @@ namespace Telecomunicaciones_Sistema
         // Registra la actividad realizada en un archivo de registro
         private void RegistrarActividad(string actividad, string usuario, string correo)
         {
+            // Formatea el mensaje de registro
             string logMessage = $"{DateTime.Now}: {actividad} - Usuario: {usuario}, Correo: {correo}";
-            string filePath = "log.txt";
+            string filePath = "log.txt"; // Ruta del archivo de registro
+            // Agrega el mensaje de registro al archivo
             File.AppendAllText(filePath, logMessage + Environment.NewLine);
         }
 
@@ -132,15 +134,16 @@ namespace Telecomunicaciones_Sistema
         {
             using (SmtpClient clienteSmtp = new SmtpClient("smtp.gmail.com", 587))
             {
-                clienteSmtp.EnableSsl = true;
-                clienteSmtp.UseDefaultCredentials = false;
-                clienteSmtp.Credentials = new NetworkCredential(remitente, contraseña);
+                clienteSmtp.EnableSsl = true; // Habilita SSL
+                clienteSmtp.UseDefaultCredentials = false; // No se utilizan las credenciales predeterminadas
+                clienteSmtp.Credentials = new NetworkCredential(remitente, contraseña); // Asigna las credenciales del remitente
 
                 using (MailMessage mensaje = new MailMessage(remitente, destinatario))
                 {
-                    mensaje.Subject = "Código de verificación";
-                    mensaje.Body = $"Tu código de verificación es: {codigo}";
+                    mensaje.Subject = "Código de verificación"; // Asigna el asunto del mensaje
+                    mensaje.Body = $"Tu código de verificación es: {codigo}"; // Asigna el cuerpo del mensaje
 
+                    // Envía el mensaje de correo
                     clienteSmtp.Send(mensaje);
                 }
             }

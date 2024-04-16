@@ -234,11 +234,24 @@ namespace Telecomunicaciones_Sistema
                 // Si estamos en modo modificación y el cliente existe, verificar si la información es igual a la de otro cliente
                 if (esModificacion && clienteExistente)
                 {
-                    if (ClienteDAL.ClienteDI(idCliente, txtNombreC.Text, txtApellidoC.Text, txtCorreoC.Text, txtTelefonoC.Text, numeroDireccion))
+                    int resultado = ClienteDAL.ClienteDI(idCliente, txtNombreC.Text, txtApellidoC.Text, txtCorreoC.Text, txtTelefonoC.Text);
+
+                    if (resultado == 1)
                     {
-                        MessageBox.Show("Los datos del cliente son iguales a los de otro cliente en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("El cliente con el mismo nombre y apellido ya existe en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
+                    else if (resultado == 2)
+                    {
+                        MessageBox.Show("El cliente con el mismo correo ya existe en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+                    else if (resultado == 3)
+                    {
+                        MessageBox.Show("El cliente con el mismo teléfono ya existe en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+
 
                     // Crear el objeto NuevoCliente con los datos modificados
                     NuevoCliente = new Clientes
@@ -316,9 +329,21 @@ namespace Telecomunicaciones_Sistema
                     NuevoCliente.Teléfono = telefonoDecimal;
 
                     // Verificar si ya existe un cliente con los mismos datos en la base de datos
-                    if (ClienteDAL.ClienteDI(idCliente, txtNombreC.Text, txtApellidoC.Text, txtCorreoC.Text, txtTelefonoC.Text, numeroDireccion))
+                    int resultado = ClienteDAL.ClienteDI(idCliente, txtNombreC.Text, txtApellidoC.Text, txtCorreoC.Text, txtTelefonoC.Text);
+
+                    if (resultado == 1)
                     {
-                        MessageBox.Show("El cliente con estos datos ya existe en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("El cliente con el mismo nombre y apellido ya existe en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+                    else if (resultado == 2)
+                    {
+                        MessageBox.Show("El cliente con el mismo correo ya existe en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+                    else if (resultado == 3)
+                    {
+                        MessageBox.Show("El cliente con el mismo teléfono ya existe en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
 

@@ -20,14 +20,24 @@ namespace Telecomunicaciones_Sistema
 {
     public partial class MainWindow : Window
     {
+        // Define un objeto de tipo Login
         private Login Objlog = new Login();
+
+        // Define un objeto de tipo Pantalla 
         private Pantalla ObjPan = new Pantalla();
 
-        public static string Usuario_L;
-        public static string Contraseña_L;
-        public static string Rol_L;
+        // Variables estáticas para almacenar información de usuario durante el inicio de sesión
+        public static string Usuario_L;  // Nombre de usuario
+        public static string Contraseña_L;  // Contraseña del usuario
+        public static string Rol_L;  // Rol del usuario en el sistema (por ejemplo, administrador, usuario estándar, etc.)
+
+        // Variable para almacenar el ID del usuario actual
         private int userId;
+
+        // Variable para almacenar información del usuario (puede ser ID u otro tipo de dato)
         private int usuario;
+
+        // Variable estática para almacenar el ID del usuario
         public static int IdUsuario;
 
         // Contador de intentos de inicio de sesión
@@ -155,6 +165,7 @@ namespace Telecomunicaciones_Sistema
             return;
         }
 
+        // Controlador del evento de clic del botón para ingresar
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             // Verifica si los campos de usuario y contraseña están vacíos
@@ -179,19 +190,27 @@ namespace Telecomunicaciones_Sistema
 
         private void lblContraO_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            // Ocultar la ventana actual
             this.Hide();
 
+            // Crear una nueva instancia de la ventana de restablecimiento de contraseña
             EstContra restCon = new EstContra(usuario);
+            // Asociar un evento para cerrar la ventana principal cuando se cierre la ventana de restablecimiento de contraseña
             restCon.Closed += (s, args) => CloseMainWindow();
+            // Mostrar la ventana de restablecimiento de contraseña
             restCon.ShowDialog();
         }
 
         private void lblContraC_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            // Ocultar la ventana actual
             this.Hide();
 
+            // Crear una nueva instancia de la ventana de cambio de contraseña
             CambContra cmbCon = new CambContra(usuario);
-            cmbCon.Closed += (s, args) => CloseMainWindow(); 
+            // Asociar un evento para cerrar la ventana principal cuando se cierre la ventana de cambio de contraseña
+            cmbCon.Closed += (s, args) => CloseMainWindow();
+            // Mostrar la ventana de cambio de contraseña
             cmbCon.ShowDialog();
         }
 

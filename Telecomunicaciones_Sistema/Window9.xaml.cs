@@ -195,13 +195,18 @@ namespace Telecomunicaciones_Sistema
 
         private void BtnBusC_Click(object sender, RoutedEventArgs e)
         {
-            // Abre la ventana 2
+            // Crea una instancia de Window2
             Window2 ventana2 = new Window2();
             ventana2.SeleccionDesdeVentana9 = true; // Establecer la bandera
 
             // Deshabilitar los botones en la ventana 2
-            ventana2.btnAgregar.IsEnabled = false; // Desea deshabilitar este botón también?
+            ventana2.btnAgregar.IsEnabled = false; // Deshabilita el botón de agregar
             ventana2.BtnModificar.IsEnabled = false;
+
+            // Muestra un mensaje para instruir al usuario a seleccionar un cliente
+            MessageBox.Show("Por favor, seleccione un cliente de la lista en la ventana que se abrirá a continuación.", "Instrucción", MessageBoxButton.OK, MessageBoxImage.Information);
+
+            // Muestra la ventana 2
             ventana2.ShowDialog();
 
             // Verifica si se seleccionó un cliente en la ventana 2
@@ -209,10 +214,11 @@ namespace Telecomunicaciones_Sistema
             {
                 // Copia el ID del cliente seleccionado en txtIDC
                 txtIDC.Text = ventana2.ClienteSeleccionado.ID_Cliente;
-
-                // Cierra la ventana 2 y muestra la ventana 9
-                ventana2.Close();
-                this.Show(); // Muestra la ventana 9 si se había ocultado
+            }
+            else
+            {
+                // Si no se seleccionó un cliente, muestra un mensaje al usuario
+                MessageBox.Show("No se seleccionó ningún cliente. Por favor, vuelva a la lista y seleccione un cliente.", "Aviso", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 

@@ -110,6 +110,14 @@ namespace Telecomunicaciones_Sistema
 
         private void BtnBuscar_Click(object sender, RoutedEventArgs e)
         {
+            // Verificar si se ha ingresado un ID de pago
+            if (string.IsNullOrEmpty(txtBuscar.Text))
+            {
+                // Mostrar un mensaje informando al usuario que debe ingresar un ID de pago
+                MessageBox.Show("Debe ingresar un ID de pago para realizar la búsqueda.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return; // Detener la ejecución de la función si no se ha ingresado un ID de pago
+            }
+
             // Buscar pagos según el texto ingresado en el campo de búsqueda
             DataTable dataTable = PagoDAL.BuscarPagos(txtBuscar.Text);
             DataView dataView = new DataView(dataTable);

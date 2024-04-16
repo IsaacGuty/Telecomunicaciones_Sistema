@@ -116,20 +116,28 @@ namespace Telecomunicaciones_Sistema
 
         private void BtnBuscar_Click(object sender, RoutedEventArgs e)
         {
+            // Verificar si el campo de búsqueda está vacío
+            if (string.IsNullOrEmpty(txtBuscar.Text))
+            {
+                // Mostrar un mensaje de advertencia indicando que se debe ingresar un criterio de búsqueda
+                MessageBox.Show("Debe ingresar un criterio de búsqueda para realizar la búsqueda.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return; // Detener la ejecución de la función si no se ha ingresado un criterio de búsqueda
+            }
+
             try
             {
-                // Obtiene los datos de las órdenes que coinciden con el criterio de búsqueda y los muestra en el DataGrid
+                // Obtener los datos de las órdenes que coinciden con el criterio de búsqueda y mostrarlos en el DataGrid
                 DataTable dataTable = OrdenDAL.BuscarOrden(txtBuscar.Text);
                 DataView dataView = dataTable.DefaultView;
 
-                // Establece la fuente de datos del DataGrid
+                // Establecer la fuente de datos del DataGrid
                 DatGridOT.ItemsSource = dataView;
 
                 // Verificar si la búsqueda no devolvió ningún resultado después de mostrar los datos
                 if (dataTable.Rows.Count == 0)
                 {
-                    // Mostrar mensaje indicando que no se encontró ningún cliente
-                    MessageBox.Show("No se encontró ningún cliente que coincida con el criterio de búsqueda.", "Búsqueda sin resultados", MessageBoxButton.OK, MessageBoxImage.Information);
+                    // Mostrar mensaje indicando que no se encontró ninguna orden que coincida con el criterio de búsqueda
+                    MessageBox.Show("No se encontró ninguna orden que coincida con el criterio de búsqueda.", "Búsqueda sin resultados", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
             catch (Exception ex)

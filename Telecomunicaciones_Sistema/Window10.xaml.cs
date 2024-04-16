@@ -62,35 +62,42 @@ namespace Telecomunicaciones_Sistema
             // Establecer la variable SeleccionDesdeVentana10 antes de abrir la ventana2
             SeleccionDesdeVentana10 = true;
 
-            // Abre la ventana2
+            // Crea una instancia de Window2
             Window2 ventana2 = new Window2();
 
-            // Deshabilita los botones de agregar y modificar
+            // Deshabilita los botones de agregar y modificar en ventana2
             ventana2.btnAgregar.IsEnabled = false;
             ventana2.BtnModificar.IsEnabled = false;
 
+            // Mostrar un mensaje para instruir al usuario a seleccionar un cliente
+            MessageBox.Show("Por favor, seleccione un cliente de la lista en la ventana que se abrirá a continuación.", "Instrucción", MessageBoxButton.OK, MessageBoxImage.Information);
+
+            // Muestra ventana2
             ventana2.ShowDialog();
 
-            // Restablece SeleccionDesdeVentana10 a false después de cerrar la ventana2
+            // Restablece SeleccionDesdeVentana10 a false después de cerrar ventana2
             SeleccionDesdeVentana10 = false;
 
-            // Verifica si se seleccionó un cliente en la ventana2
+            // Verifica si se seleccionó un cliente en ventana2
             if (!string.IsNullOrEmpty(ventana2.ClienteSeleccionado.ID_Cliente))
             {
                 // Copia el ID del cliente seleccionado en txtBuscar
                 txtBuscar.Text = ventana2.ClienteSeleccionado.ID_Cliente;
 
-                // Cierra la ventana2 y muestra la ventana10
-                ventana2.Close();
                 // Llama al método BuscarPagos de PagoDAL y asigna el resultado al DataGrid
-                DatGridVP.ItemsSource = PagoDAL.BuscarPagos(txtBuscar.Text).DefaultView;
-
                 DataTable searchResult = PagoDAL.BuscarPagos(txtBuscar.Text);
+                DatGridVP.ItemsSource = searchResult.DefaultView;
+
+                // Si no se encuentran pagos, muestra un mensaje informativo
                 if (searchResult.Rows.Count == 0)
                 {
                     MessageBox.Show("No se encontraron pagos para el cliente especificado.", "Búsqueda sin resultados", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
-                DatGridVP.ItemsSource = searchResult.DefaultView;
+            }
+            else
+            {
+                // Si no se seleccionó un cliente, muestra un mensaje al usuario
+                MessageBox.Show("No se seleccionó ningún cliente. Por favor, vuelva a la lista y seleccione un cliente.", "Aviso", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
