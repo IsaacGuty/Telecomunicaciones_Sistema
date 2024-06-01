@@ -12,7 +12,7 @@ namespace Telecomunicaciones_Sistema
     {
         public static SqlConnection ObtenerConexion()
         {
-            SqlConnection Conn = new SqlConnection("Data source = DESKTOP-KIBLMD6\\SQLEXPRESS; Initial catalog = TelecomunicacionesBD; Integrated security = true");
+            SqlConnection Conn = new SqlConnection("Data source = LAPTOP-GTMSPJHL\\SQLEXPRESS; Initial catalog = TelecomunicacionesBD; Integrated security = true");
             // Conn.Open();
 
             return Conn;

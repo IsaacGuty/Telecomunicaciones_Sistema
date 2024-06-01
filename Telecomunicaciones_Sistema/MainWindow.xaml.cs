@@ -41,7 +41,7 @@ namespace Telecomunicaciones_Sistema
         public static int IdUsuario;
 
         // Contador de intentos de inicio de sesión
-        private int intentosI = 0;
+        private static int intentosI = 0;
         private const int maxiI = 3;
         private const int duracionI = 5; // Duración del bloqueo en minutos
 
@@ -103,9 +103,7 @@ namespace Telecomunicaciones_Sistema
                     Window1 ObjPrinci = new Window1(Usuario_L, Contraseña_L);
                     ObjPrinci.Show();
 
-                    txtUsuario.Clear();
-                    txtContra.Clear();
-
+                    // Oculta la ventana actual
                     this.Hide();
                 }
                 else
@@ -113,10 +111,7 @@ namespace Telecomunicaciones_Sistema
                     // Incrementa el contador de intentos fallidos de inicio de sesión
                     intentosI++;
 
-                    // Muestra un mensaje indicando que el usuario o la contraseña son incorrectos
-                    MessageBox.Show("Usuario o Contraseña Incorrecta", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                    // Limpia los campos de texto de usuario y contraseña
+                    // Limpia los campos de usuario y contraseña
                     txtUsuario.Clear();
                     txtContra.Clear();
 
@@ -133,6 +128,11 @@ namespace Telecomunicaciones_Sistema
                         // Cierra la aplicación
                         this.Close();
                     }
+                    else
+                    {
+                        // Muestra un mensaje indicando que el usuario o la contraseña son incorrectos
+                        MessageBox.Show("Usuario o Contraseña Incorrecta", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
                 }
             }
             else
@@ -140,10 +140,7 @@ namespace Telecomunicaciones_Sistema
                 // Incrementa el contador de intentos fallidos si no se encontró un usuario
                 intentosI++;
 
-                // Muestra un mensaje indicando que el usuario o la contraseña son incorrectos
-                MessageBox.Show("Usuario o Contraseña Incorrecta", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                // Limpia los campos de texto de usuario y contraseña
+                // Limpia los campos de usuario y contraseña
                 txtUsuario.Clear();
                 txtContra.Clear();
 
@@ -160,8 +157,12 @@ namespace Telecomunicaciones_Sistema
                     // Cierra la aplicación
                     this.Close();
                 }
+                else
+                {
+                    // Muestra un mensaje indicando que el usuario o la contraseña son incorrectos
+                    MessageBox.Show("Usuario o Contraseña Incorrecta", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
             }
-
             return;
         }
 
@@ -174,17 +175,40 @@ namespace Telecomunicaciones_Sistema
                 // Muestra un mensaje advirtiendo que ambos campos deben estar completos
                 MessageBox.Show("Por favor, ingresa tanto el usuario como la contraseña.", "Advertencia",
                                 MessageBoxButton.OK, MessageBoxImage.Warning);
+
+                // Limpia los campos de usuario y contraseña
+                txtUsuario.Clear();
+                txtContra.Clear();
             }
             else if (!Validaciones.ContieneSoloNumeros(txtUsuario.Text))
             {
                 // Muestra un mensaje advirtiendo que el usuario debe contener solo números
-                MessageBox.Show("Usuario o Contraseña Incorrecta", "Advertencia",
+                MessageBox.Show("El usuario debe contener solo números.", "Advertencia",
                                 MessageBoxButton.OK, MessageBoxImage.Information);
+
+                // Limpia los campos de usuario y contraseña
+                txtUsuario.Clear();
+                txtContra.Clear();
             }
             else
             {
                 // Llama a P_Login() para iniciar sesión
                 P_Login();
+            }
+        }
+
+        private void txtUsuario_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+
+            // Verifica si el texto resultante después de agregar el nuevo carácter excederá la longitud máxima permitida
+            if (textBox.Text.Length + e.Text.Length > 7)
+            {
+                // Si excede la longitud máxima permitida, marca el evento como manejado para evitar que se agregue el nuevo carácter
+                e.Handled = true;
+
+                // Muestra un mensaje informativo al usuario
+                MessageBox.Show("El usuario no puede contener más de 7 caracteres.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 

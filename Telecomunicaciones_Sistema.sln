@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.33529.398
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Telecomunicaciones_Sistema", "Telecomunicaciones_Sistema\Telecomunicaciones_Sistema.csproj", "{5DDCB2F2-A9A6-4D66-B836-54269C1B4C2C}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup3", "Setup3\Setup3.vdproj", "{A02B0582-80C0-414E-AF90-C239BD7E4A58}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "prueba", "prueba\prueba.vdproj", "{EC843F1F-119C-479B-9B52-1F3F2A28E954}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,10 @@ Global
 		{5DDCB2F2-A9A6-4D66-B836-54269C1B4C2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5DDCB2F2-A9A6-4D66-B836-54269C1B4C2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5DDCB2F2-A9A6-4D66-B836-54269C1B4C2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A02B0582-80C0-414E-AF90-C239BD7E4A58}.Debug|Any CPU.ActiveCfg = Release
+		{A02B0582-80C0-414E-AF90-C239BD7E4A58}.Release|Any CPU.ActiveCfg = Release
+		{EC843F1F-119C-479B-9B52-1F3F2A28E954}.Debug|Any CPU.ActiveCfg = Debug
+		{EC843F1F-119C-479B-9B52-1F3F2A28E954}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

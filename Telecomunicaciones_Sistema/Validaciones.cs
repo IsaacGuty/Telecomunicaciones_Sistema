@@ -381,11 +381,31 @@ namespace Telecomunicaciones_Sistema
             return dominiosValidos.Contains(dominio);
         }
 
+        public static bool CorreoArrobas(string correo)
+        {
+            // Contar la cantidad de arrobas (@) en el correo
+            int count = correo.Count(c => c == '@');
+            // El correo es válido si contiene exactamente una arroba
+            return count == 1;
+        }
+
+        public static bool CorreoTresLetras(string correo)
+        {
+            // Verifica si hay al menos un símbolo de arroba (@)
+            int atIndex = correo.IndexOf('@');
+            if (atIndex == -1)
+            {
+                return false;
+            }
+
+            // Verifica que haya al menos 3 caracteres antes del símbolo de arroba
+            return atIndex >= 3;
+        }
 
         public static bool TelefonoValido(string telefono)
         {
             // Expresión regular para verificar que el número de teléfono no contenga cuatro o más ceros repetidos seguidos
-            Regex regex = new Regex(@"^(?!.*0{4,})[0-9]{8}$");
+            Regex regex = new Regex(@"^(?!.*0{5,})[0-9]{8}$");
 
             // Verifica si el número de teléfono coincide con la expresión regular
             return regex.IsMatch(telefono);
@@ -469,6 +489,34 @@ namespace Telecomunicaciones_Sistema
                     e.Handled = true; // Detiene el evento
                 }
             }
+        }
+
+        public static bool ValidarLongitudIDEmpleado(string idEmpleado)
+        {
+            // Verificar si el ID del empleado tiene más de 7 caracteres
+            if (idEmpleado.Length > 7)
+            {
+                return true; // ID es demasiado largo
+            }
+            else
+            {
+                return false; // ID es de longitud válida
+            }
+        }
+
+        public static bool EsIDEmpleadoValido(string idEmpleado)
+        {
+            // Verifica que cada caracter en el ID del empleado sea un dígito numérico
+            foreach (char c in idEmpleado)
+            {
+                if (!char.IsDigit(c))
+                {
+                    // Si el caracter no es un dígito, el ID no es válido
+                    return false;
+                }
+            }
+            // Si todos los caracteres son dígitos, el ID es válido
+            return true;
         }
     }
 }

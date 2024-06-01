@@ -32,7 +32,7 @@
         <Label x:Name="lblNumT" Content="Número de teléfono:" HorizontalAlignment="Left" Margin="49,430,0,0" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Times New Roman" FontSize="14"/>
         <Label x:Name="lblTipoT" Content="Tipo de trabajo:" HorizontalAlignment="Left" Margin="49,494,0,0" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Times New Roman" FontSize="14"/>
         <Label x:Name="lblNombreE" Content="Nombre del Empleado:" HorizontalAlignment="Left" Margin="49,526,0,0" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Times New Roman" FontSize="14" RenderTransformOrigin="0.525,1.945"/>
-        <TextBox x:Name="txtNombre" HorizontalAlignment="Left" Height="26" Margin="235,327,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="266" FontFamily="Times New Roman" FontSize="14" TabIndex="0"/>
+        <TextBox x:Name="txtNombre" IsReadOnly="True" HorizontalAlignment="Left" Height="26" Margin="235,327,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="266" FontFamily="Times New Roman" FontSize="14" TabIndex="0"/>
         <ComboBox x:Name="cmbNombreE" HorizontalAlignment="Left" Margin="235,526,0,0" VerticalAlignment="Top" Width="266" FontFamily="Times New Roman" FontSize="14" SelectionChanged="CmbNombreE_SelectionChanged" TabIndex="7"/>
         <ComboBox x:Name="cmbTipoT" HorizontalAlignment="Left" Margin="235,497,0,0" VerticalAlignment="Top" Width="266" FontFamily="Times New Roman" FontSize="14" IsReadOnly="True" SelectionChanged="CmbTipoT_SelectionChanged" TabIndex="6">
             <ComboBoxItem>Instalación</ComboBoxItem>
@@ -41,12 +41,12 @@
             <ComboBoxItem>Reconexión</ComboBoxItem>
             <ComboBoxItem>Activación</ComboBoxItem>
         </ComboBox>
-        <TextBox x:Name="txtApellido" HorizontalAlignment="Left" Height="26" Margin="235,361,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="266" FontFamily="Times New Roman" FontSize="14" TabIndex="1"/>
-        <TextBox x:Name="txtDirección" HorizontalAlignment="Left" Height="26" Margin="235,397,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="266" FontFamily="Times New Roman" FontSize="14" TabIndex="3"/>
-        <TextBox x:Name="txtNumT" HorizontalAlignment="Left" Height="26" Margin="235,430,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="266" FontFamily="Times New Roman" FontSize="14" TabIndex="4"/>
-        <Image Margin="15,45,601.6,458.4" Source="logoTele.png" Stretch="Fill"/>
+        <TextBox x:Name="txtApellido" IsReadOnly="True" HorizontalAlignment="Left" Height="26" Margin="235,361,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="266" FontFamily="Times New Roman" FontSize="14" TabIndex="1"/>
+        <TextBox x:Name="txtDirección" IsReadOnly="True" HorizontalAlignment="Left" Height="26" Margin="235,397,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="266" FontFamily="Times New Roman" FontSize="14" TabIndex="3"/>
+        <TextBox x:Name="txtNumT" IsReadOnly="True" HorizontalAlignment="Left" Height="26" Margin="235,430,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="266" FontFamily="Times New Roman" FontSize="14" TabIndex="4"/>
         <Label x:Name="lblNumT_Copy" Content="Tipo de servicio:" HorizontalAlignment="Left" Margin="49,461,0,0" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Times New Roman" FontSize="14"/>
-        <TextBox x:Name="txtTpServicio" HorizontalAlignment="Left" Height="26" Margin="235,463,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="266" FontFamily="Times New Roman" FontSize="14" TabIndex="5"/>
+        <TextBox x:Name="txtTpServicio" IsReadOnly="True" HorizontalAlignment="Left" Height="26" Margin="235,463,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="266" FontFamily="Times New Roman" FontSize="14" TabIndex="5"/>
         <Button x:Name="btnMostrar" Content="Mostrar" HorizontalAlignment="Left" Margin="586,459,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontWeight="Bold" FontSize="14" Click="BtnMostrar_Click" TabIndex="10"/>
+        <Image Margin="10,41,613,458" Source="/logoTele.png" Stretch="Fill"/>
     </Grid>
 </Window>

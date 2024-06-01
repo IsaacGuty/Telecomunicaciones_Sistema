@@ -117,10 +117,17 @@ namespace Telecomunicaciones_Sistema
             {
                 string idCliente = txtIDC.Text;
                 string numeroDireccion = "";
-
+                string correo = txtCorreoC.Text;
                 // Obtener la dirección seleccionada del ComboBox
                 ComboBoxItem itemSeleccionado = (ComboBoxItem)cmbDire.SelectedItem;
                 string direccion = itemSeleccionado?.Content?.ToString();
+                string telefono = txtTelefonoC.Text;
+
+                if (telefono.Length > 8)
+                {
+                    MessageBox.Show("El número de teléfono no puede tener más de 8 dígitos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
 
                 // Verificar si se seleccionó una dirección
                 if (string.IsNullOrEmpty(direccion))
@@ -181,7 +188,7 @@ namespace Telecomunicaciones_Sistema
 
                 if (!Validaciones.EsTelefonoValido(txtTelefonoC.Text))
                 {
-                    MessageBox.Show("El teléfono debe tener 8 dígitos y comenzar con 3, 8 o 9.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("El número de teléfono debe empezar con 3, 8 o 9.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
@@ -198,6 +205,18 @@ namespace Telecomunicaciones_Sistema
                 }
 
                 // Validación de la estructura básica del correo
+                if (!Validaciones.CorreoArrobas(txtCorreoC.Text))
+                {
+                    MessageBox.Show("El correo electrónico no puede contener más de un símbolo de arroba (@).", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                if (!Validaciones.CorreoTresLetras(correo))
+                {
+                    MessageBox.Show("El correo electrónico debe tener al menos 3 letras antes del símbolo de arroba (@).", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
                 if (!Validaciones.CorreoValidoEstructura(txtCorreoC.Text))
                 {
                     MessageBox.Show("El correo electrónico no es válido. Debe contener un símbolo de arroba (@).", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -266,7 +285,7 @@ namespace Telecomunicaciones_Sistema
                     // Verificar si el texto del campo de teléfono es un número válido
                     if (!decimal.TryParse(txtTelefonoC.Text, out decimal telefonoDecimal))
                     {
-                        MessageBox.Show("El teléfono debe ser un número válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("El número de teléfono debe ser un número válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
 
@@ -276,7 +295,7 @@ namespace Telecomunicaciones_Sistema
                     // Verificar si el teléfono cumple con los criterios de validación
                     if (!Validaciones.EsTelefonoValido(txtTelefonoC.Text))
                     {
-                        MessageBox.Show("El teléfono debe tener 8 dígitos y comenzar con 3, 8 o 9.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("El número de teléfono debe empezar con 3, 8 o 9.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
 
@@ -307,14 +326,14 @@ namespace Telecomunicaciones_Sistema
                     // Verificar si el texto del campo de teléfono es un número válido
                     if (!decimal.TryParse(txtTelefonoC.Text, out decimal telefonoDecimal))
                     {
-                        MessageBox.Show("El teléfono debe ser un número válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("El número de teléfono debe ser un número válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
 
                     // Verificar si el teléfono cumple con los criterios de validación
                     if (!Validaciones.EsTelefonoValido(txtTelefonoC.Text))
                     {
-                        MessageBox.Show("El teléfono debe tener 8 dígitos y comenzar con 3, 8 o 9.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("El número de teléfono debe empezar con 3, 8 o 9.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
 
@@ -368,6 +387,32 @@ namespace Telecomunicaciones_Sistema
 
             // Cierra la ventana después de procesar el cliente
             this.Close();
+        }
+
+        private void txtTelefonoC_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+
+            // Verifica si el texto resultante después de agregar el nuevo carácter excederá la longitud máxima permitida
+            if (textBox.Text.Length + e.Text.Length > 8)
+            {
+                // Si excede la longitud máxima permitida, marca el evento como manejado para evitar que se agregue el nuevo carácter
+                e.Handled = true;
+
+                // Muestra un mensaje informativo al usuario
+                MessageBox.Show("El número de teléfono no puede tener más de 8 dígitos.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            // Verifica si el carácter ingresado es un dígito
+            if (!char.IsDigit(e.Text, 0))
+            {
+                // Si el carácter no es un dígito, marca el evento como manejado para evitar que se agregue
+                e.Handled = true;
+
+                // Muestra un mensaje informativo al usuario
+                MessageBox.Show("Solo se permiten números en el número de teléfono.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         // Método invocado cuando se agrega un cliente, activa el evento ClienteAgregado

@@ -93,10 +93,24 @@ namespace Telecomunicaciones_Sistema
             try
             {
                 string idEmpleado = txtIDE.Text;
+
+                if (idEmpleado.Length > 7)
+                {
+                    MessageBox.Show("El ID del empleado no puede tener más de 7 dígitos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
                 string nombre = txtNombreE.Text;
                 string apellido = txtApellidoE.Text;
                 string correo = txtCorreoE.Text;
                 string telefono = txtTelefonoE.Text;
+
+                if (telefono.Length > 8)
+                {
+                    MessageBox.Show("El número de teléfono no puede tener más de 8 dígitos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
                 ComboBoxItem itemSeleccionado = (ComboBoxItem)cmbDireccion.SelectedItem;
                 string direccion = itemSeleccionado?.Content?.ToString();
 
@@ -118,7 +132,6 @@ namespace Telecomunicaciones_Sistema
                     return;
                 }
 
-
                 // Verificar si se seleccionó una dirección
                 if (string.IsNullOrEmpty(direccion))
                 {
@@ -133,7 +146,7 @@ namespace Telecomunicaciones_Sistema
                     return;
                 }
 
-                if (!Validaciones.NoContieneEspaciosEnBlanco(txtNombreE.Text) || !Validaciones.NoContieneEspaciosEnBlanco(txtApellidoE.Text) ||
+                if (!Validaciones.NoContieneEspaciosEnBlanco(txtIDE.Text) ||  !Validaciones.NoContieneEspaciosEnBlanco(txtNombreE.Text) || !Validaciones.NoContieneEspaciosEnBlanco(txtApellidoE.Text) ||
                     !Validaciones.NoContieneEspaciosEnBlanco(txtTelefonoE.Text) || !Validaciones.NoContieneEspaciosEnBlanco(txtCorreoE.Text))
                 {
                     MessageBox.Show("Todos los campos del empleado deben llenarse y no deben contener solo espacios en blanco.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -144,6 +157,18 @@ namespace Telecomunicaciones_Sistema
                 {
                     MessageBox.Show("El ID no debe contener espacios en blanco.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
+                }
+
+                if (Validaciones.ValidarLongitudIDEmpleado(idEmpleado))
+                {
+                    MessageBox.Show("El ID del empleado no puede tener más de 7 caracteres.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return; 
+                }
+
+                if (!Validaciones.EsIDEmpleadoValido(idEmpleado))
+                {
+                    MessageBox.Show("El ID del empleado solo puede contener números.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return; 
                 }
 
                 if (!Validaciones.NombreValido(txtNombreE.Text))
@@ -190,7 +215,7 @@ namespace Telecomunicaciones_Sistema
 
                 if (!Validaciones.EsTelefonoValido(txtTelefonoE.Text))
                 {
-                    MessageBox.Show("El teléfono debe tener 8 dígitos y comenzar con 3, 8 o 9.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("El número de teléfono debe empezar con 3, 8 o 9.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
@@ -208,6 +233,18 @@ namespace Telecomunicaciones_Sistema
                 }
 
                 // Validación de la estructura básica del correo
+                if (!Validaciones.CorreoArrobas(txtCorreoE.Text))
+                {
+                    MessageBox.Show("El correo electrónico no puede contener más de un símbolo de arroba (@).", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                if (!Validaciones.CorreoTresLetras(correo))
+                {
+                    MessageBox.Show("El correo electrónico debe tener al menos 3 letras antes del símbolo de arroba (@).", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
                 if (!Validaciones.CorreoValidoEstructura(txtCorreoE.Text))
                 {
                     MessageBox.Show("El correo electrónico no es válido. Debe contener un símbolo de arroba (@).", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -258,7 +295,7 @@ namespace Telecomunicaciones_Sistema
                     // Verificar si el texto del campo de teléfono es un número válido
                     if (!decimal.TryParse(txtTelefonoE.Text, out decimal telefonoDecimal))
                     {
-                        MessageBox.Show("El teléfono debe ser un número válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("El número de teléfono debe ser un número válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
 
@@ -302,13 +339,13 @@ namespace Telecomunicaciones_Sistema
                     // Verificar si el texto del campo de teléfono es un número válido
                     if (!decimal.TryParse(txtTelefonoE.Text, out decimal telefonoDecimal))
                     {
-                        MessageBox.Show("El teléfono debe ser un número válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("El número de teléfono debe ser un número válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
 
                     if (!Validaciones.EsTelefonoValido(txtTelefonoE.Text))
                     {
-                        MessageBox.Show("El teléfono debe tener 8 dígitos y comenzar con 3, 8 o 9.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("El número de teléfono debe empezar con 3, 8 o 9.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
 
@@ -343,6 +380,58 @@ namespace Telecomunicaciones_Sistema
 
             // Cierra la ventana después de procesar el empleado
             this.Close();
+        }
+
+        private void txtIDE_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+
+            // Verifica si el texto resultante después de agregar el nuevo carácter excederá la longitud máxima permitida
+            if (textBox.Text.Length + e.Text.Length > 7)
+            {
+                // Si excede la longitud máxima permitida, marca el evento como manejado para evitar que se agregue el nuevo carácter
+                e.Handled = true;
+
+                // Muestra un mensaje informativo al usuario
+                MessageBox.Show("El ID del empleado no puede tener más de 7 dígitos.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            // Verifica si el carácter ingresado es un dígito
+            if (!char.IsDigit(e.Text, 0))
+            {
+                // Si el carácter no es un dígito, marca el evento como manejado para evitar que se agregue
+                e.Handled = true;
+
+                // Muestra un mensaje informativo al usuario
+                MessageBox.Show("Solo se permiten números en el ID del empleado.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+
+        private void txtTelefonoE_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+
+            // Verifica si el texto resultante después de agregar el nuevo carácter excederá la longitud máxima permitida
+            if (textBox.Text.Length + e.Text.Length > 8)
+            {
+                // Si excede la longitud máxima permitida, marca el evento como manejado para evitar que se agregue el nuevo carácter
+                e.Handled = true;
+
+                // Muestra un mensaje informativo al usuario
+                MessageBox.Show("El número de teléfono no puede tener más de 8 dígitos.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            // Verifica si el carácter ingresado es un dígito
+            if (!char.IsDigit(e.Text, 0))
+            {
+                // Si el carácter no es un dígito, marca el evento como manejado para evitar que se agregue
+                e.Handled = true;
+
+                // Muestra un mensaje informativo al usuario
+                MessageBox.Show("Solo se permiten números en el número de teléfono.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         // Método para llamar al evento EmpleadoAgregado
