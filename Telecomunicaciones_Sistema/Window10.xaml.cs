@@ -54,7 +54,7 @@ namespace Telecomunicaciones_Sistema
             txtBuscar.Text = textoBusqueda; // Establece el texto de búsqueda en el TextBox
 
             // Llama al método BuscarPagos de PagoDAL y asigna el resultado al DataGrid
-            DatGridVP.ItemsSource = PagoDAL.BuscarPagos(textoBusqueda).DefaultView;
+            DatGridVP.ItemsSource = PagoDAL.BuscarCliente(textoBusqueda).DefaultView;
         }
 
         private void BtnBuscar_Click(object sender, RoutedEventArgs e)
@@ -85,7 +85,7 @@ namespace Telecomunicaciones_Sistema
                 txtBuscar.Text = ventana2.ClienteSeleccionado.ID_Cliente;
 
                 // Llama al método BuscarPagos de PagoDAL y asigna el resultado al DataGrid
-                DataTable searchResult = PagoDAL.BuscarPagos(txtBuscar.Text);
+                DataTable searchResult = PagoDAL.BuscarCliente(txtBuscar.Text);
                 DatGridVP.ItemsSource = searchResult.DefaultView;
 
                 // Si no se encuentran pagos, muestra un mensaje informativo

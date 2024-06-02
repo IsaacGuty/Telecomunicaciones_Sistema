@@ -119,7 +119,7 @@ namespace Telecomunicaciones_Sistema
             }
 
             // Buscar pagos según el texto ingresado en el campo de búsqueda
-            DataTable dataTable = PagoDAL.BuscarPagos(txtBuscar.Text);
+            DataTable dataTable = PagoDAL.BuscarPago(txtBuscar.Text);
             DataView dataView = new DataView(dataTable);
             DatGridP.ItemsSource = dataView;
 

@@ -533,5 +533,30 @@ namespace Telecomunicaciones_Sistema
             // Si todos los caracteres son dígitos, el ID es válido
             return true;
         }
+
+        public static bool CorreoUsuario(string usuario, string correo)
+        {
+            using (SqlConnection connection = BD.ObtenerConexion())
+            {
+                string query = @"
+                    SELECT COUNT(*) 
+                    FROM Inicio_Sesión AS i
+                    JOIN Empleados AS e ON i.ID_Usuario = e.ID_Empleado
+                    WHERE i.ID_Usuario = @Usuario AND e.Correo_E = @Correo";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Usuario", usuario);
+                    command.Parameters.AddWithValue("@Correo", correo);
+
+                    connection.Open();
+
+                    int count = (int)command.ExecuteScalar();
+
+                    return count > 0;
+                }
+            }
+        }
+
     }
 }

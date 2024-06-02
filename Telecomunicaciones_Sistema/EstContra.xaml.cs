@@ -58,10 +58,24 @@ namespace Telecomunicaciones_Sistema
                 string usuario = txtUsuario.Text;
                 string correo = txtCorreoE.Text;
 
-                // Valida el formato del correo electrónico
-                if (!Validaciones.CorreoValido(correo))
+                // Verifica que el correo tenga al menos tres letras antes del símbolo de arroba
+                if (!Validaciones.CorreoTresLetras(correo))
                 {
-                    MessageBox.Show("Por favor, ingrese un correo electrónico válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("El correo electrónico debe tener al menos tres letras antes del símbolo de arroba (@).", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                // Verifica que el correo no contenga más de una arroba
+                if (!Validaciones.CorreoArrobas(correo))
+                {
+                    MessageBox.Show("El correo electrónico no puede contener más de un arroba (@).", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                // Valida el dominio del correo electrónico
+                if (!Validaciones.CorreoValidoDominio(correo))
+                {
+                    MessageBox.Show("El dominio del correo electrónico no es válido. Debe ser uno de los siguientes: gmail.com, yahoo.com, hotmail.com.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
@@ -76,6 +90,12 @@ namespace Telecomunicaciones_Sistema
                 if (!Validaciones.CorreoRegistrado(correo))
                 {
                     MessageBox.Show("El correo electrónico proporcionado no está registrado en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                if (!Validaciones.CorreoUsuario(usuario, correo))
+                {
+                    MessageBox.Show("El correo electrónico no pertenece al usuario proporcionado.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
@@ -158,6 +178,47 @@ namespace Telecomunicaciones_Sistema
 
             // Cerrar la ventana actual
             this.Close();
+        }
+
+        private void txtUsuario_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+
+            // Verifica si el carácter ingresado es un número
+            if (!char.IsDigit(e.Text, 0))
+            {
+                // Si el carácter no es un número, marca el evento como manejado para evitar que se agregue
+                e.Handled = true;
+
+                // Muestra un mensaje informativo al usuario
+                MessageBox.Show("Solo se permiten números en el campo de usuario.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            // Verifica si el texto resultante después de agregar el nuevo carácter excederá la longitud máxima permitida
+            if (textBox.Text.Length + e.Text.Length > 7)
+            {
+                // Si excede la longitud máxima permitida, marca el evento como manejado para evitar que se agregue el nuevo carácter
+                e.Handled = true;
+
+                // Muestra un mensaje informativo al usuario
+                MessageBox.Show("El usuario no puede contener más de 7 caracteres.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+
+        private void txtUsuario_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+
+            // Verifica si la tecla presionada es la barra espaciadora
+            if (e.Key == Key.Space)
+            {
+                // Marca el evento como manejado para evitar que se agregue el espacio
+                e.Handled = true;
+
+                // Muestra un mensaje informativo al usuario
+                MessageBox.Show("No se permiten espacios en blanco en el campo de usuario.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
     }
 }

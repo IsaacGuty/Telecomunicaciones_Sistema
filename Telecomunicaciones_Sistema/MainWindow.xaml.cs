@@ -203,8 +203,8 @@ namespace Telecomunicaciones_Sistema
             // Limpia los campos de usuario y contraseña si no se ha iniciado sesión
             if (Validaciones.UsuarioVacio(txtUsuario.Text) || Validaciones.ContraseñaVacia(txtContra.Password) || !Validaciones.ContieneSoloNumeros(txtUsuario.Text))
             {
-                txtUsuario.Clear();
-                txtContra.Clear();
+                //txtUsuario.Clear();
+                //txtContra.Clear();
             }
         }
 

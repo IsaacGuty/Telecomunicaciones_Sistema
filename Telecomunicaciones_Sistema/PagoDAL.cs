@@ -16,10 +16,10 @@ namespace Telecomunicaciones_Sistema
         {
             try
             {
-                using(SqlConnection Conn = BD.ObtenerConexion())
+                using (SqlConnection Conn = BD.ObtenerConexion())
                 {
                     Conn.Open();
-                    string query = "select * from Pagos";
+                    string query = "SELECT P.ID_Pago, P.ID_Cliente, C.nombre, C.apellido, P.Monto, P.ID_TpServicio, P.Mes_Pagado, P.Fecha, P.ID_Empleado FROM Pagos P JOIN Cliente C ON P.ID_Cliente = C.ID_Cliente";
                     SqlDataAdapter adapter = new SqlDataAdapter(query, Conn);
                     DataSet dataSet = new DataSet();
                     adapter.Fill(dataSet, "Pago");
@@ -32,7 +32,7 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
-        public static DataTable BuscarCliente(string textoBusqueda)
+        public static DataTable BuscarPago(string textoBusqueda)
         {
             try
             {
@@ -116,7 +116,7 @@ namespace Telecomunicaciones_Sistema
             return ultimoID + 1;
         }
 
-        public static DataTable BuscarPagos(string textoBusqueda)
+        public static DataTable BuscarCliente(string textoBusqueda)
         {
             // Intentar convertir textoBusqueda a entero
             int idCliente;
