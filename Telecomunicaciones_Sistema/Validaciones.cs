@@ -49,6 +49,21 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
+        public static bool CamposVacios(string usuario, string contraseña)
+        {
+            return string.IsNullOrWhiteSpace(usuario) && string.IsNullOrWhiteSpace(contraseña);
+        }
+
+        public static bool UsuarioVacio(string usuario)
+        {
+            return string.IsNullOrWhiteSpace(usuario);
+        }
+
+        public static bool ContraseñaVacia(string contraseña)
+        {
+            return string.IsNullOrWhiteSpace(contraseña);
+        }
+
         public static bool ContieneSoloNumeros(string texto)
         {
             foreach (char c in texto)

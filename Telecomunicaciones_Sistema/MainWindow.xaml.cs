@@ -169,37 +169,59 @@ namespace Telecomunicaciones_Sistema
         // Controlador del evento de clic del botón para ingresar
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            // Verifica si los campos de usuario y contraseña están vacíos
-            if (Validaciones.ValidarUsuarioYContraseña(txtUsuario.Text, txtContra.Password))
+            // Verifica si ambos campos de usuario y contraseña están vacíos
+            if (Validaciones.CamposVacios(txtUsuario.Text, txtContra.Password))
             {
                 // Muestra un mensaje advirtiendo que ambos campos deben estar completos
                 MessageBox.Show("Por favor, ingresa tanto el usuario como la contraseña.", "Advertencia",
                                 MessageBoxButton.OK, MessageBoxImage.Warning);
-
-                // Limpia los campos de usuario y contraseña
-                txtUsuario.Clear();
-                txtContra.Clear();
+            }
+            else if (Validaciones.UsuarioVacio(txtUsuario.Text))
+            {
+                // Muestra un mensaje advirtiendo que el usuario debe ser ingresado
+                MessageBox.Show("Por favor, ingresa el usuario.", "Advertencia",
+                                MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            else if (Validaciones.ContraseñaVacia(txtContra.Password))
+            {
+                // Muestra un mensaje advirtiendo que la contraseña debe ser ingresada
+                MessageBox.Show("Por favor, ingresa la contraseña.", "Advertencia",
+                                MessageBoxButton.OK, MessageBoxImage.Warning);
             }
             else if (!Validaciones.ContieneSoloNumeros(txtUsuario.Text))
             {
                 // Muestra un mensaje advirtiendo que el usuario debe contener solo números
                 MessageBox.Show("El usuario debe contener solo números.", "Advertencia",
                                 MessageBoxButton.OK, MessageBoxImage.Information);
-
-                // Limpia los campos de usuario y contraseña
-                txtUsuario.Clear();
-                txtContra.Clear();
             }
             else
             {
                 // Llama a P_Login() para iniciar sesión
                 P_Login();
             }
+
+            // Limpia los campos de usuario y contraseña si no se ha iniciado sesión
+            if (Validaciones.UsuarioVacio(txtUsuario.Text) || Validaciones.ContraseñaVacia(txtContra.Password) || !Validaciones.ContieneSoloNumeros(txtUsuario.Text))
+            {
+                txtUsuario.Clear();
+                txtContra.Clear();
+            }
         }
 
         private void txtUsuario_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             TextBox textBox = sender as TextBox;
+
+            // Verifica si el carácter ingresado es un número
+            if (!char.IsDigit(e.Text, 0))
+            {
+                // Si el carácter no es un número, marca el evento como manejado para evitar que se agregue
+                e.Handled = true;
+
+                // Muestra un mensaje informativo al usuario
+                MessageBox.Show("Solo se permiten números en el campo de usuario.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
 
             // Verifica si el texto resultante después de agregar el nuevo carácter excederá la longitud máxima permitida
             if (textBox.Text.Length + e.Text.Length > 7)
@@ -209,6 +231,21 @@ namespace Telecomunicaciones_Sistema
 
                 // Muestra un mensaje informativo al usuario
                 MessageBox.Show("El usuario no puede contener más de 7 caracteres.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+
+        private void txtUsuario_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+
+            // Verifica si la tecla presionada es la barra espaciadora
+            if (e.Key == Key.Space)
+            {
+                // Marca el evento como manejado para evitar que se agregue el espacio
+                e.Handled = true;
+
+                // Muestra un mensaje informativo al usuario
+                MessageBox.Show("No se permiten espacios en blanco en el campo de usuario.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 

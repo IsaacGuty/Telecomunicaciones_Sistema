@@ -23,6 +23,7 @@
         <Button x:Name="btnAceptar" Content="Aceptar" HorizontalAlignment="Left" Margin="169,339,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnAceptar_Click"/>
         <Button x:Name="btnReeC" Content="Reenviar código" HorizontalAlignment="Left" Margin="304,339,0,0" VerticalAlignment="Top" Width="123" FontFamily="Times New Roman" FontWeight="Bold" FontSize="14" Click="BtnReeC_Click"/>
         <Image Margin="238,44,243,277" Source="logoTele.png" Stretch="Fill" RenderTransformOrigin="-0.074,0.454"/>
+        <Button x:Name="BtnSalir" Content="Salir" HorizontalAlignment="Left" Margin="485,383,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnSalir_Click"/>
 
     </Grid>
 </Window>

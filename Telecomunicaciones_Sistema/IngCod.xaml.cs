@@ -166,5 +166,15 @@ namespace Telecomunicaciones_Sistema
                 MessageBox.Show("Error al reenviar el correo electrónico: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        private void BtnSalir_Click(object sender, RoutedEventArgs e)
+        {
+            // Cerrar la ventana actual
+            this.Close();
+
+            // Mostrar MainWindow
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
+        }
     }
 }

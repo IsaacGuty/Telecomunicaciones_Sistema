@@ -56,21 +56,6 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
-        public static void ModificarPago(Pagos pago)
-        {
-            using (SqlConnection Conn = BD.ObtenerConexion())
-            {
-                Conn.Open();
-                SqlCommand cmd = new SqlCommand("UPDATE Pagos SET ID_TpServicio = @ID_TpServicio, Monto = @Monto, Mes_Pagado = @Mes_Pagado, ID_Empleado = @ID_Empleado WHERE ID_Pago = @ID_Pago", Conn);
-                cmd.Parameters.AddWithValue("@ID_TpServicio", pago.ID_TpServicio);
-                cmd.Parameters.AddWithValue("@Monto", pago.Monto);
-                cmd.Parameters.AddWithValue("@Mes_Pagado", pago.MesPagado);
-                cmd.Parameters.AddWithValue("@ID_Empleado", pago.ID_Empleado);
-                cmd.Parameters.AddWithValue("@ID_Pago", pago.ID_Pago); // Utiliza el ID_Pago actualizado
-                cmd.ExecuteNonQuery();
-            }
-        }
-
         public static void AgregarPago(Pagos pago)
         {
             try

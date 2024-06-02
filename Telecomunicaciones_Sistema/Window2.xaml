@@ -20,7 +20,16 @@
         <Button x:Name="btnAgregar" Content="Agregar" HorizontalAlignment="Left" Margin="152,409,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnAgregar_Click" TabIndex="0"/>
         <Button x:Name="BtnModificar" Content="Modificar" HorizontalAlignment="Left" Margin="272,409,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnModificar_Click" TabIndex="1"/>
         <Button x:Name="btnRegresar" Content="Regresar" HorizontalAlignment="Left" Margin="503,409,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnRegresar_Click" TabIndex="3"/>
-        <DataGrid x:Name="DatGridRC" AutoGenerateColumns ="True" HorizontalAlignment="Left" Height="219" Margin="74,144,0,0" VerticalAlignment="Top" Width="568" SelectionChanged="DatGridRC_SelectionChanged" KeyboardNavigation.TabNavigation="None"/>
+<DataGrid x:Name="DatGridRC" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="219" Margin="74,144,0,0" VerticalAlignment="Top" Width="568" SelectionChanged="DatGridRC_SelectionChanged" KeyboardNavigation.TabNavigation="None">
+    <DataGrid.Columns>
+        <DataGridTextColumn Header="ID Cliente" Binding="{Binding ID_Cliente}" />
+        <DataGridTextColumn Header="Nombre" Binding="{Binding Nombre}" />
+        <DataGridTextColumn Header="Apellido" Binding="{Binding Apellido}" />
+        <DataGridTextColumn Header="Teléfono" Binding="{Binding Teléfono}" />
+        <DataGridTextColumn Header="Correo" Binding="{Binding Correo}" />
+        <DataGridTextColumn Header="ID Dirección" Binding="{Binding ID_Dirección}" />
+    </DataGrid.Columns>
+</DataGrid>
         <TextBox x:Name="txtBuscar" LostFocus="TxtBuscar_LostFocus" HorizontalAlignment="Left" Height="23" Margin="405,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="165" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" TabIndex="5"/>
         <Button x:Name="BtnBuscar" HorizontalAlignment="Left" Margin="586,86,0,0" VerticalAlignment="Top" Width="56" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Height="28" Click="BtnBuscar_Click" TabIndex="6">
             <Image x:Name="Buscar" Height="23" Source="buscar.png" Stretch="Fill" Width="24"/>
