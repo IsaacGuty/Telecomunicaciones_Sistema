@@ -51,7 +51,7 @@
 
         <StackPanel x:Name="actionPanel" Grid.Column="2" Grid.Row="0" Orientation="Vertical" Visibility="Collapsed" Margin="10,35,24,0" >
             <TextBlock Text="Acción que desea realizar:" FontFamily="Times New Roman" FontSize="12"/>
-            <TextBox x:Name="actionInput" Text=""/>
+            <TextBox x:Name="actionInput" Text="" PreviewTextInput="ActionInput_PreviewTextInput" PreviewKeyDown="ActionInput_PreviewKeyDown"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Content="Aceptar" Click="AcceptButton_Click" FontFamily="Times New Roman" FontSize="12"/>
                 <Button Content="Cancelar" Click="CancelButton_Click" FontFamily="Times New Roman" FontSize="12" Margin="5,0,0,0"/>

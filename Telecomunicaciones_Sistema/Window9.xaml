@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:Telecomunicaciones_Sistema"
                 Title="Sistema en telecomuniciones" Height="530" Width="720"
         WindowStartupLocation="CenterScreen"
-        Background="LightBlue">
+        Background="LightBlue"
+        ResizeMode="CanMinimize">
 
     <Window.Resources>
         <Style TargetType="Button">

@@ -146,5 +146,53 @@ namespace Telecomunicaciones_Sistema
             // Limpia el contenido del TextBox de entrada
             actionInput.Text = "";
         }
+
+        private void ActionInput_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+
+            // Verificar si el texto completo, incluyendo el carácter que se está ingresando,
+            // contiene más de un dígito
+            if ((textBox.Text + e.Text).Length > 1)
+            {
+                // Mostrar mensaje de advertencia
+                MessageBox.Show("Solo se permite un dígito.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+
+                // Bloquear la entrada
+                e.Handled = true;
+                return; // Salir del método para evitar que se ejecute la siguiente validación
+            }
+
+            // Verificar si el texto de entrada es una letra
+            if (char.IsLetter(e.Text, e.Text.Length - 1))
+            {
+                // Mostrar mensaje de error y bloquear la entrada
+                MessageBox.Show("No se aceptan letras.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                e.Handled = true;
+                return; // Salir del método para evitar que se ejecute la siguiente validación
+            }
+
+            // Verificar si el texto de entrada es un carácter especial
+            if (!char.IsLetterOrDigit(e.Text, e.Text.Length - 1))
+            {
+                // Mostrar mensaje de error y bloquear la entrada
+                MessageBox.Show("No se aceptan caracteres especiales.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                e.Handled = true;
+                return; // Salir del método para evitar que se ejecute la siguiente validación
+            }
+        }
+
+        private void ActionInput_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            // Verificar si se presiona la tecla de espacio
+            if (e.Key == Key.Space)
+            {
+                // Mostrar mensaje de advertencia
+                MessageBox.Show("Los espacios en blanco no están permitidos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                // Bloquear la entrada
+                e.Handled = true;
+            }
+        }
     }
 }

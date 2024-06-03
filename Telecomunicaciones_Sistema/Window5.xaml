@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         Title="Sistema en telecomunicaciones" Height="588" Width="700"
         WindowStartupLocation="CenterScreen"
-        Background="LightBlue">
+        Background="LightBlue"
+        ResizeMode="CanMinimize">
 
     <Window.Resources>
         <Style TargetType="Button">

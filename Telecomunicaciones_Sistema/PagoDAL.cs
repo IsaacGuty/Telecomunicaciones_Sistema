@@ -118,42 +118,25 @@ namespace Telecomunicaciones_Sistema
 
         public static DataTable BuscarCliente(string textoBusqueda)
         {
-            // Intentar convertir textoBusqueda a entero
-            int idCliente;
-            bool esNumeroValido = int.TryParse(textoBusqueda, out idCliente);
-
-            if (!esNumeroValido)
-            {
-                // Si textoBusqueda no es un número entero válido, puedes manejarlo como prefieras,
-                throw new Exception("El texto de búsqueda debe ser un número entero válido para buscar por ID_Cliente.");
-            }
-
             try
             {
                 using (SqlConnection Conn = BD.ObtenerConexion())
                 {
                     Conn.Open();
-
-                    // Usar una búsqueda exacta en la columna ID_Cliente con el operador =
-                    string query = "SELECT ID_Pago, ID_Cliente, Monto, ID_TpServicio, Mes_Pagado, Fecha, ID_Empleado FROM Pagos " +
-                                   "WHERE ID_Cliente = @TextoBusqueda";
-
-                    SqlCommand command = new SqlCommand(query, Conn);
-                    // Asigna el valor entero convertido al parámetro
-                    command.Parameters.AddWithValue("@TextoBusqueda", idCliente);
-
-                    SqlDataAdapter adapter = new SqlDataAdapter(command);
-                    DataSet dataSet = new DataSet();
-                    adapter.Fill(dataSet, "Pago");
-                    return dataSet.Tables["Pago"];
+                    string query = "SELECT P.ID_Pago, P.ID_Cliente, C.nombre, C.apellido, P.Monto, P.ID_TpServicio, P.Mes_Pagado, P.Fecha, P.ID_Empleado FROM Pagos P JOIN Cliente C ON P.ID_Cliente = C.ID_Cliente WHERE P.ID_Cliente = @ID_Cliente";
+                    SqlCommand cmd = new SqlCommand(query, Conn);
+                    cmd.Parameters.AddWithValue("@ID_Cliente", textoBusqueda);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataTable dataTable = new DataTable();
+                    adapter.Fill(dataTable);
+                    return dataTable;
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al buscar los pagos: " + ex.Message);
+                throw new Exception("Error al buscar pagos: " + ex.Message);
             }
         }
-
     }
 }
 

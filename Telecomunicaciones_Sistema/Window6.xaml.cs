@@ -141,7 +141,7 @@ namespace Telecomunicaciones_Sistema
             if (string.IsNullOrEmpty(txtBuscar.Text))
             {
                 // Mostrar un mensaje informando al usuario que debe ingresar un criterio de búsqueda
-                MessageBox.Show("Debe ingresar un criterio de búsqueda para realizar la búsqueda.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Debe ingresar el ID_Empleado, Nombre o Apellido, para realizar la búsqueda.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return; // Detener la ejecución de la función si no se ha ingresado un criterio de búsqueda
             }
 

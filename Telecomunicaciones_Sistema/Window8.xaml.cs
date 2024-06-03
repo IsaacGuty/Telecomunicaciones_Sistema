@@ -146,10 +146,9 @@ namespace Telecomunicaciones_Sistema
                     return;
                 }
 
-                if (!Validaciones.NoContieneEspaciosEnBlanco(txtIDE.Text) ||  !Validaciones.NoContieneEspaciosEnBlanco(txtNombreE.Text) || !Validaciones.NoContieneEspaciosEnBlanco(txtApellidoE.Text) ||
-                    !Validaciones.NoContieneEspaciosEnBlanco(txtTelefonoE.Text) || !Validaciones.NoContieneEspaciosEnBlanco(txtCorreoE.Text))
+                if (Validaciones.CamposEmpleadosVacios(txtIDE.Text, txtNombreE.Text, txtApellidoE.Text, txtTelefonoE.Text, txtCorreoE.Text, cmbDireccion.Text))
                 {
-                    MessageBox.Show("Todos los campos del empleado deben llenarse y no deben contener solo espacios en blanco.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Todos los campos del empleado deben llenarse.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 

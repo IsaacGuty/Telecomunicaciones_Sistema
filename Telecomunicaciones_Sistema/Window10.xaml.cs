@@ -45,7 +45,7 @@ namespace Telecomunicaciones_Sistema
 
         private void DatGridP_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            // Aquí puedes agregar la lógica que deseas ejecutar cuando cambia la selección en el DataGrid
+            
         }
 
         // Constructor que acepta el texto a buscar
