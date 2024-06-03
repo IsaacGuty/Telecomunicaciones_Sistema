@@ -131,7 +131,7 @@ namespace Telecomunicaciones_Sistema
                     else
                     {
                         // Muestra un mensaje indicando que el usuario o la contraseña son incorrectos
-                        MessageBox.Show("Usuario o Contraseña Incorrecta", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
+                        MessageBox.Show("Usuario o Contraseña Incorrecta", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
             }
@@ -160,7 +160,7 @@ namespace Telecomunicaciones_Sistema
                 else
                 {
                     // Muestra un mensaje indicando que el usuario o la contraseña son incorrectos
-                    MessageBox.Show("Usuario o Contraseña Incorrecta", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Usuario o Contraseña Incorrecta", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             return;
@@ -173,38 +173,27 @@ namespace Telecomunicaciones_Sistema
             if (Validaciones.CamposVacios(txtUsuario.Text, txtContra.Password))
             {
                 // Muestra un mensaje advirtiendo que ambos campos deben estar completos
-                MessageBox.Show("Por favor, ingresa tanto el usuario como la contraseña.", "Advertencia",
-                                MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Por favor, ingresa tanto el usuario como la contraseña.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             else if (Validaciones.UsuarioVacio(txtUsuario.Text))
             {
                 // Muestra un mensaje advirtiendo que el usuario debe ser ingresado
-                MessageBox.Show("Por favor, ingresa el usuario.", "Advertencia",
-                                MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Por favor, ingresa el usuario.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             else if (Validaciones.ContraseñaVacia(txtContra.Password))
             {
                 // Muestra un mensaje advirtiendo que la contraseña debe ser ingresada
-                MessageBox.Show("Por favor, ingresa la contraseña.", "Advertencia",
-                                MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Por favor, ingresa la contraseña.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             else if (!Validaciones.ContieneSoloNumeros(txtUsuario.Text))
             {
                 // Muestra un mensaje advirtiendo que el usuario debe contener solo números
-                MessageBox.Show("El usuario debe contener solo números.", "Advertencia",
-                                MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("El usuario debe contener solo números.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             else
             {
                 // Llama a P_Login() para iniciar sesión
                 P_Login();
-            }
-
-            // Limpia los campos de usuario y contraseña si no se ha iniciado sesión
-            if (Validaciones.UsuarioVacio(txtUsuario.Text) || Validaciones.ContraseñaVacia(txtContra.Password) || !Validaciones.ContieneSoloNumeros(txtUsuario.Text))
-            {
-                //txtUsuario.Clear();
-                //txtContra.Clear();
             }
         }
 
@@ -219,7 +208,7 @@ namespace Telecomunicaciones_Sistema
                 e.Handled = true;
 
                 // Muestra un mensaje informativo al usuario
-                MessageBox.Show("Solo se permiten números en el campo de usuario.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Solo se permiten números en el campo de usuario.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -230,7 +219,7 @@ namespace Telecomunicaciones_Sistema
                 e.Handled = true;
 
                 // Muestra un mensaje informativo al usuario
-                MessageBox.Show("El usuario no puede contener más de 7 caracteres.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("El usuario no puede contener más de 7 caracteres.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -245,21 +234,32 @@ namespace Telecomunicaciones_Sistema
                 e.Handled = true;
 
                 // Muestra un mensaje informativo al usuario
-                MessageBox.Show("No se permiten espacios en blanco en el campo de usuario.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("No se permiten espacios en blanco en el campo de usuario.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
-        private void lblContraO_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void txtContraseña_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            // Ocultar la ventana actual
-            this.Hide();
+            PasswordBox passwordBox = sender as PasswordBox;
 
-            // Crear una nueva instancia de la ventana de restablecimiento de contraseña
-            EstContra restCon = new EstContra(usuario);
-            // Asociar un evento para cerrar la ventana principal cuando se cierre la ventana de restablecimiento de contraseña
-            restCon.Closed += (s, args) => CloseMainWindow();
-            // Mostrar la ventana de restablecimiento de contraseña
-            restCon.ShowDialog();
+            // Verifica si la tecla presionada es la barra espaciadora
+            if (e.Key == Key.Space)
+            {
+                // Marca el evento como manejado para evitar que se agregue el espacio
+                e.Handled = true;
+
+                // Muestra un mensaje informativo al usuario
+                MessageBox.Show("No se permiten espacios en blanco en la contraseña.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            // Verifica si la longitud de la contraseña supera los 12 caracteres
+            else if (passwordBox.Password.Length >= 12 && !char.IsControl((char)KeyInterop.VirtualKeyFromKey(e.Key)))
+            {
+                // Marca el evento como manejado para evitar que se agregue más caracteres
+                e.Handled = true;
+
+                // Muestra un mensaje informativo al usuario
+                MessageBox.Show("La contraseña no puede tener más de 12 caracteres.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void lblContraC_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

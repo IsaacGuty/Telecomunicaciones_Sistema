@@ -92,6 +92,12 @@ namespace Telecomunicaciones_Sistema
         {
             try
             {
+                if (Validaciones.CamposEmpleadosVacios(txtIDE.Text, txtNombreE.Text, txtApellidoE.Text, txtTelefonoE.Text, txtCorreoE.Text, cmbDireccion.Text))
+                {
+                    MessageBox.Show("Todos los campos del empleado deben llenarse.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
                 string idEmpleado = txtIDE.Text;
 
                 if (idEmpleado.Length > 7)
@@ -143,12 +149,6 @@ namespace Telecomunicaciones_Sistema
                 if (cmbPuesto.SelectedItem == null)
                 {
                     MessageBox.Show("Por favor, seleccione un puesto para el empleado.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-                }
-
-                if (Validaciones.CamposEmpleadosVacios(txtIDE.Text, txtNombreE.Text, txtApellidoE.Text, txtTelefonoE.Text, txtCorreoE.Text, cmbDireccion.Text))
-                {
-                    MessageBox.Show("Todos los campos del empleado deben llenarse.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
@@ -392,7 +392,7 @@ namespace Telecomunicaciones_Sistema
                 e.Handled = true;
 
                 // Muestra un mensaje informativo al usuario
-                MessageBox.Show("El ID del empleado no puede tener más de 7 dígitos.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("El ID del empleado no puede tener más de 7 dígitos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -403,7 +403,7 @@ namespace Telecomunicaciones_Sistema
                 e.Handled = true;
 
                 // Muestra un mensaje informativo al usuario
-                MessageBox.Show("Solo se permiten números en el ID del empleado.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Solo se permiten números en el ID del empleado.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -418,7 +418,7 @@ namespace Telecomunicaciones_Sistema
                 e.Handled = true;
 
                 // Muestra un mensaje informativo al usuario
-                MessageBox.Show("El número de teléfono no puede tener más de 8 dígitos.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("El número de teléfono no puede tener más de 8 dígitos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -429,7 +429,69 @@ namespace Telecomunicaciones_Sistema
                 e.Handled = true;
 
                 // Muestra un mensaje informativo al usuario
-                MessageBox.Show("Solo se permiten números en el número de teléfono.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Solo se permiten números en el número de teléfono.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void txtNombreE_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            // Verificar si se ha alcanzado el límite de 50 caracteres
+            if (txtNombreE.Text.Length + e.Text.Length > 50)
+            {
+                e.Handled = true;
+                MessageBox.Show("Se ha alcanzado el límite máximo de 50 caracteres en el campo de nombre.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            // Verificar si se ingresaron números
+            else if (System.Text.RegularExpressions.Regex.IsMatch(e.Text, "[0-9]"))
+            {
+                e.Handled = true;
+                MessageBox.Show("No se permiten números en el campo de nombre.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            // Verificar si se ingresaron caracteres especiales
+            else if (System.Text.RegularExpressions.Regex.IsMatch(e.Text, "[^a-zA-Z]"))
+            {
+                e.Handled = true;
+                MessageBox.Show("No se permiten caracteres especiales en el campo de nombre.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void TxtNombreC_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+            {
+                e.Handled = true;
+                MessageBox.Show("No se permiten espacios en el campo de nombre.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+
+        private void txtApellidoE_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            // Verificar si se ha alcanzado el límite de 50 caracteres
+            if (txtApellidoE.Text.Length + e.Text.Length > 50)
+            {
+                e.Handled = true;
+                MessageBox.Show("Se ha alcanzado el límite máximo de 50 caracteres en el campo de apellido.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            // Verificar si se ingresaron números
+            else if (System.Text.RegularExpressions.Regex.IsMatch(e.Text, "[0-9]"))
+            {
+                e.Handled = true;
+                MessageBox.Show("No se permiten números en el campo de apellido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            // Verificar si se ingresaron caracteres especiales
+            else if (System.Text.RegularExpressions.Regex.IsMatch(e.Text, "[^a-zA-Z]"))
+            {
+                e.Handled = true;
+                MessageBox.Show("No se permiten caracteres especiales en el campo de apellido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void txtApellidoE_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+            {
+                e.Handled = true;
+                MessageBox.Show("No se permiten espacios en el campo de apellido.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 

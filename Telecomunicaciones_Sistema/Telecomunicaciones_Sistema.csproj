@@ -77,9 +77,6 @@
     <Compile Include="Clientes.cs" />
     <Compile Include="EmpleadoDAL.cs" />
     <Compile Include="Empleados.cs" />
-    <Compile Include="EstContra.xaml.cs">
-      <DependentUpon>EstContra.xaml</DependentUpon>
-    </Compile>
     <Compile Include="IngCod.xaml.cs">
       <DependentUpon>IngCod.xaml</DependentUpon>
     </Compile>
@@ -91,9 +88,6 @@
     <Compile Include="Pantalla.cs" />
     <Compile Include="PrintPreviewWindow.xaml.cs">
       <DependentUpon>PrintPreviewWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="RestCon.xaml.cs">
-      <DependentUpon>RestCon.xaml</DependentUpon>
     </Compile>
     <Compile Include="Validaciones.cs" />
     <Compile Include="Window1.xaml.cs">
@@ -138,10 +132,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="EstContra.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="IngCod.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -159,10 +149,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="PrintPreviewWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="RestCon.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

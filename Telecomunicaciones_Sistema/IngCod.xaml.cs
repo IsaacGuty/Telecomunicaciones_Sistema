@@ -24,7 +24,6 @@ namespace Telecomunicaciones_Sistema
         private int userId; // Almacena el ID del usuario
         private string usuario; // Almacena el nombre de usuario
         private readonly Random random = new Random(); // Generador de números aleatorios
-        private RestCon winRestCon; // Referencia a la ventana RestCon
         private CamCon winCamCon; // Referencia a la ventana CamCon
         private bool esRestablecer; // Indica si se está restableciendo la contraseña o cambiándola
         private DateTime codigoGeneradoTime; // Almacenar la fecha y hora de generación del código
@@ -84,6 +83,8 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
+        private bool codigoCorrectoMostrado = false; // Variable para controlar si el mensaje de código correcto ha sido mostrado
+
         private void BtnAceptar_Click(object sender, RoutedEventArgs e)
         {
             // Verifica si el código ingresado coincide con el código recibido
@@ -91,7 +92,7 @@ namespace Telecomunicaciones_Sistema
             {
                 // Calcula la diferencia de tiempo entre el momento actual y el momento de generación del código
                 TimeSpan diferenciaTiempo = DateTime.Now - codigoGeneradoTime;
-                
+
                 // Define el tiempo de vida útil del código en minutos (por ejemplo, 10 minutos)
                 int tiempoVidaCodigo = 5;
 
@@ -105,46 +106,40 @@ namespace Telecomunicaciones_Sistema
                 if (esRestablecer)
                 {
                     // Abre la ventana para restablecer la contraseña (RestCon)
-                    if (winRestCon == null || !winRestCon.IsVisible)
-                    {
-                        // Muestra un mensaje de confirmación si el código es correcto
-                        MessageBox.Show("Código correcto. Ahora puedes restablecer tu contraseña.", "Confirmación", MessageBoxButton.OK, MessageBoxImage.Information);
-                        
-                        // Cierra la ventana IngCod antes de abrir RestCon
-                        this.Close();
-
-                        winRestCon = new RestCon(userId); // Crea una instancia de RestCon pasando el userId al constructor
-                        winRestCon.SetUsuario(usuario); // Establece el nombre de usuario en la ventana RestCon
-
-                        // Muestra la ventana RestCon
-                        winRestCon.Show();
-                    }
+                    // MessageBox.Show("Código correcto. Ahora puedes restablecer tu contraseña.", "Confirmación", MessageBoxButton.OK, MessageBoxImage.Information);
+                    // Cierra la ventana IngCod antes de abrir RestCon
+                    // this.Close();
+                    // Aquí puedes realizar cualquier otra acción necesaria para restablecer la contraseña
                 }
                 else
                 {
                     // Abre la ventana para cambiar la contraseña (CamCon)
-                    if (winCamCon == null || !winCamCon.IsVisible)
+                    MessageBox.Show("Código correcto. Ahora puedes cambiar tu contraseña.", "Confirmación", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                    // Cierra la ventana IngCod antes de abrir CamCon
+                    this.Close();
+
+                    // Si winCamCon no ha sido inicializado previamente, entonces crea una nueva instancia
+                    if (winCamCon == null)
                     {
-                        // Muestra un mensaje de confirmación si el código es correcto
-                        MessageBox.Show("Código correcto. Ahora puedes cambiar tu contraseña.", "Confirmación", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                        // Cierra la ventana IngCod antes de abrir CamCon
-                        this.Close();
-
                         winCamCon = new CamCon(userId); // Crea una instancia de CamCon pasando el userId al constructor
-                        winCamCon.SetUsuario(usuario); // Establece el nombre de usuario en la ventana CamCon
-
-                        // Muestra la ventana CamCon
-                        winCamCon.Show();
                     }
+                    winCamCon.SetUsuario(usuario); // Establece el nombre de usuario en la ventana CamCon
+
+                    // Muestra la ventana CamCon
+                    winCamCon.Show();
                 }
             }
             else
             {
-                // Muestra un mensaje de error si el código ingresado es incorrecto
-                MessageBox.Show("El código ingresado es incorrecto. Por favor, verifica e intenta nuevamente.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                // Muestra un mensaje de error si el código ingresado es incorrecto y si no se ha mostrado el mensaje de código correcto
+                if (!codigoCorrectoMostrado)
+                {
+                    MessageBox.Show("El código ingresado es incorrecto. Por favor, verifica e intenta nuevamente.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
+
 
         private void BtnReeC_Click(object sender, RoutedEventArgs e)
         {

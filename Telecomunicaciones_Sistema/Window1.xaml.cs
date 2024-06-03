@@ -156,7 +156,7 @@ namespace Telecomunicaciones_Sistema
             if ((textBox.Text + e.Text).Length > 1)
             {
                 // Mostrar mensaje de advertencia
-                MessageBox.Show("Solo se permite un dígito.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Solo se permite un dígito.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 
                 // Bloquear la entrada
                 e.Handled = true;
