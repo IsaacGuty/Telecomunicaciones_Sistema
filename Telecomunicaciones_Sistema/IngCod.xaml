@@ -19,7 +19,7 @@
     <Grid>
         <Label Content="Introduzca el código enviado a su correo electrónico:" HorizontalAlignment="Left" Margin="142,185,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14"/>
         <Label Content="Código:" HorizontalAlignment="Left" Margin="188,234,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
-        <TextBox x:Name="txtCod" HorizontalAlignment="Left" Height="23" Margin="188,265,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="205" RenderTransformOrigin="-0.359,0.955" FontFamily="Times New Roman" FontSize="14"/>
+        <TextBox x:Name="txtCod" HorizontalAlignment="Left" Height="23" Margin="188,265,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="205" RenderTransformOrigin="-0.359,0.955" FontFamily="Times New Roman" FontSize="14" PreviewTextInput="txtCod_PreviewTextInput" PreviewKeyDown="txtCod_PreviewKeyDown"/>
         <Button x:Name="btnAceptar" Content="Aceptar" HorizontalAlignment="Left" Margin="169,339,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnAceptar_Click"/>
         <Button x:Name="btnReeC" Content="Reenviar código" HorizontalAlignment="Left" Margin="304,339,0,0" VerticalAlignment="Top" Width="123" FontFamily="Times New Roman" FontWeight="Bold" FontSize="14" Click="BtnReeC_Click"/>
         <Image Margin="238,44,243,277" Source="logoTele.png" Stretch="Fill" RenderTransformOrigin="-0.074,0.454"/>

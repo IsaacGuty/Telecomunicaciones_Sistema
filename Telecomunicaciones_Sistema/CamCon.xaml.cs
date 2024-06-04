@@ -95,6 +95,83 @@ namespace Telecomunicaciones_Sistema
 
             this.Close();
         }
+
+        private void txtAnteriorC_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            // Verifica si el texto contiene espacios en blanco
+            if (e.Text.Contains(" "))
+            {
+                MessageBox.Show("No se permiten espacios en blanco en la contraseña anterior.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                e.Handled = true; // Cancela la entrada del carácter
+            }
+            // Verifica si el total de caracteres es mayor que 12
+            else if ((sender as PasswordBox).Password.Length >= 12)
+            {
+                MessageBox.Show("Se permiten un máximo de 12 dígitos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                e.Handled = true; // Cancela la entrada del carácter
+            }
+        }
+
+        private void txtAnteriorC_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            // Si se presiona la barra espaciadora, cancela la entrada
+            if (e.Key == Key.Space)
+            {
+                e.Handled = true;
+                MessageBox.Show("No se permiten espacios en blanco.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void txtNuevaC_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            // Verifica si el texto contiene espacios en blanco
+            if (e.Text.Contains(" "))
+            {
+                MessageBox.Show("No se permiten espacios en blanco en la nueva contraseña.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                e.Handled = true; // Cancela la entrada del carácter
+            }
+            // Verifica si el total de caracteres es mayor que 12
+            else if ((sender as PasswordBox).Password.Length >= 12)
+            {
+                MessageBox.Show("Se permiten un máximo de 12 dígitos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                e.Handled = true; // Cancela la entrada del carácter
+            }
+        }
+
+        private void txtNuevaC_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            // Si se presiona la barra espaciadora, cancela la entrada
+            if (e.Key == Key.Space)
+            {
+                e.Handled = true;
+                MessageBox.Show("No se permiten espacios en blanco.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void txtConfirmarC_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            // Verifica si el texto contiene espacios en blanco
+            if (e.Text.Contains(" "))
+            {
+                MessageBox.Show("No se permiten espacios en blanco en la confirmación de contraseña.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                e.Handled = true; // Cancela la entrada del carácter
+            }
+            // Verifica si el total de caracteres es mayor que 12
+            else if ((sender as PasswordBox).Password.Length >= 12)
+            {
+                MessageBox.Show("Se permiten un máximo de 12 dígitos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                e.Handled = true; // Cancela la entrada del carácter
+            }
+        }
+        private void txtConfirmarC_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            // Si se presiona la barra espaciadora, cancela la entrada
+            if (e.Key == Key.Space)
+            {
+                e.Handled = true;
+                MessageBox.Show("No se permiten espacios en blanco.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
     }
 }
 

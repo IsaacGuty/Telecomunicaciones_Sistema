@@ -195,7 +195,7 @@ namespace Telecomunicaciones_Sistema
         {
             using (SqlConnection connection = BD.ObtenerConexion())
             {
-                string query = "SELECT COUNT(*) FROM Empleados WHERE Correo_E = @Correo";
+                string query = "SELECT COUNT(*) FROM Empleados WHERE Correo_E = @Correo COLLATE Latin1_General_CS_AS";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -557,6 +557,5 @@ namespace Telecomunicaciones_Sistema
                 }
             }
         }
-
     }
 }

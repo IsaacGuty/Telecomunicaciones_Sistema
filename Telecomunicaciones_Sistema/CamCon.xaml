@@ -27,11 +27,11 @@
         <Label Content="Contraseña nueva:" HorizontalAlignment="Left" Margin="151,111.8,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Grid.Row="1" Height="26" Width="202"/>
         <Button x:Name="btnAceptar" Content="Aceptar" Click="BtnAceptar_Click" HorizontalAlignment="Left" Margin="178,10.4,0,0" Grid.Row="2" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontWeight="Bold" FontSize="14" Height="19"/>
         <Button x:Name="btnCancelar" Content="Cancelar" HorizontalAlignment="Left" Margin="326,10.4,0,0" Grid.Row="2" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontWeight="Bold" FontSize="14" Height="19" Click="BtnCancelar_Click"/>
-        <PasswordBox x:Name="txtAnteriorC" HorizontalAlignment="Left" Margin="157,66.8,0,0" Grid.Row="1" VerticalAlignment="Top" Width="270" Height="23"/>
-        <PasswordBox x:Name="txtNuevaC" HorizontalAlignment="Left" Margin="154,142.8,0,0" Grid.Row="1" VerticalAlignment="Top" Width="273" Height="23"/>
+        <PasswordBox x:Name="txtAnteriorC" HorizontalAlignment="Left" Margin="157,66.8,0,0" Grid.Row="1" VerticalAlignment="Top" Width="270" Height="23" PreviewTextInput="txtAnteriorC_PreviewTextInput" PreviewKeyDown="txtAnteriorC_PreviewKeyDown"/>
+        <PasswordBox x:Name="txtNuevaC" HorizontalAlignment="Left" Margin="154,142.8,0,0" Grid.Row="1" VerticalAlignment="Top" Width="273" Height="23" PreviewTextInput="txtNuevaC_PreviewTextInput" PreviewKeyDown="txtConfirmarC_PreviewKeyDown"/>
         <Label x:Name="lblusuario" Content="" HorizontalAlignment="Left" Margin="418,150,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" Height="26" Width="107" Grid.RowSpan="2"/>
         <Label Content="Confirmar contraseña nueva:" HorizontalAlignment="Left" Margin="154,192.8,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Grid.Row="1" Height="26" Width="202"/>
-        <PasswordBox x:Name="txtConfirmarC" HorizontalAlignment="Left" Margin="157,223.8,0,0" Grid.Row="1" VerticalAlignment="Top" Width="270" Height="23"/>
+        <PasswordBox x:Name="txtConfirmarC" HorizontalAlignment="Left" Margin="157,223.8,0,0" Grid.Row="1" VerticalAlignment="Top" Width="270" Height="23" PreviewTextInput="txtConfirmarC_PreviewTextInput" PreviewKeyDown="txtConfirmarC_PreviewKeyDown"/>
         <Image Margin="238,44,243,21.2" Source="logoTele.png" Stretch="Fill" RenderTransformOrigin="-0.074,0.454"/>
 
     </Grid>

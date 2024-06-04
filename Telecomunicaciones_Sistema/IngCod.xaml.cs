@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Net;
 using System.Net.Mail;
+using System.Text.RegularExpressions;
 
 namespace Telecomunicaciones_Sistema
 {
@@ -25,7 +26,6 @@ namespace Telecomunicaciones_Sistema
         private string usuario; // Almacena el nombre de usuario
         private readonly Random random = new Random(); // Generador de números aleatorios
         private CamCon winCamCon; // Referencia a la ventana CamCon
-        private bool esRestablecer; // Indica si se está restableciendo la contraseña o cambiándola
         private DateTime codigoGeneradoTime; // Almacenar la fecha y hora de generación del código
 
         // Constructor de la ventana IngCod
@@ -36,7 +36,6 @@ namespace Telecomunicaciones_Sistema
             correoDestino = correo;
             this.userId = userId;
             this.usuario = usuario;
-            this.esRestablecer = esRestablecer; // Asigna el valor de esRestablecer al campo correspondiente
             InitializeWindowEvents(); // Inicializa los eventos de la ventana
             codigoGeneradoTime = DateTime.Now; // Almacena la fecha y hora actual al momento de generar el código
         }
@@ -103,32 +102,25 @@ namespace Telecomunicaciones_Sistema
                     return;
                 }
 
-                if (esRestablecer)
+                // Muestra el mensaje de código correcto solo si no se ha mostrado antes
+                if (!codigoCorrectoMostrado)
                 {
-                    // Abre la ventana para restablecer la contraseña (RestCon)
-                    // MessageBox.Show("Código correcto. Ahora puedes restablecer tu contraseña.", "Confirmación", MessageBoxButton.OK, MessageBoxImage.Information);
-                    // Cierra la ventana IngCod antes de abrir RestCon
-                    // this.Close();
-                    // Aquí puedes realizar cualquier otra acción necesaria para restablecer la contraseña
-                }
-                else
-                {
-                    // Abre la ventana para cambiar la contraseña (CamCon)
                     MessageBox.Show("Código correcto. Ahora puedes cambiar tu contraseña.", "Confirmación", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                    // Cierra la ventana IngCod antes de abrir CamCon
-                    this.Close();
-
-                    // Si winCamCon no ha sido inicializado previamente, entonces crea una nueva instancia
-                    if (winCamCon == null)
-                    {
-                        winCamCon = new CamCon(userId); // Crea una instancia de CamCon pasando el userId al constructor
-                    }
-                    winCamCon.SetUsuario(usuario); // Establece el nombre de usuario en la ventana CamCon
-
-                    // Muestra la ventana CamCon
-                    winCamCon.Show();
+                    codigoCorrectoMostrado = true; // Establece la bandera como true para evitar mostrar el mensaje nuevamente
                 }
+
+                // Cierra la ventana IngCod antes de abrir CamCon
+                this.Close();
+
+                // Si winCamCon no ha sido inicializado previamente, entonces crea una nueva instancia
+                if (winCamCon == null)
+                {
+                    winCamCon = new CamCon(userId); // Crea una instancia de CamCon pasando el userId al constructor
+                }
+                winCamCon.SetUsuario(usuario); // Establece el nombre de usuario en la ventana CamCon
+
+                // Muestra la ventana CamCon
+                winCamCon.Show();
             }
             else
             {
@@ -140,6 +132,7 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
+        private bool codigoEnviadoMostrado = false; // Variable para controlar si se ha mostrado el mensaje de código enviado
 
         private void BtnReeC_Click(object sender, RoutedEventArgs e)
         {
@@ -154,7 +147,12 @@ namespace Telecomunicaciones_Sistema
                 // Envía un correo electrónico con el nuevo código de recuperación al correo destino
                 EnviarCorreo(correoDestino, nuevoCodigoRecuperacion);
 
-                MessageBox.Show("Se ha vuelto a enviar un código al correo electrónico proporcionado.", "Confirmación", MessageBoxButton.OK, MessageBoxImage.Information);
+                // Muestra el mensaje de confirmación solo si no se ha mostrado antes
+                if (!codigoEnviadoMostrado)
+                {
+                    MessageBox.Show("Se ha vuelto a enviar un código al correo electrónico proporcionado.", "Confirmación", MessageBoxButton.OK, MessageBoxImage.Information);
+                    codigoEnviadoMostrado = true; // Establece la bandera como true para evitar mostrar el mensaje nuevamente
+                }
             }
             catch (Exception ex)
             {
@@ -170,6 +168,40 @@ namespace Telecomunicaciones_Sistema
             // Mostrar MainWindow
             MainWindow mainWindow = new MainWindow();
             mainWindow.Show();
+        }
+
+        private void txtCod_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            // Regex que permite sólo dígitos
+            Regex regex = new Regex("[^0-9]+");
+
+            if (txtCod.Text.Length >= 6)
+            {
+                e.Handled = true;
+                MessageBox.Show("Solo se permite un máximo de 6 dígitos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else if (regex.IsMatch(e.Text))
+            {
+                e.Handled = true;
+                if (Regex.IsMatch(e.Text, "[a-zA-Z]"))
+                {
+                    MessageBox.Show("No se permiten letras.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else
+                {
+                    MessageBox.Show("No se permiten caracteres especiales.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+        private void txtCod_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            // Si se presiona la barra espaciadora, cancela la entrada
+            if (e.Key == Key.Space)
+            {
+                e.Handled = true;
+                MessageBox.Show("No se permiten espacios en blanco.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }

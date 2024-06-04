@@ -120,19 +120,14 @@ namespace Telecomunicaciones_Sistema
                 ComboBoxItem itemSeleccionado = (ComboBoxItem)cmbDireccion.SelectedItem;
                 string direccion = itemSeleccionado?.Content?.ToString();
 
-                int resultado = EmpleadoDAL.EmpleadoExisteConDatos(idEmpleado, nombre, apellido, correo, telefono);
+                int resultado = EmpleadoDAL.EmpleadoExisteConDatos(idEmpleado, correo, telefono);
 
                 if (resultado == 1)
-                {
-                    MessageBox.Show("El empleado con el mismo nombre y apellido ya existe en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-                }
-                else if (resultado == 2)
                 {
                     MessageBox.Show("El empleado con el mismo correo ya existe en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
-                else if (resultado == 3)
+                else if (resultado == 2)
                 {
                     MessageBox.Show("El empleado con el mismo teléfono ya existe en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
@@ -273,10 +268,18 @@ namespace Telecomunicaciones_Sistema
                 // Si estamos en modo modificación y el empleado existe, actualizar los datos del empleado
                 if (esModificacion && empleadoExistente)
                 {
-                    if (EmpleadoDAL.EmpleadoDI(txtNombreE.Text, txtApellidoE.Text, txtCorreoE.Text, txtTelefonoE.Text, numeroDireccion, idEmpleado))
+                    if (EmpleadoDAL.EmpleadoDI(txtCorreoE.Text, txtTelefonoE.Text, numeroDireccion, idEmpleado))
                     {
-                        MessageBox.Show("Los datos del empleado son iguales a los de otro empleado en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                        return;
+                        if (resultado == 1)
+                        {
+                            MessageBox.Show("El cliente con el mismo correo ya existe en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                            return;
+                        }
+                        else if (resultado == 2)
+                        {
+                            MessageBox.Show("El cliente con el mismo teléfono ya existe en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                            return;
+                        }
                     }
 
                     // Crear el objeto NuevoEmpleado con los datos modificados
@@ -407,6 +410,21 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
+        private void txtIDE_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+
+            // Verifica si la tecla presionada es la barra espaciadora
+            if (e.Key == Key.Space)
+            {
+                // Marca el evento como manejado para evitar que se agregue el espacio
+                e.Handled = true;
+
+                // Muestra un mensaje informativo al usuario
+                MessageBox.Show("No se permiten espacios en blanco en el campo de usuario.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
         private void txtTelefonoE_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             TextBox textBox = sender as TextBox;
@@ -433,6 +451,21 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
+        private void txtTelefonoE_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+
+            // Verifica si la tecla presionada es la barra espaciadora
+            if (e.Key == Key.Space)
+            {
+                // Marca el evento como manejado para evitar que se agregue el espacio
+                e.Handled = true;
+
+                // Muestra un mensaje informativo al usuario
+                MessageBox.Show("No se permiten espacios en blanco en el campo de usuario.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
         private void txtNombreE_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             // Verificar si se ha alcanzado el límite de 50 caracteres
@@ -452,15 +485,6 @@ namespace Telecomunicaciones_Sistema
             {
                 e.Handled = true;
                 MessageBox.Show("No se permiten caracteres especiales en el campo de nombre.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
-        private void TxtNombreC_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Space)
-            {
-                e.Handled = true;
-                MessageBox.Show("No se permiten espacios en el campo de nombre.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
@@ -486,12 +510,28 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
-        private void txtApellidoE_PreviewKeyDown(object sender, KeyEventArgs e)
+        private void txtCorreoE_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            if (e.Key == Key.Space)
+            // Verificar si se ha alcanzado el límite de 50 caracteres
+            if (txtCorreoE.Text.Length + e.Text.Length > 40)
             {
                 e.Handled = true;
-                MessageBox.Show("No se permiten espacios en el campo de apellido.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Se ha alcanzado el límite máximo de 50 caracteres en el campo de nombre.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+
+        private void txtCorreoE_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+
+            // Verifica si la tecla presionada es la barra espaciadora
+            if (e.Key == Key.Space)
+            {
+                // Marca el evento como manejado para evitar que se agregue el espacio
+                e.Handled = true;
+
+                // Muestra un mensaje informativo al usuario
+                MessageBox.Show("No se permiten espacios en blanco en el campo de usuario.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
