@@ -40,7 +40,8 @@ namespace Telecomunicaciones_Sistema
                 SqlCommand comando = new SqlCommand(
                     "SELECT ID_Empleado, Nombre_E, Apellido_E, Teléfono_E, Correo_E, ID_Dirección, Puesto, Estado " +
                     "FROM Empleados " +
-                    "WHERE ID_Empleado LIKE @Criterio OR Nombre_E LIKE @Criterio OR Apellido_E LIKE @Criterio", Conn);
+                    "WHERE ID_Empleado LIKE @Criterio OR Nombre_E LIKE @Criterio OR Apellido_E LIKE @Criterio " +
+                    "OR (Nombre_E + ' ' + Apellido_E) LIKE @Criterio", Conn);
 
                 // Agrega parámetros para evitar la concatenación directa del valor del criterio de búsqueda
                 comando.Parameters.AddWithValue("@Criterio", "%" + criterioBusqueda + "%");

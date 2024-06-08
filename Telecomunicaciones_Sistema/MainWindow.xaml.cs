@@ -207,8 +207,18 @@ namespace Telecomunicaciones_Sistema
                 // Si el carácter no es un número, marca el evento como manejado para evitar que se agregue
                 e.Handled = true;
 
-                // Muestra un mensaje informativo al usuario
-                MessageBox.Show("Solo se permiten números en el campo de usuario.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                // Verifica si el carácter es una letra
+                if (char.IsLetter(e.Text, 0))
+                {
+                    // Muestra un mensaje informativo al usuario
+                    MessageBox.Show("No se permiten letras en el campo de usuario.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else
+                {
+                    // Muestra un mensaje informativo al usuario
+                    MessageBox.Show("No se permiten caracteres especiales en el campo de usuario.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+
                 return;
             }
 

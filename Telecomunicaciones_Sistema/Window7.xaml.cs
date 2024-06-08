@@ -466,6 +466,32 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
+        private void txtCorreoC_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            // Verificar si se ha alcanzado el límite de 50 caracteres
+            if (txtCorreoC.Text.Length + e.Text.Length > 40)
+            {
+                e.Handled = true;
+                MessageBox.Show("Se ha alcanzado el límite máximo de 50 caracteres en el campo de nombre.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+
+        private void txtCorreoC_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+
+            // Verifica si la tecla presionada es la barra espaciadora
+            if (e.Key == Key.Space)
+            {
+                // Marca el evento como manejado para evitar que se agregue el espacio
+                e.Handled = true;
+
+                // Muestra un mensaje informativo al usuario
+                MessageBox.Show("No se permiten espacios en blanco en el campo de usuario.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            Validaciones.BloquearControles(e);
+        }
+
         // Método invocado cuando se agrega un cliente, activa el evento ClienteAgregado
         private void OnClienteAgregado()
         {

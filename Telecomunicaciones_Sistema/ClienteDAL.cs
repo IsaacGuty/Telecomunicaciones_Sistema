@@ -35,7 +35,8 @@ namespace Telecomunicaciones_Sistema
                 // Modificamos la consulta SQL para buscar por ID_Cliente, Nombre o Apellido
                 SqlCommand comando = new SqlCommand(string.Format(
                     "SELECT ID_Cliente, Nombre, Apellido, Teléfono, Correo, ID_Dirección FROM Cliente " +
-                    "WHERE ID_Cliente LIKE '%{0}%' OR Nombre LIKE '%{0}%' OR Apellido LIKE '%{0}%'", textoBusqueda), connection);
+                    "WHERE ID_Cliente LIKE '%{0}%' OR Nombre LIKE '%{0}%' OR Apellido LIKE '%{0}%'" +
+                    "OR (Nombre + ' ' + Apellido) LIKE '%{0}%'", textoBusqueda), connection);
 
                 SqlDataReader reader = comando.ExecuteReader();
 

@@ -23,7 +23,7 @@
         <Label Content="Orden de trabajo" HorizontalAlignment="Left" Margin="111,56,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="24" FontWeight="Bold" Width="195"/>
         <DataGrid x:Name="DatGridOT" HorizontalAlignment="Left" Height="152" Margin="97,142,0,0" VerticalAlignment="Top" Width="504" SelectionChanged="DatGridOT_SelectionChanged" KeyboardNavigation.TabNavigation="None"/>
 
-        <TextBox x:Name="txtBuscar" LostFocus="TxtBuscar_LostFocus" HorizontalAlignment="Left" Height="23" Margin="405,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="165" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" TabIndex="11"/>
+        <TextBox x:Name="txtBuscar" Text="Nombre, apellido" Foreground="Gray" GotFocus="txtBuscar_GotFocus" LostFocus="txtBuscar_LostFocus" HorizontalAlignment="Left" Height="23" Margin="405,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="165" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" TabIndex="11" MaxLength="100"/>
         <Button x:Name="BtnBuscar" HorizontalAlignment="Left" Margin="586,86,0,0" VerticalAlignment="Top" Width="56" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Height="28" Click="BtnBuscar_Click" TabIndex="12">
             <Image x:Name="Buscar" Height="23" Source="buscar.png" Stretch="Fill" Width="24"/>
         </Button>

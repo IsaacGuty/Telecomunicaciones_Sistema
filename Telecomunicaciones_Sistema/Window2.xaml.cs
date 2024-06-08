@@ -232,10 +232,36 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
-        private void TxtBuscar_LostFocus(object sender, RoutedEventArgs e)
+        private void txtBuscar_GotFocus(object sender, RoutedEventArgs e)
         {
-            // Convierte la primera letra de cada palabra a mayúscula
-            txtBuscar.Text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(txtBuscar.Text.ToLower());
+            if (txtBuscar.Text == "ID, nombre, apellido")
+            {
+                txtBuscar.Text = "";
+                txtBuscar.Foreground = new SolidColorBrush(Colors.Black);
+            }
+        }
+
+        private void txtBuscar_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtBuscar.Text))
+            {
+                txtBuscar.Text = "ID, nombre, apellido";
+                txtBuscar.Foreground = new SolidColorBrush(Colors.Gray);
+            }
+            else
+            {
+                // Convierte la primera letra de cada palabra a mayúscula
+                txtBuscar.Text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(txtBuscar.Text.ToLower());
+            }
+        }
+
+        private void SetPlaceholderText()
+        {
+            if (string.IsNullOrWhiteSpace(txtBuscar.Text))
+            {
+                txtBuscar.Text = "ID, nombre, apellido";
+                txtBuscar.Foreground = new SolidColorBrush(Colors.Gray);
+            }
         }
     }
 }

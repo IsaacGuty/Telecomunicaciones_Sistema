@@ -59,9 +59,11 @@ namespace Telecomunicaciones_Sistema
                     JOIN Pagos p ON p.ID_Cliente = c.ID_Cliente
                     JOIN Servicios s ON s.ID_Servicio = p.ID_TpServicio
                     WHERE c.Nombre LIKE @criterio
+                    OR c.Apellido LIKE @criterio
+                    OR (c.Nombre + ' ' + c.Apellido) LIKE @criterio
                     GROUP BY c.Nombre, c.Apellido, d.Dirección, c.Teléfono, s.Servicio
                     ORDER BY c.Nombre, c.Apellido, d.Dirección, c.Teléfono;
-            ";
+                    ";
 
                     // Usa SqlCommand y parámetros para prevenir la inyección de SQL
                     using (SqlCommand cmd = new SqlCommand(query, Conn))

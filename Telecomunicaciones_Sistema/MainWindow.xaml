@@ -21,9 +21,9 @@
         <Label Content="Usuario:" HorizontalAlignment="Left" Margin="321,171,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
         <Label x:Name="txtContraseña" Content="Contraseña:" HorizontalAlignment="Left" Margin="312,272,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
         <TextBox x:Name="txtUsuario" PreviewKeyDown="txtUsuario_PreviewKeyDown" PreviewTextInput="txtUsuario_PreviewTextInput" HorizontalAlignment="Left" Height="23" Margin="227,219,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="244" FontFamily="Times New Roman" FontSize="14" TabIndex="0"/>
-        <Button x:Name="BtnIngresar" Content="Ingresar" HorizontalAlignment="Left" Margin="320,418,0,0" VerticalAlignment="Top" Width="75" FontWeight="Bold" FontFamily="Times New Roman" FontSize="14" Click="Button_Click" TabIndex="4"/>
+        <Button x:Name="BtnIngresar" Content="Ingresar" HorizontalAlignment="Left" Margin="316,418,0,0" VerticalAlignment="Top" Width="75" FontWeight="Bold" FontFamily="Times New Roman" FontSize="14" Click="Button_Click" TabIndex="4"/>
         <Image Margin="302,45,284,323.4" Source="logoTele.png" Stretch="Fill"/>
-        <Label x:Name="lblContraC" Content="Cambiar contraseña" Foreground="Black" HorizontalAlignment="Left" Margin="302,381,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontWeight="Bold" RenderTransformOrigin="0.529,1.07" MouseLeftButtonDown="lblContraC_MouseLeftButtonDown" Cursor="Hand" TabIndex="3"/>
+        <Label x:Name="lblContraC" Content="Cambiar contraseña" Foreground="#FF1D0E69" HorizontalAlignment="Left" Margin="292,380,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontWeight="Bold" RenderTransformOrigin="0.529,1.07" MouseLeftButtonDown="lblContraC_MouseLeftButtonDown" Cursor="Hand" TabIndex="3"/>
         <PasswordBox x:Name="txtContra" PreviewKeyDown="txtContraseña_PreviewKeyDown" HorizontalAlignment="Left" Margin="229,321,0,0" VerticalAlignment="Top" Height="24" RenderTransformOrigin="0.5,0.5" Width="241" TabIndex="1" MaxLength="12">
             <PasswordBox.RenderTransform>
                 <TransformGroup>

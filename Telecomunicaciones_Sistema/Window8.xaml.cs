@@ -423,6 +423,7 @@ namespace Telecomunicaciones_Sistema
                 // Muestra un mensaje informativo al usuario
                 MessageBox.Show("No se permiten espacios en blanco en el campo de usuario.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+            Validaciones.BloquearControles(e);
         }
 
         private void txtTelefonoE_PreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -464,6 +465,7 @@ namespace Telecomunicaciones_Sistema
                 // Muestra un mensaje informativo al usuario
                 MessageBox.Show("No se permiten espacios en blanco en el campo de usuario.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+            Validaciones.BloquearControles(e);
         }
 
         private void txtNombreE_PreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -533,6 +535,7 @@ namespace Telecomunicaciones_Sistema
                 // Muestra un mensaje informativo al usuario
                 MessageBox.Show("No se permiten espacios en blanco en el campo de usuario.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+            Validaciones.BloquearControles(e);
         }
 
         // Método para llamar al evento EmpleadoAgregado

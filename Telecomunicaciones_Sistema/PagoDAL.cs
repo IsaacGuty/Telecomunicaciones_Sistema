@@ -39,8 +39,9 @@ namespace Telecomunicaciones_Sistema
                 using (SqlConnection Conn = BD.ObtenerConexion())
                 {
                     Conn.Open();
-                    string query = "SELECT ID_Pago, ID_Cliente, Monto, ID_TpServicio, Mes_Pagado, Fecha, ID_Empleado FROM Pagos " +
-                                   "WHERE ID_Pago LIKE @TextoBusqueda";
+                    string query = "SELECT P.ID_Pago, P.ID_Cliente, C.nombre, C.apellido, P.Monto, P.ID_TpServicio, P.Mes_Pagado, P.Fecha, P.ID_Empleado " +
+                                   "FROM Pagos P JOIN Cliente C ON P.ID_Cliente = C.ID_Cliente " +
+                                   "WHERE P.ID_Pago LIKE @TextoBusqueda OR C.nombre LIKE @TextoBusqueda OR C.apellido LIKE @TextoBusqueda";
                     SqlCommand command = new SqlCommand(query, Conn);
                     command.Parameters.AddWithValue("@TextoBusqueda", "%" + textoBusqueda + "%");
 

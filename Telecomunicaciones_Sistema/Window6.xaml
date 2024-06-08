@@ -38,7 +38,7 @@
                 <!-- Agrega más columnas según sea necesario -->
             </DataGrid.Columns>
         </DataGrid>
-        <TextBox x:Name="txtBuscar" LostFocus="TxtBuscar_LostFocus" HorizontalAlignment="Left" Height="23" Margin="405,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="165" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" TabIndex="4"/>
+        <TextBox x:Name="txtBuscar" Text="ID, nombre, apellido" Foreground="Gray" GotFocus="txtBuscar_GotFocus" LostFocus="txtBuscar_LostFocus" HorizontalAlignment="Left" Height="23" Margin="405,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="165" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" TabIndex="5"/>
         <Button x:Name="BtnBuscar" HorizontalAlignment="Left" Margin="586,86,0,0" VerticalAlignment="Top" Width="56" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Height="28" Click="BtnBuscar_Click" TabIndex="5">
             <Image x:Name="Buscar" Height="23" Source="buscar.png" Stretch="Fill" Width="24"/>
         </Button>
