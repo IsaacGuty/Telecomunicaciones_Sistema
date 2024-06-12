@@ -29,7 +29,7 @@
             <ColumnDefinition Width="480*"/>
         </Grid.ColumnDefinitions>
         <Button x:Name="btnRegresar" Content="Regresar" Grid.Column="3" HorizontalAlignment="Left" Margin="268,115,0,0" VerticalAlignment="Top" Width="75" FontWeight="Bold" FontFamily="Times New Roman" FontSize="14" Click="BtnRegresar_Click" Grid.Row="1" RenderTransformOrigin="1.021,0.51" TabIndex="4"/>
-        <DataGrid x:Name="DatGridP" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="248" Margin="73,125,0,0" VerticalAlignment="Top" Width="522" Grid.ColumnSpan="3" Grid.RowSpan="2" Grid.Column="1" SelectionChanged="DatGridP_SelectionChanged" KeyboardNavigation.TabNavigation="None">
+        <DataGrid x:Name="DatGridP" AutoGenerateColumns="False" Height="248" Margin="0,137,10,0" VerticalAlignment="Top" Grid.ColumnSpan="3" Grid.RowSpan="2" Grid.Column="1" SelectionChanged="DatGridP_SelectionChanged" KeyboardNavigation.TabNavigation="None">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID Pago" Binding="{Binding ID_Pago}" />
                 <DataGridTextColumn Header="ID Cliente" Binding="{Binding ID_Cliente}" />
@@ -42,10 +42,10 @@
 
             </DataGrid.Columns>
         </DataGrid>
-        <Label Content="Pagos" HorizontalAlignment="Left" Margin="73,56,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="24" FontWeight="Bold" Width="246" Grid.ColumnSpan="3" Grid.Column="1"/>
-        <Image Margin="15,45,188.8,190.4" Source="logoTele.png" Stretch="Fill" Grid.ColumnSpan="2"/>
+        <Label Content="Pagos" HorizontalAlignment="Left" Margin="105,37,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="24" FontWeight="Bold" Width="246" Grid.ColumnSpan="3" Grid.Column="1"/>
         <Button x:Name="btnAgregar" Content="Agregar" HorizontalAlignment="Left" Margin="73,115,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnAgregar_Click" Grid.Column="1" Grid.Row="1" TabIndex="0"/>
         <Button x:Name="BtnMostrar" Content="Mostrar" HorizontalAlignment="Left" Margin="38,115,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnMostrar_Click" Grid.Column="3" Grid.Row="1" TabIndex="1"/>
+        <Image Margin="15,21,154,182" Source="/logoTele.png" Stretch="Fill" Grid.ColumnSpan="2"/>
 
     </Grid>
 </Window>

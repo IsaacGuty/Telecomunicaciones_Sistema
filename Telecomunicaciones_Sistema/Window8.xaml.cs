@@ -64,6 +64,12 @@ namespace Telecomunicaciones_Sistema
             MostrarDetallesEmpleado();
             // Actualiza la etiqueta según si se está modificando o agregando un empleado
             ActualizarLabel();
+
+            if (esModificacion)
+            {
+                lblContra.Visibility = Visibility.Collapsed;
+                passContraseña.Visibility = Visibility.Collapsed;
+            }
         }
 
         // Método para actualizar la etiqueta según si se está modificando o agregando un empleado
@@ -251,6 +257,14 @@ namespace Telecomunicaciones_Sistema
                     return;
                 }
 
+                if (string.IsNullOrEmpty(passContraseña.Password))
+                {
+                    MessageBox.Show("Por favor, ingrese una contraseña.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                string contrasena = passContraseña.Password;
+
                 // Extraer solo el número de la dirección
                 string[] partesDireccion = direccion.Split('-');
                 string numeroDireccion = partesDireccion[0].Trim();
@@ -362,7 +376,7 @@ namespace Telecomunicaciones_Sistema
                     NuevoEmpleado.Teléfono_E = telefonoDecimal;
 
                     // Agregar el nuevo empleado a la base de datos
-                    EmpleadoDAL.AgregarEmpleado(NuevoEmpleado);
+                    EmpleadoDAL.AgregarEmpleado(NuevoEmpleado, contrasena);
                     MessageBox.Show("Empleado agregado correctamente.");
 
                     // Llama al evento EmpleadoAgregado antes de cerrar la ventana
@@ -605,6 +619,11 @@ namespace Telecomunicaciones_Sistema
         {
             // Llama al método de Validaciones para bloquear copiar, pegar y cortar
             Validaciones.BloquearControles(e);
+        }
+
+        private void txtContraseña_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
         }
     }
 }

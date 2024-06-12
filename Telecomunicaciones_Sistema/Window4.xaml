@@ -20,7 +20,7 @@
     <Grid Height="570" Margin="0,0,-0.4,0" VerticalAlignment="Top">
         <Button x:Name="btnRegresar" Content="Regresar" HorizontalAlignment="Left" Margin="586,366,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontWeight="Bold" FontSize="14" Click="Button_Click" TabIndex="8"/>
         <Button x:Name="BtnLimpiar" Content="Limpiar" HorizontalAlignment="Left" Margin="586,412,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnLimpiar_Click" TabIndex="9"/>
-        <Label Content="Orden de trabajo" HorizontalAlignment="Left" Margin="111,56,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="24" FontWeight="Bold" Width="195"/>
+        <Label Content="Orden de trabajo" HorizontalAlignment="Left" Margin="133,41,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="24" FontWeight="Bold" Width="195"/>
         <DataGrid x:Name="DatGridOT" HorizontalAlignment="Left" Height="152" Margin="97,142,0,0" VerticalAlignment="Top" Width="504" SelectionChanged="DatGridOT_SelectionChanged" KeyboardNavigation.TabNavigation="None"/>
 
         <TextBox x:Name="txtBuscar" Text="Nombre, apellido" Foreground="Gray" GotFocus="txtBuscar_GotFocus" LostFocus="txtBuscar_LostFocus" HorizontalAlignment="Left" Height="23" Margin="405,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="165" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" TabIndex="11" MaxLength="100"/>
@@ -48,6 +48,6 @@
         <Label x:Name="lblNumT_Copy" Content="Tipo de servicio:" HorizontalAlignment="Left" Margin="49,461,0,0" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Times New Roman" FontSize="14"/>
         <TextBox x:Name="txtTpServicio" IsReadOnly="True" HorizontalAlignment="Left" Height="26" Margin="235,463,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="266" FontFamily="Times New Roman" FontSize="14" TabIndex="5"/>
         <Button x:Name="btnMostrar" Content="Mostrar" HorizontalAlignment="Left" Margin="586,459,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontWeight="Bold" FontSize="14" Click="BtnMostrar_Click" TabIndex="10"/>
-        <Image Margin="10,41,613,458" Source="/logoTele.png" Stretch="Fill"/>
+        <Image Margin="15,21,574,456" Source="/logoTele.png" Stretch="Fill"/>
     </Grid>
 </Window>

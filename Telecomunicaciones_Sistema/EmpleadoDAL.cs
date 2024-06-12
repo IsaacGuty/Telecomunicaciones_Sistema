@@ -71,7 +71,7 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
-        public static void AgregarEmpleado(Empleados empleado)
+        public static void AgregarEmpleado(Empleados empleado, string contraseña)
         {
             using (SqlConnection connection = BD.ObtenerConexion())
             {
@@ -90,19 +90,38 @@ namespace Telecomunicaciones_Sistema
                 cmd.Parameters.AddWithValue("@Estado", estadoValue);
 
                 cmd.ExecuteNonQuery();
+
+                // Llamar al método para insertar en la tabla Inicio_Sesión
+                AgregarCredencialesInicioSesion(empleado.ID_Empleado, contraseña);
             }
         }
 
-        public static bool EmpleadoExiste(string idEmpleado)
+        // Método para agregar ID y contraseña a la tabla Inicio_Sesión
+        public static void AgregarCredencialesInicioSesion(string idEmpleado, string contraseña)
         {
             using (SqlConnection connection = BD.ObtenerConexion())
             {
                 connection.Open();
-                SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM Empleados WHERE ID_Empleado = @ID_Empleado", connection);
-                cmd.Parameters.AddWithValue("@ID_Empleado", idEmpleado);
+                SqlCommand cmd = new SqlCommand("INSERT INTO Inicio_Sesión (ID_Usuario, Contraseña) VALUES (@ID_Usuario, @Contraseña)", connection);
+                cmd.Parameters.AddWithValue("@ID_Usuario", idEmpleado); // Usar "ID_Usuario" en lugar de "ID_Empleado"
+                cmd.Parameters.AddWithValue("@Contraseña", contraseña);
+                cmd.ExecuteNonQuery();
+            }
+        }
 
-                int count = (int)cmd.ExecuteScalar();
-                return count > 0;
+        // Método de verificación de existencia del empleado
+        public static bool EmpleadoExiste(string idEmpleado)
+        {
+            using (SqlConnection Conn = BD.ObtenerConexion())
+            {
+                Conn.Open();
+                string query = "SELECT COUNT(*) FROM Empleados WHERE ID_Empleado = @ID_Empleado";
+                using (SqlCommand cmd = new SqlCommand(query, Conn))
+                {
+                    cmd.Parameters.AddWithValue("@ID_Empleado", idEmpleado);
+                    int count = (int)cmd.ExecuteScalar();
+                    return count > 0;
+                }
             }
         }
 

@@ -9,27 +9,20 @@ namespace Telecomunicaciones_Sistema
     public class Empleados
     {
         public string ID_Empleado { get; set; }
-
         public string Nombre_E { get; set; }
-
         public string Apellido_E { get; set; }
-
         public decimal Teléfono_E { get; set; }
-
         public string Correo_E { get; set; }
-
         public string ID_Dirección { get; set; }
-
         public string Puesto { get; set; }
-
         public string Estado { get; set; }
+        public string Contraseña { get; set; } // Nueva propiedad para la contraseña
 
         public Empleados()
         {
-
         }
 
-        public Empleados(string eID_Empleado, string eNombre_E, string eApellido_E, decimal eTeléfono_E, string eCorreo_E, string eID_Dirección, string ePuesto, string eEstado)
+        public Empleados(string eID_Empleado, string eNombre_E, string eApellido_E, decimal eTeléfono_E, string eCorreo_E, string eID_Dirección, string ePuesto, string eEstado, string eContraseña)
         {
             this.ID_Empleado = eID_Empleado;
             this.Nombre_E = eNombre_E;
@@ -39,6 +32,7 @@ namespace Telecomunicaciones_Sistema
             this.ID_Dirección = eID_Dirección;
             this.Puesto = ePuesto;
             this.Estado = eEstado;
+            this.Contraseña = eContraseña; // Inicializa la nueva propiedad Contraseña
         }
     }
 }

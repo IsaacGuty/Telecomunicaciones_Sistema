@@ -35,8 +35,8 @@
         <Button x:Name="BtnBuscar" HorizontalAlignment="Left" Margin="586,86,0,0" VerticalAlignment="Top" Width="56" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Height="28" Click="BtnBuscar_Click" TabIndex="6">
             <Image x:Name="Buscar" Height="23" Source="buscar.png" Stretch="Fill" Width="24"/>
         </Button>
-        <Label Content="Registro de Clientes" HorizontalAlignment="Left" Margin="97,56,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="24" FontWeight="Bold" Width="246"/>
-        <Image Margin="15,45,620.8,359.2" Source="logoTele.png" Stretch="Fill"/>
+        <Label Content="Registro de Clientes" HorizontalAlignment="Left" Margin="125,42,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="24" FontWeight="Bold" Width="246"/>
         <Button x:Name="BtnLimpiar" Content="Limpiar" HorizontalAlignment="Left" Margin="389,409,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnLimpiar_Click" TabIndex="2"/>
+        <Image Margin="15,21,590,356" Source="/logoTele.png" Stretch="Fill"/>
     </Grid>
 </Window>
