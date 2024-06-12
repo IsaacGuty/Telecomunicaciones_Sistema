@@ -204,22 +204,16 @@ namespace Telecomunicaciones_Sistema
                     return;
                 }
 
-                // Validación de la estructura básica del correo
-                if (!Validaciones.CorreoArrobas(txtCorreoC.Text))
-                {
-                    MessageBox.Show("El correo electrónico no puede contener más de un símbolo de arroba (@).", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-                }
-
                 if (!Validaciones.CorreoTresLetras(correo))
                 {
                     MessageBox.Show("El correo electrónico debe tener al menos 3 letras antes del símbolo de arroba (@).", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
-                if (!Validaciones.CorreoValidoEstructura(txtCorreoC.Text))
+                // Validación de la estructura básica del correo
+                if (!Validaciones.CorreoArrobas(txtCorreoC.Text))
                 {
-                    MessageBox.Show("El correo electrónico no es válido. Debe contener un símbolo de arroba (@).", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("El correo electrónico no puede contener más de un símbolo de arroba (@).", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 

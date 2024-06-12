@@ -128,7 +128,7 @@ namespace Telecomunicaciones_Sistema
                         break;
                     default:
                         // Muestra un mensaje indicando que la opción seleccionada no es válida
-                        MessageBox.Show("Por favor, seleccione una opción válida.");
+                        MessageBox.Show("Por favor, ingrese una opción válida (1 o 2).");
                         break;
                 }
             }

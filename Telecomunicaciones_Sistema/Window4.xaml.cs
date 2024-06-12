@@ -107,11 +107,12 @@ namespace Telecomunicaciones_Sistema
             txtTpServicio.Clear();
             txtBuscar.Clear();
 
+            // Restablece el placeholder y color del campo de búsqueda
+            txtBuscar.Text = "Nombre, apellido";
+            txtBuscar.Foreground = new SolidColorBrush(Colors.Gray);
+
             // Recarga los datos en el DataGrid
-            if (string.IsNullOrEmpty(txtBuscar.Text))
-            {
-                CargarDatos();
-            }
+            CargarDatos();
         }
 
         private void BtnBuscar_Click(object sender, RoutedEventArgs e)

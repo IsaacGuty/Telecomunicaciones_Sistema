@@ -132,6 +132,9 @@ namespace Telecomunicaciones_Sistema
         {
             // Limpiar el cuadro de búsqueda y recargar los datos de los empleados
             txtBuscar.Clear();
+            txtBuscar.Text = "ID, nombre, apellido";
+            txtBuscar.Foreground = new SolidColorBrush(Colors.Gray);
+
             CargarDatos();
         }
 

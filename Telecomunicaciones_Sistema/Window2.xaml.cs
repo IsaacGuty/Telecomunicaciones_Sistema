@@ -165,6 +165,8 @@ namespace Telecomunicaciones_Sistema
         private void BtnLimpiar_Click(object sender, RoutedEventArgs e)
         {
             txtBuscar.Clear(); // Limpiar el campo de búsqueda
+            txtBuscar.Foreground = new SolidColorBrush(Colors.Gray); // Restablecer el color del texto a gris
+            txtBuscar.Text = "ID, nombre, apellido"; // Restablecer el placeholder
             CargarDatos(); // Recargar todos los datos de los clientes en el DataGrid
         }
 

@@ -233,15 +233,15 @@ namespace Telecomunicaciones_Sistema
                 }
 
                 // Validación de la estructura básica del correo
-                if (!Validaciones.CorreoArrobas(txtCorreoE.Text))
-                {
-                    MessageBox.Show("El correo electrónico no puede contener más de un símbolo de arroba (@).", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-                }
-
                 if (!Validaciones.CorreoTresLetras(correo))
                 {
                     MessageBox.Show("El correo electrónico debe tener al menos 3 letras antes del símbolo de arroba (@).", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                if (!Validaciones.CorreoArrobas(txtCorreoE.Text))
+                {
+                    MessageBox.Show("El correo electrónico no puede contener más de un símbolo de arroba (@).", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
@@ -550,6 +550,30 @@ namespace Telecomunicaciones_Sistema
                 MessageBox.Show("No se permiten espacios en blanco en el campo de usuario.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             Validaciones.BloquearControles(e);
+        }
+
+        private void txtContraseña_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            PasswordBox passwordBox = sender as PasswordBox;
+
+            // Verifica si la tecla presionada es la barra espaciadora
+            if (e.Key == Key.Space)
+            {
+                // Marca el evento como manejado para evitar que se agregue el espacio
+                e.Handled = true;
+
+                // Muestra un mensaje informativo al usuario
+                MessageBox.Show("No se permiten espacios en blanco en la contraseña.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            // Verifica si la longitud de la contraseña supera los 12 caracteres
+            else if (passwordBox.Password.Length >= 12 && !char.IsControl((char)KeyInterop.VirtualKeyFromKey(e.Key)))
+            {
+                // Marca el evento como manejado para evitar que se agregue más caracteres
+                e.Handled = true;
+
+                // Muestra un mensaje informativo al usuario
+                MessageBox.Show("La contraseña no puede tener más de 12 caracteres.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         // Método para llamar al evento EmpleadoAgregado
