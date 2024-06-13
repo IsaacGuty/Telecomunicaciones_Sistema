@@ -117,33 +117,27 @@ namespace Telecomunicaciones_Sistema
 
         private void BtnBuscar_Click(object sender, RoutedEventArgs e)
         {
-            // Verificar si el campo de búsqueda está vacío
-            if (string.IsNullOrEmpty(txtBuscar.Text))
+            // Realizar la validación del texto de búsqueda
+            if (!Validaciones.BusquedaOValida(txtBuscar.Text, out string mensaje))
             {
-                // Mostrar un mensaje de advertencia indicando que se debe ingresar un criterio de búsqueda
-                MessageBox.Show("Debe ingresar un criterio de búsqueda para realizar la búsqueda.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+                // Mostrar un mensaje informando al usuario que debe ingresar un criterio de búsqueda
+                MessageBox.Show(mensaje, "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return; // Detener la ejecución de la función si no se ha ingresado un criterio de búsqueda
             }
 
-            try
-            {
-                // Obtener los datos de las órdenes que coinciden con el criterio de búsqueda y mostrarlos en el DataGrid
-                DataTable dataTable = OrdenDAL.BuscarOrden(txtBuscar.Text);
-                DataView dataView = dataTable.DefaultView;
+            // Imprimir el criterio de búsqueda
+            Console.WriteLine("Criterio de búsqueda: " + txtBuscar.Text);
 
-                // Establecer la fuente de datos del DataGrid
-                DatGridOT.ItemsSource = dataView;
+            // Obtener los datos de las órdenes que coinciden con el criterio de búsqueda y mostrarlos en el DataGrid
+            DataTable dataTable = OrdenDAL.BuscarOrden(txtBuscar.Text);
+            DataView dataView = dataTable.DefaultView;
+            DatGridOT.ItemsSource = dataView;
 
-                // Verificar si la búsqueda no devolvió ningún resultado después de mostrar los datos
-                if (dataTable.Rows.Count == 0)
-                {
-                    // Mostrar mensaje indicando que no se encontró ninguna orden que coincida con el criterio de búsqueda
-                    MessageBox.Show("No se encontró ninguna orden que coincida con el criterio de búsqueda.", "Búsqueda sin resultados", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
-            }
-            catch (Exception ex)
+            // Verificar si la búsqueda no devolvió ningún resultado después de mostrar los datos
+            if (dataTable.Rows.Count == 0)
             {
-                MessageBox.Show("Error al realizar la búsqueda: " + ex.Message);
+                // Mostrar mensaje indicando que no se encontró ninguna orden que coincida con el criterio de búsqueda
+                MessageBox.Show("No se encontró ninguna orden que coincida con el criterio de búsqueda.", "Búsqueda sin resultados", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 

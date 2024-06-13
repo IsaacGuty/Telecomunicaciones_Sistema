@@ -19,7 +19,7 @@
 
 
     <Grid>
-        <DataGrid x:Name="DatGridVP" IsReadOnly="True" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="218" Margin="97,152,0,0" VerticalAlignment="Top" Width="522" SelectionChanged="DatGridP_SelectionChanged" KeyboardNavigation.TabNavigation="None">
+        <DataGrid x:Name="DatGridVP" IsReadOnly="True" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="218" Margin="37,152,0,0" VerticalAlignment="Top" Width="638" SelectionChanged="DatGridP_SelectionChanged" KeyboardNavigation.TabNavigation="None">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID Pago" Binding="{Binding ID_Pago}" />
                 <DataGridTextColumn Header="ID Cliente" Binding="{Binding ID_Cliente}" />

@@ -257,10 +257,14 @@ namespace Telecomunicaciones_Sistema
                     return;
                 }
 
-                if (string.IsNullOrEmpty(passContraseña.Password))
+                // Verificar si se está en modo de agregar antes de solicitar la contraseña
+                if (!esModificacion)
                 {
-                    MessageBox.Show("Por favor, ingrese una contraseña.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
+                    if (string.IsNullOrEmpty(passContraseña.Password))
+                    {
+                        MessageBox.Show("Por favor, ingrese una contraseña.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
                 }
 
                 string contrasena = passContraseña.Password;
@@ -419,8 +423,16 @@ namespace Telecomunicaciones_Sistema
                 // Si el carácter no es un dígito, marca el evento como manejado para evitar que se agregue
                 e.Handled = true;
 
-                // Muestra un mensaje informativo al usuario
-                MessageBox.Show("Solo se permiten números en el ID del empleado.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                if (char.IsLetter(e.Text, 0))
+                {
+                    // Muestra un mensaje informativo al usuario sobre letras
+                    MessageBox.Show("No se permiten letras en el ID del empleado.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else
+                {
+                    // Muestra un mensaje informativo al usuario sobre caracteres especiales
+                    MessageBox.Show("No se permiten caracteres especiales en el ID del empleado.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
 
@@ -435,7 +447,7 @@ namespace Telecomunicaciones_Sistema
                 e.Handled = true;
 
                 // Muestra un mensaje informativo al usuario
-                MessageBox.Show("No se permiten espacios en blanco en el campo de usuario.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("No se permiten espacios en blanco en el ID del empleado.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             Validaciones.BloquearControles(e);
         }
@@ -461,8 +473,16 @@ namespace Telecomunicaciones_Sistema
                 // Si el carácter no es un dígito, marca el evento como manejado para evitar que se agregue
                 e.Handled = true;
 
-                // Muestra un mensaje informativo al usuario
-                MessageBox.Show("Solo se permiten números en el número de teléfono.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                if (char.IsLetter(e.Text, 0))
+                {
+                    // Muestra un mensaje informativo al usuario sobre letras
+                    MessageBox.Show("No se permiten letras en el número de teléfono.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else
+                {
+                    // Muestra un mensaje informativo al usuario sobre caracteres especiales
+                    MessageBox.Show("No se permiten caracteres especiales en el número de teléfono.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
 
@@ -477,7 +497,7 @@ namespace Telecomunicaciones_Sistema
                 e.Handled = true;
 
                 // Muestra un mensaje informativo al usuario
-                MessageBox.Show("No se permiten espacios en blanco en el campo de usuario.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("No se permiten espacios en blanco en el número de teléfono.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             Validaciones.BloquearControles(e);
         }
@@ -547,7 +567,7 @@ namespace Telecomunicaciones_Sistema
                 e.Handled = true;
 
                 // Muestra un mensaje informativo al usuario
-                MessageBox.Show("No se permiten espacios en blanco en el campo de usuario.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("No se permiten espacios en blanco en el correo.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             Validaciones.BloquearControles(e);
         }
@@ -574,6 +594,8 @@ namespace Telecomunicaciones_Sistema
                 // Muestra un mensaje informativo al usuario
                 MessageBox.Show("La contraseña no puede tener más de 12 caracteres.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+
+            Validaciones.BloquearControles(e);
         }
 
         // Método para llamar al evento EmpleadoAgregado
@@ -598,12 +620,24 @@ namespace Telecomunicaciones_Sistema
             txtApellidoE.Text = empleadoSeleccionado.Apellido_E;
             txtCorreoE.Text = empleadoSeleccionado.Correo_E;
             txtTelefonoE.Text = empleadoSeleccionado.Teléfono_E;
-            cmbDireccion.Text = empleadoSeleccionado.ID_Dirección;
+
+            // Obtener el valor actual del campo de dirección del empleado seleccionado
+            string direccionSeleccionada = empleadoSeleccionado.ID_Dirección;
+
+            // Iterar sobre los elementos del ComboBox para seleccionar el que coincida con la dirección del empleado seleccionado
+            foreach (ComboBoxItem item in cmbDireccion.Items)
+            {
+                string direccion = item.Content?.ToString().Split('-')[0].Trim(); // Obtener solo el número de dirección
+                if (direccion == direccionSeleccionada)
+                {
+                    // Establecer este elemento como seleccionado en el ComboBox
+                    cmbDireccion.SelectedItem = item;
+                    break; // Salir del bucle una vez que se haya encontrado la dirección correcta
+                }
+            }
 
             // Obtener el puesto del empleado seleccionado
             string puestoEmpleado = empleadoSeleccionado.Puesto;
-
-            string estadoEmpleado = empleadoSeleccionado.Estado;
 
             // Buscar el puesto en los elementos del ComboBox
             foreach (ComboBoxItem item in cmbPuesto.Items)
@@ -616,6 +650,10 @@ namespace Telecomunicaciones_Sistema
                 }
             }
 
+            // Obtener el estado del empleado seleccionado
+            string estadoEmpleado = empleadoSeleccionado.Estado;
+
+            // Buscar el estado en los elementos del ComboBox
             foreach (ComboBoxItem item in cmbEstado.Items)
             {
                 if (item.Content.ToString() == estadoEmpleado)
@@ -638,16 +676,11 @@ namespace Telecomunicaciones_Sistema
             // Formatea el texto del control de texto (txtApellidoE) 
             txtApellidoE.Text = Validaciones.FormatearTexto(txtApellidoE.Text);
         }
-
+        
         private void InputControl_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             // Llama al método de Validaciones para bloquear copiar, pegar y cortar
             Validaciones.BloquearControles(e);
-        }
-
-        private void txtContraseña_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
         }
     }
 }

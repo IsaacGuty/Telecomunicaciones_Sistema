@@ -39,9 +39,9 @@
         <TextBox x:Name="txtCorreoE" HorizontalAlignment="Left" Height="23" Margin="68,132,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14" Grid.Row="2" Grid.Column="1" PreviewKeyDown="txtCorreoE_PreviewKeyDown" TabIndex="5" PreviewTextInput="txtCorreoE_PreviewTextInput"/>
         <Label Content="Dirección:" HorizontalAlignment="Left" Margin="84,170,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Grid.Row="2" Grid.ColumnSpan="2" Height="26" Width="72"/>
         <ComboBox x:Name="cmbDireccion" HorizontalAlignment="Left" Margin="68,171,0,0" VerticalAlignment="Top" Width="206" Height="25" FontFamily="Times New Roman" FontSize="14" Grid.Column="1" Grid.Row="2" TabIndex="6">
-            <ComboBoxItem>201</ComboBoxItem>
-            <ComboBoxItem>202</ComboBoxItem>
-            <ComboBoxItem>203</ComboBoxItem>
+            <ComboBoxItem>201 - Talanga</ComboBoxItem>
+            <ComboBoxItem>202 - Jalaca</ComboBoxItem>
+            <ComboBoxItem>203 - Tegucigalpa</ComboBoxItem>
         </ComboBox>
         <Label Content="Puesto:" HorizontalAlignment="Left" Margin="84,206,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Grid.Row="2" Grid.ColumnSpan="2" Height="26" Width="54"/>
         <Label Content="Estado:" HorizontalAlignment="Left" Margin="84,245,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Grid.Row="2" Grid.ColumnSpan="2" Height="26" Width="56"/>

@@ -94,7 +94,7 @@ namespace Telecomunicaciones_Sistema
             InitializeComponent();
             if (esOtraModificacion)
             {
-                // Haz algo con esOtraModificacion si es necesario
+                
             }
             Conn = BD.ObtenerConexion();
             clientes = new List<Clientes>();
@@ -126,7 +126,6 @@ namespace Telecomunicaciones_Sistema
                 string idCliente = txtIDC.Text;
                 string numeroDireccion = "";
                 string correo = txtCorreoC.Text;
-                // Obtener la dirección seleccionada del ComboBox
                 ComboBoxItem itemSeleccionado = (ComboBoxItem)cmbDire.SelectedItem;
                 string direccion = itemSeleccionado?.Content?.ToString();
                 string telefono = txtTelefonoC.Text;
@@ -393,9 +392,33 @@ namespace Telecomunicaciones_Sistema
                 // Si el carácter no es un dígito, marca el evento como manejado para evitar que se agregue
                 e.Handled = true;
 
-                // Muestra un mensaje informativo al usuario
-                MessageBox.Show("Solo se permiten números en el número de teléfono.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                if (char.IsLetter(e.Text, 0))
+                {
+                    // Muestra un mensaje informativo al usuario sobre letras
+                    MessageBox.Show("No se permiten letras en el número de teléfono.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else
+                {
+                    // Muestra un mensaje informativo al usuario sobre caracteres especiales
+                    MessageBox.Show("No se permiten caracteres especiales en el número de teléfono.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
+        }
+
+        private void txtTelefonoE_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+
+            // Verifica si la tecla presionada es la barra espaciadora
+            if (e.Key == Key.Space)
+            {
+                // Marca el evento como manejado para evitar que se agregue el espacio
+                e.Handled = true;
+
+                // Muestra un mensaje informativo al usuario
+                MessageBox.Show("No se permiten espacios en blanco en el número de teléfono.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            Validaciones.BloquearControles(e);
         }
 
         private void txtNombreC_PreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -466,7 +489,7 @@ namespace Telecomunicaciones_Sistema
             if (txtCorreoC.Text.Length + e.Text.Length > 40)
             {
                 e.Handled = true;
-                MessageBox.Show("Se ha alcanzado el límite máximo de 50 caracteres en el campo de nombre.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Se ha alcanzado el límite máximo de 50 caracteres en el campo de correo.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
@@ -481,7 +504,7 @@ namespace Telecomunicaciones_Sistema
                 e.Handled = true;
 
                 // Muestra un mensaje informativo al usuario
-                MessageBox.Show("No se permiten espacios en blanco en el campo de usuario.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("No se permiten espacios en blanco en el campo de correo.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             Validaciones.BloquearControles(e);
         }

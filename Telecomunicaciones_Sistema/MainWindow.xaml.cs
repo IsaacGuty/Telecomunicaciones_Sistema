@@ -246,6 +246,8 @@ namespace Telecomunicaciones_Sistema
                 // Muestra un mensaje informativo al usuario
                 MessageBox.Show("No se permiten espacios en blanco en el campo de usuario.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+
+            Validaciones.BloquearControles(e);
         }
 
         private void txtContraseña_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -270,6 +272,8 @@ namespace Telecomunicaciones_Sistema
                 // Muestra un mensaje informativo al usuario
                 MessageBox.Show("La contraseña no puede tener más de 12 caracteres.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+
+            Validaciones.BloquearControles(e);
         }
 
         private void lblContraC_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

@@ -33,6 +33,7 @@
                 <DataGridTextColumn Header="Teléfono" Binding="{Binding Teléfono_E}" />
                 <DataGridTextColumn Header="Correo" Binding="{Binding Correo_E}" />
                 <DataGridTextColumn Header="ID Dirección" Binding="{Binding ID_Dirección}" />
+                <DataGridTextColumn Header="Dirección" Binding="{Binding Dirección}" />
                 <DataGridTextColumn Header="Puesto" Binding="{Binding Puesto}" />
                 <DataGridTextColumn Header="Estado" Binding="{Binding Estado}" />
                 <!-- Agrega más columnas según sea necesario -->

@@ -557,5 +557,38 @@ namespace Telecomunicaciones_Sistema
                 }
             }
         }
+
+        public static bool BusquedaEValida(string texto, out string mensaje)
+        {
+            mensaje = string.Empty;
+            if (string.IsNullOrEmpty(texto) || texto == "ID, nombre, apellido")
+            {
+                mensaje = "Debe ingresar el ID_Empleado, Nombre o Apellido, para realizar la búsqueda.";
+                return false;
+            }
+            return true;
+        }
+
+        public static bool BusquedaCValida(string texto, out string mensaje)
+        {
+            mensaje = string.Empty;
+            if (string.IsNullOrEmpty(texto) || texto == "ID, nombre, apellido")
+            {
+                mensaje = "Debe ingresar el ID_Cliente, Nombre o Apellido, para realizar la búsqueda.";
+                return false;
+            }
+            return true;
+        }
+
+        public static bool BusquedaOValida(string texto, out string mensaje)
+        {
+            mensaje = string.Empty;
+            if (string.IsNullOrEmpty(texto) || texto == "Nombre, apellido")
+            {
+                mensaje = "Debe ingresar el Nombre o Apellido, para realizar la búsqueda.";
+                return false;
+            }
+            return true;
+        }
     }
 }

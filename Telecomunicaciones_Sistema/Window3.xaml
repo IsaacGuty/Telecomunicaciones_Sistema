@@ -29,7 +29,7 @@
             <ColumnDefinition Width="480*"/>
         </Grid.ColumnDefinitions>
         <Button x:Name="btnRegresar" Content="Regresar" Grid.Column="3" HorizontalAlignment="Left" Margin="268,115,0,0" VerticalAlignment="Top" Width="75" FontWeight="Bold" FontFamily="Times New Roman" FontSize="14" Click="BtnRegresar_Click" Grid.Row="1" RenderTransformOrigin="1.021,0.51" TabIndex="4"/>
-        <DataGrid x:Name="DatGridP" AutoGenerateColumns="False" Height="248" Margin="0,137,10,0" VerticalAlignment="Top" Grid.ColumnSpan="3" Grid.RowSpan="2" Grid.Column="1" SelectionChanged="DatGridP_SelectionChanged" KeyboardNavigation.TabNavigation="None">
+        <DataGrid x:Name="DatGridP" AutoGenerateColumns="False" Height="248" Margin="19,137,16,0" VerticalAlignment="Top" Grid.ColumnSpan="4" Grid.RowSpan="2" SelectionChanged="DatGridP_SelectionChanged" KeyboardNavigation.TabNavigation="None">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID Pago" Binding="{Binding ID_Pago}" />
                 <DataGridTextColumn Header="ID Cliente" Binding="{Binding ID_Cliente}" />

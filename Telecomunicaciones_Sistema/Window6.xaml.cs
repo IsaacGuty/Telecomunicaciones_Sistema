@@ -140,13 +140,16 @@ namespace Telecomunicaciones_Sistema
 
         private void BtnBuscar_Click(object sender, RoutedEventArgs e)
         {
-            // Verificar si se ha ingresado un texto de búsqueda
-            if (string.IsNullOrEmpty(txtBuscar.Text))
+            // Realizar la validación del texto de búsqueda
+            if (!Validaciones.BusquedaEValida(txtBuscar.Text, out string mensaje))
             {
                 // Mostrar un mensaje informando al usuario que debe ingresar un criterio de búsqueda
-                MessageBox.Show("Debe ingresar el ID_Empleado, Nombre o Apellido, para realizar la búsqueda.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(mensaje, "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return; // Detener la ejecución de la función si no se ha ingresado un criterio de búsqueda
             }
+
+            // Imprimir el criterio de búsqueda para depuración
+            Console.WriteLine("Criterio de búsqueda: " + txtBuscar.Text);
 
             // Realizar una búsqueda de empleado según el texto ingresado en el cuadro de búsqueda
             DataTable dataTable = EmpleadoDAL.BuscarEmpleado(txtBuscar.Text);

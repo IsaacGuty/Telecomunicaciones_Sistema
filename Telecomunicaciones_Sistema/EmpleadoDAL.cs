@@ -18,7 +18,7 @@ namespace Telecomunicaciones_Sistema
                 using (SqlConnection connection = BD.ObtenerConexion())
                 {
                     connection.Open();
-                    string query = "SELECT * FROM Empleados";
+                    string query = "select e.ID_Empleado, e.Nombre_E, e.Apellido_E, e.Teléfono_E, e.Correo_E, e.ID_Dirección, d.Dirección, e.Puesto, e.Estado from Empleados e JOIN Dirección d ON e.ID_Dirección = d.ID_Dirección";
                     SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
                     adapter.Fill(dataTable);
                 }
@@ -33,23 +33,34 @@ namespace Telecomunicaciones_Sistema
         public static DataTable BuscarEmpleado(string criterioBusqueda)
         {
             DataTable dataTable = new DataTable();
-            using (SqlConnection Conn = BD.ObtenerConexion())
+
+            // Utilizamos la conexión obtenida desde la clase BD
+            using (SqlConnection conn = BD.ObtenerConexion())
             {
-                Conn.Open(); // Abre la conexión antes de ejecutar la consulta
+                conn.Open();
 
-                SqlCommand comando = new SqlCommand(
-                    "SELECT ID_Empleado, Nombre_E, Apellido_E, Teléfono_E, Correo_E, ID_Dirección, Puesto, Estado " +
-                    "FROM Empleados " +
-                    "WHERE ID_Empleado LIKE @Criterio OR Nombre_E LIKE @Criterio OR Apellido_E LIKE @Criterio " +
-                    "OR (Nombre_E + ' ' + Apellido_E) LIKE @Criterio", Conn);
+                // Consulta SQL con parámetros para evitar SQL Injection y mejorar la legibilidad
+                string query = @"
+            SELECT e.ID_Empleado, e.Nombre_E, e.Apellido_E, e.Teléfono_E, e.Correo_E, e.ID_Dirección, d.Dirección, e.Puesto, e.Estado
+            FROM Empleados e
+            JOIN Dirección d ON e.ID_Dirección = d.ID_Dirección
+            WHERE e.ID_Empleado LIKE @Criterio
+                OR e.Nombre_E LIKE @Criterio
+                OR e.Apellido_E LIKE @Criterio
+                OR (e.Nombre_E + ' ' + e.Apellido_E) LIKE @Criterio";
 
-                // Agrega parámetros para evitar la concatenación directa del valor del criterio de búsqueda
-                comando.Parameters.AddWithValue("@Criterio", "%" + criterioBusqueda + "%");
+                using (SqlCommand comando = new SqlCommand(query, conn))
+                {
+                    // Agregar parámetros
+                    comando.Parameters.AddWithValue("@Criterio", "%" + criterioBusqueda + "%");
 
-                SqlDataReader reader = comando.ExecuteReader();
-
-                dataTable.Load(reader); // Carga los datos directamente en el DataTable
+                    using (SqlDataReader reader = comando.ExecuteReader())
+                    {
+                        dataTable.Load(reader); // Cargar datos en el DataTable
+                    }
+                }
             }
+
             return dataTable;
         }
 

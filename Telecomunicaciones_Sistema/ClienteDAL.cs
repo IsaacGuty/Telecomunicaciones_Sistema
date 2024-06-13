@@ -18,7 +18,7 @@ namespace Telecomunicaciones_Sistema
             using (SqlConnection connection = BD.ObtenerConexion())
             {
                 connection.Open();
-                string query = "SELECT * FROM Cliente";
+                string query = "SELECT c.ID_Cliente, c.Nombre, c.Apellido, c.Teléfono, c.Correo, c.ID_Dirección, d.Dirección FROM Cliente C JOIN Dirección D on c.ID_Dirección = d.ID_Dirección";
                 SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
                 adapter.Fill(dataTable);
             }
@@ -29,19 +29,33 @@ namespace Telecomunicaciones_Sistema
         public static DataTable BuscarCliente(string textoBusqueda)
         {
             DataTable dataTable = new DataTable();
+
             using (SqlConnection connection = BD.ObtenerConexion())
             {
                 connection.Open();
-                // Modificamos la consulta SQL para buscar por ID_Cliente, Nombre o Apellido
-                SqlCommand comando = new SqlCommand(string.Format(
-                    "SELECT ID_Cliente, Nombre, Apellido, Teléfono, Correo, ID_Dirección FROM Cliente " +
-                    "WHERE ID_Cliente LIKE '%{0}%' OR Nombre LIKE '%{0}%' OR Apellido LIKE '%{0}%'" +
-                    "OR (Nombre + ' ' + Apellido) LIKE '%{0}%'", textoBusqueda), connection);
 
-                SqlDataReader reader = comando.ExecuteReader();
+                // Consulta SQL con parámetros para evitar SQL Injection y mejorar la legibilidad
+                string query = @"
+                SELECT c.ID_Cliente, c.Nombre, c.Apellido, c.Teléfono, c.Correo, c.ID_Dirección, d.Dirección AS Dirección
+                FROM Cliente c
+                JOIN Dirección d ON c.ID_Dirección = d.ID_Dirección
+                WHERE c.ID_Cliente LIKE @TextoBusqueda
+                OR c.Nombre LIKE @TextoBusqueda
+                OR c.Apellido LIKE @TextoBusqueda
+                OR (c.Nombre + ' ' + c.Apellido) LIKE @TextoBusqueda";
 
-                dataTable.Load(reader); // Carga los datos directamente en el DataTable
+                using (SqlCommand comando = new SqlCommand(query, connection))
+                {
+                    // Agregar parámetro
+                    comando.Parameters.AddWithValue("@TextoBusqueda", "%" + textoBusqueda + "%");
+
+                    using (SqlDataReader reader = comando.ExecuteReader())
+                    {
+                        dataTable.Load(reader); // Cargar datos en el DataTable
+                    }
+                }
             }
+
             return dataTable;
         }
 
