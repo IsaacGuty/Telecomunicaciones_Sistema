@@ -419,8 +419,8 @@ namespace Telecomunicaciones_Sistema
 
         public static bool TelefonoValido(string telefono)
         {
-            // Expresión regular para verificar que el número de teléfono no contenga cuatro o más ceros repetidos seguidos
-            Regex regex = new Regex(@"^(?!.*0{5,})[0-9]{8}$");
+            // Expresión regular para verificar que el número de teléfono no contenga cinco o más dígitos repetidos seguidos
+            Regex regex = new Regex(@"^(?!.*(\d)\1{4,})\d{8}$");
 
             // Verifica si el número de teléfono coincide con la expresión regular
             return regex.IsMatch(telefono);

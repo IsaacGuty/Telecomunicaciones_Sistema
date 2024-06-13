@@ -19,7 +19,7 @@ namespace Telecomunicaciones_Sistema
                 using (SqlConnection Conn = BD.ObtenerConexion())
                 {
                     Conn.Open();
-                    string query = "SELECT P.ID_Pago, P.ID_Cliente, C.nombre, C.apellido, P.Monto, P.ID_TpServicio, P.Mes_Pagado, P.Fecha, P.ID_Empleado FROM Pagos P JOIN Cliente C ON P.ID_Cliente = C.ID_Cliente";
+                    string query = "SELECT P.ID_Pago, P.ID_Cliente, C.nombre, C.apellido, P.Monto, P.ID_TpServicio, S.Servicio , P.Mes_Pagado, P.Fecha, P.ID_Empleado FROM Pagos P JOIN Cliente C ON P.ID_Cliente = C.ID_Cliente JOIN Servicios S on P.ID_TpServicio = S.ID_Servicio";
                     SqlDataAdapter adapter = new SqlDataAdapter(query, Conn);
                     DataSet dataSet = new DataSet();
                     adapter.Fill(dataSet, "Pago");
@@ -29,31 +29,6 @@ namespace Telecomunicaciones_Sistema
             catch (Exception ex)
             {
                 throw new Exception("Error al obtener los pagos: " + ex.Message);
-            }
-        }
-
-        public static DataTable BuscarPago(string textoBusqueda)
-        {
-            try
-            {
-                using (SqlConnection Conn = BD.ObtenerConexion())
-                {
-                    Conn.Open();
-                    string query = "SELECT P.ID_Pago, P.ID_Cliente, C.nombre, C.apellido, P.Monto, P.ID_TpServicio, P.Mes_Pagado, P.Fecha, P.ID_Empleado " +
-                                   "FROM Pagos P JOIN Cliente C ON P.ID_Cliente = C.ID_Cliente " +
-                                   "WHERE P.ID_Pago LIKE @TextoBusqueda OR C.nombre LIKE @TextoBusqueda OR C.apellido LIKE @TextoBusqueda";
-                    SqlCommand command = new SqlCommand(query, Conn);
-                    command.Parameters.AddWithValue("@TextoBusqueda", "%" + textoBusqueda + "%");
-
-                    SqlDataAdapter adapter = new SqlDataAdapter(command);
-                    DataSet dataSet = new DataSet();
-                    adapter.Fill(dataSet, "Pago");
-                    return dataSet.Tables["Pago"];
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error al obtener los pagos del cliente: " + ex.Message);
             }
         }
 
@@ -124,7 +99,7 @@ namespace Telecomunicaciones_Sistema
                 using (SqlConnection Conn = BD.ObtenerConexion())
                 {
                     Conn.Open();
-                    string query = "SELECT P.ID_Pago, P.ID_Cliente, C.nombre, C.apellido, P.Monto, P.ID_TpServicio, P.Mes_Pagado, P.Fecha, P.ID_Empleado FROM Pagos P JOIN Cliente C ON P.ID_Cliente = C.ID_Cliente WHERE P.ID_Cliente = @ID_Cliente";
+                    string query = "SELECT P.ID_Pago, P.ID_Cliente, C.nombre, C.apellido, P.Monto, P.ID_TpServicio, S.Servicio , P.Mes_Pagado, P.Fecha, P.ID_Empleado FROM Pagos P JOIN Cliente C ON P.ID_Cliente = C.ID_Cliente JOIN Servicios S on P.ID_TpServicio = S.ID_Servicio WHERE P.ID_Cliente = @ID_Cliente";
                     SqlCommand cmd = new SqlCommand(query, Conn);
                     cmd.Parameters.AddWithValue("@ID_Cliente", textoBusqueda);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);

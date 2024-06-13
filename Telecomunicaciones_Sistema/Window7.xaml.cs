@@ -194,7 +194,7 @@ namespace Telecomunicaciones_Sistema
 
                 if (!Validaciones.TelefonoValido(txtTelefonoC.Text))
                 {
-                    MessageBox.Show("El número de teléfono no puede contener demasiados ceros repetidos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("El número de teléfono no puede más de cinco números repetidos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 

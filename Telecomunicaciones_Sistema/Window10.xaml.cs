@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -70,7 +71,7 @@ namespace Telecomunicaciones_Sistema
             ventana2.BtnModificar.IsEnabled = false;
 
             // Mostrar un mensaje para instruir al usuario a seleccionar un cliente
-            MessageBox.Show("Por favor, seleccione un cliente de la lista en la ventana que se abrirá a continuación.", "Instrucción", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("Por favor seleccione un cliente de la lista en la ventana que se abrirá a continuación.", "Instrucción", MessageBoxButton.OK, MessageBoxImage.Information);
 
             // Muestra ventana2
             ventana2.ShowDialog();
@@ -104,12 +105,10 @@ namespace Telecomunicaciones_Sistema
         private void BtnLimpiar_Click(object sender, RoutedEventArgs e)
         {
             txtBuscar.Clear(); // Limpiar el campo de búsqueda
-
-            // Crear un DataView vacío
-            DataView emptyDataView = new DataView(new DataTable());
-
-            // Asignar el DataView vacío al DataGrid
-            DatGridVP.ItemsSource = emptyDataView;
+            txtBuscar.Foreground = new SolidColorBrush(Colors.Gray); // Restablecer el color del texto a gris
+            txtBuscar.Text = "Seleccione un ID de cliente"; // Restablecer el placeholder
+            DataView emptyDataView = new DataView(new DataTable()); // Crear un DataView vacío
+            DatGridVP.ItemsSource = emptyDataView; // Asignar el DataView vacío al DataGrid
         }
 
 
@@ -123,6 +122,38 @@ namespace Telecomunicaciones_Sistema
 
             // Muestra la instancia de Window9
             window3.Show();
+        }
+
+        private void txtBuscar_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (txtBuscar.Text == "Seleccione un ID de cliente")
+            {
+                txtBuscar.Text = "";
+                txtBuscar.Foreground = new SolidColorBrush(Colors.Black);
+            }
+        }
+
+        private void txtBuscar_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtBuscar.Text))
+            {
+                txtBuscar.Text = "Seleccione un ID de cliente";
+                txtBuscar.Foreground = new SolidColorBrush(Colors.Gray);
+            }
+            else
+            {
+                // Convierte la primera letra de cada palabra a mayúscula
+                txtBuscar.Text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(txtBuscar.Text.ToLower());
+            }
+        }
+
+        private void SetPlaceholderText()
+        {
+            if (string.IsNullOrWhiteSpace(txtBuscar.Text))
+            {
+                txtBuscar.Text = "Seleccione un ID de cliente";
+                txtBuscar.Foreground = new SolidColorBrush(Colors.Gray);
+            }
         }
     }
 }

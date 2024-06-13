@@ -27,12 +27,13 @@
                 <DataGridTextColumn Header="Apellido" Binding="{Binding apellido}" />
                 <DataGridTextColumn Header="Monto" Binding="{Binding Monto}" />
                 <DataGridTextColumn Header="ID Tipo Servicio" Binding="{Binding ID_TpServicio}" />
+                <DataGridTextColumn Header="Servicio" Binding="{Binding Servicio}" />
                 <DataGridTextColumn Header="Mes Pagado" Binding="{Binding Mes_Pagado}" />
                 <DataGridTextColumn Header="Fecha" Binding="{Binding Fecha}" />
                 <DataGridTextColumn Header="ID Empleado" Binding="{Binding ID_Empleado}" />
             </DataGrid.Columns>
         </DataGrid>
-        <TextBox x:Name="txtBuscar" IsReadOnly="True" HorizontalAlignment="Left" Height="23" Margin="405,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="165" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" TabIndex="0"/>
+        <TextBox x:Name="txtBuscar" Text="Seleccione un ID de cliente" IsReadOnly="True" Foreground="Gray" GotFocus="txtBuscar_GotFocus" LostFocus="txtBuscar_LostFocus" HorizontalAlignment="Left" Height="26" Margin="388,86,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="182" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" TabIndex="0"/>
         <Button x:Name="BtnBuscar" HorizontalAlignment="Left" Margin="586,86,0,0" VerticalAlignment="Top" Width="56" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Height="28" Click="BtnBuscar_Click" TabIndex="1">
             <Image Source="Image5.png" Stretch="Fill" Height="23" Width="34"/>
         </Button>
