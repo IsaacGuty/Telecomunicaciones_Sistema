@@ -28,6 +28,11 @@ namespace Telecomunicaciones_Sistema
         private CamCon winCamCon; // Referencia a la ventana CamCon
         private DateTime codigoGeneradoTime; // Almacenar la fecha y hora de generación del código
 
+        private bool codigoCorrectoMostrado = false; // Variable para controlar si el mensaje de código correcto ha sido mostrado
+        private bool codigoIncorrectoMostrado = false; // Variable para controlar si el mensaje de código incorrecto ha sido mostrado
+        private bool codigoCampoVacioMostrado = false; // Variable para controlar si el mensaje de campo vacío ha sido mostrado
+        private bool codigoEnviadoMostrado = false; // Variable para controlar si se ha mostrado el mensaje de código enviado
+
         // Constructor de la ventana IngCod
         public IngCod(string codigo, string correo, string usuario, int userId, bool esRestablecer)
         {
@@ -82,17 +87,26 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
-        private bool codigoCorrectoMostrado = false; // Variable para controlar si el mensaje de código correcto ha sido mostrado
-
         private void BtnAceptar_Click(object sender, RoutedEventArgs e)
         {
+            // Verifica si el campo de texto del código está vacío
+            if (string.IsNullOrWhiteSpace(txtCod.Text))
+            {
+                if (!codigoCampoVacioMostrado)
+                {
+                    MessageBox.Show("Debes llenar el campo del código.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    codigoCampoVacioMostrado = true; 
+                }
+                return;
+            }
+
             // Verifica si el código ingresado coincide con el código recibido
             if (txtCod.Text == codRec)
             {
                 // Calcula la diferencia de tiempo entre el momento actual y el momento de generación del código
                 TimeSpan diferenciaTiempo = DateTime.Now - codigoGeneradoTime;
 
-                // Define el tiempo de vida útil del código en minutos (por ejemplo, 10 minutos)
+                // Define el tiempo de vida útil del código en minutos 
                 int tiempoVidaCodigo = 5;
 
                 if (diferenciaTiempo.TotalMinutes > tiempoVidaCodigo)
@@ -102,7 +116,7 @@ namespace Telecomunicaciones_Sistema
                     return;
                 }
 
-                // Muestra el mensaje de código correcto solo si no se ha mostrado antes
+                // Muestra el mensaje de código correcto 
                 if (!codigoCorrectoMostrado)
                 {
                     MessageBox.Show("Código correcto. Ahora puedes cambiar tu contraseña.", "Confirmación", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -112,7 +126,6 @@ namespace Telecomunicaciones_Sistema
                 // Cierra la ventana IngCod antes de abrir CamCon
                 this.Close();
 
-                // Si winCamCon no ha sido inicializado previamente, entonces crea una nueva instancia
                 if (winCamCon == null)
                 {
                     winCamCon = new CamCon(userId); // Crea una instancia de CamCon pasando el userId al constructor
@@ -128,11 +141,10 @@ namespace Telecomunicaciones_Sistema
                 if (!codigoCorrectoMostrado)
                 {
                     MessageBox.Show("El código ingresado es incorrecto. Por favor, verifica e intenta nuevamente.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    codigoCorrectoMostrado = true;
                 }
             }
         }
-
-        private bool codigoEnviadoMostrado = false; // Variable para controlar si se ha mostrado el mensaje de código enviado
 
         private void BtnReeC_Click(object sender, RoutedEventArgs e)
         {

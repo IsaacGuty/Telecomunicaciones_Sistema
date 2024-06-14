@@ -64,10 +64,6 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-        }
-
         public void ActualizarDatos(string valorSeleccionadoTipoT, string valorSeleccionadoNombreE, string idEmpleado)
         {
             if (DatosOrden != null)
@@ -83,8 +79,6 @@ namespace Telecomunicaciones_Sistema
                 txtIDE.Text = idEmpleado;
             }
         }
-
-        private PrintDialog printDialog;
 
         private void BtnImprimir_Click(object sender, RoutedEventArgs e)
         {

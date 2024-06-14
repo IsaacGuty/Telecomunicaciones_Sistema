@@ -52,26 +52,22 @@ namespace Telecomunicaciones_Sistema
 
         private void Btn_Registro_Click(object sender, RoutedEventArgs e)
         {
-            // Abre una nueva ventana (Window2) para el formulario de registro
-            Window2 formularioD = new Window2();
+            Window2 formularioD = new Window2(); // Abre una nueva ventana (Window2) para el formulario de registro
             formularioD.Show(); // Muestra la ventana de registro
             this.Hide(); // Oculta la ventana actual
         }
 
         private void Btn_Pago(object sender, RoutedEventArgs e)
         {
-            // Abre una nueva ventana (Window3) para el formulario de pago
-            Window3 formularioD = new Window3();
+            Window3 formularioD = new Window3();  // Abre una nueva ventana (Window3) para el formulario de pago
             formularioD.Show(); // Muestra la ventana de pago
             this.Hide(); // Oculta la ventana actual
         }
 
         private void BtnSalir_Click(object sender, RoutedEventArgs e)
         {
-            // Cierra la ventana actual
-            this.Close();
-            // Abre la ventana principal (MainWindow)
-            MainWindow frmAn = new MainWindow();
+            this.Close(); // Cierra la ventana actual
+            MainWindow frmAn = new MainWindow(); // Abre la ventana principal (MainWindow)
             frmAn.Show();
         }
 
@@ -86,8 +82,7 @@ namespace Telecomunicaciones_Sistema
 
         private void BtnEmpleados_Click(object sender, RoutedEventArgs e)
         {
-            // Abre una nueva ventana (Window6) para mostrar empleados
-            Window6 formularioO = new Window6();
+            Window6 formularioO = new Window6(); // Abre una nueva ventana (Window6) para mostrar empleados
             formularioO.Show(); // Muestra la ventana de empleados
             this.Hide(); // Oculta la ventana actual
         }
@@ -119,12 +114,10 @@ namespace Telecomunicaciones_Sistema
                 switch (action)
                 {
                     case 1:
-                        // Abre el enlace de WhatsApp
-                        System.Diagnostics.Process.Start("https://api.whatsapp.com/send?phone=97551953");
+                        System.Diagnostics.Process.Start("https://api.whatsapp.com/send?phone=97551953"); // Abre el enlace de WhatsApp
                         break;
                     case 2:
-                        // Abre el correo electrónico
-                        System.Diagnostics.Process.Start("mailto:telecomunicaciones_2024@gmail.com");
+                        System.Diagnostics.Process.Start("mailto:telecomunicaciones_2024@gmail.com"); // Abre el correo electrónico
                         break;
                     default:
                         // Muestra un mensaje indicando que la opción seleccionada no es válida
@@ -141,25 +134,21 @@ namespace Telecomunicaciones_Sistema
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            // Oculta el panel de acción
-            actionPanel.Visibility = Visibility.Collapsed;
-            // Limpia el contenido del TextBox de entrada
-            actionInput.Text = "";
+            actionPanel.Visibility = Visibility.Collapsed; // Oculta el panel de acción
+            actionInput.Text = ""; // Limpia el contenido del TextBox de entrada
         }
 
         private void ActionInput_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             TextBox textBox = sender as TextBox;
 
-            // Verificar si el texto completo, incluyendo el carácter que se está ingresando,
-            // contiene más de un dígito
+            // Verificar si el texto completo, incluyendo el carácter que se está ingresando, contiene más de un dígito
             if ((textBox.Text + e.Text).Length > 1)
             {
                 // Mostrar mensaje de advertencia
                 MessageBox.Show("Solo se permite un dígito.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 
-                // Bloquear la entrada
-                e.Handled = true;
+                e.Handled = true; // Bloquear la entrada
                 return; // Salir del método para evitar que se ejecute la siguiente validación
             }
 

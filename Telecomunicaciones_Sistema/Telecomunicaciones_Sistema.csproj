@@ -80,6 +80,8 @@
     <Compile Include="IngCod.xaml.cs">
       <DependentUpon>IngCod.xaml</DependentUpon>
     </Compile>
+    <Compile Include="InicioDAL.cs" />
+    <Compile Include="InicioS.cs" />
     <Compile Include="Login.cs" />
     <Compile Include="OrdenDAL.cs" />
     <Compile Include="Ordenes.cs" />
@@ -89,6 +91,7 @@
     <Compile Include="PrintPreviewWindow.xaml.cs">
       <DependentUpon>PrintPreviewWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Servicio.cs" />
     <Compile Include="Validaciones.cs" />
     <Compile Include="Window1.xaml.cs">
       <DependentUpon>Window1.xaml</DependentUpon>

@@ -51,7 +51,7 @@
         <ComboBox x:Name="cmbPuesto" HorizontalAlignment="Left" Margin="68,209,0,0" Grid.Row="2" VerticalAlignment="Top" Width="206" Height="25" FontFamily="Times New Roman" FontSize="14" Grid.Column="1" TabIndex="7">
             <ComboBoxItem>Gerente General</ComboBoxItem>
             <ComboBoxItem>Gerente Tecnico</ComboBoxItem>
-            <ComboBoxItem>Tecnico</ComboBoxItem>
+            <ComboBoxItem>Técnico</ComboBoxItem>
             <ComboBoxItem>Contador</ComboBoxItem>
             <ComboBoxItem>Contadora</ComboBoxItem>
             <ComboBoxItem>Secretario</ComboBoxItem>

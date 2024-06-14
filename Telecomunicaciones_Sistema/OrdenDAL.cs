@@ -18,8 +18,6 @@ namespace Telecomunicaciones_Sistema
                 using (SqlConnection Conn = BD.ObtenerConexion())
                 {
                     Conn.Open();
-
-                    // Consulta SQL que agrupa por cliente y dirección, selecciona los detalles del cliente y muestra múltiples filas si el cliente tiene servicios distintos
                     string query = @"
                     SELECT c.Nombre, c.Apellido, d.Dirección, c.Teléfono, s.Servicio
                     FROM Cliente c
@@ -29,7 +27,7 @@ namespace Telecomunicaciones_Sistema
                     WHERE p.ID_Cliente = c.ID_Cliente
                     GROUP BY c.Nombre, c.Apellido, d.Dirección, c.Teléfono, s.Servicio
                     ORDER BY c.Nombre, c.Apellido, d.Dirección, c.Teléfono;
-            ";
+                    ";
 
                     SqlDataAdapter adapter = new SqlDataAdapter(query, Conn);
                     DataTable dataTable = new DataTable();
@@ -51,7 +49,6 @@ namespace Telecomunicaciones_Sistema
                 {
                     Conn.Open();
 
-                    // Consulta SQL que agrupa por cliente y dirección, selecciona los detalles del cliente y muestra múltiples filas si el cliente tiene servicios distintos
                     string query = @"
                     SELECT c.Nombre, c.Apellido, d.Dirección, c.Teléfono, s.Servicio
                     FROM Cliente c
@@ -65,13 +62,10 @@ namespace Telecomunicaciones_Sistema
                     ORDER BY c.Nombre, c.Apellido, d.Dirección, c.Teléfono;
                     ";
 
-                    // Usa SqlCommand y parámetros para prevenir la inyección de SQL
                     using (SqlCommand cmd = new SqlCommand(query, Conn))
                     {
-                        // Agregar parámetro @criterio a la consulta
                         cmd.Parameters.AddWithValue("@criterio", "%" + criterio + "%");
 
-                        // Llena el DataTable utilizando un SqlDataAdapter
                         SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                         DataTable dataTable = new DataTable();
                         adapter.Fill(dataTable);

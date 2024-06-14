@@ -24,31 +24,6 @@ namespace Telecomunicaciones_Sistema
             return Regex.IsMatch(correo, patron);
         }
 
-        public static bool UsuarioExiste(string usuario)
-        {
-            if (!int.TryParse(usuario, out int userId))
-            {
-                MessageBox.Show("El usuario proporcionado no es válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return false;
-            }
-
-            using (SqlConnection connection = BD.ObtenerConexion())
-            {
-                string query = "SELECT COUNT(*) FROM Inicio_Sesión WHERE ID_Usuario = @Usuario";
-
-                using (SqlCommand command = new SqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@Usuario", userId);
-
-                    connection.Open();
-
-                    int count = (int)command.ExecuteScalar();
-
-                    return count > 0;
-                }
-            }
-        }
-
         public static bool CamposVacios(string usuario, string contraseña)
         {
             return string.IsNullOrWhiteSpace(usuario) && string.IsNullOrWhiteSpace(contraseña);
@@ -91,66 +66,6 @@ namespace Telecomunicaciones_Sistema
             return nuevaContra == confirmarContra;
         }
 
-        public static bool VerificarAntiguaContraseña(string usuario, string antiguaContra)
-        {
-            string query = "SELECT Contraseña FROM Inicio_Sesión WHERE ID_Usuario = @Usuario";
-
-            using (SqlConnection connection = BD.ObtenerConexion())
-            {
-                using (SqlCommand command = new SqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@Usuario", usuario);
-                    connection.Open();
-                    string contraseñaAlmacenada = (string)command.ExecuteScalar();
-
-                    return (contraseñaAlmacenada == antiguaContra);
-                }
-            }
-        }
-
-        public static void ActualizarContraseña(string usuario, string nuevaContra)
-        {
-            try
-            {
-                // Obtener la contraseña almacenada en la base de datos para el usuario dado
-                string contraseñaAlmacenada = ContraAlm(usuario);
-
-                // Verificar si la nueva contraseña es diferente de la contraseña almacenada
-                if (nuevaContra == contraseñaAlmacenada)
-                {
-                    throw new Exception("La nueva contraseña es igual a la contraseña actual. Por favor, elija una contraseña diferente.");
-                }
-
-                // Si la nueva contraseña es diferente, proceder con la actualización en la base de datos
-                using (SqlConnection connection = BD.ObtenerConexion())
-                {
-                    string query = "UPDATE Inicio_Sesión SET Contraseña = @NuevaContra WHERE ID_Usuario = @Usuario";
-
-                    using (SqlCommand command = new SqlCommand(query, connection))
-                    {
-                        command.Parameters.AddWithValue("@NuevaContra", nuevaContra);
-                        command.Parameters.AddWithValue("@Usuario", usuario);
-
-                        connection.Open();
-                        int rowsAffected = command.ExecuteNonQuery();
-
-                        if (rowsAffected <= 0)
-                        {
-                            throw new Exception("No se encontró el usuario en la base de datos.");
-                        }
-                    }
-                }
-            }
-            catch (SqlException ex)
-            {
-                throw new Exception("Error de SQL al cambiar la contraseña.", ex);
-            }
-            catch (Exception ex)
-            {
-                throw; // Dejar que la excepción sea relanzada tal como está, sin agregar mensaje adicional
-            }
-        }
-
         public static bool CamposContraseñaVacios(string nuevaContra, string confirmarContra)
         {
             return string.IsNullOrEmpty(nuevaContra) || string.IsNullOrEmpty(confirmarContra);
@@ -189,85 +104,6 @@ namespace Telecomunicaciones_Sistema
         public static bool IsContadora(string rol)
         {
             return rol == "Contadora" || rol == "Contador";
-        }
-
-        public static bool CorreoRegistrado(string correo)
-        {
-            using (SqlConnection connection = BD.ObtenerConexion())
-            {
-                string query = "SELECT COUNT(*) FROM Empleados WHERE Correo_E = @Correo COLLATE Latin1_General_CS_AS";
-
-                using (SqlCommand command = new SqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@Correo", correo);
-
-                    connection.Open();
-
-                    int count = (int)command.ExecuteScalar();
-
-                    return count > 0;
-                }
-            }
-        }
-
-        public static void ActualizarContraseñaa(string usuario, string nuevaContra)
-        {
-            try
-            {
-                // Obtener la contraseña almacenada en la base de datos para el usuario dado
-                string contraseñaAlmacenada = ContraAlm(usuario);
-
-                // Verificar si la nueva contraseña es diferente de la contraseña almacenada
-                if (nuevaContra == contraseñaAlmacenada)
-                {
-                    throw new Exception("La nueva contraseña es igual a la contraseña actual. Por favor, elija una contraseña diferente.");
-                }
-
-                // Si la nueva contraseña es diferente, proceder con la actualización en la base de datos
-                using (SqlConnection connection = BD.ObtenerConexion())
-                {
-                    string query = "UPDATE Inicio_Sesión SET Contraseña = @NuevaContra WHERE ID_Usuario = @Usuario";
-
-                    using (SqlCommand command = new SqlCommand(query, connection))
-                    {
-                        command.Parameters.AddWithValue("@NuevaContra", nuevaContra);
-                        command.Parameters.AddWithValue("@Usuario", usuario);
-
-                        connection.Open();
-                        int rowsAffected = command.ExecuteNonQuery();
-
-                        if (rowsAffected <= 0)
-                        {
-                            throw new Exception("No se encontró el usuario en la base de datos.");
-                        }
-                    }
-                }
-            }
-            catch (SqlException ex)
-            {
-                throw new Exception("Error de SQL al cambiar la contraseña.", ex);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Se produjo un error al cambiar la contraseña: " + ex.Message);
-            }
-        }
-
-        private static string ContraAlm(string usuario)
-        {
-            string query = "SELECT Contraseña FROM Inicio_Sesión WHERE ID_Usuario = @Usuario";
-
-            using (SqlConnection connection = BD.ObtenerConexion())
-            {
-                using (SqlCommand command = new SqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@Usuario", usuario);
-                    connection.Open();
-                    string contraseñaAlmacenada = (string)command.ExecuteScalar();
-
-                    return contraseñaAlmacenada;
-                }
-            }
         }
 
         public static bool CamposClienteVacios(string nombre, string apellido, string telefono, string correo, string direccion, ComboBox cmbDire)
@@ -419,8 +255,8 @@ namespace Telecomunicaciones_Sistema
 
         public static bool TelefonoValido(string telefono)
         {
-            // Expresión regular para verificar que el número de teléfono no contenga cinco o más dígitos repetidos seguidos
-            Regex regex = new Regex(@"^(?!.*(\d)\1{4,})\d{8}$");
+            // Expresión regular para verificar que el número de teléfono no contenga seis o más dígitos repetidos seguidos
+            Regex regex = new Regex(@"^(?!.*(\d)\1{5,})\d{8}$");
 
             // Verifica si el número de teléfono coincide con la expresión regular
             return regex.IsMatch(telefono);
@@ -483,14 +319,11 @@ namespace Telecomunicaciones_Sistema
                 return texto;
             }
 
-            // Obtiene la cultura actual del hilo en ejecución
-            CultureInfo cultureInfo = System.Threading.Thread.CurrentThread.CurrentCulture;
+            CultureInfo cultureInfo = System.Threading.Thread.CurrentThread.CurrentCulture; // Obtiene la cultura actual del hilo en ejecución
 
-            // Obtiene un objeto TextInfo que contiene información sobre el formato de texto
-            TextInfo textInfo = cultureInfo.TextInfo;
+            TextInfo textInfo = cultureInfo.TextInfo; // Obtiene un objeto TextInfo que contiene información sobre el formato de texto
 
-            // Convierte el texto a minúsculas y luego a formato de título
-            return textInfo.ToTitleCase(texto.ToLower());
+            return textInfo.ToTitleCase(texto.ToLower()); // Convierte el texto a minúsculas y luego a formato de título
         }
 
         public static void BloquearControles(KeyEventArgs e)
@@ -532,30 +365,6 @@ namespace Telecomunicaciones_Sistema
             }
             // Si todos los caracteres son dígitos, el ID es válido
             return true;
-        }
-
-        public static bool CorreoUsuario(string usuario, string correo)
-        {
-            using (SqlConnection connection = BD.ObtenerConexion())
-            {
-                string query = @"
-                    SELECT COUNT(*) 
-                    FROM Inicio_Sesión AS i
-                    JOIN Empleados AS e ON i.ID_Usuario = e.ID_Empleado
-                    WHERE i.ID_Usuario = @Usuario AND e.Correo_E = @Correo";
-
-                using (SqlCommand command = new SqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@Usuario", usuario);
-                    command.Parameters.AddWithValue("@Correo", correo);
-
-                    connection.Open();
-
-                    int count = (int)command.ExecuteScalar();
-
-                    return count > 0;
-                }
-            }
         }
 
         public static bool BusquedaEValida(string texto, out string mensaje)

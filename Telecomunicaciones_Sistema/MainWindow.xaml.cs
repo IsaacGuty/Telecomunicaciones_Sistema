@@ -20,41 +20,28 @@ namespace Telecomunicaciones_Sistema
 {
     public partial class MainWindow : Window
     {
-        // Define un objeto de tipo Login
-        private Login Objlog = new Login();
-
-        // Define un objeto de tipo Pantalla 
-        private Pantalla ObjPan = new Pantalla();
+        private Login Objlog = new Login(); // Define un objeto de tipo Login
+        private Pantalla ObjPan = new Pantalla(); // Define un objeto de tipo Pantalla 
 
         // Variables estáticas para almacenar información de usuario durante el inicio de sesión
         public static string Usuario_L;  // Nombre de usuario
         public static string Contraseña_L;  // Contraseña del usuario
-        public static string Rol_L;  // Rol del usuario en el sistema (por ejemplo, administrador, usuario estándar, etc.)
+        public static string Rol_L;  // Rol del usuario en el sistema
+        private int userId; // Variable para almacenar el ID del usuario actual
+        private int usuario; // Variable para almacenar información del usuario (puede ser ID u otro tipo de dato)
+        public static int IdUsuario; // Variable estática para almacenar el ID del usuario
 
-        // Variable para almacenar el ID del usuario actual
-        private int userId;
-
-        // Variable para almacenar información del usuario (puede ser ID u otro tipo de dato)
-        private int usuario;
-
-        // Variable estática para almacenar el ID del usuario
-        public static int IdUsuario;
-
-        // Contador de intentos de inicio de sesión
-        private static int intentosI = 0;
+        private static int intentosI = 0; // Contador de intentos de inicio de sesión
         private const int maxiI = 3;
         private const int duracionI = 5; // Duración del bloqueo en minutos
-
-        // Archivo para almacenar la hora de bloqueo
-        private const string archivobloqueo = "lockout.txt";
+        private const string archivobloqueo = "lockout.txt"; // Archivo para almacenar la hora de bloqueo
 
         // Constructor de la clase MainWindow
         public MainWindow()
         {
             InitializeComponent();
 
-            // Verifica el bloqueo al iniciar la aplicación
-            RevisarBloqueo();
+            RevisarBloqueo(); // Verifica el bloqueo al iniciar la aplicación
         }
 
         // Método para realizar el inicio de sesión
@@ -84,32 +71,26 @@ namespace Telecomunicaciones_Sistema
                 // Verifica si los datos ingresados coinciden con los almacenados en la base de datos
                 if (Objlog.usuario == usuarioBD && Objlog.contraseña == contraseñaBD)
                 {
-                    // Restablece el contador de intentos en caso de inicio de sesión exitoso
-                    intentosI = 0;
+                    intentosI = 0; // Restablece el contador de intentos en caso de inicio de sesión exitoso
 
                     // Muestra un mensaje de bienvenida al usuario
                     MessageBox.Show("Bienvenido(a) " + DT.Rows[0][2].ToString() + " " + DT.Rows[0][3].ToString(),
                                     "Mensaje", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                    // Almacena el nombre de usuario, la contraseña y el rol en variables estáticas para su uso posterior
-                    Usuario_L = DT.Rows[0][2].ToString() + " " + DT.Rows[0][3].ToString();
+                    Usuario_L = DT.Rows[0][2].ToString() + " " + DT.Rows[0][3].ToString(); // Almacena el nombre de usuario, la contraseña y el rol en variables estáticas para su uso posterior
                     Contraseña_L = contraseñaBD;
                     Rol_L = DT.Rows[0][4].ToString();
 
-                    // Almacena el ID de usuario en una variable estática para su uso posterior
-                    IdUsuario = Convert.ToInt32(DT.Rows[0]["ID_Usuario"]);
+                    IdUsuario = Convert.ToInt32(DT.Rows[0]["ID_Usuario"]); // Almacena el ID de usuario en una variable estática para su uso posterior
 
-                    // Crea una nueva instancia de la ventana Window1 y la muestra
-                    Window1 ObjPrinci = new Window1(Usuario_L, Contraseña_L);
+                    Window1 ObjPrinci = new Window1(Usuario_L, Contraseña_L); // Crea una nueva instancia de la ventana Window1 y la muestra
                     ObjPrinci.Show();
 
-                    // Oculta la ventana actual
-                    this.Hide();
+                    this.Hide(); // Oculta la ventana actual
                 }
                 else
                 {
-                    // Incrementa el contador de intentos fallidos de inicio de sesión
-                    intentosI++;
+                    intentosI++; // Incrementa el contador de intentos fallidos de inicio de sesión
 
                     // Limpia los campos de usuario y contraseña
                     txtUsuario.Clear();
@@ -118,15 +99,13 @@ namespace Telecomunicaciones_Sistema
                     // Verifica si se ha alcanzado el número máximo de intentos fallidos
                     if (intentosI >= maxiI)
                     {
-                        // Guarda la hora actual en el archivo de bloqueo
-                        SetLockout();
+                        SetLockout(); // Guarda la hora actual en el archivo de bloqueo
 
                         // Muestra un mensaje indicando que se ha excedido el número máximo de intentos
                         MessageBox.Show("Has excedido el número máximo de intentos de inicio de sesión. Por favor, intenta nuevamente más tarde.",
                                         "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
 
-                        // Cierra la aplicación
-                        this.Close();
+                        this.Close(); // Cierra la aplicación
                     }
                     else
                     {
@@ -137,8 +116,7 @@ namespace Telecomunicaciones_Sistema
             }
             else
             {
-                // Incrementa el contador de intentos fallidos si no se encontró un usuario
-                intentosI++;
+                intentosI++; // Incrementa el contador de intentos fallidos si no se encontró un usuario
 
                 // Limpia los campos de usuario y contraseña
                 txtUsuario.Clear();
@@ -154,8 +132,7 @@ namespace Telecomunicaciones_Sistema
                     MessageBox.Show("Has excedido el número máximo de intentos de inicio de sesión. Por favor, intenta nuevamente más tarde.",
                                     "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
 
-                    // Cierra la aplicación
-                    this.Close();
+                    this.Close(); // Cierra la aplicación
                 }
                 else
                 {
@@ -192,8 +169,7 @@ namespace Telecomunicaciones_Sistema
             }
             else
             {
-                // Llama a P_Login() para iniciar sesión
-                P_Login();
+                P_Login(); // Llama a P_Login() para iniciar sesión
             }
         }
 
@@ -204,8 +180,7 @@ namespace Telecomunicaciones_Sistema
             // Verifica si el carácter ingresado es un número
             if (!char.IsDigit(e.Text, 0))
             {
-                // Si el carácter no es un número, marca el evento como manejado para evitar que se agregue
-                e.Handled = true;
+                e.Handled = true; // Si el carácter no es un número, marca el evento como manejado para evitar que se agregue
 
                 // Verifica si el carácter es una letra
                 if (char.IsLetter(e.Text, 0))
@@ -225,8 +200,7 @@ namespace Telecomunicaciones_Sistema
             // Verifica si el texto resultante después de agregar el nuevo carácter excederá la longitud máxima permitida
             if (textBox.Text.Length + e.Text.Length > 7)
             {
-                // Si excede la longitud máxima permitida, marca el evento como manejado para evitar que se agregue el nuevo carácter
-                e.Handled = true;
+                e.Handled = true; // Si excede la longitud máxima permitida, marca el evento como manejado para evitar que se agregue el nuevo carácter
 
                 // Muestra un mensaje informativo al usuario
                 MessageBox.Show("El usuario no puede contener más de 7 caracteres.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -240,8 +214,7 @@ namespace Telecomunicaciones_Sistema
             // Verifica si la tecla presionada es la barra espaciadora
             if (e.Key == Key.Space)
             {
-                // Marca el evento como manejado para evitar que se agregue el espacio
-                e.Handled = true;
+                e.Handled = true; // Marca el evento como manejado para evitar que se agregue el espacio
 
                 // Muestra un mensaje informativo al usuario
                 MessageBox.Show("No se permiten espacios en blanco en el campo de usuario.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -257,8 +230,7 @@ namespace Telecomunicaciones_Sistema
             // Verifica si la tecla presionada es la barra espaciadora
             if (e.Key == Key.Space)
             {
-                // Marca el evento como manejado para evitar que se agregue el espacio
-                e.Handled = true;
+                e.Handled = true;  // Marca el evento como manejado para evitar que se agregue el espacio
 
                 // Muestra un mensaje informativo al usuario
                 MessageBox.Show("No se permiten espacios en blanco en la contraseña.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -266,8 +238,7 @@ namespace Telecomunicaciones_Sistema
             // Verifica si la longitud de la contraseña supera los 12 caracteres
             else if (passwordBox.Password.Length >= 12 && !char.IsControl((char)KeyInterop.VirtualKeyFromKey(e.Key)))
             {
-                // Marca el evento como manejado para evitar que se agregue más caracteres
-                e.Handled = true;
+                e.Handled = true; // Marca el evento como manejado para evitar que se agregue más caracteres
 
                 // Muestra un mensaje informativo al usuario
                 MessageBox.Show("La contraseña no puede tener más de 12 caracteres.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -278,15 +249,10 @@ namespace Telecomunicaciones_Sistema
 
         private void lblContraC_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            // Ocultar la ventana actual
-            this.Hide();
-
-            // Crear una nueva instancia de la ventana de cambio de contraseña
-            CambContra cmbCon = new CambContra(usuario);
-            // Asociar un evento para cerrar la ventana principal cuando se cierre la ventana de cambio de contraseña
-            cmbCon.Closed += (s, args) => CloseMainWindow();
-            // Mostrar la ventana de cambio de contraseña
-            cmbCon.ShowDialog();
+            this.Hide(); // Ocultar la ventana actual
+            CambContra cmbCon = new CambContra(usuario); // Crear una nueva instancia de la ventana de cambio de contraseña
+            cmbCon.Closed += (s, args) => CloseMainWindow(); // Asociar un evento para cerrar la ventana principal cuando se cierre la ventana de cambio de contraseña
+            cmbCon.ShowDialog(); // Mostrar la ventana de cambio de contraseña
         }
 
         private void CloseMainWindow()
@@ -304,29 +270,24 @@ namespace Telecomunicaciones_Sistema
         // Verifica si el usuario está bloqueado
         private bool UsuarioBloqueado(out TimeSpan remainingTime)
         {
-            // Inicializa el tiempo restante como cero
-            remainingTime = TimeSpan.Zero;
+            remainingTime = TimeSpan.Zero;  // Inicializa el tiempo restante como cero
 
             // Verifica si existe el archivo de bloqueo
             if (File.Exists(archivobloqueo))
             {
-                // Lee el contenido del archivo lockout.txt, que contiene la hora de bloqueo
-                string lockoutTimeString = File.ReadAllText(archivobloqueo);
+                string lockoutTimeString = File.ReadAllText(archivobloqueo); // Lee el contenido del archivo lockout.txt, que contiene la hora de bloqueo
 
                 // Intenta convertir la hora de bloqueo leída a un objeto DateTime
                 if (DateTime.TryParse(lockoutTimeString, out DateTime lockoutTime))
                 {
-                    // Calcula cuánto tiempo ha pasado desde el bloqueo
-                    TimeSpan lockoutDuration = DateTime.Now - lockoutTime;
+                    TimeSpan lockoutDuration = DateTime.Now - lockoutTime; // Calcula cuánto tiempo ha pasado desde el bloqueo
 
-                    // Calcula el tiempo restante de bloqueo
-                    remainingTime = TimeSpan.FromMinutes(duracionI) - lockoutDuration;
+                    remainingTime = TimeSpan.FromMinutes(duracionI) - lockoutDuration; // Calcula el tiempo restante de bloqueo
 
                     // Verifica si el tiempo restante es mayor que cero
                     if (remainingTime.TotalSeconds > 0)
                     {
-                        // Si el tiempo restante es positivo, el bloqueo sigue vigente
-                        return true;
+                        return true; // Si el tiempo restante es positivo, el bloqueo sigue vigente
                     }
                     else
                     {
@@ -336,9 +297,7 @@ namespace Telecomunicaciones_Sistema
                     }
                 }
             }
-
-            // Si no existe el archivo de bloqueo o el bloqueo ha expirado, el usuario no está bloqueado
-            return false;
+            return false;  // Si no existe el archivo de bloqueo o el bloqueo ha expirado, el usuario no está bloqueado
         }
 
         // Verifica si el usuario está bloqueado al iniciar la aplicación
@@ -351,8 +310,7 @@ namespace Telecomunicaciones_Sistema
                 MessageBox.Show($"Debes esperar {remainingTime.Minutes} minutos y {remainingTime.Seconds} segundos para intentar iniciar sesión nuevamente.",
                                 "Bloqueo de inicio de sesión", MessageBoxButton.OK, MessageBoxImage.Warning);
 
-                // Cierra la aplicación, ya que el usuario está bloqueado y no puede iniciar sesión en este momento.
-                this.Close();
+                this.Close(); // Cierra la aplicación, ya que el usuario está bloqueado y no puede iniciar sesión en este momento.
             }
         }
     }

@@ -225,17 +225,9 @@ namespace Telecomunicaciones_Sistema
                     return;
                 }
 
-                // Validación de espacios en blanco
                 if (!Validaciones.CorreoSinEspacios(txtCorreoE.Text))
                 {
                     MessageBox.Show("El correo electrónico no es válido. No se permiten espacios en blanco.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-                }
-
-                // Validación de la estructura básica del correo
-                if (!Validaciones.CorreoTresLetras(correo))
-                {
-                    MessageBox.Show("El correo electrónico debe tener al menos 3 letras antes del símbolo de arroba (@).", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
@@ -247,7 +239,13 @@ namespace Telecomunicaciones_Sistema
 
                 if (!Validaciones.CorreoValidoEstructura(txtCorreoE.Text))
                 {
-                    MessageBox.Show("El correo electrónico no es válido. Debe contener un símbolo de arroba (@).", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("El correo electrónico no es válido. Debe tener un formato válido (nombre@dominio).", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                if (!Validaciones.CorreoTresLetras(txtCorreoE.Text))
+                {
+                    MessageBox.Show("El correo electrónico debe tener al menos 3 letras antes del símbolo de arroba (@).", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
@@ -265,6 +263,12 @@ namespace Telecomunicaciones_Sistema
                         MessageBox.Show("Por favor, ingrese una contraseña.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
+                    if (passContraseña.Password.Length < 8)
+                    {
+                        MessageBox.Show("La contraseña debe tener al menos 8 caracteres.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+
                 }
 
                 string contrasena = passContraseña.Password;
@@ -273,7 +277,6 @@ namespace Telecomunicaciones_Sistema
                 string[] partesDireccion = direccion.Split('-');
                 string numeroDireccion = partesDireccion[0].Trim();
 
-                // Verificar si algún campo del empleado está vacío
                 if (Validaciones.CamposEmpleadosVacios(txtIDE.Text, txtNombreE.Text, txtApellidoE.Text, txtTelefonoE.Text, txtCorreoE.Text, numeroDireccion))
                 {
                     MessageBox.Show("Todos los campos del empleado deben llenarse.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -517,7 +520,7 @@ namespace Telecomunicaciones_Sistema
                 MessageBox.Show("No se permiten números en el campo de nombre.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             // Verificar si se ingresaron caracteres especiales
-            else if (System.Text.RegularExpressions.Regex.IsMatch(e.Text, "[^a-zA-Z]"))
+            else if (System.Text.RegularExpressions.Regex.IsMatch(e.Text, "[^a-zA-ZáéíóúÁÉÍÓÚñÑ]"))
             {
                 e.Handled = true;
                 MessageBox.Show("No se permiten caracteres especiales en el campo de nombre.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -539,7 +542,7 @@ namespace Telecomunicaciones_Sistema
                 MessageBox.Show("No se permiten números en el campo de apellido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             // Verificar si se ingresaron caracteres especiales
-            else if (System.Text.RegularExpressions.Regex.IsMatch(e.Text, "[^a-zA-Z]"))
+            else if (System.Text.RegularExpressions.Regex.IsMatch(e.Text, "[^a-zA-ZáéíóúÁÉÍÓÚñÑ]"))
             {
                 e.Handled = true;
                 MessageBox.Show("No se permiten caracteres especiales en el campo de apellido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);

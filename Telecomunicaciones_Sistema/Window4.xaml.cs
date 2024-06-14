@@ -28,10 +28,8 @@ namespace Telecomunicaciones_Sistema
         public Window4()
         {
             InitializeComponent();
-            // Conexión a la base de datos
-            Conn = BD.ObtenerConexion();
-            // Al inicializar la ventana, carga los datos en el DataGrid
-            CargarDatos();
+            Conn = BD.ObtenerConexion(); // Conexión a la base de datos
+            CargarDatos(); // Al inicializar la ventana, carga los datos en el DataGrid
 
             CargarEmpleadosTecnicos();
         }
@@ -39,17 +37,15 @@ namespace Telecomunicaciones_Sistema
         // Propiedad para almacenar los datos de la orden
         public Ordenes DatosOrden { get; set; }
 
-        // Variable para identificar si esta ventana es la ventana principal
-        private bool isMainWindow;
+        private bool isMainWindow; // Variable para identificar si esta ventana es la ventana principal
 
         // Método para cargar los datos en el DataGrid al iniciar la ventana
         private void CargarDatos()
         {
             try
             {
-                // Obtiene los datos de las órdenes y los muestra en el DataGrid
-                DataTable dataTable = OrdenDAL.ObtenerOrdenes();
-                DatGridOT.ItemsSource = dataTable.DefaultView;
+                DataTable dataTable = OrdenDAL.ObtenerOrdenes(); // Obtiene los datos de las órdenes y los muestra en el DataGrid
+                DatGridOT.ItemsSource = dataTable.DefaultView; 
                 DatGridOT.IsReadOnly = true; // Establecer el DataGrid como solo lectura
             }
             catch (Exception ex)
@@ -62,10 +58,8 @@ namespace Telecomunicaciones_Sistema
         {
             try
             {
-                // Obtener los empleados técnicos
-                DataTable dataTable = EmpleadoDAL.ObtenerEmpleadosTecnicos();
-                // Limpiar ComboBox cmbNombreE
-                cmbNombreE.Items.Clear();
+                DataTable dataTable = EmpleadoDAL.ObtenerEmpleadosTecnicos(); // Obtener los empleados técnicos
+                cmbNombreE.Items.Clear(); // Limpiar ComboBox cmbNombreE
                 // Agregar empleados técnicos al ComboBox cmbNombreE
                 foreach (DataRow row in dataTable.Rows)
                 {

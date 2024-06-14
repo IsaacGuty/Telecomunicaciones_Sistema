@@ -27,8 +27,6 @@ namespace Telecomunicaciones_Sistema
         // Propiedad estática para almacenar el empleado seleccionado
         public static Empleados EmpleadoSeleccionado { get; set; }
 
-        //private bool isMainWindow;
-
         // Constructor de la ventana
         public Window6()
         {
@@ -37,8 +35,7 @@ namespace Telecomunicaciones_Sistema
             CargarDatos();
             ventana8 = new Window8();
 
-            // Suscribir al evento ClienteAgregado de Window7 para actualizar los datos en esta ventana
-            ventana8.EmpleadoAgregado += ActualizarDatosEmpleado;
+            ventana8.EmpleadoAgregado += ActualizarDatosEmpleado; // Suscribir al evento ClienteAgregado de Window7 para actualizar los datos en esta ventana
         }
 
         // Clase interna para el diálogo de nuevo empleado 
@@ -102,8 +99,7 @@ namespace Telecomunicaciones_Sistema
 
         private void BtnAgregar_Click(object sender, RoutedEventArgs e)
         {
-            // Abrir la ventana de agregar empleado
-            SolicitarInformacionEmpleado(false);
+            SolicitarInformacionEmpleado(false); // Abrir la ventana de agregar empleado
         }
 
         // Método para solicitar información de un nuevo empleado

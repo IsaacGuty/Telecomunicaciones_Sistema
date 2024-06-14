@@ -13,8 +13,7 @@ namespace Telecomunicaciones_Sistema
 {
     public partial class PrintPreviewWindow : Window
     {
-        // Variable de diálogo de impresión
-        private PrintDialog printDialog;
+        private PrintDialog printDialog; // Variable de diálogo de impresión
 
         // Constructor de la ventana
         public PrintPreviewWindow()
@@ -84,8 +83,7 @@ namespace Telecomunicaciones_Sistema
                 context.DrawRectangle(visualBrush, null, new Rect(new Point(), page.Size));
             }
 
-            // Renderiza el dibujo en el bitmap
-            bitmap.Render(drawingVisual);
+            bitmap.Render(drawingVisual); // Renderiza el dibujo en el bitmap
 
             // Codifica el bitmap como PNG
             var encoder = new PngBitmapEncoder();
@@ -108,8 +106,7 @@ namespace Telecomunicaciones_Sistema
         // Función para imprimir el documento en la impresora seleccionada
         public void PrintDocument(FixedDocument fixedDocument)
         {
-            // Obtiene la impresora seleccionada del comboBox
-            string selectedPrinter = cmbPrinter.SelectedItem as string;
+            string selectedPrinter = cmbPrinter.SelectedItem as string; // Obtiene la impresora seleccionada del comboBox
 
             // Verifica si la impresora es válida
             if (!Validaciones.ValidarImpresora(selectedPrinter))
@@ -117,13 +114,11 @@ namespace Telecomunicaciones_Sistema
                 return;
             }
 
-            // Crea un servidor de impresión local
-            LocalPrintServer printServer = new LocalPrintServer();
+            LocalPrintServer printServer = new LocalPrintServer(); // Crea un servidor de impresión local
             PrintQueue printQueue; // Cola de impresión para la impresora seleccionada
             try
             {
-                // Obtiene la cola de impresión de la impresora seleccionada
-                printQueue = printServer.GetPrintQueue(selectedPrinter);
+                printQueue = printServer.GetPrintQueue(selectedPrinter); // Obtiene la cola de impresión de la impresora seleccionada
             }
             catch (PrintQueueException ex)
             {
@@ -138,8 +133,7 @@ namespace Telecomunicaciones_Sistema
                 return;
             }
 
-            // Obtiene el ticket de impresión predeterminado de la impresora
-            PrintTicket printTicket = printQueue.DefaultPrintTicket;
+            PrintTicket printTicket = printQueue.DefaultPrintTicket; // Obtiene el ticket de impresión predeterminado de la impresora
 
             // Configuración de color
             if (cmbColor.SelectedItem != null)

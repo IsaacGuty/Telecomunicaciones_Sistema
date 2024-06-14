@@ -33,8 +33,6 @@ namespace Telecomunicaciones_Sistema
             using (SqlConnection connection = BD.ObtenerConexion())
             {
                 connection.Open();
-
-                // Consulta SQL con parámetros para evitar SQL Injection y mejorar la legibilidad
                 string query = @"
                 SELECT c.ID_Cliente, c.Nombre, c.Apellido, c.Teléfono, c.Correo, c.ID_Dirección, d.Dirección AS Dirección
                 FROM Cliente c
@@ -80,7 +78,7 @@ namespace Telecomunicaciones_Sistema
                 cmd.Parameters.AddWithValue("@Teléfono", cliente.Teléfono);
                 cmd.Parameters.AddWithValue("@Correo", cliente.Correo);
                 cmd.Parameters.AddWithValue("@ID_Dirección", cliente.ID_Dirección);
-                cmd.Parameters.AddWithValue("@ID_Cliente", cliente.ID_Cliente); // Utiliza el ID_Cliente actualizado
+                cmd.Parameters.AddWithValue("@ID_Cliente", cliente.ID_Cliente);
                 cmd.ExecuteNonQuery();
             }
         }
@@ -99,7 +97,6 @@ namespace Telecomunicaciones_Sistema
                     cmd.Parameters.AddWithValue("@Correo", cliente.Correo);
                     cmd.Parameters.AddWithValue("@ID_Dirección", cliente.ID_Dirección);
 
-                    // Ejecutar el comando de inserción
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -117,7 +114,7 @@ namespace Telecomunicaciones_Sistema
                 SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM Cliente WHERE ID_Cliente = @ID_Cliente", connection);
                 cmd.Parameters.AddWithValue("@ID_Cliente", idCliente);
                 int count = (int)cmd.ExecuteScalar();
-                return count > 0; // Devuelve true si se encuentra al menos un cliente con el ID_Cliente dado
+                return count > 0; 
             }
         }
 
@@ -126,9 +123,6 @@ namespace Telecomunicaciones_Sistema
             using (SqlConnection connection = BD.ObtenerConexion())
             {
                 connection.Open();
-
-                // Consulta SQL que verifica si hay otro cliente con los mismos datos personales
-                // (correo o teléfono) y ID diferente al actual.
                 string query = @"
                 SELECT
                 CASE
@@ -165,16 +159,9 @@ namespace Telecomunicaciones_Sistema
             {
                 using (SqlConnection connection = BD.ObtenerConexion())
                 {
-                    // Abre la conexión
                     connection.Open();
-
-                    // Crea un comando SQL para obtener el último ID registrado
                     SqlCommand command = new SqlCommand("SELECT MAX(ID_Cliente) FROM Cliente", connection);
-
-                    // Ejecuta el comando y obtén el resultado
                     object result = command.ExecuteScalar();
-
-                    // Verifica si el resultado no es nulo y si es un número entero
                     if (result != DBNull.Value && int.TryParse(result.ToString(), out int id))
                     {
                         ultimoID = id;

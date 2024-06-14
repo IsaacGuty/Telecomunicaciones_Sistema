@@ -133,10 +133,9 @@ namespace Telecomunicaciones_Sistema
 
         private void BtnMostrar_Click(object sender, RoutedEventArgs e)
         {
-            // Abre la ventana 10
             Window10 ventana10 = new Window10();
             ventana10.Show();
-            this.Close(); // Opcional: Cierra la ventana actual si es necesario
+            this.Close(); 
         }
     }
 }

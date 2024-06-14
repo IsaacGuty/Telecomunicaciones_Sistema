@@ -11,7 +11,6 @@ namespace Telecomunicaciones_Sistema
 {
     public static class PagoDAL
     {
-        // Método para obtener todos los pagos
         public static DataTable ObtenerTodosPagos()
         {
             try
@@ -45,14 +44,12 @@ namespace Telecomunicaciones_Sistema
                     cmd.Parameters.AddWithValue("@ID_TpServicio", pago.ID_TpServicio);
                     cmd.Parameters.AddWithValue("@Monto", pago.Monto);
 
-                    // Verificar si el valor de MesPagado no es nulo ni está vacío antes de agregarlo como parámetro
                     if (!string.IsNullOrEmpty(pago.MesPagado))
                     {
                         cmd.Parameters.AddWithValue("@Mes_Pagado", pago.MesPagado);
                     }
                     else
                     {
-                        // Manejar el caso en que el valor de MesPagado sea nulo o esté vacío
                         throw new ArgumentException("El valor de MesPagado no puede ser nulo ni estar vacío.");
                     }
 
@@ -112,6 +109,35 @@ namespace Telecomunicaciones_Sistema
             {
                 throw new Exception("Error al buscar pagos: " + ex.Message);
             }
+        }
+
+        public static List<Servicio> ObtenerServicioCliente(string idCliente)
+        {
+            List<Servicio> servicios = new List<Servicio>();
+            using (SqlConnection conn = BD.ObtenerConexion())
+            {
+                string query = "SELECT sc.ID_Servicio, s.Servicio " +
+                               "FROM ServicioCliente sc " +
+                               "JOIN Servicios s ON sc.ID_Servicio = s.ID_Servicio " +
+                               "WHERE sc.ID_Cliente = @ID_Cliente " +
+                               "ORDER BY CAST(sc.ID_Servicio AS INT)";
+
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@ID_Cliente", idCliente);
+
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    Servicio servicio = new Servicio
+                    {
+                        ID_Servicio = reader["ID_Servicio"].ToString(),
+                        Nombre = reader["Servicio"].ToString()
+                    };
+                    servicios.Add(servicio);
+                }
+            }
+            return servicios;
         }
     }
 }

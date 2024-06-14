@@ -33,30 +33,25 @@ namespace Telecomunicaciones_Sistema
         public static DataTable BuscarEmpleado(string criterioBusqueda)
         {
             DataTable dataTable = new DataTable();
-
-            // Utilizamos la conexión obtenida desde la clase BD
             using (SqlConnection conn = BD.ObtenerConexion())
             {
                 conn.Open();
-
-                // Consulta SQL con parámetros para evitar SQL Injection y mejorar la legibilidad
                 string query = @"
-            SELECT e.ID_Empleado, e.Nombre_E, e.Apellido_E, e.Teléfono_E, e.Correo_E, e.ID_Dirección, d.Dirección, e.Puesto, e.Estado
-            FROM Empleados e
-            JOIN Dirección d ON e.ID_Dirección = d.ID_Dirección
-            WHERE e.ID_Empleado LIKE @Criterio
+                SELECT e.ID_Empleado, e.Nombre_E, e.Apellido_E, e.Teléfono_E, e.Correo_E, e.ID_Dirección, d.Dirección, e.Puesto, e.Estado
+                FROM Empleados e
+                JOIN Dirección d ON e.ID_Dirección = d.ID_Dirección
+                WHERE e.ID_Empleado LIKE @Criterio
                 OR e.Nombre_E LIKE @Criterio
                 OR e.Apellido_E LIKE @Criterio
                 OR (e.Nombre_E + ' ' + e.Apellido_E) LIKE @Criterio";
 
                 using (SqlCommand comando = new SqlCommand(query, conn))
                 {
-                    // Agregar parámetros
                     comando.Parameters.AddWithValue("@Criterio", "%" + criterioBusqueda + "%");
 
                     using (SqlDataReader reader = comando.ExecuteReader())
                     {
-                        dataTable.Load(reader); // Cargar datos en el DataTable
+                        dataTable.Load(reader); 
                     }
                 }
             }
@@ -96,18 +91,15 @@ namespace Telecomunicaciones_Sistema
                 cmd.Parameters.AddWithValue("@ID_Dirección", empleado.ID_Dirección);
                 cmd.Parameters.AddWithValue("@Puesto", empleado.Puesto);
 
-                // Verificar si el valor de Estado es null y asignar DBNull.Value en su lugar
                 object estadoValue = (object)empleado.Estado ?? DBNull.Value;
                 cmd.Parameters.AddWithValue("@Estado", estadoValue);
 
                 cmd.ExecuteNonQuery();
 
-                // Llamar al método para insertar en la tabla Inicio_Sesión
                 AgregarCredencialesInicioSesion(empleado.ID_Empleado, contraseña);
             }
         }
 
-        // Método para agregar ID y contraseña a la tabla Inicio_Sesión
         public static void AgregarCredencialesInicioSesion(string idEmpleado, string contraseña)
         {
             using (SqlConnection connection = BD.ObtenerConexion())
@@ -120,7 +112,6 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
-        // Método de verificación de existencia del empleado
         public static bool EmpleadoExiste(string idEmpleado)
         {
             using (SqlConnection Conn = BD.ObtenerConexion())
@@ -183,7 +174,7 @@ namespace Telecomunicaciones_Sistema
                 cmd.Parameters.AddWithValue("@ID_Dirección", idDireccion);
                 cmd.Parameters.AddWithValue("@ID_Empleado", idEmpleado);
                 int count = (int)cmd.ExecuteScalar();
-                return count > 0; // Devuelve true si se encuentra al menos un empleado con los mismos datos, excluyendo al empleado actual
+                return count > 0; 
             }
         }
 
@@ -195,7 +186,6 @@ namespace Telecomunicaciones_Sistema
                 using (SqlConnection connection = BD.ObtenerConexion())
                 {
                     connection.Open();
-                    // Consulta SQL para obtener solo empleados técnicos cuyo estado es "activo"
                     string query = "SELECT * FROM Empleados WHERE Puesto = 'Tecnico' AND Estado = 'Activo'";
                     SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
                     adapter.Fill(dataTable);
@@ -227,6 +217,25 @@ namespace Telecomunicaciones_Sistema
                 dataTable.Load(reader);
             }
             return dataTable;
+        }
+
+        public static bool CorreoRegistrado(string correo)
+        {
+            using (SqlConnection connection = BD.ObtenerConexion())
+            {
+                string query = "SELECT COUNT(*) FROM Empleados WHERE Correo_E = @Correo COLLATE Latin1_General_CS_AS";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Correo", correo);
+
+                    connection.Open();
+
+                    int count = (int)command.ExecuteScalar();
+
+                    return count > 0;
+                }
+            }
         }
     }
 }

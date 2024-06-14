@@ -27,7 +27,7 @@
         <Label Content="Usuario:" HorizontalAlignment="Left" Margin="220,9.4,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Grid.Row="1"/>
         <TextBox x:Name="txtUsuario" HorizontalAlignment="Left" Height="23" Margin="222,40.4,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="257" FontFamily="Times New Roman" FontSize="14" Grid.Row="1" PreviewKeyDown="txtUsuario_PreviewKeyDown" PreviewTextInput="txtUsuario_PreviewTextInput"/>
         <Label Content="Correo electrónico:" HorizontalAlignment="Left" Margin="220,94.4,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Grid.Row="1"/>
-        <TextBox x:Name="txtCorreoE" HorizontalAlignment="Left" Height="23" Margin="222,125.4,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="257" FontFamily="Times New Roman" FontSize="14" Grid.Row="1"/>
+        <TextBox x:Name="txtCorreoE" HorizontalAlignment="Left" Height="23" Margin="222,125.4,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="257" FontFamily="Times New Roman" FontSize="14" Grid.Row="1" PreviewKeyDown="txtCorreoE_PreviewKeyDown"/>
         <Image Margin="310,32,300.6,130" Source="logoTele.png" Stretch="Fill" RenderTransformOrigin="-0.074,0.454"/>
         <Button x:Name="btnEnviar" Content="Enviar" HorizontalAlignment="Left" Margin="256,183.4,0,0" VerticalAlignment="Top" Width="75" FontWeight="Bold" FontFamily="Times New Roman" FontSize="14" Click="BtnEnviar_Click" Grid.Row="1"/>
         <Button x:Name="btnRegresar" Content="Regresar" HorizontalAlignment="Left" Margin="376,183.4,0,0" VerticalAlignment="Top" Width="75" FontWeight="Bold" FontFamily="Times New Roman" FontSize="14" Grid.Row="1" Click="BtnRegresar_Click"/>

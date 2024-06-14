@@ -22,13 +22,7 @@
         <Label Content="ID Cliente:" HorizontalAlignment="Left" Margin="139,157,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
         <TextBox x:Name="txtIDC" IsReadOnly="True" HorizontalAlignment="Left" Height="23" Margin="306,160,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14" TabIndex="1"/>
         <Label Content="ID Servicio:" HorizontalAlignment="Left" Margin="139,201,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
-        <ComboBox x:Name="cmbIDS" HorizontalAlignment="Left" Margin="306,201,0,0" VerticalAlignment="Top" Width="206" Height="25" FontFamily="Times New Roman" FontSize="14" TabIndex="2">
-            <ComboBoxItem>1 - Cable</ComboBoxItem>
-            <ComboBoxItem>2 - Internet 5MB</ComboBoxItem>
-            <ComboBoxItem>3 - Internet 8MB</ComboBoxItem>
-            <ComboBoxItem>4 - Internet 10MB</ComboBoxItem>
-            <ComboBoxItem>5 - Internet 15MB</ComboBoxItem>
-        </ComboBox>
+        <ComboBox x:Name="cmbIDS" HorizontalAlignment="Left" Margin="306,201,0,0" VerticalAlignment="Top" Width="206" Height="25" FontFamily="Times New Roman" FontSize="14" TabIndex="2"/>
         <Label Content="Monto:" HorizontalAlignment="Left" Margin="139,240,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
         <TextBox x:Name="txtMonto" IsReadOnly="True" HorizontalAlignment="Left" Height="23" Margin="306,244,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14" TabIndex="3"/>
         <Label Content="Mes Pagado:" HorizontalAlignment="Left" Margin="139,277,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>

@@ -24,12 +24,9 @@ namespace Telecomunicaciones_Sistema
     /// </summary>
     public partial class CambContra : Window
     {
-        // Dirección de correo electrónico del remitente
-        private readonly string remitente = "telecomunicacioness.2024@gmail.com";
-        // Contraseña del remitente
-        private readonly string contraseña = "fast hqaz dejf uxro";
-        // ID del usuario
-        private int userId;
+        private readonly string remitente = "telecomunicacioness.2024@gmail.com"; // Dirección de correo electrónico del remitente
+        private readonly string contraseña = "fast hqaz dejf uxro"; // Contraseña del remitente
+        private int userId; // ID del usuario
 
         // Constructor de la ventana CambContra que acepta el userId como parámetro
         public CambContra(int userId)
@@ -81,20 +78,20 @@ namespace Telecomunicaciones_Sistema
                 }
 
                 // Verifica si el usuario existe en la base de datos
-                if (!Validaciones.UsuarioExiste(usuario))
+                if (!InicioDAL.UsuarioExiste(usuario))
                 {
                     MessageBox.Show("El usuario proporcionado no existe en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
                 // Verifica si el correo electrónico está registrado en la base de datos
-                if (!Validaciones.CorreoRegistrado(correo))
+                if (!EmpleadoDAL.CorreoRegistrado(correo))
                 {
                     MessageBox.Show("El correo electrónico proporcionado no está registrado en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
-                if (!Validaciones.CorreoUsuario(usuario, correo))
+                if (!InicioDAL.CorreoUsuario(usuario, correo))
                 {
                     MessageBox.Show("El correo electrónico no pertenece al usuario proporcionado.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
@@ -206,6 +203,21 @@ namespace Telecomunicaciones_Sistema
         }
 
         private void txtUsuario_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+
+            // Verifica si la tecla presionada es la barra espaciadora
+            if (e.Key == Key.Space)
+            {
+                // Marca el evento como manejado para evitar que se agregue el espacio
+                e.Handled = true;
+
+                // Muestra un mensaje informativo al usuario
+                MessageBox.Show("No se permiten espacios en blanco en el campo de usuario.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+
+        private void txtCorreoE_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             TextBox textBox = sender as TextBox;
 

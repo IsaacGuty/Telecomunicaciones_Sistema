@@ -15,7 +15,6 @@ namespace Telecomunicaciones_Sistema
             SqlConnection Conn = new SqlConnection("Data source = LAPTOP-GTMSPJHL\\SQLEXPRESS; Initial catalog = TelecomunicacionesBD; Integrated security = true");
             // Conn.Open();
 
-
             return Conn;
         }
     }

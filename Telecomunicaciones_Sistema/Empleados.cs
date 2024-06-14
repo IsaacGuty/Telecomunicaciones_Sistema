@@ -16,7 +16,7 @@ namespace Telecomunicaciones_Sistema
         public string ID_Dirección { get; set; }
         public string Puesto { get; set; }
         public string Estado { get; set; }
-        public string Contraseña { get; set; } // Nueva propiedad para la contraseña
+        public string Contraseña { get; set; } 
 
         public Empleados()
         {

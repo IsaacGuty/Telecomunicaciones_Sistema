@@ -39,23 +39,15 @@ namespace Telecomunicaciones_Sistema
         public Window9()
         {
             InitializeComponent();
-            // Inicialización de la lista de pagos
-            pagos = new List<Pagos>();
-            // Inicialización de la conexión a la base de datos
-            Conn = BD.ObtenerConexion();
-            // Establecer el valor de esModificacion como falso
-            esModificacion = false;
-            // Actualizar el contenido de la etiqueta según si se está modificando o agregando un pago
-            ActualizarLabel();
-            // Obtener el último ID_Pago de la base de datos y mostrarlo en txtIDP
-            txtIDP.Text = PagoDAL.ObtenerUltimoIDPago().ToString();
-            // Obtener la fecha actual y asignarla al campo txtFecha
-            DateTime fechaActual = DateTime.Now;
+            pagos = new List<Pagos>(); // Inicialización de la lista de pagos
+            Conn = BD.ObtenerConexion(); // Inicialización de la conexión a la base de datos
+            esModificacion = false; // Establecer el valor de esModificacion como falso
+            ActualizarLabel(); // Actualizar el contenido de la etiqueta según si se está modificando o agregando un pago
+            txtIDP.Text = PagoDAL.ObtenerUltimoIDPago().ToString(); // Obtener el último ID_Pago de la base de datos y mostrarlo en txtIDP
+            DateTime fechaActual = DateTime.Now; // Obtener la fecha actual y asignarla al campo txtFecha
             txtFecha.Text = fechaActual.ToString("yyyy-MM-dd");
-            // Asignar el ID del usuario al campo txtNombreE
-            txtNombreE.Text = MainWindow.IdUsuario.ToString();
-            // Agregar un manejador de eventos para el evento SelectionChanged del ComboBox cmbIDS
-            cmbIDS.SelectionChanged += CmbIDS_SelectionChanged;
+            txtNombreE.Text = MainWindow.IdUsuario.ToString(); // Asignar el ID del usuario al campo txtNombreE
+            cmbIDS.SelectionChanged += CmbIDS_SelectionChanged; // Agregar un manejador de eventos para el evento SelectionChanged del ComboBox cmbIDS
             Instance = this; // Almacena la instancia actual
         }
 
@@ -214,6 +206,18 @@ namespace Telecomunicaciones_Sistema
             {
                 // Copia el ID del cliente seleccionado en txtIDC
                 txtIDC.Text = ventana2.ClienteSeleccionado.ID_Cliente;
+
+                // Obtener los servicios del cliente y llenar el ComboBox
+                List<Servicio> servicios = PagoDAL.ObtenerServicioCliente(ventana2.ClienteSeleccionado.ID_Cliente);
+                cmbIDS.Items.Clear();
+                foreach (var servicio in servicios)
+                {
+                    ComboBoxItem item = new ComboBoxItem
+                    {
+                        Content = $"{servicio.ID_Servicio} - {servicio.Nombre}"
+                    };
+                    cmbIDS.Items.Add(item);
+                }
             }
             else
             {

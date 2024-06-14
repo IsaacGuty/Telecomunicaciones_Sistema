@@ -62,7 +62,7 @@ namespace Telecomunicaciones_Sistema
             }
 
             // Validar que la contraseña anterior sea correcta
-            if (!Validaciones.VerificarAntiguaContraseña(lblusuario.Content.ToString(), anteriorContra))
+            if (!InicioDAL.VerificarAntiguaContraseña(lblusuario.Content.ToString(), anteriorContra))
             {
                 MessageBox.Show("La contraseña anterior ingresada es incorrecta. Por favor, inténtalo de nuevo.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
@@ -71,7 +71,7 @@ namespace Telecomunicaciones_Sistema
             try
             {
                 // Actualizar la contraseña en la base de datos
-                Validaciones.ActualizarContraseña(lblusuario.Content.ToString(), nuevaContra);
+                InicioDAL.ActualizarContraseña(lblusuario.Content.ToString(), nuevaContra);
 
                 // Mostrar mensaje de éxito
                 MessageBox.Show("¡La contraseña se ha cambiado exitosamente!", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);

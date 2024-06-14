@@ -35,18 +35,13 @@ namespace Telecomunicaciones_Sistema
         public Window2()
         {
             InitializeComponent();
-            // Establecer conexión a la base de datos
-            Conn = BD.ObtenerConexion();           
-            // Cargar los datos de los clientes en el DataGrid
-            CargarDatos();
+            Conn = BD.ObtenerConexion(); // Establecer conexión a la base de datos           
+            CargarDatos();  // Cargar los datos de los clientes en el DataGrid
 
-            // Crear una instancia de Window7
-            ventana7 = new Window7();
+            ventana7 = new Window7(); // Crear una instancia de Window7
 
-            // Suscribir al evento ClienteAgregado de Window7 para actualizar los datos en esta ventana
-            ventana7.ClienteAgregado += ActualizarDatosCliente;
+            ventana7.ClienteAgregado += ActualizarDatosCliente; // Suscribir al evento ClienteAgregado de Window7 para actualizar los datos en esta ventana
         }
-
 
         // Clase interna para el diálogo de nuevo cliente 
         public partial class NuevoClienteDialog : Window
@@ -204,8 +199,7 @@ namespace Telecomunicaciones_Sistema
         // Método para actualizar los datos del cliente en el DataGrid
         private void ActualizarDatosCliente(object sender, EventArgs e)
         {
-            // Cargar los datos nuevamente para reflejar el nuevo cliente agregado o modificado
-            CargarDatos();
+            CargarDatos(); // Cargar los datos nuevamente para reflejar el nuevo cliente agregado o modificado
         }
 
         private void BtnRegresar_Click(object sender, RoutedEventArgs e)
@@ -255,8 +249,7 @@ namespace Telecomunicaciones_Sistema
             }
             else
             {
-                // Convierte la primera letra de cada palabra a mayúscula
-                txtBuscar.Text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(txtBuscar.Text.ToLower());
+                txtBuscar.Text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(txtBuscar.Text.ToLower()); // Convierte la primera letra de cada palabra a mayúscula
             }
         }
 
