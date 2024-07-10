@@ -62,84 +62,84 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Ayuda.xaml.cs">
+    <Compile Include="Módulos\Módulo de Imprimir\Ayuda.xaml.cs">
       <DependentUpon>Ayuda.xaml</DependentUpon>
     </Compile>
-    <Compile Include="BD.cs" />
-    <Compile Include="CambContra.xaml.cs">
+    <Compile Include="Clases\Módulo de Inicio de Sesión\BD.cs" />
+    <Compile Include="Módulos\Módulo de Inicio de Sesión\CambContra.xaml.cs">
       <DependentUpon>CambContra.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CamCon.xaml.cs">
+    <Compile Include="Módulos\Módulo de Inicio de Sesión\CamCon.xaml.cs">
       <DependentUpon>CamCon.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Datos.cs" />
-    <Compile Include="ClienteDAL.cs" />
-    <Compile Include="Clientes.cs" />
-    <Compile Include="EmpleadoDAL.cs" />
-    <Compile Include="Empleados.cs" />
-    <Compile Include="IngCod.xaml.cs">
+    <Compile Include="Clases\Módulo de Inicio de Sesión\Datos.cs" />
+    <Compile Include="Clases\Módulo de Clientes\ClienteDAL.cs" />
+    <Compile Include="Clases\Módulo de Clientes\Clientes.cs" />
+    <Compile Include="Clases\Módulo de Empleados\EmpleadoDAL.cs" />
+    <Compile Include="Clases\Módulo de Empleados\Empleados.cs" />
+    <Compile Include="Módulos\Módulo de Inicio de Sesión\IngCod.xaml.cs">
       <DependentUpon>IngCod.xaml</DependentUpon>
     </Compile>
-    <Compile Include="InicioDAL.cs" />
-    <Compile Include="InicioS.cs" />
-    <Compile Include="Login.cs" />
-    <Compile Include="OrdenDAL.cs" />
-    <Compile Include="Ordenes.cs" />
-    <Compile Include="PagoDAL.cs" />
-    <Compile Include="Pagos.cs" />
-    <Compile Include="Pantalla.cs" />
-    <Compile Include="PrintPreviewWindow.xaml.cs">
-      <DependentUpon>PrintPreviewWindow.xaml</DependentUpon>
+    <Compile Include="Clases\Módulo de Inicio de Sesión\InicioDAL.cs" />
+    <Compile Include="Clases\Módulo de Inicio de Sesión\InicioS.cs" />
+    <Compile Include="Clases\Módulo de Inicio de Sesión\Login.cs" />
+    <Compile Include="Clases\Módulo de Orden de Trabajo\OrdenDAL.cs" />
+    <Compile Include="Clases\Módulo de Orden de Trabajo\Ordenes.cs" />
+    <Compile Include="Clases\Módulo de Pago\PagoDAL.cs" />
+    <Compile Include="Clases\Módulo de Pago\Pagos.cs" />
+    <Compile Include="Clases\Módulo de Inicio de Sesión\Pantalla.cs" />
+    <Compile Include="Módulos\Módulo de Imprimir\Imprimir_Pantalla.xaml.cs">
+      <DependentUpon>Imprimir_Pantalla.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Servicio.cs" />
-    <Compile Include="Validaciones.cs" />
-    <Compile Include="Window1.xaml.cs">
-      <DependentUpon>Window1.xaml</DependentUpon>
+    <Compile Include="Clases\Módulo de Pago\Servicio.cs" />
+    <Compile Include="Clases\Validaciones\Validaciones.cs" />
+    <Compile Include="Menú.xaml.cs">
+      <DependentUpon>Menú.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Window10.xaml.cs">
-      <DependentUpon>Window10.xaml</DependentUpon>
+    <Compile Include="Módulos\Módulo de Pago\Vista_Pago.xaml.cs">
+      <DependentUpon>Vista_Pago.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Window2.xaml.cs">
-      <DependentUpon>Window2.xaml</DependentUpon>
+    <Compile Include="Módulos\Módulo de Cliente\Registro_Cliente.xaml.cs">
+      <DependentUpon>Registro_Cliente.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Window3.xaml.cs">
-      <DependentUpon>Window3.xaml</DependentUpon>
+    <Compile Include="Módulos\Módulo de Pago\Registro_Pago.xaml.cs">
+      <DependentUpon>Registro_Pago.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Window4.xaml.cs">
-      <DependentUpon>Window4.xaml</DependentUpon>
+    <Compile Include="Módulos\Módulo de Orden de Trabajo\Registro_Orden.xaml.cs">
+      <DependentUpon>Registro_Orden.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Window5.xaml.cs">
-      <DependentUpon>Window5.xaml</DependentUpon>
+    <Compile Include="Módulos\Módulo de Orden de Trabajo\Mostrar_Orden.xaml.cs">
+      <DependentUpon>Mostrar_Orden.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Window6.xaml.cs">
-      <DependentUpon>Window6.xaml</DependentUpon>
+    <Compile Include="Módulos\Módulo de Empleado\Registro_Empleado.xaml.cs">
+      <DependentUpon>Registro_Empleado.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Window7.xaml.cs">
-      <DependentUpon>Window7.xaml</DependentUpon>
+    <Compile Include="Módulos\Módulo de Cliente\AM_Cliente.xaml.cs">
+      <DependentUpon>AM_Cliente.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Window8.xaml.cs">
-      <DependentUpon>Window8.xaml</DependentUpon>
+    <Compile Include="Módulos\Módulo de Empleado\AM_Empleado.xaml.cs">
+      <DependentUpon>AM_Empleado.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Window9.xaml.cs">
-      <DependentUpon>Window9.xaml</DependentUpon>
+    <Compile Include="Módulos\Módulo de Pago\Agregar_Pago.xaml.cs">
+      <DependentUpon>Agregar_Pago.xaml</DependentUpon>
     </Compile>
-    <Page Include="Ayuda.xaml">
+    <Page Include="Módulos\Módulo de Imprimir\Ayuda.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="CambContra.xaml">
+    <Page Include="Módulos\Módulo de Inicio de Sesión\CambContra.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="CamCon.xaml">
+    <Page Include="Módulos\Módulo de Inicio de Sesión\CamCon.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="IngCod.xaml">
+    <Page Include="Módulos\Módulo de Inicio de Sesión\IngCod.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="Inicio_Sesión.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -147,51 +147,51 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="Inicio_Sesión.xaml.cs">
+      <DependentUpon>Inicio_Sesión.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="PrintPreviewWindow.xaml">
+    <Page Include="Módulos\Módulo de Imprimir\Imprimir_Pantalla.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Window1.xaml">
+    <Page Include="Menú.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Window10.xaml">
+    <Page Include="Módulos\Módulo de Pago\Vista_Pago.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Window2.xaml">
+    <Page Include="Módulos\Módulo de Cliente\Registro_Cliente.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Window3.xaml">
+    <Page Include="Módulos\Módulo de Pago\Registro_Pago.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Window4.xaml">
+    <Page Include="Módulos\Módulo de Orden de Trabajo\Registro_Orden.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Window5.xaml">
+    <Page Include="Módulos\Módulo de Orden de Trabajo\Mostrar_Orden.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Window6.xaml">
+    <Page Include="Módulos\Módulo de Empleado\Registro_Empleado.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Window7.xaml">
+    <Page Include="Módulos\Módulo de Cliente\AM_Cliente.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Window8.xaml">
+    <Page Include="Módulos\Módulo de Empleado\AM_Empleado.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Window9.xaml">
+    <Page Include="Módulos\Módulo de Pago\Agregar_Pago.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -223,16 +223,32 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="logoTele.png" />
+    <Resource Include="Módulos\Módulo de Orden de Trabajo\logoTele.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="buscar.png" />
+    <Resource Include="Módulos\Módulo de Cliente\buscar.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Image5.png" />
+    <Resource Include="Módulos\Módulo de Pago\usuario.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Logo Telecomunicaciones GG.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Módulos\Módulo de Inicio de Sesión\logoTele.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="logoTele.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Módulos\Módulo de Empleado\buscar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Módulos\Módulo de Orden de Trabajo\buscar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Módulos\Módulo de Pago\buscar.png" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
