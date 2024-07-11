@@ -441,16 +441,10 @@ namespace Telecomunicaciones_Sistema
 
         private void txtIDE_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            TextBox textBox = sender as TextBox;
-
-            // Verifica si la tecla presionada es la barra espaciadora
-            if (e.Key == Key.Space)
+            if (!Validaciones.ValidarTeclaEspacioIDE(e, out string mensajeError))
             {
-                // Marca el evento como manejado para evitar que se agregue el espacio
                 e.Handled = true;
-
-                // Muestra un mensaje informativo al usuario
-                MessageBox.Show("No se permiten espacios en blanco en el ID del empleado.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(mensajeError, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             Validaciones.BloquearControles(e);
         }
@@ -459,103 +453,53 @@ namespace Telecomunicaciones_Sistema
         {
             TextBox textBox = sender as TextBox;
 
-            // Verifica si el texto resultante después de agregar el nuevo carácter excederá la longitud máxima permitida
-            if (textBox.Text.Length + e.Text.Length > 8)
+            if (!Validaciones.ValidarTelefonoLongCar(textBox.Text, e.Text, out string mensajeError))
             {
-                // Si excede la longitud máxima permitida, marca el evento como manejado para evitar que se agregue el nuevo carácter
                 e.Handled = true;
-
-                // Muestra un mensaje informativo al usuario
-                MessageBox.Show("El número de teléfono no puede tener más de 8 dígitos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
-            // Verifica si el carácter ingresado es un dígito
-            if (!char.IsDigit(e.Text, 0))
-            {
-                // Si el carácter no es un dígito, marca el evento como manejado para evitar que se agregue
-                e.Handled = true;
-
-                if (char.IsLetter(e.Text, 0))
-                {
-                    // Muestra un mensaje informativo al usuario sobre letras
-                    MessageBox.Show("No se permiten letras en el número de teléfono.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-                else
-                {
-                    // Muestra un mensaje informativo al usuario sobre caracteres especiales
-                    MessageBox.Show("No se permiten caracteres especiales en el número de teléfono.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
+                MessageBox.Show(mensajeError, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         private void txtTelefonoE_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            TextBox textBox = sender as TextBox;
-
-            // Verifica si la tecla presionada es la barra espaciadora
-            if (e.Key == Key.Space)
+            if (!Validaciones.ValidarTeclaEspacioTel(e, out string mensajeError))
             {
-                // Marca el evento como manejado para evitar que se agregue el espacio
                 e.Handled = true;
-
-                // Muestra un mensaje informativo al usuario
-                MessageBox.Show("No se permiten espacios en blanco en el número de teléfono.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(mensajeError, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             Validaciones.BloquearControles(e);
         }
 
         private void txtNombreE_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            // Verificar si se ha alcanzado el límite de 50 caracteres
-            if (txtNombreE.Text.Length + e.Text.Length > 50)
+            TextBox textBox = sender as TextBox;
+
+            if (!Validaciones.ValidarNombreLongNumCar(textBox.Text, e.Text, out string mensajeError))
             {
                 e.Handled = true;
-                MessageBox.Show("Se ha alcanzado el límite máximo de 50 caracteres en el campo de nombre.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            // Verificar si se ingresaron números
-            else if (System.Text.RegularExpressions.Regex.IsMatch(e.Text, "[0-9]"))
-            {
-                e.Handled = true;
-                MessageBox.Show("No se permiten números en el campo de nombre.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            // Verificar si se ingresaron caracteres especiales
-            else if (System.Text.RegularExpressions.Regex.IsMatch(e.Text, "[^a-zA-ZáéíóúÁÉÍÓÚñÑ]"))
-            {
-                e.Handled = true;
-                MessageBox.Show("No se permiten caracteres especiales en el campo de nombre.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(mensajeError, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         private void txtApellidoE_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            // Verificar si se ha alcanzado el límite de 50 caracteres
-            if (txtApellidoE.Text.Length + e.Text.Length > 50)
+            TextBox textBox = sender as TextBox;
+
+            if (!Validaciones.ValidarApellidoLongNumCar(textBox.Text, e.Text, out string mensajeError))
             {
                 e.Handled = true;
-                MessageBox.Show("Se ha alcanzado el límite máximo de 50 caracteres en el campo de apellido.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            // Verificar si se ingresaron números
-            else if (System.Text.RegularExpressions.Regex.IsMatch(e.Text, "[0-9]"))
-            {
-                e.Handled = true;
-                MessageBox.Show("No se permiten números en el campo de apellido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            // Verificar si se ingresaron caracteres especiales
-            else if (System.Text.RegularExpressions.Regex.IsMatch(e.Text, "[^a-zA-ZáéíóúÁÉÍÓÚñÑ]"))
-            {
-                e.Handled = true;
-                MessageBox.Show("No se permiten caracteres especiales en el campo de apellido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(mensajeError, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         private void txtCorreoE_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            // Verificar si se ha alcanzado el límite de 50 caracteres
-            if (txtCorreoE.Text.Length + e.Text.Length > 40)
+            TextBox textBox = sender as TextBox;
+
+            if (!Validaciones.ValidarCorreoLongitud(textBox.Text, e.Text, out string mensajeError))
             {
                 e.Handled = true;
-                MessageBox.Show("Se ha alcanzado el límite máximo de 50 caracteres en el campo de nombre.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(mensajeError, "Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
@@ -563,14 +507,10 @@ namespace Telecomunicaciones_Sistema
         {
             TextBox textBox = sender as TextBox;
 
-            // Verifica si la tecla presionada es la barra espaciadora
-            if (e.Key == Key.Space)
+            if (!Validaciones.ValidarTeclaEspacioCorr(e, out string mensajeError))
             {
-                // Marca el evento como manejado para evitar que se agregue el espacio
                 e.Handled = true;
-
-                // Muestra un mensaje informativo al usuario
-                MessageBox.Show("No se permiten espacios en blanco en el correo.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(mensajeError, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             Validaciones.BloquearControles(e);
         }
@@ -579,23 +519,10 @@ namespace Telecomunicaciones_Sistema
         {
             PasswordBox passwordBox = sender as PasswordBox;
 
-            // Verifica si la tecla presionada es la barra espaciadora
-            if (e.Key == Key.Space)
+            if (!Validaciones.ValidarContraseñaEspLong(passwordBox.Password, e, out string mensajeError))
             {
-                // Marca el evento como manejado para evitar que se agregue el espacio
                 e.Handled = true;
-
-                // Muestra un mensaje informativo al usuario
-                MessageBox.Show("No se permiten espacios en blanco en la contraseña.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            // Verifica si la longitud de la contraseña supera los 12 caracteres
-            else if (passwordBox.Password.Length >= 12 && !char.IsControl((char)KeyInterop.VirtualKeyFromKey(e.Key)))
-            {
-                // Marca el evento como manejado para evitar que se agregue más caracteres
-                e.Handled = true;
-
-                // Muestra un mensaje informativo al usuario
-                MessageBox.Show("La contraseña no puede tener más de 12 caracteres.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(mensajeError, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             Validaciones.BloquearControles(e);

@@ -51,11 +51,6 @@ namespace Telecomunicaciones_Sistema
             return true;
         }
 
-        public static bool ValidarUsuarioYContraseña(string usuario, string contraseña)
-        {
-            return string.IsNullOrEmpty(usuario) || string.IsNullOrEmpty(contraseña);
-        }
-
         public static bool CamposContraseñaCompletos(string anteriorContra, string nuevaContra, string confirmarContra)
         {
             return !(string.IsNullOrEmpty(anteriorContra) || string.IsNullOrEmpty(nuevaContra) || string.IsNullOrEmpty(confirmarContra));
@@ -64,16 +59,6 @@ namespace Telecomunicaciones_Sistema
         public static bool ContraseñasCoinciden(string nuevaContra, string confirmarContra)
         {
             return nuevaContra == confirmarContra;
-        }
-
-        public static bool CamposContraseñaVacios(string nuevaContra, string confirmarContra)
-        {
-            return string.IsNullOrEmpty(nuevaContra) || string.IsNullOrEmpty(confirmarContra);
-        }
-
-        public static bool ContraseñasNoCoinciden(string nuevaContra, string confirmarContra)
-        {
-            return nuevaContra != confirmarContra;
         }
 
         public static bool CamposCorreoUsuarioVacios(string usuario, string correo)
@@ -148,11 +133,6 @@ namespace Telecomunicaciones_Sistema
                 return false;
             }
             return true;
-        }
-
-        public static bool ContieneEspaciosEnBlanco(string cadena)
-        {
-            return string.IsNullOrWhiteSpace(cadena);
         }
 
         public static bool NoContieneEspaciosEnBlanco(string texto)
@@ -397,6 +377,161 @@ namespace Telecomunicaciones_Sistema
                 mensaje = "Debe ingresar el Nombre o Apellido, para realizar la búsqueda.";
                 return false;
             }
+            return true;
+        }
+
+        public static bool ValidarTelefonoLongCar(string textoActual, string nuevoTexto, out string mensajeError)
+        {
+            mensajeError = string.Empty;
+
+            // Verifica si el texto resultante después de agregar el nuevo carácter excederá la longitud máxima permitida
+            if (textoActual.Length + nuevoTexto.Length > 8)
+            {
+                mensajeError = "El número de teléfono no puede tener más de 8 dígitos.";
+                return false;
+            }
+
+            // Verifica si el carácter ingresado es un dígito
+            if (!char.IsDigit(nuevoTexto, 0))
+            {
+                if (char.IsLetter(nuevoTexto, 0))
+                {
+                    mensajeError = "No se permiten letras en el número de teléfono.";
+                }
+                else
+                {
+                    mensajeError = "No se permiten caracteres especiales en el número de teléfono.";
+                }
+                return false;
+            }
+
+            return true;
+        }
+
+        public static bool ValidarTeclaEspacioTel(KeyEventArgs e, out string mensajeError)
+        {
+            mensajeError = string.Empty;
+
+            // Verifica si la tecla presionada es la barra espaciadora
+            if (e.Key == Key.Space)
+            {
+                mensajeError = "No se permiten espacios en blanco en el número de teléfono.";
+                return false;
+            }
+
+            return true;
+        }
+
+        public static bool ValidarTeclaEspacioCorr(KeyEventArgs e, out string mensajeError)
+        {
+            mensajeError = string.Empty;
+
+            if (e.Key == Key.Space)
+            {
+                // Verifica si la tecla presionada es la barra espaciadora
+                mensajeError = "No se permiten espacios en blanco en el campo de correo.";
+                return false;
+            }
+
+            return true;
+        }
+
+        public static bool ValidarTeclaEspacioIDE(KeyEventArgs e, out string mensajeError)
+        {
+            mensajeError = string.Empty;
+
+            if (e.Key == Key.Space)
+            {
+                // Verifica si la tecla presionada es la barra espaciadora
+                mensajeError = "No se permiten espacios en blanco en el ID del empleado.";
+                return false;
+            }
+
+            return true;
+        }
+
+        public static bool ValidarNombreLongNumCar(string textoActual, string nuevoTexto, out string mensajeError)
+        {
+            mensajeError = string.Empty;
+
+            // Verificar si se ha alcanzado el límite de 50 caracteres
+            if (textoActual.Length + nuevoTexto.Length > 50)
+            {
+                mensajeError = "Se ha alcanzado el límite máximo de 50 caracteres en el campo de nombre.";
+                return false;
+            }
+
+            // Verificar si se ingresaron números
+            if (System.Text.RegularExpressions.Regex.IsMatch(nuevoTexto, "[0-9]"))
+            {
+                mensajeError = "No se permiten números en el campo de nombre.";
+                return false;
+            }
+
+            // Verificar si se ingresaron caracteres especiales
+            if (System.Text.RegularExpressions.Regex.IsMatch(nuevoTexto, "[^a-zA-ZáéíóúÁÉÍÓÚñÑ]"))
+            {
+                mensajeError = "No se permiten caracteres especiales en el campo de nombre.";
+                return false;
+            }
+
+            return true;
+        }
+
+        public static bool ValidarApellidoLongNumCar(string textoActual, string nuevoTexto, out string mensajeError)
+        {
+            mensajeError = string.Empty;
+
+            if (textoActual.Length + nuevoTexto.Length > 50)
+            {
+                mensajeError = "Se ha alcanzado el límite máximo de 50 caracteres en el campo de apellido.";
+                return false;
+            }
+
+            if (System.Text.RegularExpressions.Regex.IsMatch(nuevoTexto, "[0-9]"))
+            {
+                mensajeError = "No se permiten números en el campo de apellido.";
+                return false;
+            }
+
+            if (System.Text.RegularExpressions.Regex.IsMatch(nuevoTexto, "[^a-zA-ZáéíóúÁÉÍÓÚñÑ]"))
+            {
+                mensajeError = "No se permiten caracteres especiales en el campo de apellido.";
+                return false;
+            }
+
+            return true;
+        }
+
+        public static bool ValidarCorreoLongitud(string textoActual, string nuevoTexto, out string mensajeError)
+        {
+            mensajeError = string.Empty;
+
+            if (textoActual.Length + nuevoTexto.Length > 50)
+            {
+                mensajeError = "Se ha alcanzado el límite máximo de 50 caracteres en el campo de correo.";
+                return false;
+            }
+
+            return true;
+        }
+
+        public static bool ValidarContraseñaEspLong(string contraseñaActual, KeyEventArgs e, out string mensajeError)
+        {
+            mensajeError = string.Empty;
+
+            if (e.Key == Key.Space)
+            {
+                mensajeError = "No se permiten espacios en blanco en la contraseña.";
+                return false;
+            }
+
+            if (contraseñaActual.Length >= 12 && !char.IsControl((char)KeyInterop.VirtualKeyFromKey(e.Key)))
+            {
+                mensajeError = "La contraseña no puede tener más de 12 caracteres.";
+                return false;
+            }
+
             return true;
         }
     }

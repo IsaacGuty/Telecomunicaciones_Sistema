@@ -144,7 +144,7 @@ namespace Telecomunicaciones_Sistema
         }
 
         // Controlador del evento de clic del botón para ingresar
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Ingresar_Click(object sender, RoutedEventArgs e)
         {
             // Verifica si ambos campos de usuario y contraseña están vacíos
             if (Validaciones.CamposVacios(txtUsuario.Text, txtContra.Password))

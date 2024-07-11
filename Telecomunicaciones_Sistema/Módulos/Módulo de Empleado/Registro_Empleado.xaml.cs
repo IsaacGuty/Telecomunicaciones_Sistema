@@ -35,7 +35,7 @@ namespace Telecomunicaciones_Sistema
             CargarDatos();
             ventana8 = new AM_Empleado();
 
-            ventana8.EmpleadoAgregado += ActualizarDatosEmpleado; // Suscribir al evento ClienteAgregado de AM_Cliente para actualizar los datos en esta ventana
+            ventana8.EmpleadoAgregado += ActualizarDatosEmpleado; // Suscribir al evento ClienteAgregado de Agregar_Cliente para actualizar los datos en esta ventana
         }
 
         // Clase interna para el diálogo de nuevo empleado 
@@ -232,15 +232,6 @@ namespace Telecomunicaciones_Sistema
             {
                 // Convierte la primera letra de cada palabra a mayúscula
                 txtBuscar.Text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(txtBuscar.Text.ToLower());
-            }
-        }
-
-        private void SetPlaceholderText()
-        {
-            if (string.IsNullOrWhiteSpace(txtBuscar.Text))
-            {
-                txtBuscar.Text = "ID, nombre, apellido";
-                txtBuscar.Foreground = new SolidColorBrush(Colors.Gray);
             }
         }
     }

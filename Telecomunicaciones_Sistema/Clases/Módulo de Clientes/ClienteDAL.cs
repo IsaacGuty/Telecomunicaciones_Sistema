@@ -174,6 +174,11 @@ namespace Telecomunicaciones_Sistema
             }
             return ultimoID;
         }
+
+        internal static void ActualizarCliente(Registro_Cliente.Clientes nuevoCliente)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

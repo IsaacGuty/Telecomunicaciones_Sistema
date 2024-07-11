@@ -26,10 +26,11 @@ namespace Telecomunicaciones_Sistema
 
         private bool SeleccionDesdeVentana10 = false;
 
-        private AM_Cliente ventana7; // Ventana para agregar o modificar clientes
+        private Agregar_Cliente ventana7; // Ventana para agregar o modificar clientes
 
         // Propiedad estática para almacenar el cliente seleccionado
         public Clientes ClienteSeleccionado { get; set; }
+        public Modificar_Cliente Modificar_Cliente { get; private set; }
 
         // Constructor de la ventana
         public Registro_Cliente()
@@ -38,21 +39,9 @@ namespace Telecomunicaciones_Sistema
             Conn = BD.ObtenerConexion(); // Establecer conexión a la base de datos           
             CargarDatos();  // Cargar los datos de los clientes en el DataGrid
 
-            ventana7 = new AM_Cliente(); // Crear una instancia de AM_Cliente
+            ventana7 = new Agregar_Cliente(); // Crear una instancia de Agregar_Cliente
 
-            ventana7.ClienteAgregado += ActualizarDatosCliente; // Suscribir al evento ClienteAgregado de AM_Cliente para actualizar los datos en esta ventana
-        }
-
-        // Clase interna para el diálogo de nuevo cliente 
-        public partial class NuevoClienteDialog : Window
-        {
-            // Propiedades del diálogo de nuevo cliente
-            public string ID_Cliente { get; set; }
-            public string Nombre { get; set; }
-            public string Apellido { get; set; }
-            public string Teléfono { get; set; }
-            public string Correo { get; set; }
-            public string ID_Dirección { get; set; }
+            ventana7.ClienteAgregado += ActualizarDatosCliente; // Suscribir al evento ClienteAgregado de Agregar_Cliente para actualizar los datos en esta ventana
         }
 
         // Estructura para representar un cliente
@@ -110,27 +99,13 @@ namespace Telecomunicaciones_Sistema
 
         private void BtnAgregar_Click(object sender, RoutedEventArgs e)
         {
-            SolicitarInformacionCliente(false); // Solicitar información de un nuevo cliente
-        }
-
-        // Método para solicitar información de un nuevo cliente
-        private void SolicitarInformacionCliente(bool esModificacion)
-        {
-            MessageBoxResult result;
-            if (esModificacion)
-            {
-                result = MessageBox.Show("Por favor, ingrese la información del cliente a modificar.", "Modificar Cliente", MessageBoxButton.OKCancel);
-            }
-            else
-            {
-                result = MessageBox.Show("Por favor, ingrese la información del nuevo cliente.", "Nuevo Cliente", MessageBoxButton.OKCancel);
-            }
+            MessageBoxResult result = MessageBox.Show("Por favor, ingrese la información del nuevo cliente.", "Nuevo Cliente", MessageBoxButton.OKCancel);
 
             if (result == MessageBoxResult.OK)
             {
-                // Mostrar la ventana7 para agregar o modificar un cliente
-                AM_Cliente frmAg = new AM_Cliente(esModificacion);
-                frmAg.Closed += (s, args) => CargarDatos(); // Refrescar los datos del DataGrid cuando se cierre la ventana 7
+                // Mostrar la ventana para agregar un nuevo cliente
+                Agregar_Cliente frmAg = new Agregar_Cliente();
+                frmAg.ClienteAgregado += (s, args) => CargarDatos(); // Refrescar los datos del DataGrid cuando se agregue un nuevo cliente
                 frmAg.Show();
             }
         }
@@ -176,17 +151,17 @@ namespace Telecomunicaciones_Sistema
             {
                 if (!ClienteSeleccionado.Equals(default(Clientes)))
                 {
-                    if (ventana7 == null || !ventana7.IsVisible) // Verifica si la ventana7 ya está abierta
+                    if (ventana7 == null || !ventana7.IsVisible) // Verifica si la ventana ya está abierta
                     {
-                        // Abre la ventana7 para modificar el cliente seleccionado
-                        ventana7 = new AM_Cliente(ClienteSeleccionado, true);
-                        ventana7.ClienteModificado += ActualizarDatosCliente;
-                        ventana7.Closed += (s, args) => CargarDatos(); // Refrescar los datos del DataGrid cuando se cierre la ventana 7
-                        ventana7.Show();
+                        // Abre la ventana para modificar el cliente seleccionado
+                        Modificar_Cliente = new Modificar_Cliente(ClienteSeleccionado);
+                        Modificar_Cliente.ClienteModificado += ActualizarDatosCliente;
+                        Modificar_Cliente.Closed += (s, args) => CargarDatos(); // Refrescar los datos del DataGrid cuando se cierre la ventana 7
+                        Modificar_Cliente.Show();
                     }
                     else
                     {
-                        ventana7.Activate(); // Muestra la ventana7 si ya está abierta
+                        ventana7.Activate(); // Muestra la ventana si ya está abierta
                     }
                 }
                 else
@@ -206,20 +181,20 @@ namespace Telecomunicaciones_Sistema
         {
             if (Vista_Pago.SeleccionDesdeVentana10)
             {
-                // Ocultar la ventana actual y mostrar la ventana 10
+                // Ocultar la ventana actual y mostrar la ventana 
                 this.Hide();
                 Vista_Pago ventana10 = Vista_Pago.Instance;
             }
             else if (SeleccionDesdeVentana9)
             {
-                // Ocultar la ventana actual y mostrar la ventana 9
+                // Ocultar la ventana actual y mostrar la ventana 
                 this.Hide();
                 Agregar_Pago ventana9 = Agregar_Pago.Instance;
                 ventana9.Show();
             }
             else
             {
-                // Ocultar la ventana actual y mostrar la ventana 1
+                // Ocultar la ventana actual y mostrar la ventana 
                 this.Hide();
                 Menú frmPr = new Menú(isInicio_Sesión: true);
                 frmPr.Show();
@@ -250,15 +225,6 @@ namespace Telecomunicaciones_Sistema
             else
             {
                 txtBuscar.Text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(txtBuscar.Text.ToLower()); // Convierte la primera letra de cada palabra a mayúscula
-            }
-        }
-
-        private void SetPlaceholderText()
-        {
-            if (string.IsNullOrWhiteSpace(txtBuscar.Text))
-            {
-                txtBuscar.Text = "ID, nombre, apellido";
-                txtBuscar.Foreground = new SolidColorBrush(Colors.Gray);
             }
         }
     }
