@@ -324,6 +324,4 @@ namespace Telecomunicaciones_Sistema
             Validaciones.BloquearControles(e);
         }
     }
-}   
-
-
+}

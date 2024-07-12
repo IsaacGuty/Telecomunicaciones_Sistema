@@ -22,34 +22,20 @@ namespace Telecomunicaciones_Sistema
     /// </summary>
     public partial class Registro_Empleado : Window
     {
-        private AM_Empleado ventana8;
+        private Agregar_Empleado ventana8;
 
         // Propiedad estática para almacenar el empleado seleccionado
         public static Empleados EmpleadoSeleccionado { get; set; }
-
+        public Modificar_Empleado Modificar_Empleado { get; private set; }
         // Constructor de la ventana
         public Registro_Empleado()
         {
             InitializeComponent();
             Conn = BD.ObtenerConexion();
             CargarDatos();
-            ventana8 = new AM_Empleado();
+            ventana8 = new Agregar_Empleado();
 
             ventana8.EmpleadoAgregado += ActualizarDatosEmpleado; // Suscribir al evento ClienteAgregado de Agregar_Cliente para actualizar los datos en esta ventana
-        }
-
-        // Clase interna para el diálogo de nuevo empleado 
-        public partial class NuevoEmpleadoDialog : Window
-        {
-            // Propiedades del diálogo de nuevo cliente
-            public string ID_Empleado { get; set; }
-            public string Nombre_E { get; set; }
-            public string Apellido_E { get; set; }
-            public string Teléfono_E { get; set; }
-            public string Correo_E { get; set; }
-            public string ID_Dirección { get; set; }
-            public string Puesto { get; set; }
-            public string Estado { get; set; }
         }
 
         // Estructura para representar un empleado
@@ -99,27 +85,13 @@ namespace Telecomunicaciones_Sistema
 
         private void BtnAgregar_Click(object sender, RoutedEventArgs e)
         {
-            SolicitarInformacionEmpleado(false); // Abrir la ventana de agregar empleado
-        }
-
-        // Método para solicitar información de un nuevo empleado
-        private void SolicitarInformacionEmpleado(bool esModificacion)
-        {
-            MessageBoxResult result;
-            if (esModificacion)
-            {
-                result = MessageBox.Show("Por favor, ingrese la información del empleado a modificar.", "Modificar Empleado", MessageBoxButton.OKCancel);
-            }
-            else
-            {
-                result = MessageBox.Show("Por favor, ingrese la información del nuevo empleado.", "Nuevo Empleado", MessageBoxButton.OKCancel);
-            }
+            MessageBoxResult result = MessageBox.Show("Por favor, ingrese la información del nuevo empleado.", "Nuevo Empleado", MessageBoxButton.OKCancel);
 
             if (result == MessageBoxResult.OK)
             {
-                // Mostrar la ventana8 para agregar o modificar un empleado
-                AM_Empleado frmAg = new AM_Empleado(esModificacion);
-                frmAg.Closed += (s, args) => CargarDatos(); // Refrescar los datos del DataGrid cuando se cierre la ventana 8
+                // Mostrar la ventana para agregar un nuevo empleado
+                Agregar_Empleado frmAg = new Agregar_Empleado();
+                frmAg.Closed += (s, args) => CargarDatos(); // Refrescar los datos del DataGrid cuando se cierre la ventana
                 frmAg.Show();
             }
         }
@@ -167,15 +139,15 @@ namespace Telecomunicaciones_Sistema
             {
                 if (!EmpleadoSeleccionado.Equals(default(Empleados)))
                 {
-                    // Crear una nueva ventana8 para modificar el cliente seleccionado
-                    ventana8 = new AM_Empleado(EmpleadoSeleccionado, true);
-                    ventana8.EmpleadoModificado += ActualizarDatosEmpleado;
-                    ventana8.Closed += (s, args) => CargarDatos(); // Refrescar los datos del DataGrid cuando se cierre la ventana 8
-                    ventana8.Show();
+                    // Crear una nueva ventana para modificar el cliente seleccionado
+                    Modificar_Empleado = new Modificar_Empleado(EmpleadoSeleccionado, true);
+                    Modificar_Empleado.EmpleadoModificado += ActualizarDatosEmpleado;
+                    Modificar_Empleado.Closed += (s, args) => CargarDatos(); // Refrescar los datos del DataGrid cuando se cierre la ventana 8
+                    Modificar_Empleado.Show();
                 }
                 else
                 {
-                    MessageBox.Show("No se ha seleccionado ningún cliente."); // Mensaje si no hay ningún cliente seleccionado
+                    MessageBox.Show("No se ha seleccionado ningún empleado."); // Mensaje si no hay ningún empleado seleccionado
                 }
             }
         }
@@ -236,4 +208,3 @@ namespace Telecomunicaciones_Sistema
         }
     }
 }
-

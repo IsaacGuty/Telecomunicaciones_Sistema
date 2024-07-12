@@ -18,116 +18,65 @@ using System.Globalization;
 namespace Telecomunicaciones_Sistema
 {
     /// <summary>
-    /// Lógica de interacción para AM_Empleado.xaml
+    /// Lógica de interacción para Agregar_Empleado.xaml
     /// </summary>
-    public partial class AM_Empleado : Window
+    public partial class Modificar_Empleado : Window
     {
-        // Declaración de eventos para notificar cuando se agrega o modifica un empleado
-        public event EventHandler EmpleadoAgregado;
-
         public event EventHandler EmpleadoModificado;
-
-        // Lista para almacenar empleados
-        private List<Empleados> empleados;
-
-        // Propiedad para obtener el nuevo empleado creado
+        
+        private SqlConnection Conn;
+        
+        private Registro_Empleado.Empleados empleadoSeleccionado;
+       
+        private bool esModificacion;
         public Empleados NuevoEmpleado { get; private set; }
 
-        // Variable para indicar si se está modificando un empleado
-        private bool esModificacion;
-
-        // Constructor para ventana de modificación/agregación de empleado
-        public AM_Empleado(bool esModificacion)
+        public Modificar_Empleado(Registro_Empleado.Empleados empleadoSeleccionado, bool esModificacion)
         {
             InitializeComponent();
             this.esModificacion = esModificacion;
-            // Actualiza la etiqueta según si se está modificando o agregando un empleado
-            ActualizarLabel();
-
-            if (!esModificacion)
-            {
-                cmbEstado.Items.Clear(); // Limpiar cualquier elemento existente
-                cmbEstado.Items.Add("Activo"); // Agregar solo la opción "Activo"
-                cmbEstado.SelectedIndex = 0; // Establecer "Activo" como seleccionado
-            }
-        }
-
-        // Constructor para ventana de modificación de empleado con empleado seleccionado
-        public AM_Empleado(Registro_Empleado.Empleados empleadoSeleccionado, bool esModificacion)
-        {
-            InitializeComponent();
-            this.esModificacion = esModificacion;
-            // Conexión a la base de datos y carga de detalles del empleado seleccionado
-            Conn = BD.ObtenerConexion();
-            empleados = new List<Empleados>();
             this.empleadoSeleccionado = empleadoSeleccionado;
             MostrarDetallesEmpleado();
-            // Actualiza la etiqueta según si se está modificando o agregando un empleado
-            ActualizarLabel();
-
-            if (esModificacion)
-            {
-                lblContra.Visibility = Visibility.Collapsed;
-                passContraseña.Visibility = Visibility.Collapsed;
-            }
         }
-
-        // Método para actualizar la etiqueta según si se está modificando o agregando un empleado
-        private void ActualizarLabel()
-        {
-            if (esModificacion)
-            {
-                lblNom.Content = "Modificar empleado";
-            }
-            else
-            {
-                lblNom.Content = "Agregar un nuevo empleado";
-            }
-        }
-
-        // Constructor sin parámetros 
-        public AM_Empleado()
-        {
-        }
-
-        // Variables de clase
-        private SqlConnection Conn;
-        private Registro_Empleado.Empleados empleadoSeleccionado;
 
         private void BtnAceptar_Click(object sender, RoutedEventArgs e)
         {
             try
             {
+                // Validaciones de campos
                 if (Validaciones.CamposEmpleadosVacios(txtIDE.Text, txtNombreE.Text, txtApellidoE.Text, txtTelefonoE.Text, txtCorreoE.Text, cmbDireccion.Text))
                 {
                     MessageBox.Show("Todos los campos del empleado deben llenarse.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
-                string idEmpleado = txtIDE.Text;
-
-                if (idEmpleado.Length > 7)
+                // Validación de longitud de ID de empleado
+                if (txtIDE.Text.Length > 7)
                 {
                     MessageBox.Show("El ID del empleado no puede tener más de 7 dígitos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
-                string nombre = txtNombreE.Text;
-                string apellido = txtApellidoE.Text;
-                string correo = txtCorreoE.Text;
-                string telefono = txtTelefonoE.Text;
-
-                if (telefono.Length > 8)
+                // Validación de longitud de teléfono
+                if (txtTelefonoE.Text.Length > 8)
                 {
                     MessageBox.Show("El número de teléfono no puede tener más de 8 dígitos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
+                // Obtención de valores de los campos
+                string idEmpleado = txtIDE.Text;
+                string nombre = txtNombreE.Text;
+                string apellido = txtApellidoE.Text;
+                string correo = txtCorreoE.Text;
+                string telefono = txtTelefonoE.Text;
+
+                // Obtención de la dirección seleccionada
                 ComboBoxItem itemSeleccionado = (ComboBoxItem)cmbDireccion.SelectedItem;
                 string direccion = itemSeleccionado?.Content?.ToString();
 
+                // Validación de existencia de empleado con los mismos datos
                 int resultado = EmpleadoDAL.EmpleadoExisteConDatos(idEmpleado, correo, telefono);
-
                 if (resultado == 1)
                 {
                     MessageBox.Show("El empleado con el mismo correo ya existe en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -139,20 +88,21 @@ namespace Telecomunicaciones_Sistema
                     return;
                 }
 
-                // Verificar si se seleccionó una dirección
+                // Validación de selección de dirección
                 if (string.IsNullOrEmpty(direccion))
                 {
                     MessageBox.Show("Por favor, seleccione una dirección.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
-                // Verificar si se ha seleccionado un puesto en el ComboBox
+                // Validación de selección de puesto
                 if (cmbPuesto.SelectedItem == null)
                 {
                     MessageBox.Show("Por favor, seleccione un puesto para el empleado.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
+                // Validación de formato de ID de empleado
                 if (!Validaciones.NoContieneEspaciosEnBlancoEnNumero(txtIDE.Text))
                 {
                     MessageBox.Show("El ID no debe contener espacios en blanco.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -162,15 +112,16 @@ namespace Telecomunicaciones_Sistema
                 if (Validaciones.ValidarLongitudIDEmpleado(idEmpleado))
                 {
                     MessageBox.Show("El ID del empleado no puede tener más de 7 caracteres.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return; 
+                    return;
                 }
 
                 if (!Validaciones.EsIDEmpleadoValido(idEmpleado))
                 {
                     MessageBox.Show("El ID del empleado solo puede contener números.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return; 
+                    return;
                 }
 
+                // Validación de formato de nombre y apellido
                 if (!Validaciones.NombreValido(txtNombreE.Text))
                 {
                     MessageBox.Show("El nombre no es válido. No se permiten espacios en blanco al inicio ni entre caracteres.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -207,6 +158,7 @@ namespace Telecomunicaciones_Sistema
                     return;
                 }
 
+                // Validación de formato de teléfono
                 if (!Validaciones.NoContieneEspaciosEnBlancoEnNumero(txtTelefonoE.Text))
                 {
                     MessageBox.Show("El teléfono no debe contener espacios en blanco.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -221,10 +173,11 @@ namespace Telecomunicaciones_Sistema
 
                 if (!Validaciones.TelefonoValido(txtTelefonoE.Text))
                 {
-                    MessageBox.Show("El número de teléfono no puede más de cinco números repetidos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("El número de teléfono no puede tener más de cinco números repetidos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
+                // Validación de formato de correo electrónico
                 if (!Validaciones.CorreoSinEspacios(txtCorreoE.Text))
                 {
                     MessageBox.Show("El correo electrónico no es válido. No se permiten espacios en blanco.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -255,154 +208,55 @@ namespace Telecomunicaciones_Sistema
                     return;
                 }
 
-                // Verificar si se está en modo de agregar antes de solicitar la contraseña
-                if (!esModificacion)
-                {
-                    if (string.IsNullOrEmpty(passContraseña.Password))
-                    {
-                        MessageBox.Show("Por favor, ingrese una contraseña.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                        return;
-                    }
-                    if (passContraseña.Password.Length < 8)
-                    {
-                        MessageBox.Show("La contraseña debe tener al menos 8 caracteres.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                        return;
-                    }
-
-                }
-
-                string contrasena = passContraseña.Password;
-
                 // Extraer solo el número de la dirección
                 string[] partesDireccion = direccion.Split('-');
                 string numeroDireccion = partesDireccion[0].Trim();
 
-                if (Validaciones.CamposEmpleadosVacios(txtIDE.Text, txtNombreE.Text, txtApellidoE.Text, txtTelefonoE.Text, txtCorreoE.Text, numeroDireccion))
+                // Crear el objeto EmpleadoModificado con los datos modificados
+                NuevoEmpleado = new Empleados
                 {
-                    MessageBox.Show("Todos los campos del empleado deben llenarse.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    ID_Empleado = idEmpleado,
+                    Nombre_E = txtNombreE.Text,
+                    Apellido_E = txtApellidoE.Text,
+                    Correo_E = txtCorreoE.Text,
+                    ID_Dirección = numeroDireccion,
+                    Puesto = (cmbPuesto.SelectedItem as ComboBoxItem)?.Content.ToString(),
+                    Estado = (cmbEstado.SelectedItem as ComboBoxItem)?.Content.ToString(),
+                };
+
+                // Verificar si el texto del campo de teléfono es un número válido
+                if (!decimal.TryParse(txtTelefonoE.Text, out decimal telefonoDecimal))
+                {
+                    MessageBox.Show("El número de teléfono debe ser un número válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
-                // Verificar si el ID del empleado ya existe en la base de datos
-                bool empleadoExistente = EmpleadoDAL.EmpleadoExiste(idEmpleado);
-
-                // Si estamos en modo modificación y el empleado existe, actualizar los datos del empleado
-                if (esModificacion && empleadoExistente)
+                // Validación adicional del teléfono
+                if (!Validaciones.EsTelefonoValido(txtTelefonoE.Text))
                 {
-                    if (EmpleadoDAL.EmpleadoDI(txtCorreoE.Text, txtTelefonoE.Text, numeroDireccion, idEmpleado))
-                    {
-                        if (resultado == 1)
-                        {
-                            MessageBox.Show("El cliente con el mismo correo ya existe en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                            return;
-                        }
-                        else if (resultado == 2)
-                        {
-                            MessageBox.Show("El cliente con el mismo teléfono ya existe en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                            return;
-                        }
-                    }
-
-                    // Crear el objeto NuevoEmpleado con los datos modificados
-                    NuevoEmpleado = new Empleados
-                    {
-                        ID_Empleado = idEmpleado,
-                        Nombre_E = txtNombreE.Text,
-                        Apellido_E = txtApellidoE.Text,
-                        Correo_E = txtCorreoE.Text,
-                        ID_Dirección = numeroDireccion,
-                        Puesto = (cmbPuesto.SelectedItem as ComboBoxItem)?.Content.ToString(),
-                        Estado = (cmbEstado.SelectedItem as ComboBoxItem)?.Content.ToString(),
-                    };
-
-                    // Verificar si el texto del campo de teléfono es un número válido
-                    if (!decimal.TryParse(txtTelefonoE.Text, out decimal telefonoDecimal))
-                    {
-                        MessageBox.Show("El número de teléfono debe ser un número válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                        return;
-                    }
-
-                    if (!Validaciones.EsTelefonoValido(txtTelefonoE.Text))
-                    {
-                        MessageBox.Show("El teléfono debe tener 8 dígitos y comenzar con 3, 8 o 9.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                        return;
-                    }
-
-                    // Validar el formato del correo electrónico
-                    if (!Validaciones.CorreoValido(txtCorreoE.Text))
-                    {
-                        MessageBox.Show("El formato del correo electrónico no es válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                        return;
-                    }
-
-                    // Asignar el valor convertido a decimal al Teléfono del NuevoEmpleado
-                    NuevoEmpleado.Teléfono_E = telefonoDecimal;
-
-                    // Actualizar el empleado existente en la base de datos
-                    EmpleadoDAL.ActualizarEmpleado(NuevoEmpleado);
-                    MessageBox.Show("Empleado modificado correctamente.");
-                }
-                // Si estamos en modo agregado y el empleado no existe, agregar el nuevo empleado
-                else if (!esModificacion && !empleadoExistente)
-                {
-
-
-                    // Crear el objeto NuevoEmpleado con los datos del nuevo empleado
-                    NuevoEmpleado = new Empleados
-                    {
-                        ID_Empleado = idEmpleado,
-                        Nombre_E = txtNombreE.Text,
-                        Apellido_E = txtApellidoE.Text,
-                        Correo_E = txtCorreoE.Text,
-                        ID_Dirección = numeroDireccion,
-                        Puesto = (cmbPuesto.SelectedItem as ComboBoxItem)?.Content.ToString(),
-                        Estado = "Activo", // Establecer el estado como "Activo" por defecto
-                    };
-
-                    // Verificar si el texto del campo de teléfono es un número válido
-                    if (!decimal.TryParse(txtTelefonoE.Text, out decimal telefonoDecimal))
-                    {
-                        MessageBox.Show("El número de teléfono debe ser un número válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                        return;
-                    }
-
-                    if (!Validaciones.EsTelefonoValido(txtTelefonoE.Text))
-                    {
-                        MessageBox.Show("El número de teléfono debe empezar con 3, 8 o 9.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                        return;
-                    }
-
-                    // Validar el formato del correo electrónico
-                    if (!Validaciones.CorreoValido(txtCorreoE.Text))
-                    {
-                        MessageBox.Show("El formato del correo electrónico no es válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                        return;
-                    }
-
-                    // Asignar el valor convertido a decimal al Teléfono del NuevoEmpleado
-                    NuevoEmpleado.Teléfono_E = telefonoDecimal;
-
-                    // Agregar el nuevo empleado a la base de datos
-                    EmpleadoDAL.AgregarEmpleado(NuevoEmpleado, contrasena);
-                    MessageBox.Show("Empleado agregado correctamente.");
-
-                    // Llama al evento EmpleadoAgregado antes de cerrar la ventana
-                    OnEmpleadoAgregado();
-                }
-                // Si estamos en modo agregado y el cliente ya existe, mostrar un mensaje de error
-                else if (!esModificacion && empleadoExistente)
-                {
-                    MessageBox.Show("El empleado con este ID ya existe en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("El teléfono debe tener 8 dígitos y comenzar con 3, 8 o 9.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
+
+                // Asignar el valor de teléfono convertido al objeto empleadoModificado
+                NuevoEmpleado.Teléfono_E = telefonoDecimal;
+
+                // Actualizar el empleado modificado en la base de datos
+                EmpleadoDAL.ActualizarEmpleado(NuevoEmpleado);
+
+                // Mostrar mensaje de éxito
+                MessageBox.Show("Empleado modificado correctamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                // Notificar que se modificó un empleado
+                EmpleadoModificado?.Invoke(this, EventArgs.Empty);
+
+                // Cerrar la ventana
+                this.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al modificar/agregar el empleado: " + ex.Message);
+                MessageBox.Show("Error al modificar el empleado: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
-            // Cierra la ventana después de procesar el empleado
-            this.Close();
         }
 
         private void txtIDE_PreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -528,12 +382,6 @@ namespace Telecomunicaciones_Sistema
             Validaciones.BloquearControles(e);
         }
 
-        // Método para llamar al evento EmpleadoAgregado
-        private void OnEmpleadoAgregado()
-        {
-            EmpleadoAgregado?.Invoke(this, EventArgs.Empty);
-        }
-
         private void BtnRegresar_Click(object sender, RoutedEventArgs e)
         {
             this.Hide();
@@ -606,7 +454,7 @@ namespace Telecomunicaciones_Sistema
             // Formatea el texto del control de texto (txtApellidoE) 
             txtApellidoE.Text = Validaciones.FormatearTexto(txtApellidoE.Text);
         }
-        
+
         private void InputControl_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             // Llama al método de Validaciones para bloquear copiar, pegar y cortar

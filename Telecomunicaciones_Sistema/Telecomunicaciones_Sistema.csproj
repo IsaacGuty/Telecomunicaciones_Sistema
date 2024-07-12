@@ -65,6 +65,9 @@
     <Compile Include="Módulos\Módulo de Cliente\Modificar_Cliente.xaml.cs">
       <DependentUpon>Modificar_Cliente.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Módulos\Módulo de Empleado\Modificar_Empleado.xaml.cs">
+      <DependentUpon>Modificar_Empleado.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Módulos\Módulo de Imprimir\Ayuda.xaml.cs">
       <DependentUpon>Ayuda.xaml</DependentUpon>
     </Compile>
@@ -120,13 +123,17 @@
     <Compile Include="Módulos\Módulo de Cliente\Agregar_Cliente.xaml.cs">
       <DependentUpon>Agregar_Cliente.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Módulos\Módulo de Empleado\AM_Empleado.xaml.cs">
-      <DependentUpon>AM_Empleado.xaml</DependentUpon>
+    <Compile Include="Módulos\Módulo de Empleado\Agregar_Empleado.xaml.cs">
+      <DependentUpon>Agregar_Empleado.xaml</DependentUpon>
     </Compile>
     <Compile Include="Módulos\Módulo de Pago\Agregar_Pago.xaml.cs">
       <DependentUpon>Agregar_Pago.xaml</DependentUpon>
     </Compile>
     <Page Include="Módulos\Módulo de Cliente\Modificar_Cliente.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Módulos\Módulo de Empleado\Modificar_Empleado.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -194,7 +201,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Módulos\Módulo de Empleado\AM_Empleado.xaml">
+    <Page Include="Módulos\Módulo de Empleado\Agregar_Empleado.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

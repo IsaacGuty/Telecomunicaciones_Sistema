@@ -1,4 +1,4 @@
-﻿<Window x:Class="Telecomunicaciones_Sistema.AM_Empleado"
+﻿<Window x:Class="Telecomunicaciones_Sistema.Agregar_Empleado"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"

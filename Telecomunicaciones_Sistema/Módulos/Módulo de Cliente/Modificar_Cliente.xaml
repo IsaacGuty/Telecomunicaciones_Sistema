@@ -18,6 +18,7 @@
     </Window.Resources>
     <Grid HorizontalAlignment="Left" Width="720">
         <Label x:Name="lblNom" Content="Modificar un cliente" HorizontalAlignment="Left" Margin="131,37,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="24" FontWeight="Bold" Width="271"/>
+        <Image Margin="87,45,548.6,469" Source="logoTele.png" Stretch="Fill"/>
         <Label Content="ID:" HorizontalAlignment="Left" Margin="212,120,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
         <TextBox x:Name="txtIDC" IsReadOnly="True" HorizontalAlignment="Left" Height="23" Margin="305,123,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14" TabIndex="0"/>
         <Button x:Name="btnAceptar" Content="Aceptar" HorizontalAlignment="Left" Margin="258,413,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnAceptar_Click" TabIndex="6"/>
@@ -39,3 +40,4 @@
         <Image Margin="15,21,590,356" Source="/logoTele.png" Stretch="Fill"/>
     </Grid>
 </Window>
+
