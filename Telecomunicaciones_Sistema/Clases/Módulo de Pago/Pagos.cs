@@ -14,7 +14,7 @@ namespace Telecomunicaciones_Sistema
 
         public decimal Monto { get; set; }
 
-        public string ID_TpServicio { get; set; }
+        public string ID_Servicio { get; set; }
 
         public string MesPagado { get; set; }
 
@@ -27,11 +27,11 @@ namespace Telecomunicaciones_Sistema
 
         }
 
-        public Pagos(string pID_Pago, string pID_Cliente, string pID_TpServicio, string pServicio, decimal pMonto, string pMesPagado, DateTime pFecha, string pAño_Pagado, string pID_Empleado)
+        public Pagos(string pID_Pago, string pID_Cliente, string pID_Servicio, string pServicio, decimal pMonto, string pMesPagado, DateTime pFecha, string pAño_Pagado, string pID_Empleado)
         {
             this.ID_Pago = pID_Pago;
             this.ID_Cliente = pID_Cliente;
-            this.ID_TpServicio = pID_TpServicio;
+            this.ID_Servicio = pID_Servicio;
             this.Monto = pMonto;
             this.MesPagado = pMesPagado;
             this.Fecha = pFecha;

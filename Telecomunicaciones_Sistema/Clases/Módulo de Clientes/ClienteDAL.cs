@@ -18,7 +18,7 @@ namespace Telecomunicaciones_Sistema
             using (SqlConnection connection = BD.ObtenerConexion())
             {
                 connection.Open();
-                string query = "SELECT c.ID_Cliente, c.Nombre, c.Apellido, c.Teléfono, c.Correo, c.ID_Dirección, d.Dirección FROM Cliente C JOIN Dirección D on c.ID_Dirección = d.ID_Dirección";
+                string query = "SELECT c.ID_Cliente, c.Nombre, c.Apellido, c.Teléfono, c.Correo, c.ID_Dirección, d.Dirección FROM Clientes C JOIN Direcciones D on c.ID_Dirección = d.ID_Dirección";
                 SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
                 adapter.Fill(dataTable);
             }
@@ -35,8 +35,8 @@ namespace Telecomunicaciones_Sistema
                 connection.Open();
                 string query = @"
                 SELECT c.ID_Cliente, c.Nombre, c.Apellido, c.Teléfono, c.Correo, c.ID_Dirección, d.Dirección AS Dirección
-                FROM Cliente c
-                JOIN Dirección d ON c.ID_Dirección = d.ID_Dirección
+                FROM Clientes c
+                JOIN Direcciones d ON c.ID_Dirección = d.ID_Dirección
                 WHERE c.ID_Cliente LIKE @TextoBusqueda
                 OR c.Nombre LIKE @TextoBusqueda
                 OR c.Apellido LIKE @TextoBusqueda
@@ -57,22 +57,22 @@ namespace Telecomunicaciones_Sistema
             return dataTable;
         }
 
-        public static int ObtenerCantidadClientes()
+       /* public static int ObtenerCantidadClientes()
         {
             using (SqlConnection connection = BD.ObtenerConexion())
             {
                 connection.Open();
-                SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM Cliente", connection);
+                SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM Clientes", connection);
                 return (int)cmd.ExecuteScalar();
             }
-        }
+        }*/
 
         public static void ActualizarCliente(Clientes cliente)
         {
             using (SqlConnection connection = BD.ObtenerConexion())
             {
                 connection.Open();
-                SqlCommand cmd = new SqlCommand("UPDATE Cliente SET Nombre = @Nombre, Apellido = @Apellido, Teléfono = @Teléfono, Correo = @Correo, ID_Dirección = @ID_Dirección WHERE ID_Cliente = @ID_Cliente", connection);
+                SqlCommand cmd = new SqlCommand("UPDATE Clientes SET Nombre = @Nombre, Apellido = @Apellido, Teléfono = @Teléfono, Correo = @Correo, ID_Dirección = @ID_Dirección WHERE ID_Cliente = @ID_Cliente", connection);
                 cmd.Parameters.AddWithValue("@Nombre", cliente.Nombre);
                 cmd.Parameters.AddWithValue("@Apellido", cliente.Apellido);
                 cmd.Parameters.AddWithValue("@Teléfono", cliente.Teléfono);
@@ -90,7 +90,7 @@ namespace Telecomunicaciones_Sistema
                 using (SqlConnection connection = BD.ObtenerConexion())
                 {
                     connection.Open();
-                    SqlCommand cmd = new SqlCommand("INSERT INTO Cliente (Nombre, Apellido, Teléfono, Correo, ID_Dirección) VALUES (@Nombre, @Apellido, @Teléfono, @Correo, @ID_Dirección)", connection);
+                    SqlCommand cmd = new SqlCommand("INSERT INTO Clientes (Nombre, Apellido, Teléfono, Correo, ID_Dirección) VALUES (@Nombre, @Apellido, @Teléfono, @Correo, @ID_Dirección)", connection);
                     cmd.Parameters.AddWithValue("@Nombre", cliente.Nombre);
                     cmd.Parameters.AddWithValue("@Apellido", cliente.Apellido);
                     cmd.Parameters.AddWithValue("@Teléfono", cliente.Teléfono);
@@ -111,14 +111,14 @@ namespace Telecomunicaciones_Sistema
             using (SqlConnection connection = BD.ObtenerConexion())
             {
                 connection.Open();
-                SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM Cliente WHERE ID_Cliente = @ID_Cliente", connection);
+                SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM Clientes WHERE ID_Cliente = @ID_Cliente", connection);
                 cmd.Parameters.AddWithValue("@ID_Cliente", idCliente);
                 int count = (int)cmd.ExecuteScalar();
                 return count > 0; 
             }
         }
 
-        public static int ClienteDI(string idCliente, string correo, string telefono)
+        /*public static int ClienteDI(string idCliente, string correo, string telefono)
         {
             using (SqlConnection connection = BD.ObtenerConexion())
             {
@@ -149,8 +149,7 @@ namespace Telecomunicaciones_Sistema
                 // 1 para correo, 2 para teléfono, 0 para ninguno
                 return result != DBNull.Value ? Convert.ToInt32(result) : 0;
             }
-        }
-
+        }*/
 
         public static int ObtenerUltimoIDRegistrado()
         {
@@ -160,7 +159,7 @@ namespace Telecomunicaciones_Sistema
                 using (SqlConnection connection = BD.ObtenerConexion())
                 {
                     connection.Open();
-                    SqlCommand command = new SqlCommand("SELECT MAX(ID_Cliente) FROM Cliente", connection);
+                    SqlCommand command = new SqlCommand("SELECT MAX(ID_Cliente) FROM Clientes", connection);
                     object result = command.ExecuteScalar();
                     if (result != DBNull.Value && int.TryParse(result.ToString(), out int id))
                     {
@@ -173,11 +172,6 @@ namespace Telecomunicaciones_Sistema
                 MessageBox.Show("Error al obtener el último ID registrado: " + ex.Message);
             }
             return ultimoID;
-        }
-
-        internal static void ActualizarCliente(Registro_Cliente.Clientes nuevoCliente)
-        {
-            throw new NotImplementedException();
         }
     }
 }

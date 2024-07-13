@@ -12,11 +12,6 @@ namespace Telecomunicaciones_Sistema
 
         public string Contraseña { get; set; }
 
-        public InicioS()
-        {
-
-        }
-
         public InicioS(string iUsuario, string iContraseña)
         {
             this.Usuario = iUsuario;

@@ -18,11 +18,11 @@ namespace Telecomunicaciones_Sistema
 {
     class Validaciones
     {
-        public static bool CorreoValido(string correo)
+        /*public static bool CorreoValido(string correo)
         {
             string patron = @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
             return Regex.IsMatch(correo, patron);
-        }
+        }*/
 
         public static bool CamposVacios(string usuario, string contraseña)
         {

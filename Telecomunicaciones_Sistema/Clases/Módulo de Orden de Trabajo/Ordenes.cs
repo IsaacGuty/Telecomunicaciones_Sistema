@@ -8,7 +8,7 @@ namespace Telecomunicaciones_Sistema
 {
     public class Ordenes
     {
-        public string Num_Orden { get; set; }
+        public string ID_Orden { get; set; }
 
         public string Nombre { get; set; }
 

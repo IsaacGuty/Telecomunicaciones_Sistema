@@ -18,7 +18,7 @@ namespace Telecomunicaciones_Sistema
                 using (SqlConnection connection = BD.ObtenerConexion())
                 {
                     connection.Open();
-                    string query = "select e.ID_Empleado, e.Nombre_E, e.Apellido_E, e.Teléfono_E, e.Correo_E, e.ID_Dirección, d.Dirección, e.Puesto, e.Estado from Empleados e JOIN Dirección d ON e.ID_Dirección = d.ID_Dirección";
+                    string query = "select e.ID_Empleado, e.Nombre_E, e.Apellido_E, e.Teléfono_E, e.Correo_E, e.ID_Dirección, d.Dirección, e.Puesto, e.Estado from Empleados e JOIN Direcciones d ON e.ID_Dirección = d.ID_Dirección";
                     SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
                     adapter.Fill(dataTable);
                 }
@@ -39,7 +39,7 @@ namespace Telecomunicaciones_Sistema
                 string query = @"
                 SELECT e.ID_Empleado, e.Nombre_E, e.Apellido_E, e.Teléfono_E, e.Correo_E, e.ID_Dirección, d.Dirección, e.Puesto, e.Estado
                 FROM Empleados e
-                JOIN Dirección d ON e.ID_Dirección = d.ID_Dirección
+                JOIN Direcciones d ON e.ID_Dirección = d.ID_Dirección
                 WHERE e.ID_Empleado LIKE @Criterio
                 OR e.Nombre_E LIKE @Criterio
                 OR e.Apellido_E LIKE @Criterio
@@ -82,7 +82,7 @@ namespace Telecomunicaciones_Sistema
             using (SqlConnection connection = BD.ObtenerConexion())
             {
                 connection.Open();
-                SqlCommand cmd = new SqlCommand("INSERT INTO Empleados (ID_Empleado, Nombre_E, Apellido_E, Teléfono_E, Correo_E, ID_Dirección, Puesto, Estado) VALUES (@ID_Empleado, @Nombre_E, @Apellido_E, @Teléfono_E, @Correo_E, @ID_Dirección, @Puesto, @Estado)", connection);
+                SqlCommand cmd = new SqlCommand("INSERT INTO Empleados (ID_Empleado, Nombre_E, Apellido_E, Teléfono_E, Correo_E, ID_Dirección, Puesto, Estado, Contraseña) VALUES (@ID_Empleado, @Nombre_E, @Apellido_E, @Teléfono_E, @Correo_E, @ID_Dirección, @Puesto, @Estado, @Contraseña)", connection);
                 cmd.Parameters.AddWithValue("@ID_Empleado", empleado.ID_Empleado);
                 cmd.Parameters.AddWithValue("@Nombre_E", empleado.Nombre_E);
                 cmd.Parameters.AddWithValue("@Apellido_E", empleado.Apellido_E);
@@ -90,29 +90,16 @@ namespace Telecomunicaciones_Sistema
                 cmd.Parameters.AddWithValue("@Correo_E", empleado.Correo_E);
                 cmd.Parameters.AddWithValue("@ID_Dirección", empleado.ID_Dirección);
                 cmd.Parameters.AddWithValue("@Puesto", empleado.Puesto);
+                cmd.Parameters.AddWithValue("@Contraseña", empleado.Contraseña);
 
                 object estadoValue = (object)empleado.Estado ?? DBNull.Value;
                 cmd.Parameters.AddWithValue("@Estado", estadoValue);
 
                 cmd.ExecuteNonQuery();
-
-                AgregarCredencialesInicioSesion(empleado.ID_Empleado, contraseña);
             }
         }
 
-        public static void AgregarCredencialesInicioSesion(string idEmpleado, string contraseña)
-        {
-            using (SqlConnection connection = BD.ObtenerConexion())
-            {
-                connection.Open();
-                SqlCommand cmd = new SqlCommand("INSERT INTO Inicio_Sesión (ID_Usuario, Contraseña) VALUES (@ID_Usuario, @Contraseña)", connection);
-                cmd.Parameters.AddWithValue("@ID_Usuario", idEmpleado); // Usar "ID_Usuario" en lugar de "ID_Empleado"
-                cmd.Parameters.AddWithValue("@Contraseña", contraseña);
-                cmd.ExecuteNonQuery();
-            }
-        }
-
-        public static bool EmpleadoExiste(string idEmpleado)
+        /*public static bool EmpleadoExiste(string idEmpleado)
         {
             using (SqlConnection Conn = BD.ObtenerConexion())
             {
@@ -125,7 +112,7 @@ namespace Telecomunicaciones_Sistema
                     return count > 0;
                 }
             }
-        }
+        }*/
 
         public static int EmpleadoExisteConDatos(string idEmpleado, string correo, string telefono)
         {
@@ -163,7 +150,7 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
-        public static bool EmpleadoDI(string correo, string telefono, string idDireccion, string idEmpleado)
+        /*public static bool EmpleadoDI(string correo, string telefono, string idDireccion, string idEmpleado)
         {
             using (SqlConnection connection = BD.ObtenerConexion())
             {
@@ -176,7 +163,7 @@ namespace Telecomunicaciones_Sistema
                 int count = (int)cmd.ExecuteScalar();
                 return count > 0; 
             }
-        }
+        }*/
 
         public static DataTable ObtenerEmpleadosTecnicos()
         {

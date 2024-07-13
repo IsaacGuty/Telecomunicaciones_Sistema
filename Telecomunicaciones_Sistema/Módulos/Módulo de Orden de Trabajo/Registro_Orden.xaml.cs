@@ -149,7 +149,7 @@ namespace Telecomunicaciones_Sistema
                     txtApellido.Text = rowView["Apellido"].ToString();
                     txtDirección.Text = rowView["Dirección"].ToString();
                     txtNumT.Text = rowView["Teléfono"].ToString();
-                    txtTpServicio.Text = rowView["Servicio"].ToString();
+                    txtTpServicio.Text = rowView["Tipo_Servicio"].ToString();
                 }
             }
         }

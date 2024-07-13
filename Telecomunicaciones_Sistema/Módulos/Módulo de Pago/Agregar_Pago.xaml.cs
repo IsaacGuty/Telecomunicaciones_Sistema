@@ -33,7 +33,6 @@ namespace Telecomunicaciones_Sistema
         public static Agregar_Pago Instance { get; private set; }
 
         // Variable para indicar si se está modificando un pago existente
-        private bool esModificacion;
 
         // Constructor sin parámetros para agregar un nuevo pago
         public Agregar_Pago()
@@ -41,8 +40,6 @@ namespace Telecomunicaciones_Sistema
             InitializeComponent();
             pagos = new List<Pagos>(); // Inicialización de la lista de pagos
             Conn = BD.ObtenerConexion(); // Inicialización de la conexión a la base de datos
-            esModificacion = false; // Establecer el valor de esModificacion como falso
-            ActualizarLabel(); // Actualizar el contenido de la etiqueta según si se está modificando o agregando un pago
             txtIDP.Text = PagoDAL.ObtenerUltimoIDPago().ToString(); // Obtener el último ID_Pago de la base de datos y mostrarlo en txtIDP
             DateTime fechaActual = DateTime.Now; // Obtener la fecha actual y asignarla al campo txtFecha
             txtFecha.Text = fechaActual.ToString("yyyy-MM-dd");
@@ -51,37 +48,8 @@ namespace Telecomunicaciones_Sistema
             Instance = this; // Almacena la instancia actual
         }
 
-        // Constructor con parámetro de pago seleccionado para modificar un pago existente
-        public Agregar_Pago(Registro_Pago.Pagos pagoSeleccionado, bool esModificacion) : this()
-        {
-            // Asignación del pago seleccionado
-            this.pagoSeleccionado = pagoSeleccionado;
-            // Establecer el valor de esModificacion según el parámetro recibido
-            this.esModificacion = esModificacion;
-            // Mostrar los detalles del pago seleccionado
-            MostrarDetallesPago();
-            // Actualizar el contenido de la etiqueta según si se está modificando o agregando un pago
-            ActualizarLabel();
-        }
-
-        // Método para actualizar el contenido de la etiqueta según si se está modificando o agregando un pago
-        private void ActualizarLabel()
-        {
-            if (esModificacion)
-            {
-                lblNom.Content = "Modificar pago";
-            }
-            else
-            {
-                lblNom.Content = "Agregar un nuevo pago";
-            }
-        }
-
         // Objeto de conexión a la base de datos
         private SqlConnection Conn;
-
-        // Objeto para almacenar el pago seleccionado
-        private Registro_Pago.Pagos pagoSeleccionado;
 
         private void BtnAceptar_Click(object sender, RoutedEventArgs e)
         {
@@ -115,7 +83,7 @@ namespace Telecomunicaciones_Sistema
                     {
                         ID_Pago = txtIDP.Text,
                         ID_Cliente = txtIDC.Text,
-                        ID_TpServicio = ObtenerNumeroServicioSeleccionado(),
+                        ID_Servicio = ObtenerNumeroServicioSeleccionado(),
                         Monto = monto,
                         MesPagado = mesPagado, // Utiliza el contenido del mes seleccionado del ComboBox
                         ID_Empleado = txtNombreE.Text,
@@ -136,53 +104,9 @@ namespace Telecomunicaciones_Sistema
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al agregar/modificar el pago: " + ex.Message);
+                MessageBox.Show("Error al agregar el pago: " + ex.Message);
             }
             this.Close();
-        }
-
-        // Método para invocar el evento PagoModificado
-        private void OnPagoModificado()
-        {
-            PagoModificado?.Invoke(this, EventArgs.Empty);
-        }
-
-        // Método para mostrar los detalles del pago seleccionado en los campos del formulario
-        private void MostrarDetallesPago()
-        {
-            txtIDP.Text = pagoSeleccionado.ID_Pago;
-            txtIDC.Text = pagoSeleccionado.ID_Cliente;
-            txtMonto.Text = pagoSeleccionado.Monto;
-            txtFecha.Text = pagoSeleccionado.Fecha;
-            txtNombreE.Text = pagoSeleccionado.ID_Empleado;
-
-            // Verificar que el pago seleccionado tenga un mes pagado válido
-            if (!string.IsNullOrEmpty(pagoSeleccionado.MesPagado))
-            {
-                // Buscar el mes pagado en la lista de elementos del ComboBox cmbMes
-                string mesSeleccionado = pagoSeleccionado.MesPagado;
-                ComboBoxItem item = cmbMes.Items.Cast<ComboBoxItem>().FirstOrDefault(i => i.Content.ToString() == mesSeleccionado);
-
-                // Si se encuentra el mes, seleccionarlo
-                if (item != null)
-                {
-                    cmbMes.SelectedItem = item;
-                }
-            }
-
-            // Obtener el ID_TpServicio del pago seleccionado
-            string idTpServicioSeleccionado = pagoSeleccionado.ID_TpServicio;
-
-            // Recorrer los elementos del ComboBox y seleccionar el que coincide con el ID_TpServicio del pago seleccionado
-            foreach (ComboBoxItem item in cmbIDS.Items)
-            {
-                string[] partes = item.Content.ToString().Split('-');
-                if (partes.Length > 0 && partes[0].Trim() == idTpServicioSeleccionado)
-                {
-                    cmbIDS.SelectedItem = item;
-                    break;
-                }
-            }
         }
 
         private void BtnBusC_Click(object sender, RoutedEventArgs e)

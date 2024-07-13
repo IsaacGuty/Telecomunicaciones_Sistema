@@ -18,7 +18,7 @@ namespace Telecomunicaciones_Sistema
                 using (SqlConnection Conn = BD.ObtenerConexion())
                 {
                     Conn.Open();
-                    string query = "SELECT P.ID_Pago, P.ID_Cliente, C.nombre, C.apellido, P.Monto, P.ID_TpServicio, S.Servicio , P.Mes_Pagado, P.Fecha, P.ID_Empleado FROM Pagos P JOIN Cliente C ON P.ID_Cliente = C.ID_Cliente JOIN Servicios S on P.ID_TpServicio = S.ID_Servicio";
+                    string query = "SELECT P.ID_Pago, P.ID_Cliente, C.nombre, C.apellido, P.Monto, P.ID_Servicio, S.Tipo_Servicio , P.Mes_Pagado, P.Fecha, P.ID_Empleado FROM Pagos P JOIN Clientes C ON P.ID_Cliente = C.ID_Cliente JOIN Servicios S on P.ID_Servicio = S.ID_Servicio";
                     SqlDataAdapter adapter = new SqlDataAdapter(query, Conn);
                     DataSet dataSet = new DataSet();
                     adapter.Fill(dataSet, "Pago");
@@ -38,10 +38,10 @@ namespace Telecomunicaciones_Sistema
                 using (SqlConnection Conn = BD.ObtenerConexion())
                 {
                     Conn.Open();
-                    SqlCommand cmd = new SqlCommand("SET IDENTITY_INSERT Pagos ON; INSERT INTO Pagos (ID_Pago, ID_Cliente, ID_TpServicio, Monto, Mes_Pagado, Fecha, ID_Empleado) VALUES (@ID_Pago, @ID_Cliente, @ID_TpServicio, @Monto, @Mes_Pagado, @Fecha, @ID_Empleado); SET IDENTITY_INSERT Pagos OFF;", Conn);
+                    SqlCommand cmd = new SqlCommand("SET IDENTITY_INSERT Pagos ON; INSERT INTO Pagos (ID_Pago, ID_Cliente, ID_Servicio, Monto, Mes_Pagado, Fecha, ID_Empleado) VALUES (@ID_Pago, @ID_Cliente, @ID_Servicio, @Monto, @Mes_Pagado, @Fecha, @ID_Empleado); SET IDENTITY_INSERT Pagos OFF;", Conn);
                     cmd.Parameters.AddWithValue("@ID_Pago", pago.ID_Pago);
                     cmd.Parameters.AddWithValue("@ID_Cliente", pago.ID_Cliente);
-                    cmd.Parameters.AddWithValue("@ID_TpServicio", pago.ID_TpServicio);
+                    cmd.Parameters.AddWithValue("@ID_TpServicio", pago.ID_Servicio);
                     cmd.Parameters.AddWithValue("@Monto", pago.Monto);
 
                     if (!string.IsNullOrEmpty(pago.MesPagado))
@@ -96,7 +96,7 @@ namespace Telecomunicaciones_Sistema
                 using (SqlConnection Conn = BD.ObtenerConexion())
                 {
                     Conn.Open();
-                    string query = "SELECT P.ID_Pago, P.ID_Cliente, C.nombre, C.apellido, P.Monto, P.ID_TpServicio, S.Servicio , P.Mes_Pagado, P.Fecha, P.ID_Empleado FROM Pagos P JOIN Cliente C ON P.ID_Cliente = C.ID_Cliente JOIN Servicios S on P.ID_TpServicio = S.ID_Servicio WHERE P.ID_Cliente = @ID_Cliente";
+                    string query = "SELECT P.ID_Pago, P.ID_Cliente, C.nombre, C.apellido, P.Monto, P.ID_Servicio, S.Servicio , P.Mes_Pagado, P.Fecha, P.ID_Empleado FROM Pagos P JOIN Clientes C ON P.ID_Cliente = C.ID_Cliente JOIN Servicios S on P.ID_Servicio = S.ID_Servicio WHERE P.ID_Cliente = @ID_Cliente";
                     SqlCommand cmd = new SqlCommand(query, Conn);
                     cmd.Parameters.AddWithValue("@ID_Cliente", textoBusqueda);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
@@ -116,7 +116,7 @@ namespace Telecomunicaciones_Sistema
             List<Servicio> servicios = new List<Servicio>();
             using (SqlConnection conn = BD.ObtenerConexion())
             {
-                string query = "SELECT sc.ID_Servicio, s.Servicio " +
+                string query = "SELECT sc.ID_Servicio, s.Tipo_Servicio " +
                                "FROM ServicioCliente sc " +
                                "JOIN Servicios s ON sc.ID_Servicio = s.ID_Servicio " +
                                "WHERE sc.ID_Cliente = @ID_Cliente " +
@@ -132,7 +132,7 @@ namespace Telecomunicaciones_Sistema
                     Servicio servicio = new Servicio
                     {
                         ID_Servicio = reader["ID_Servicio"].ToString(),
-                        Nombre = reader["Servicio"].ToString()
+                        Nombre = reader["Tipo_Servicio"].ToString()
                     };
                     servicios.Add(servicio);
                 }

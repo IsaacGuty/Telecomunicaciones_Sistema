@@ -19,13 +19,13 @@ namespace Telecomunicaciones_Sistema
                 {
                     Conn.Open();
                     string query = @"
-                    SELECT c.Nombre, c.Apellido, d.Dirección, c.Teléfono, s.Servicio
-                    FROM Cliente c
-                    JOIN Dirección d ON d.ID_Dirección = c.ID_Dirección
+                    SELECT c.Nombre, c.Apellido, d.Dirección, c.Teléfono, s.Tipo_Servicio
+                    FROM Clientes c
+                    JOIN Direcciones d ON d.ID_Dirección = c.ID_Dirección
                     JOIN Pagos p ON p.ID_Cliente = c.ID_Cliente
-                    JOIN Servicios s ON s.ID_Servicio = p.ID_TpServicio
+                    JOIN Servicios s ON s.ID_Servicio = p.ID_Servicio
                     WHERE p.ID_Cliente = c.ID_Cliente
-                    GROUP BY c.Nombre, c.Apellido, d.Dirección, c.Teléfono, s.Servicio
+                    GROUP BY c.Nombre, c.Apellido, d.Dirección, c.Teléfono, s.Tipo_Servicio
                     ORDER BY c.Nombre, c.Apellido, d.Dirección, c.Teléfono;
                     ";
 
@@ -50,11 +50,11 @@ namespace Telecomunicaciones_Sistema
                     Conn.Open();
 
                     string query = @"
-                    SELECT c.Nombre, c.Apellido, d.Dirección, c.Teléfono, s.Servicio
-                    FROM Cliente c
-                    JOIN Dirección d ON d.ID_Dirección = c.ID_Dirección
+                    SELECT c.Nombre, c.Apellido, d.Dirección, c.Teléfono, s.Tipo_Servicio
+                    FROM Clientes c
+                    JOIN Direcciones d ON d.ID_Dirección = c.ID_Dirección
                     JOIN Pagos p ON p.ID_Cliente = c.ID_Cliente
-                    JOIN Servicios s ON s.ID_Servicio = p.ID_TpServicio
+                    JOIN Servicios s ON s.ID_Servicio = p.ID_Servicio
                     WHERE c.Nombre LIKE @criterio
                     OR c.Apellido LIKE @criterio
                     OR (c.Nombre + ' ' + c.Apellido) LIKE @criterio

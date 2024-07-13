@@ -65,7 +65,7 @@ namespace Telecomunicaciones_Sistema
             if (DT.Rows.Count > 0)
             {
                 // Si hay al menos una fila en el DataTable (es decir, se encontró un usuario)
-                string usuarioBD = DT.Rows[0]["ID_Usuario"].ToString(); // Almacena el ID de usuario desde la base de datos.
+                string usuarioBD = DT.Rows[0]["ID_Empleado"].ToString(); // Almacena el ID de usuario desde la base de datos.
                 string contraseñaBD = DT.Rows[0]["Contraseña"].ToString(); // Almacena la contraseña desde la base de datos.
 
                 // Verifica si los datos ingresados coinciden con los almacenados en la base de datos
@@ -81,7 +81,7 @@ namespace Telecomunicaciones_Sistema
                     Contraseña_L = contraseñaBD;
                     Rol_L = DT.Rows[0][4].ToString();
 
-                    IdUsuario = Convert.ToInt32(DT.Rows[0]["ID_Usuario"]); // Almacena el ID de usuario en una variable estática para su uso posterior
+                    IdUsuario = Convert.ToInt32(DT.Rows[0]["ID_Empleado"]); // Almacena el ID de usuario en una variable estática para su uso posterior
 
                     Menú ObjPrinci = new Menú(Usuario_L, Contraseña_L); // Crea una nueva instancia de la ventana Menú y la muestra
                     ObjPrinci.Show();

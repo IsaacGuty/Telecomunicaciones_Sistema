@@ -20,7 +20,7 @@ namespace Telecomunicaciones_Sistema
 
             using (SqlConnection connection = BD.ObtenerConexion())
             {
-                string query = "SELECT COUNT(*) FROM Inicio_Sesión WHERE ID_Usuario = @Usuario";
+                string query = "SELECT COUNT(*) FROM EMpleados WHERE ID_Empleado = @Usuario";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -37,7 +37,7 @@ namespace Telecomunicaciones_Sistema
 
         public static bool VerificarAntiguaContraseña(string usuario, string antiguaContra)
         {
-            string query = "SELECT Contraseña FROM Inicio_Sesión WHERE ID_Usuario = @Usuario";
+            string query = "SELECT Contraseña FROM Empleados WHERE ID_Empleado = @Usuario";
 
             using (SqlConnection connection = BD.ObtenerConexion())
             {
@@ -64,7 +64,7 @@ namespace Telecomunicaciones_Sistema
 
                 using (SqlConnection connection = BD.ObtenerConexion())
                 {
-                    string query = "UPDATE Inicio_Sesión SET Contraseña = @NuevaContra WHERE ID_Usuario = @Usuario";
+                    string query = "UPDATE Empleados SET Contraseña = @NuevaContra WHERE ID_Empleado = @Usuario";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
@@ -93,7 +93,7 @@ namespace Telecomunicaciones_Sistema
 
         private static string ContraAlm(string usuario)
         {
-            string query = "SELECT Contraseña FROM Inicio_Sesión WHERE ID_Usuario = @Usuario";
+            string query = "SELECT Contraseña FROM Empleados WHERE ID_Empleado = @Usuario";
 
             using (SqlConnection connection = BD.ObtenerConexion())
             {
@@ -114,9 +114,8 @@ namespace Telecomunicaciones_Sistema
             {
                 string query = @"
                     SELECT COUNT(*) 
-                    FROM Inicio_Sesión AS i
-                    JOIN Empleados AS e ON i.ID_Usuario = e.ID_Empleado
-                    WHERE i.ID_Usuario = @Usuario AND e.Correo_E = @Correo";
+                    FROM Empleados 
+                    WHERE ID_Empleado = @Usuario AND Correo_E = @Correo";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {

@@ -34,26 +34,13 @@ namespace Telecomunicaciones_Sistema
             ventana9 = new Agregar_Pago();
         }
 
-        // Clase para el diálogo de nuevo pago
-        public partial class NuevoPagoDialog : Window
-        {
-            // Propiedades para los datos del nuevo pago
-            public string ID_Pago { get; set; }
-            public string ID_Cliente { get; set; }
-            public decimal Monto { get; set; }
-            public string ID_TpServicio { get; set; }
-            public string MesPagado { get; set; }
-            public decimal Fecha { get; set; }
-            public string ID_Empleado { get; set; }
-        }
-
         // Estructura para representar los pagos
         public struct Pagos
         {
             public string ID_Pago;
             public string ID_Cliente;
             public string Monto;
-            public string ID_TpServicio;
+            public string ID_Servicio;
             public string MesPagado;
             public string Fecha;
             public string ID_Empleado;
@@ -113,7 +100,7 @@ namespace Telecomunicaciones_Sistema
                 {
                     ID_Pago = rowView["ID_Pago"].ToString(),
                     ID_Cliente = rowView["ID_Cliente"].ToString(),
-                    ID_TpServicio = rowView["ID_TpServicio"].ToString(),
+                    ID_Servicio = rowView["ID_Servicio"].ToString(),
                     Monto = rowView["Monto"].ToString(),
                     MesPagado = rowView["Mes_Pagado"].ToString(),
                     Fecha = rowView["Fecha"].ToString(),
