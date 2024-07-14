@@ -73,24 +73,6 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            // Crea una nueva instancia de la ventana principal y la muestra
-            Menú frmPr = new Menú(isInicio_Sesión: true);
-            frmPr.Show();
-
-            // Cierra esta ventana si no es la ventana principal
-            if (!isInicio_Sesión)
-            {
-                this.Close();
-            }
-        }
-
-        private void BtnImprimir_Click(object sender, RoutedEventArgs e)
-        {
-            // Implementación para imprimir
-        }
-
         private void BtnLimpiar_Click(object sender, RoutedEventArgs e)
         {
             // Limpia los campos de búsqueda
@@ -215,9 +197,10 @@ namespace Telecomunicaciones_Sistema
                     Dirección = txtDirección.Text,
                     Teléfono = Convert.ToDecimal(txtNumT.Text),
                     Servicio = txtTpServicio.Text,
-                    Tp_Servicio = valorSeleccionadoTipoT,
+                    Tipo_Trabajo = valorSeleccionadoTipoT,
                     Nombre_E = cmbNombreE.SelectedItem.ToString(),
-                    ID_Empleado = idEmpleado
+                    ID_Empleado = idEmpleado,
+                    Fecha_Orden = DateTime.Now
                 });
 
                 // Crear una instancia de Mostrar_Orden si no existe una instancia previa
@@ -234,7 +217,8 @@ namespace Telecomunicaciones_Sistema
                     Apellido = txtApellido.Text,
                     Dirección = txtDirección.Text,
                     Teléfono = Convert.ToDecimal(txtNumT.Text),
-                    Servicio = txtTpServicio.Text
+                    Servicio = txtTpServicio.Text,
+                    Fecha_Orden = DateTime.Now
                 };
 
                 // Actualizar los datos en la ventana5
@@ -294,12 +278,16 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
-        private void SetPlaceholderText()
+        private void BtnRegresar_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtBuscar.Text))
+            // Crea una nueva instancia de la ventana principal y la muestra
+            Menú frmPr = new Menú(isInicio_Sesión: true);
+            frmPr.Show();
+
+            // Cierra esta ventana si no es la ventana principal
+            if (!isInicio_Sesión)
             {
-                txtBuscar.Text = "Nombre, apellido";
-                txtBuscar.Foreground = new SolidColorBrush(Colors.Gray);
+                this.Close();
             }
         }
     }

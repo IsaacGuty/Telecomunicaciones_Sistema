@@ -26,16 +26,5 @@ namespace Telecomunicaciones_Sistema
         {
 
         }
-
-        public Pagos(string pID_Pago, string pID_Cliente, string pID_Servicio, string pServicio, decimal pMonto, string pMesPagado, DateTime pFecha, string pAño_Pagado, string pID_Empleado)
-        {
-            this.ID_Pago = pID_Pago;
-            this.ID_Cliente = pID_Cliente;
-            this.ID_Servicio = pID_Servicio;
-            this.Monto = pMonto;
-            this.MesPagado = pMesPagado;
-            this.Fecha = pFecha;
-            this.ID_Empleado = pID_Empleado;
-        }
     }
 }

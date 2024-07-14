@@ -18,7 +18,7 @@ namespace Telecomunicaciones_Sistema
                 using (SqlConnection connection = BD.ObtenerConexion())
                 {
                     connection.Open();
-                    string query = "select e.ID_Empleado, e.Nombre_E, e.Apellido_E, e.Teléfono_E, e.Correo_E, e.ID_Dirección, d.Dirección, e.Puesto, e.Estado from Empleados e JOIN Direcciones d ON e.ID_Dirección = d.ID_Dirección";
+                    string query = "select e.ID_Empleado, e.Nombre_E, e.Apellido_E, e.Teléfono_E, e.Correo_E, e.ID_Dirección, d.Dirección, e.Puesto, e.ID_Estado, ea.Tipo_Estado from Empleados e JOIN Direcciones d ON e.ID_Dirección = d.ID_Dirección JOIN Estado_Actividad ea ON e.ID_Estado = ea.ID_Estado";
                     SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
                     adapter.Fill(dataTable);
                 }
@@ -37,7 +37,7 @@ namespace Telecomunicaciones_Sistema
             {
                 conn.Open();
                 string query = @"
-                SELECT e.ID_Empleado, e.Nombre_E, e.Apellido_E, e.Teléfono_E, e.Correo_E, e.ID_Dirección, d.Dirección, e.Puesto, e.Estado
+                SELECT e.ID_Empleado, e.Nombre_E, e.Apellido_E, e.Teléfono_E, e.Correo_E, e.ID_Dirección, d.Dirección, e.Puesto, e.ID_Estado
                 FROM Empleados e
                 JOIN Direcciones d ON e.ID_Dirección = d.ID_Dirección
                 WHERE e.ID_Empleado LIKE @Criterio
@@ -64,25 +64,34 @@ namespace Telecomunicaciones_Sistema
             using (SqlConnection connection = BD.ObtenerConexion())
             {
                 connection.Open();
-                SqlCommand cmd = new SqlCommand("UPDATE Empleados SET Nombre_E = @Nombre_E, Apellido_E = @Apellido_E, Teléfono_E = @Teléfono_E, Correo_E = @Correo_E, ID_Dirección = @ID_Dirección, Puesto = @Puesto, Estado = @Estado WHERE ID_Empleado = @ID_Empleado", connection);
+                SqlCommand cmd = new SqlCommand("UPDATE Empleados SET Nombre_E = @Nombre_E, Apellido_E = @Apellido_E, Teléfono_E = @Teléfono_E, Correo_E = @Correo_E, ID_Dirección = @ID_Dirección, Puesto = @Puesto, ID_Estado = @ID_Estado WHERE ID_Empleado = @ID_Empleado", connection);
                 cmd.Parameters.AddWithValue("@Nombre_E", empleado.Nombre_E);
                 cmd.Parameters.AddWithValue("@Apellido_E", empleado.Apellido_E);
                 cmd.Parameters.AddWithValue("@Teléfono_E", empleado.Teléfono_E);
                 cmd.Parameters.AddWithValue("@Correo_E", empleado.Correo_E);
                 cmd.Parameters.AddWithValue("@ID_Dirección", empleado.ID_Dirección);
                 cmd.Parameters.AddWithValue("@Puesto", empleado.Puesto);
-                cmd.Parameters.AddWithValue("@Estado", empleado.Estado);
+
+                // Ensure ID_Estado is an integer
+                int idEstado;
+                if (!int.TryParse(empleado.ID_Estado, out idEstado))
+                {
+                    idEstado = 0; // Or handle the case appropriately
+                }
+                cmd.Parameters.AddWithValue("@ID_Estado", idEstado);
                 cmd.Parameters.AddWithValue("@ID_Empleado", empleado.ID_Empleado);
+
                 cmd.ExecuteNonQuery();
             }
         }
+
 
         public static void AgregarEmpleado(Empleados empleado, string contraseña)
         {
             using (SqlConnection connection = BD.ObtenerConexion())
             {
                 connection.Open();
-                SqlCommand cmd = new SqlCommand("INSERT INTO Empleados (ID_Empleado, Nombre_E, Apellido_E, Teléfono_E, Correo_E, ID_Dirección, Puesto, Estado, Contraseña) VALUES (@ID_Empleado, @Nombre_E, @Apellido_E, @Teléfono_E, @Correo_E, @ID_Dirección, @Puesto, @Estado, @Contraseña)", connection);
+                SqlCommand cmd = new SqlCommand("INSERT INTO Empleados (ID_Empleado, Nombre_E, Apellido_E, Teléfono_E, Correo_E, ID_Dirección, Puesto, ID_Estado, Contraseña) VALUES (@ID_Empleado, @Nombre_E, @Apellido_E, @Teléfono_E, @Correo_E, @ID_Dirección, @Puesto, @ID_Estado, @Contraseña)", connection);
                 cmd.Parameters.AddWithValue("@ID_Empleado", empleado.ID_Empleado);
                 cmd.Parameters.AddWithValue("@Nombre_E", empleado.Nombre_E);
                 cmd.Parameters.AddWithValue("@Apellido_E", empleado.Apellido_E);
@@ -90,10 +99,10 @@ namespace Telecomunicaciones_Sistema
                 cmd.Parameters.AddWithValue("@Correo_E", empleado.Correo_E);
                 cmd.Parameters.AddWithValue("@ID_Dirección", empleado.ID_Dirección);
                 cmd.Parameters.AddWithValue("@Puesto", empleado.Puesto);
-                cmd.Parameters.AddWithValue("@Contraseña", empleado.Contraseña);
+                cmd.Parameters.AddWithValue("@Contraseña", contraseña);
 
-                object estadoValue = (object)empleado.Estado ?? DBNull.Value;
-                cmd.Parameters.AddWithValue("@Estado", estadoValue);
+                object estadoValue = (object)empleado.ID_Estado ?? DBNull.Value;
+                cmd.Parameters.AddWithValue("@ID_Estado", estadoValue);
 
                 cmd.ExecuteNonQuery();
             }
@@ -173,7 +182,7 @@ namespace Telecomunicaciones_Sistema
                 using (SqlConnection connection = BD.ObtenerConexion())
                 {
                     connection.Open();
-                    string query = "SELECT * FROM Empleados WHERE Puesto = 'Tecnico' AND Estado = 'Activo'";
+                    string query = "SELECT * FROM Empleados WHERE Puesto = 'Tecnico' AND ID_Estado = '1'";
                     SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
                     adapter.Fill(dataTable);
                 }

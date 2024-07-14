@@ -39,7 +39,7 @@ namespace Telecomunicaciones_Sistema
         {
             InitializeComponent();
             cmbEstado.Items.Clear(); // Limpiar cualquier elemento existente
-            cmbEstado.Items.Add("Activo"); // Agregar solo la opción "Activo"
+            cmbEstado.Items.Add("1 - Activo"); // Agregar solo la opción "Activo"
             cmbEstado.SelectedIndex = 0; // Establecer "Activo" como seleccionado
         }
 
@@ -224,6 +224,11 @@ namespace Telecomunicaciones_Sistema
                 string[] partesDireccion = direccion.Split('-');
                 string numeroDireccion = partesDireccion[0].Trim();
 
+                // Extraer solo el número del estado
+                string estadoSeleccionado = cmbEstado.SelectedItem.ToString();
+                string[] partesEstado = estadoSeleccionado.Split('-');
+                string numeroEstado = partesEstado[0].Trim();
+
                 if (Validaciones.CamposEmpleadosVacios(txtIDE.Text, txtNombreE.Text, txtApellidoE.Text, txtTelefonoE.Text, txtCorreoE.Text, numeroDireccion))
                 {
                     MessageBox.Show("Todos los campos del empleado deben llenarse.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -239,7 +244,7 @@ namespace Telecomunicaciones_Sistema
                     Correo_E = txtCorreoE.Text,
                     ID_Dirección = numeroDireccion,
                     Puesto = (cmbPuesto.SelectedItem as ComboBoxItem)?.Content.ToString(),
-                    Estado = "Activo", // Establecer el estado como "Activo" por defecto
+                    ID_Estado = numeroEstado, // Establecer el estado como "Activo" por defecto
                 };
 
                 // Verificar si el texto del campo de teléfono es un número válido
@@ -421,11 +426,6 @@ namespace Telecomunicaciones_Sistema
         {
             // Llama al método de Validaciones para bloquear copiar, pegar y cortar
             Validaciones.BloquearControles(e);
-        }
-
-        public static implicit operator Agregar_Empleado(Modificar_Empleado v)
-        {
-            throw new NotImplementedException();
         }
     }
 }

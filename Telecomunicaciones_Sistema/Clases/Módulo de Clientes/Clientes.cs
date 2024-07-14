@@ -24,15 +24,5 @@ namespace Telecomunicaciones_Sistema
         {
 
         }
-
-        public Clientes(string cID_Cliente, string cNombre, string cApellido, decimal cTeléfono, string cCorreo, string cID_Dirección)
-        {
-            this.ID_Cliente = cID_Cliente;
-            this.Nombre = cNombre;
-            this.Apellido = cApellido;
-            this.Teléfono = cTeléfono;
-            this.Correo = cCorreo;
-            this.ID_Dirección = cID_Dirección;
-        }
     }
 }

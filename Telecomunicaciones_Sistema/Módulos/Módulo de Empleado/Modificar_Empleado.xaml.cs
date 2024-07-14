@@ -212,6 +212,17 @@ namespace Telecomunicaciones_Sistema
                 string[] partesDireccion = direccion.Split('-');
                 string numeroDireccion = partesDireccion[0].Trim();
 
+                // Extraer solo el número del estado
+                string estadoSeleccionado = ((ComboBoxItem)cmbEstado.SelectedItem)?.Content.ToString();
+                string[] partesEstado = estadoSeleccionado?.Split('-');
+                string numeroEstado = partesEstado[0].Trim();
+                int idEstado;
+                if (!int.TryParse(numeroEstado, out idEstado))
+                {
+                    MessageBox.Show("El estado seleccionado no es válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
                 // Crear el objeto EmpleadoModificado con los datos modificados
                 NuevoEmpleado = new Empleados
                 {
@@ -221,7 +232,7 @@ namespace Telecomunicaciones_Sistema
                     Correo_E = txtCorreoE.Text,
                     ID_Dirección = numeroDireccion,
                     Puesto = (cmbPuesto.SelectedItem as ComboBoxItem)?.Content.ToString(),
-                    Estado = (cmbEstado.SelectedItem as ComboBoxItem)?.Content.ToString(),
+                    ID_Estado = numeroEstado,
                 };
 
                 // Verificar si el texto del campo de teléfono es un número válido
@@ -248,7 +259,7 @@ namespace Telecomunicaciones_Sistema
                 MessageBox.Show("Empleado modificado correctamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 // Notificar que se modificó un empleado
-                EmpleadoModificado?.Invoke(this, EventArgs.Empty);
+                OnEmpleadoModificado();
 
                 // Cerrar la ventana
                 this.Close();
@@ -257,6 +268,15 @@ namespace Telecomunicaciones_Sistema
             {
                 MessageBox.Show("Error al modificar el empleado: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+
+            // Cierra la ventana después de procesar el empleado
+            this.Close();
+        }
+
+        // Método para llamar al evento EmpleadoAgregado
+        private void OnEmpleadoModificado()
+        {
+            EmpleadoModificado?.Invoke(this, EventArgs.Empty);
         }
 
         private void txtIDE_PreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -429,12 +449,13 @@ namespace Telecomunicaciones_Sistema
             }
 
             // Obtener el estado del empleado seleccionado
-            string estadoEmpleado = empleadoSeleccionado.Estado;
+            string estadoEmpleado = empleadoSeleccionado.ID_Estado;
 
             // Buscar el estado en los elementos del ComboBox
             foreach (ComboBoxItem item in cmbEstado.Items)
             {
-                if (item.Content.ToString() == estadoEmpleado)
+                string estado = item.Content?.ToString().Split('-')[0].Trim(); // Obtener solo el número de estado
+                if (estado == estadoEmpleado)
                 {
                     // Establecer el elemento correspondiente como seleccionado en el ComboBox cmbEstado
                     cmbEstado.SelectedItem = item;

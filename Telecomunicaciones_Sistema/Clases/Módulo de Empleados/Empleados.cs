@@ -15,24 +15,11 @@ namespace Telecomunicaciones_Sistema
         public string Correo_E { get; set; }
         public string ID_Dirección { get; set; }
         public string Puesto { get; set; }
-        public string Estado { get; set; }
+        public string ID_Estado { get; set; }
         public string Contraseña { get; set; } 
 
         public Empleados()
         {
-        }
-
-        public Empleados(string eID_Empleado, string eNombre_E, string eApellido_E, decimal eTeléfono_E, string eCorreo_E, string eID_Dirección, string ePuesto, string eEstado, string eContraseña)
-        {
-            this.ID_Empleado = eID_Empleado;
-            this.Nombre_E = eNombre_E;
-            this.Apellido_E = eApellido_E;
-            this.Teléfono_E = eTeléfono_E;
-            this.Correo_E = eCorreo_E;
-            this.ID_Dirección = eID_Dirección;
-            this.Puesto = ePuesto;
-            this.Estado = eEstado;
-            this.Contraseña = eContraseña; // Inicializa la nueva propiedad Contraseña
         }
     }
 }

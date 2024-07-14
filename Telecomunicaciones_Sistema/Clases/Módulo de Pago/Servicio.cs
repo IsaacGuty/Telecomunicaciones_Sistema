@@ -15,11 +15,5 @@ namespace Telecomunicaciones_Sistema
         {
 
         }
-
-        public Servicio(string sID_Servicio, string sNombre)
-        {
-            this.ID_Servicio = sID_Servicio;
-            this.Nombre = sNombre;
-        }
     }
 }

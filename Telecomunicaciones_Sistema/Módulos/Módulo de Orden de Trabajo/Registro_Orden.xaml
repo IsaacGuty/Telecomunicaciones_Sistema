@@ -18,7 +18,7 @@
     </Window.Resources>
 
     <Grid Height="570" Margin="0,0,-0.4,0" VerticalAlignment="Top">
-        <Button x:Name="btnRegresar" Content="Regresar" HorizontalAlignment="Left" Margin="586,366,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontWeight="Bold" FontSize="14" Click="Button_Click" TabIndex="8"/>
+        <Button x:Name="btnRegresar" Content="Regresar" HorizontalAlignment="Left" Margin="586,366,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontWeight="Bold" FontSize="14" Click="BtnRegresar_Click" TabIndex="8"/>
         <Button x:Name="BtnLimpiar" Content="Limpiar" HorizontalAlignment="Left" Margin="586,412,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnLimpiar_Click" TabIndex="9"/>
         <Label Content="Orden de trabajo" HorizontalAlignment="Left" Margin="133,41,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="24" FontWeight="Bold" Width="195"/>
         <DataGrid x:Name="DatGridOT" HorizontalAlignment="Left" Height="152" Margin="97,142,0,0" VerticalAlignment="Top" Width="504" SelectionChanged="DatGridOT_SelectionChanged" KeyboardNavigation.TabNavigation="None"/>

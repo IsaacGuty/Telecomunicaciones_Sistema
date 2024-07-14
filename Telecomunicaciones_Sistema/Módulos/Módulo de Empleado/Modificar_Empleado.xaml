@@ -58,8 +58,8 @@
             <ComboBoxItem>Secretaria</ComboBoxItem>
         </ComboBox>
         <ComboBox x:Name="cmbEstado" HorizontalAlignment="Center" Margin="0,228,0,0" Grid.Row="2" VerticalAlignment="Top" Width="206" Height="25" FontFamily="Times New Roman" FontSize="14" Grid.Column="1" TabIndex="8">
-            <ComboBoxItem>Activo</ComboBoxItem>
-            <ComboBoxItem>Inactivo</ComboBoxItem>
+            <ComboBoxItem>1 - Activo</ComboBoxItem>
+            <ComboBoxItem>2 - Inactivo</ComboBoxItem>
         </ComboBox>
         <Image Margin="15,15,574,38" Source="/logoTele.png" Stretch="Fill" Grid.ColumnSpan="2" Grid.Row="1"/>
     </Grid>

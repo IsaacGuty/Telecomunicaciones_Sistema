@@ -48,7 +48,7 @@ namespace Telecomunicaciones_Sistema
             public string Correo_E;
             public string ID_Dirección;
             public string Puesto;
-            public string Estado;
+            public string ID_Estado;
         }
 
         private SqlConnection Conn; // Conexión a la base de datos
@@ -175,7 +175,7 @@ namespace Telecomunicaciones_Sistema
                     Correo_E = rowView["Correo_E"].ToString(),
                     ID_Dirección = rowView["ID_Dirección"].ToString(),
                     Puesto = rowView["Puesto"].ToString(),
-                    Estado = rowView["Estado"].ToString()
+                    ID_Estado = rowView["ID_Estado"].ToString()
                 };
             }
             else

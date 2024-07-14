@@ -26,15 +26,6 @@ namespace Telecomunicaciones_Sistema
         {
             InitializeComponent();
 
-            txtNombre.IsReadOnly = true;
-            txtDirección.IsReadOnly = true;
-            txtNumT.IsReadOnly = true;
-            txtServicio.IsReadOnly = true;
-            txtFecha.IsReadOnly = true;
-            txtTrabajo.IsReadOnly = true;
-            txtIDE.IsReadOnly = true;
-            txtNombre_E.IsReadOnly = true;
-
             // Comprobar si DatosOrden no es nulo antes de asignar los valores
             if (DatosOrden != null)
             {

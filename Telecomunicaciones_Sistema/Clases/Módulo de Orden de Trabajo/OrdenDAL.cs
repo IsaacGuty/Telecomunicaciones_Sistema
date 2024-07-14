@@ -86,16 +86,17 @@ namespace Telecomunicaciones_Sistema
                 using (SqlConnection Conn = BD.ObtenerConexion())
                 {
                     Conn.Open();
-                    string query = "INSERT INTO Ordenes (Nombre, Apellido, Dirección, Teléfono, Servicio, Tp_Servicio, Nombre_E, ID_Empleado) VALUES (@Nombre, @Apellido, @Dirección, @Teléfono, @Servicio, @Tp_Servicio, @Nombre_E, @ID_Empleado)";
+                    string query = "INSERT INTO Ordenes (Nombre, Apellido, Dirección, Teléfono, Servicio, Tipo_Trabajo, Nombre_E, ID_Empleado, Fecha_Orden) VALUES (@Nombre, @Apellido, @Dirección, @Teléfono, @Servicio, @Tipo_Trabajo, @Nombre_E, @ID_Empleado, @Fecha_Orden)";
                     SqlCommand command = new SqlCommand(query, Conn);
                     command.Parameters.AddWithValue("@Nombre", orden.Nombre);
                     command.Parameters.AddWithValue("@Apellido", orden.Apellido);
                     command.Parameters.AddWithValue("@Dirección", orden.Dirección);
                     command.Parameters.AddWithValue("@Teléfono", orden.Teléfono);
                     command.Parameters.AddWithValue("@Servicio", orden.Servicio);
-                    command.Parameters.AddWithValue("@Tp_Servicio", orden.Tp_Servicio);
+                    command.Parameters.AddWithValue("@Tipo_Trabajo", orden.Tipo_Trabajo);
                     command.Parameters.AddWithValue("@Nombre_E", orden.Nombre_E);
                     command.Parameters.AddWithValue("@ID_Empleado", orden.ID_Empleado);
+                    command.Parameters.AddWithValue("@Fecha_Orden", orden.Fecha_Orden); // Nueva línea para la fecha
                     command.ExecuteNonQuery();
                 }
             }
@@ -104,6 +105,5 @@ namespace Telecomunicaciones_Sistema
                 throw new Exception("Error al guardar la orden: " + ex.Message);
             }
         }
-
     }
 }
