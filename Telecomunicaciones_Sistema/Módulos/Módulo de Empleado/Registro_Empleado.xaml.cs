@@ -139,7 +139,7 @@ namespace Telecomunicaciones_Sistema
             {
                 if (!EmpleadoSeleccionado.Equals(default(Empleados)))
                 {
-                    // Crear una nueva ventana para modificar el cliente seleccionado
+                    // Crear una nueva ventana para modificar el empleado seleccionado
                     Modificar_Empleado = new Modificar_Empleado(EmpleadoSeleccionado, true);
                     Modificar_Empleado.EmpleadoModificado += ActualizarDatosEmpleado;
                     Modificar_Empleado.Closed += (s, args) => CargarDatos(); // Refrescar los datos del DataGrid cuando se cierre la ventana 8

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Telecomunicaciones_Sistema"
         mc:Ignorable="d"
-        Title="Sistema en telecomunicaciones" Height="500" Width="700"
+        Title="Sistema en telecomunicaciones" Height="500" Width="780"
         WindowStartupLocation="CenterScreen"
         Background="LightBlue"
             ResizeMode="CanMinimize">
@@ -27,14 +27,13 @@
             <ColumnDefinition Width="228*"/>
             <ColumnDefinition Width="108*"/>
         </Grid.ColumnDefinitions>
-        <Label Content="Bienvenido Empleado" Grid.Column="1" HorizontalAlignment="Left" Margin="133.8,159,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="24" FontWeight="Bold" Width="245" Grid.RowSpan="2"/>
-        <Label Content="Seleccione el tipo de trabajo a realizar:" Grid.Column="1" HorizontalAlignment="Left" Margin="139.8,63,0,0" VerticalAlignment="Top" Grid.Row="1" FontFamily="Times New Roman" FontSize="14" Width="226"/>
-        <Button x:Name="btnRegistro" Content="Registro de Clientes" HorizontalAlignment="Left" Margin="66,135,0,0" VerticalAlignment="Top" Width="131" FontWeight="Bold" FontFamily="Times New Roman" FontSize="14" Click="Btn_Registro_Click" Grid.Row="1" Grid.ColumnSpan="2" TabIndex="0"/>
-        <Button x:Name="btnPago" Content="Pago" Grid.Column="1" HorizontalAlignment="Left" Margin="118.8,135,0,0" VerticalAlignment="Top" Width="75" FontSize="14" FontFamily="Times New Roman" FontWeight="Bold" Click="Btn_Pago" Grid.Row="1" TabIndex="1"/>
-        <Button x:Name="Btn_OrT" Content="Orden de trabajo" Grid.Column="1" HorizontalAlignment="Left" Margin="399.8,135,0,0" VerticalAlignment="Top" Width="124" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="Button_Click_1" Grid.Row="1" Grid.ColumnSpan="2" TabIndex="4"/>
-        <Button x:Name="btnSalir" Content="Salir" Grid.Column="2" HorizontalAlignment="Left" Margin="43.4,223,0,0" Grid.Row="1" VerticalAlignment="Top" Width="78" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnSalir_Click" TabIndex="6"/>
-        <Image Margin="194.8,45,104,28.2" Source="logoTele.png" Stretch="Fill" Grid.Column="1"/>
-        <Button x:Name="BtnEmpleados" Content="Registro de Empleados" Grid.Column="1" HorizontalAlignment="Left" Margin="220.8,135,0,0" Grid.Row="1" VerticalAlignment="Top" Width="154" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnEmpleados_Click" TabIndex="2"/>
+        <Label Content="Bienvenido Empleado" Grid.Column="1" HorizontalAlignment="Left" Margin="156,170,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="24" FontWeight="Bold" Width="245" Grid.RowSpan="2"/>
+        <Label Content="Seleccione el tipo de trabajo a realizar:" Grid.Column="1" HorizontalAlignment="Left" Margin="162,75,0,0" VerticalAlignment="Top" Grid.Row="1" FontFamily="Times New Roman" FontSize="14" Width="226"/>
+        <Button x:Name="btnRegistro" Content="Registro de Clientes" HorizontalAlignment="Left" Margin="13,0,0,0" VerticalAlignment="Center" Width="131" FontWeight="Bold" FontFamily="Times New Roman" FontSize="14" Click="Btn_Registro_Click" Grid.Row="1" Grid.ColumnSpan="2" TabIndex="0"/>
+        <Button x:Name="btnPago" Content="Registro de Pagos" Grid.Column="1" HorizontalAlignment="Left" Margin="40,0,0,0" VerticalAlignment="Center" Width="123" FontSize="14" FontFamily="Times New Roman" FontWeight="Bold" Click="Btn_Pago" Grid.Row="1" TabIndex="1"/>
+        <Button x:Name="Btn_OrT" Content="Orden de trabajo" Grid.Column="2" HorizontalAlignment="Left" Margin="67,0,0,0" VerticalAlignment="Center" Width="124" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnOrden_Click" Grid.Row="1" TabIndex="4"/>
+        <Button x:Name="btnSalir" Content="Salir" Grid.Column="2" HorizontalAlignment="Left" Margin="112,238,0,0" Grid.Row="1" VerticalAlignment="Top" Width="78" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnSalir_Click" TabIndex="6"/>
+        <Button x:Name="BtnEmpleados" Content="Registro de Empleados" Grid.Column="1" HorizontalAlignment="Left" Margin="176,0,0,0" Grid.Row="1" VerticalAlignment="Center" Width="154" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnEmpleados_Click" TabIndex="2"/>
         <Label Content="Usuario:" HorizontalAlignment="Left" Margin="10,1,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontWeight="Bold"/>
         <Label Content="Cargo:" HorizontalAlignment="Left" Margin="10,25,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontWeight="Bold"/>
         <Label x:Name="lblUsuario" Content="" HorizontalAlignment="Left" Margin="89,1,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" Grid.ColumnSpan="2" Width="212" FontWeight="Bold"/>
@@ -58,6 +57,8 @@
                 <Button Content="Cancelar" Click="CancelButton_Click" FontFamily="Times New Roman" FontSize="12" Margin="5,0,0,0"/>
             </StackPanel>
         </StackPanel>
+        <Button x:Name="BtnTrasnporte" Content="Registro de Transportes" Grid.Column="1" HorizontalAlignment="Left" Margin="343,0,0,0" Grid.Row="1" VerticalAlignment="Center" Width="154" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" TabIndex="2" Grid.ColumnSpan="2" Click="BtnTrasnporte_Click"/>
+        <Image Margin="229,43,116,30" Source="/logoTele.png" Stretch="Fill" Grid.Column="1"/>
 
     </Grid>
 </Window>

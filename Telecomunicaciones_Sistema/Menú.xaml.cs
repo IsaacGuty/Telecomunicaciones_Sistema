@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -48,6 +48,7 @@ namespace Telecomunicaciones_Sistema
             btnPago.IsEnabled = Validaciones.IsGerenteGeneral(rol) || Validaciones.IsSecretaria(rol);
             Btn_OrT.IsEnabled = Validaciones.IsGerenteGeneral(rol) || Validaciones.IsSecretaria(rol) || Validaciones.IsTecnico(rol) || Validaciones.IsGerenteTecnico(rol);
             BtnEmpleados.IsEnabled = Validaciones.IsGerenteGeneral(rol);
+            BtnTrasnporte.IsEnabled = Validaciones.IsGerenteGeneral(rol);
         }
 
         private void Btn_Registro_Click(object sender, RoutedEventArgs e)
@@ -72,7 +73,7 @@ namespace Telecomunicaciones_Sistema
         }
 
         // Controlador del evento de clic del botón para mostrar órdenes de trabajo
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void BtnOrden_Click(object sender, RoutedEventArgs e)
         {
             // Abre una nueva ventana (Registro_Orden) para mostrar órdenes de trabajo
             Registro_Orden formularioO = new Registro_Orden();
@@ -82,8 +83,16 @@ namespace Telecomunicaciones_Sistema
 
         private void BtnEmpleados_Click(object sender, RoutedEventArgs e)
         {
-            Registro_Empleado formularioO = new Registro_Empleado(); // Abre una nueva ventana (Registro_Empleado) para mostrar empleados
-            formularioO.Show(); // Muestra la ventana de empleados
+            Registro_Empleado formularioE = new Registro_Empleado(); // Abre una nueva ventana (Registro_Empleado) para mostrar empleados
+            formularioE.Show(); // Muestra la ventana de empleados
+            this.Hide(); // Oculta la ventana actual
+        }
+
+        private void BtnTrasnporte_Click(object sender, RoutedEventArgs e)
+        {
+            // Abre una nueva ventana (Registro_Transporte) para mostrar los transportes 
+            Registro_Transporte formularioT = new Registro_Transporte();
+            formularioT.Show(); // Muestra la ventana de transporte de trabajo
             this.Hide(); // Oculta la ventana actual
         }
 

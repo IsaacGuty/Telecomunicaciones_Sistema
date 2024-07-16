@@ -62,6 +62,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Clases\Módulo de Transporte\Transporte.cs" />
+    <Compile Include="Clases\Módulo de Transporte\TransporteDAL.cs" />
     <Compile Include="Módulos\Módulo de Cliente\Modificar_Cliente.xaml.cs">
       <DependentUpon>Modificar_Cliente.xaml</DependentUpon>
     </Compile>
@@ -209,8 +211,29 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Módulos\Módulo de Transporte\Modificar_Transporte.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Módulos\Módulo de Transporte\Agregar_Transporte.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Módulos\Módulo de Transporte\Registro_Transporte.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Módulos\Módulo de Transporte\Modificar_Transporte.xaml.cs">
+      <DependentUpon>Modificar_Transporte.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Módulos\Módulo de Transporte\Agregar_Transporte.xaml.cs">
+      <DependentUpon>Agregar_Transporte.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Módulos\Módulo de Transporte\Registro_Transporte.xaml.cs">
+      <DependentUpon>Registro_Transporte.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -228,6 +251,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -263,6 +287,8 @@
   <ItemGroup>
     <Resource Include="Módulos\Módulo de Pago\buscar.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Módulos\Módulo de Transporte\buscar.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

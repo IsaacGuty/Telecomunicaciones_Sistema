@@ -65,7 +65,6 @@ namespace Telecomunicaciones_Sistema
             {
                 DataTable dataTable = ClienteDAL.ObtenerTodosClientes(); // Obtener datos de clientes desde la base de datos
                 DatGridRC.ItemsSource = dataTable.DefaultView; // Mostrar los datos en el DataGrid
-                DatGridRC.IsReadOnly = true; // Establecer el DataGrid como solo lectura
             }
             catch (Exception ex)
             {

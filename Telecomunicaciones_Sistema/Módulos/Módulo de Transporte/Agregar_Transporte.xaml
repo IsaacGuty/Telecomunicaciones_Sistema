@@ -1,0 +1,44 @@
+﻿<Window x:Class="Telecomunicaciones_Sistema.Agregar_Transporte"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Telecomunicaciones_Sistema"
+        mc:Ignorable="d"
+        Title="Sistema en telecomuniciones" Height="500" Width="720"
+        WindowStartupLocation="CenterScreen"
+        Background="LightBlue"
+        ResizeMode="CanMinimize">
+
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="Black"/>
+        </Style>
+    </Window.Resources>
+    <Grid HorizontalAlignment="Left" Width="720">
+        <Label x:Name="lblNom" Content="Agregar un nuevo transporte" HorizontalAlignment="Left" Margin="131,37,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="24" FontWeight="Bold" Width="318"/>
+        <Image Margin="87,45,548.6,469" Source="logoTele.png" Stretch="Fill"/>
+        <Label Content="ID Placa:" HorizontalAlignment="Left" Margin="212,92,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
+        <TextBox x:Name="txtIDP" PreviewKeyDown="txtIDP_PreviewKeyDown" PreviewTextInput="txtIDP_PreviewTextInput" MaxLength="7" HorizontalAlignment="Left" Height="23" Margin="305,95,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14" TabIndex="0"/>
+        <Button x:Name="btnAceptar" Content="Aceptar" HorizontalAlignment="Left" Margin="258,424,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" TabIndex="6" Click="btnAceptar_Click"/>
+        <Label Content="Marca:" HorizontalAlignment="Left" Margin="224,134,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Width="54"/>
+        <TextBox x:Name="txtMarca" PreviewKeyDown="InputControl_PreviewKeyDown" MaxLength="20" HorizontalAlignment="Left" Height="23" Margin="305,137,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14" TabIndex="1"/>
+        <Label Content="Modelo:" HorizontalAlignment="Left" Margin="219,181,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
+        <TextBox x:Name="txtModelo" PreviewKeyDown="InputControl_PreviewKeyDown" HorizontalAlignment="Left" Height="23" Margin="305,184,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14" TabIndex="2" MaxLength="20"/>
+        <Label Content="Pago de matrícula:" HorizontalAlignment="Left" Margin="154,266,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
+        <Label Content="Año:" HorizontalAlignment="Left" Margin="239,310,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
+        <TextBox x:Name="txtAño" PreviewKeyDown="txtAño_PreviewKeyDown" PreviewTextInput="txtAño_PreviewTextInput" MaxLength="4" HorizontalAlignment="Left" Height="23" Margin="305,313,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14" TabIndex="4"/>
+        <Label Content="Estado:" HorizontalAlignment="Left" Margin="222,357,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
+        <ComboBox x:Name="cmbEstado" HorizontalAlignment="Left" Margin="305,357,0,0" VerticalAlignment="Top" Width="206" Height="25" FontFamily="Times New Roman" FontSize="14" TabIndex="5">
+            <ComboBoxItem>1 - Activo</ComboBoxItem>
+            <ComboBoxItem>2 - Inactivo</ComboBoxItem>
+        </ComboBox>
+        <Button x:Name="btnRegresar" Content="Regresar" HorizontalAlignment="Left" Margin="391,424,0,0" VerticalAlignment="Top" Width="82" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" TabIndex="7" Click="btnRegresar_Click"/>
+        <Image Margin="15,21,590,356" Source="/logoTele.png" Stretch="Fill"/>
+        <DatePicker x:Name="Fecha_Pago" HorizontalAlignment="Left" Margin="305,269,0,0" VerticalAlignment="Top" Height="23" Width="206" FontFamily="Times New Roman" FontSize="14"/>
+        <Label Content="Color:" HorizontalAlignment="Left" Margin="219,225,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
+        <TextBox x:Name="txtColor" PreviewKeyDown="InputControl_PreviewKeyDown" PreviewTextInput="txtColor_PreviewTextInput" HorizontalAlignment="Left" Height="23" Margin="305,229,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14" TabIndex="2" MaxLength="20"/>
+    </Grid>
+</Window>
+

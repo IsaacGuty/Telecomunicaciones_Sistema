@@ -369,6 +369,17 @@ namespace Telecomunicaciones_Sistema
             return true;
         }
 
+        public static bool BusquedaTValida(string texto, out string mensaje)
+        {
+            mensaje = string.Empty;
+            if (string.IsNullOrEmpty(texto) || texto == "ID Placa, Marca")
+            {
+                mensaje = "Debe ingresar el ID_Placa o Marca, para realizar la búsqueda.";
+                return false;
+            }
+            return true;
+        }
+
         public static bool BusquedaOValida(string texto, out string mensaje)
         {
             mensaje = string.Empty;
@@ -402,6 +413,34 @@ namespace Telecomunicaciones_Sistema
                 {
                     mensajeError = "No se permiten caracteres especiales en el número de teléfono.";
                 }
+                return false;
+            }
+
+            return true;
+        }
+
+        public static bool ValidarColor(string color, out string mensajeError)
+        {
+            mensajeError = string.Empty;
+
+            // Verificar longitud máxima de 20 caracteres
+            if (color.Length > 20)
+            {
+                mensajeError = "El color no puede tener más de 20 caracteres.";
+                return false;
+            }
+
+            // Verificar que solo contenga letras y espacios
+            if (!Regex.IsMatch(color, @"^[a-zA-Z ]+$"))
+            {
+                mensajeError = "El color no puede contener caracteres especiales ni números.";
+                return false;
+            }
+
+            // Verificar que no contenga números
+            if (Regex.IsMatch(color, @"\d"))
+            {
+                mensajeError = "El color no puede contener números.";
                 return false;
             }
 
@@ -444,6 +483,34 @@ namespace Telecomunicaciones_Sistema
             {
                 // Verifica si la tecla presionada es la barra espaciadora
                 mensajeError = "No se permiten espacios en blanco en el ID del empleado.";
+                return false;
+            }
+
+            return true;
+        }
+
+        public static bool ValidarTeclaEspacioIDP(KeyEventArgs e, out string mensajeError)
+        {
+            mensajeError = string.Empty;
+
+            if (e.Key == Key.Space)
+            {
+                // Verifica si la tecla presionada es la barra espaciadora
+                mensajeError = "No se permiten espacios en blanco en el ID Placa.";
+                return false;
+            }
+
+            return true;
+        }
+
+        public static bool ValidarTeclaEspacioAño(KeyEventArgs e, out string mensajeError)
+        {
+            mensajeError = string.Empty;
+
+            if (e.Key == Key.Space)
+            {
+                // Verifica si la tecla presionada es la barra espaciadora
+                mensajeError = "No se permiten espacios en blanco en el ID Placa.";
                 return false;
             }
 
@@ -534,5 +601,59 @@ namespace Telecomunicaciones_Sistema
 
             return true;
         }
+
+        public static bool ValidarPlaca(string placa)
+        {
+            // Expresión regular que permite exactamente 3 letras seguidas de exactamente 4 números
+            Regex regex = new Regex(@"^[A-Za-z]{3}\d{4}$");
+
+            // Validar la placa utilizando la expresión regular
+            return regex.IsMatch(placa);
+        } 
+
+        public static bool MMValido(string nombre)
+        {
+            // Expresión regular para verificar que el nombre contenga solo dos palabras separadas por un espacio
+            Regex regex = new Regex(@"^\p{L}+(?: \p{L}+)?$");
+
+            // Verifica si el nombre coincide con la expresión regular
+            return regex.IsMatch(nombre);
+        }
+
+        public static bool ValidarIDPC(string texto, out string mensajeError)
+        {
+            mensajeError = string.Empty;
+
+            // Verificar que no contenga caracteres especiales
+            if (!Regex.IsMatch(texto, @"^[a-zA-Z0-9]+$"))
+            {
+                mensajeError = "El IDP no puede contener caracteres especiales.";
+                return false;
+            }
+
+            return true;
+        }
+
+        public static bool ValidarAño(string texto, out string mensajeError)
+        {
+            mensajeError = string.Empty;
+
+            // Verificar que no contenga letras
+            if (Regex.IsMatch(texto, @"[a-zA-Z]"))
+            {
+                mensajeError = "El año no puede contener letras.";
+                return false;
+            }
+
+            // Verificar que no contenga caracteres especiales
+            if (!Regex.IsMatch(texto, @"^[0-9]+$"))
+            {
+                mensajeError = "El año no puede contener caracteres especiales.";
+                return false;
+            }
+
+            return true;
+        }
+
     }
 }

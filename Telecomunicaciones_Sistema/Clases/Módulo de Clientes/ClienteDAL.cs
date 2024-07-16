@@ -57,16 +57,6 @@ namespace Telecomunicaciones_Sistema
             return dataTable;
         }
 
-       /* public static int ObtenerCantidadClientes()
-        {
-            using (SqlConnection connection = BD.ObtenerConexion())
-            {
-                connection.Open();
-                SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM Clientes", connection);
-                return (int)cmd.ExecuteScalar();
-            }
-        }*/
-
         public static void ActualizarCliente(Clientes cliente)
         {
             using (SqlConnection connection = BD.ObtenerConexion())
