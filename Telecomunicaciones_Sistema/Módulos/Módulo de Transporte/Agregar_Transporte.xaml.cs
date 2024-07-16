@@ -66,9 +66,10 @@ namespace Telecomunicaciones_Sistema
                     return;
                 }
 
-                if (!Validaciones.ValidarPlaca(txtIDP.Text))
+                string mensajeError;
+                if (!Validaciones.ValidarPlaca(txtIDP.Text, out mensajeError))
                 {
-                    MessageBox.Show("La placa no es válida, debe contener letras y números.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(mensajeError, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
@@ -197,6 +198,31 @@ namespace Telecomunicaciones_Sistema
         {
             // Llama al método de Validaciones para bloquear copiar, pegar y cortar
             Validaciones.BloquearControles(e);
+        }
+
+        private void txtIDP_LostFocus(object sender, RoutedEventArgs e)
+        {
+            // Formatea el texto del control de texto (txtIDP)
+            txtIDP.Text = Validaciones.FormatearTexto(txtIDP.Text);
+
+        }
+
+        private void txtMarca_LostFocus(object sender, RoutedEventArgs e)
+        {
+            // Formatea el texto del control de texto (txtMarca)
+            txtMarca.Text = Validaciones.FormatearTexto(txtMarca.Text);
+        }
+
+        private void txtModelo_LostFocus(object sender, RoutedEventArgs e)
+        {
+            // Formatea el texto del control de texto (txtModelo)
+            txtModelo.Text = Validaciones.FormatearTexto(txtModelo.Text);
+        }
+
+        private void txtColor_LostFocus(object sender, RoutedEventArgs e)
+        {
+            // Formatea el texto del control de texto (txtColor)
+            txtColor.Text = Validaciones.FormatearTexto(txtColor.Text);
         }
     }
 }

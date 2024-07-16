@@ -153,6 +153,12 @@ namespace Telecomunicaciones_Sistema
             // Llama al método de Validaciones para bloquear copiar, pegar y cortar
             Validaciones.BloquearControles(e);
         }
+
+        private void txtColor_LostFocus(object sender, RoutedEventArgs e)
+        {
+            // Formatea el texto del control de texto (txtColor)
+            txtColor.Text = Validaciones.FormatearTexto(txtColor.Text);
+        }
     }
 }
 

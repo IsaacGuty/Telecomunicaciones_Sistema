@@ -602,14 +602,33 @@ namespace Telecomunicaciones_Sistema
             return true;
         }
 
-        public static bool ValidarPlaca(string placa)
+        public static bool ValidarPlaca(string placa, out string mensajeError)
         {
-            // Expresión regular que permite exactamente 3 letras seguidas de exactamente 4 números
-            Regex regex = new Regex(@"^[A-Za-z]{3}\d{4}$");
+            mensajeError = string.Empty;
 
-            // Validar la placa utilizando la expresión regular
-            return regex.IsMatch(placa);
-        } 
+            if (placa.Length != 7)
+            {
+                mensajeError = "La placa debe tener exactamente 7 caracteres.";
+                return false;
+            }
+
+            string letras = placa.Substring(0, 3);
+            string numeros = placa.Substring(3, 4);
+
+            if (!Regex.IsMatch(letras, @"^[A-Z]{3}$"))
+            {
+                mensajeError = "La placa debe comenzar con exactamente 3 letras mayúsculas.";
+                return false;
+            }
+
+            if (!Regex.IsMatch(numeros, @"^\d{4}$"))
+            {
+                mensajeError = "La placa debe terminar con exactamente 4 números.";
+                return false;
+            }
+
+            return true;
+        }
 
         public static bool MMValido(string nombre)
         {
