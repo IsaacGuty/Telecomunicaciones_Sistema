@@ -15,6 +15,8 @@ using System.Windows.Shapes;
 using System.Data;
 using System.Text.RegularExpressions;
 using System.IO;
+using System.Security.Cryptography;
+using System.Data.SqlClient;
 
 namespace Telecomunicaciones_Sistema
 {
@@ -315,4 +317,3 @@ namespace Telecomunicaciones_Sistema
         }
     }
 }
-

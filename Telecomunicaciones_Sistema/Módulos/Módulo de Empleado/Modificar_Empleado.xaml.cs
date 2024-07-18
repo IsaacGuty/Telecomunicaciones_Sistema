@@ -75,19 +75,6 @@ namespace Telecomunicaciones_Sistema
                 ComboBoxItem itemSeleccionado = (ComboBoxItem)cmbDireccion.SelectedItem;
                 string direccion = itemSeleccionado?.Content?.ToString();
 
-                // Validación de existencia de empleado con los mismos datos
-                int resultado = EmpleadoDAL.EmpleadoExisteConDatos(idEmpleado, correo, telefono);
-                if (resultado == 1)
-                {
-                    MessageBox.Show("El empleado con el mismo correo ya existe en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-                }
-                else if (resultado == 2)
-                {
-                    MessageBox.Show("El empleado con el mismo teléfono ya existe en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-                }
-
                 // Validación de selección de dirección
                 if (string.IsNullOrEmpty(direccion))
                 {
@@ -202,10 +189,27 @@ namespace Telecomunicaciones_Sistema
                     return;
                 }
 
-                if (!Validaciones.CorreoValidoDominio(txtCorreoE.Text))
+               if (!Validaciones.CorreoValidoDominio(txtCorreoE.Text))
                 {
                     MessageBox.Show("El correo electrónico debe tener un dominio válido (gmail.com, yahoo.com, hotmail.com).", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
+                }
+
+                    // Verificar si el ID del cliente ya existe en la base de datos
+                int resultados = EmpleadoDAL.EmpleadoExisteConDatosMod(idEmpleado, correo, telefono);
+
+                // Manejar el resultado según el tipo de duplicado encontrado
+                switch (resultados)
+                {
+                    case 1:
+                        MessageBox.Show("El empleado con el mismo correo ya existe en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    case 2:
+                        MessageBox.Show("El empleado con el mismo teléfono ya existe en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    case 3:
+                        MessageBox.Show("El ID del empleado ya está registrado en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
                 }
 
                 // Extraer solo el número de la dirección
@@ -217,6 +221,7 @@ namespace Telecomunicaciones_Sistema
                 string[] partesEstado = estadoSeleccionado?.Split('-');
                 string numeroEstado = partesEstado[0].Trim();
                 int idEstado;
+
                 if (!int.TryParse(numeroEstado, out idEstado))
                 {
                     MessageBox.Show("El estado seleccionado no es válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);

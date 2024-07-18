@@ -18,7 +18,24 @@ namespace Telecomunicaciones_Sistema
                 using (SqlConnection connection = BD.ObtenerConexion())
                 {
                     connection.Open();
-                    string query = "select e.ID_Empleado, e.Nombre_E, e.Apellido_E, e.Teléfono_E, e.Correo_E, e.ID_Dirección, d.Dirección, e.Puesto, e.ID_Estado, ea.Tipo_Estado from Empleados e JOIN Direcciones d ON e.ID_Dirección = d.ID_Dirección JOIN Estado_Actividad ea ON e.ID_Estado = ea.ID_Estado";
+                    string query = @"
+                SELECT 
+                    e.ID_Empleado, 
+                    e.Nombre_E, 
+                    e.Apellido_E, 
+                    e.Teléfono_E, 
+                    CONVERT(varchar, DECRYPTBYPASSPHRASE('Sallybosa', e.Correo_E)) AS Correo_E, 
+                    e.ID_Dirección, 
+                    d.Dirección, 
+                    e.Puesto, 
+                    e.ID_Estado, 
+                    ea.Tipo_Estado 
+                FROM 
+                    Empleados e 
+                JOIN 
+                    Direcciones d ON e.ID_Dirección = d.ID_Dirección 
+                JOIN 
+                    Estado_Actividad ea ON e.ID_Estado = ea.ID_Estado";
                     SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
                     adapter.Fill(dataTable);
                 }
@@ -53,7 +70,7 @@ namespace Telecomunicaciones_Sistema
                     {
                         dataTable.Load(reader); 
                     }
-                }
+                }   
             }
 
             return dataTable;
@@ -64,87 +81,157 @@ namespace Telecomunicaciones_Sistema
             using (SqlConnection connection = BD.ObtenerConexion())
             {
                 connection.Open();
-                SqlCommand cmd = new SqlCommand("UPDATE Empleados SET Nombre_E = @Nombre_E, Apellido_E = @Apellido_E, Teléfono_E = @Teléfono_E, Correo_E = @Correo_E, ID_Dirección = @ID_Dirección, Puesto = @Puesto, ID_Estado = @ID_Estado WHERE ID_Empleado = @ID_Empleado", connection);
+                string query = @"
+        UPDATE Empleados 
+        SET 
+            Nombre_E = @Nombre_E, 
+            Apellido_E = @Apellido_E, 
+            Teléfono_E = @Teléfono_E, 
+            Correo_E = ENCRYPTBYPASSPHRASE('Sallybosa', @Correo_E), 
+            ID_Dirección = @ID_Dirección, 
+            Puesto = @Puesto, 
+            ID_Estado = @ID_Estado 
+        WHERE 
+            ID_Empleado = @ID_Empleado";
+
+                SqlCommand cmd = new SqlCommand(query, connection);
                 cmd.Parameters.AddWithValue("@Nombre_E", empleado.Nombre_E);
                 cmd.Parameters.AddWithValue("@Apellido_E", empleado.Apellido_E);
                 cmd.Parameters.AddWithValue("@Teléfono_E", empleado.Teléfono_E);
-                cmd.Parameters.AddWithValue("@Correo_E", empleado.Correo_E);
-                cmd.Parameters.AddWithValue("@ID_Dirección", empleado.ID_Dirección);
+                // Asegúrate de definir el tamaño adecuado para el parámetro @Correo_E
+                cmd.Parameters.Add("@Correo_E", SqlDbType.VarChar, 100).Value = empleado.Correo_E;
+                int idDireccion;
+                if (!int.TryParse(empleado.ID_Dirección, out idDireccion))
+                {
+                    idDireccion = 0; 
+                }
+                cmd.Parameters.AddWithValue("@ID_Dirección", idDireccion);
                 cmd.Parameters.AddWithValue("@Puesto", empleado.Puesto);
 
-                // Ensure ID_Estado is an integer
                 int idEstado;
                 if (!int.TryParse(empleado.ID_Estado, out idEstado))
                 {
-                    idEstado = 0; // Or handle the case appropriately
+                    idEstado = 0; 
                 }
                 cmd.Parameters.AddWithValue("@ID_Estado", idEstado);
                 cmd.Parameters.AddWithValue("@ID_Empleado", empleado.ID_Empleado);
 
-                cmd.ExecuteNonQuery();
+                try
+                {
+                    cmd.ExecuteNonQuery();
+                }
+                catch (SqlException ex)
+                {
+                    throw new Exception("Error al actualizar el empleado: " + ex.Message);
+                }
             }
         }
-
 
         public static void AgregarEmpleado(Empleados empleado, string contraseña)
         {
             using (SqlConnection connection = BD.ObtenerConexion())
             {
                 connection.Open();
-                SqlCommand cmd = new SqlCommand("INSERT INTO Empleados (ID_Empleado, Nombre_E, Apellido_E, Teléfono_E, Correo_E, ID_Dirección, Puesto, ID_Estado, Contraseña) VALUES (@ID_Empleado, @Nombre_E, @Apellido_E, @Teléfono_E, @Correo_E, @ID_Dirección, @Puesto, @ID_Estado, @Contraseña)", connection);
+                string query = @"
+                INSERT INTO Empleados 
+                (ID_Empleado, Nombre_E, Apellido_E, Teléfono_E, Correo_E, ID_Dirección, Puesto, ID_Estado, Contraseña) 
+                VALUES 
+                (@ID_Empleado, @Nombre_E, @Apellido_E, @Teléfono_E, ENCRYPTBYPASSPHRASE('Sallybosa', @Correo_E), @ID_Dirección, @Puesto, @ID_Estado, @Contraseña)";
+
+                SqlCommand cmd = new SqlCommand(query, connection);
                 cmd.Parameters.AddWithValue("@ID_Empleado", empleado.ID_Empleado);
                 cmd.Parameters.AddWithValue("@Nombre_E", empleado.Nombre_E);
                 cmd.Parameters.AddWithValue("@Apellido_E", empleado.Apellido_E);
                 cmd.Parameters.AddWithValue("@Teléfono_E", empleado.Teléfono_E);
-                cmd.Parameters.AddWithValue("@Correo_E", empleado.Correo_E);
+
+                // Asegúrate de definir el tamaño adecuado para el parámetro @Correo_E
+                cmd.Parameters.Add("@Correo_E", SqlDbType.VarChar, 100).Value = empleado.Correo_E;
+
                 cmd.Parameters.AddWithValue("@ID_Dirección", empleado.ID_Dirección);
                 cmd.Parameters.AddWithValue("@Puesto", empleado.Puesto);
                 cmd.Parameters.AddWithValue("@Contraseña", contraseña);
 
+                // Ensure ID_Estado is not null
                 object estadoValue = (object)empleado.ID_Estado ?? DBNull.Value;
                 cmd.Parameters.AddWithValue("@ID_Estado", estadoValue);
 
-                cmd.ExecuteNonQuery();
+                try
+                {
+                    cmd.ExecuteNonQuery();
+                }
+                catch (SqlException ex)
+                {
+                    if (ex.Number == 2627) // SQL Server error code for primary key violation
+                    {
+                        throw new Exception("El ID del empleado ya está registrado. Por favor, ingrese un ID diferente.");
+                    }
+                    else
+                    {
+                        throw new Exception("Error al agregar el empleado: " + ex.Message);
+                    }
+                }
             }
         }
 
-        /*public static bool EmpleadoExiste(string idEmpleado)
-        {
-            using (SqlConnection Conn = BD.ObtenerConexion())
-            {
-                Conn.Open();
-                string query = "SELECT COUNT(*) FROM Empleados WHERE ID_Empleado = @ID_Empleado";
-                using (SqlCommand cmd = new SqlCommand(query, Conn))
-                {
-                    cmd.Parameters.AddWithValue("@ID_Empleado", idEmpleado);
-                    int count = (int)cmd.ExecuteScalar();
-                    return count > 0;
-                }
-            }
-        }*/
-
-        public static int EmpleadoExisteConDatos(string idEmpleado, string correo, string telefono)
+        public static int EmpleadoExisteConDatosAg(string idEmpleado, string correo, string telefono)
         {
             using (SqlConnection connection = BD.ObtenerConexion())
             {
                 connection.Open();
 
                 // Consulta SQL que verifica si hay otro empleado con los mismos datos personales
-                // (correo o teléfono) y ID diferente al actual.
+                // (correo o teléfono) y también verifica si el ID del empleado ya existe
                 string query = @"
                 SELECT
                 CASE
-                     WHEN Correo_E = @Correo_E THEN 1
-                     WHEN Teléfono_E = @Teléfono_E THEN 2
+                WHEN ID_Empleado = @ID_Empleado THEN 3
+                WHEN CONVERT(varchar, DECRYPTBYPASSPHRASE('Sallybosa', Correo_E)) = @Correo_E THEN 1
+                WHEN Teléfono_E = @Teléfono_E THEN 2
                 ELSE 0
                 END AS Duplicado
                 FROM Empleados
-                WHERE ID_Empleado != @ID_Empleado
+                WHERE ID_Empleado = @ID_Empleado
+                OR (
+                CONVERT(varchar, DECRYPTBYPASSPHRASE('Sallybosa', Correo_E)) = @Correo_E 
+                OR Teléfono_E = @Teléfono_E
+                );";
+
+                SqlCommand cmd = new SqlCommand(query, connection);
+                cmd.Parameters.AddWithValue("@ID_Empleado", idEmpleado);
+                cmd.Parameters.AddWithValue("@Correo_E", correo);
+                cmd.Parameters.AddWithValue("@Teléfono_E", telefono);
+
+                object result = cmd.ExecuteScalar();
+
+                // Retornar el código de duplicado específico: 
+                // 1 para correo, 2 para teléfono, 3 para ID, 0 para ninguno
+                return result != DBNull.Value ? Convert.ToInt32(result) : 0;
+            }
+        }
+
+
+        public static int EmpleadoExisteConDatosMod(string idEmpleado, string correo, string telefono)
+        {
+            using (SqlConnection connection = BD.ObtenerConexion())
+            {
+                connection.Open();
+
+                // Consulta SQL que verifica si hay otro empleado con los mismos datos personales
+                // (correo o teléfono) excluyendo al empleado que se está modificando por ID
+                string query = @"
+                SELECT
+                CASE
+                WHEN ID_Empleado = @ID_Empleado THEN 0  -- Excluir el propio empleado que se está modificando
+                WHEN CONVERT(varchar, DECRYPTBYPASSPHRASE('Sallybosa', Correo_E)) = @Correo_E THEN 1
+                WHEN Teléfono_E = @Teléfono_E THEN 2
+                ELSE 0
+                END AS Duplicado
+                FROM Empleados
+                WHERE (ID_Empleado <> @ID_Empleado)  -- Excluir el propio empleado que se está modificando
                 AND (
-                    Correo_E = @Correo_E 
-                    OR Teléfono_E = @Teléfono_E
-                );
-                ";
+                CONVERT(varchar, DECRYPTBYPASSPHRASE('Sallybosa', Correo_E)) = @Correo_E 
+                OR Teléfono_E = @Teléfono_E
+                );";
 
                 SqlCommand cmd = new SqlCommand(query, connection);
                 cmd.Parameters.AddWithValue("@ID_Empleado", idEmpleado);
@@ -159,20 +246,6 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
-        /*public static bool EmpleadoDI(string correo, string telefono, string idDireccion, string idEmpleado)
-        {
-            using (SqlConnection connection = BD.ObtenerConexion())
-            {
-                connection.Open();
-                SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM Empleados WHERE Correo_E = @Correo_E AND Teléfono_E = @Teléfono_E AND ID_Dirección = @ID_Dirección AND ID_Empleado != @ID_Empleado", connection);
-                cmd.Parameters.AddWithValue("@Correo_E", correo);
-                cmd.Parameters.AddWithValue("@Teléfono_E", telefono);
-                cmd.Parameters.AddWithValue("@ID_Dirección", idDireccion);
-                cmd.Parameters.AddWithValue("@ID_Empleado", idEmpleado);
-                int count = (int)cmd.ExecuteScalar();
-                return count > 0; 
-            }
-        }*/
 
         public static DataTable ObtenerEmpleadosTecnicos()
         {
@@ -219,7 +292,10 @@ namespace Telecomunicaciones_Sistema
         {
             using (SqlConnection connection = BD.ObtenerConexion())
             {
-                string query = "SELECT COUNT(*) FROM Empleados WHERE Correo_E = @Correo COLLATE Latin1_General_CS_AS";
+                string query = @"
+                SELECT COUNT(*) 
+                FROM Empleados 
+                WHERE CONVERT(varchar, DECRYPTBYPASSPHRASE('Sallybosa', Correo_E)) = @Correo COLLATE Latin1_General_CS_AS";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -233,5 +309,6 @@ namespace Telecomunicaciones_Sistema
                 }
             }
         }
+
     }
 }
