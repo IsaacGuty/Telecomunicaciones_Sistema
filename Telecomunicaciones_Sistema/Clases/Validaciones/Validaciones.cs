@@ -126,9 +126,9 @@ namespace Telecomunicaciones_Sistema
                    !string.IsNullOrEmpty(monto);
         }
 
-        public static bool CamposOrdenVacios(string nombre, string apellido, string direccion, string telefono, string servicio, object tipoT, object nombreE)
+        public static bool CamposOrdenVacios(string nombre, string apellido, string direccion, string telefono, string servicio, object tipoT, object nombreE, object transporte)
         {
-            if (string.IsNullOrEmpty(nombre) || string.IsNullOrEmpty(apellido) || string.IsNullOrEmpty(direccion) || string.IsNullOrEmpty(telefono) || string.IsNullOrEmpty(servicio) || tipoT == null || nombreE == null)
+            if (string.IsNullOrEmpty(nombre) || string.IsNullOrEmpty(apellido) || string.IsNullOrEmpty(direccion) || string.IsNullOrEmpty(telefono) || string.IsNullOrEmpty(servicio) || tipoT == null || nombreE == null || transporte == null)
             {
                 return false;
             }

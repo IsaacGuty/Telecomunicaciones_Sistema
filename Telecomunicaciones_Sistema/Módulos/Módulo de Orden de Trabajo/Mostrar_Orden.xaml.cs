@@ -55,7 +55,7 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
-        public void ActualizarDatos(string valorSeleccionadoTipoT, string valorSeleccionadoNombreE, string idEmpleado)
+        public void ActualizarDatos(string valorSeleccionadoTipoT, string valorSeleccionadoNombreE, string valorSeleccionadoTransporte, string idEmpleado, string idPlaca)
         {
             if (DatosOrden != null)
             {
@@ -67,7 +67,9 @@ namespace Telecomunicaciones_Sistema
 
                 txtTrabajo.Text = valorSeleccionadoTipoT;
                 txtNombre_E.Text = valorSeleccionadoNombreE;
+                txtTransporteM.Text = valorSeleccionadoTransporte;
                 txtIDE.Text = idEmpleado;
+                txtIDP.Text = idPlaca;
             }
         }
 

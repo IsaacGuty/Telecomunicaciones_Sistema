@@ -26,6 +26,10 @@ namespace Telecomunicaciones_Sistema
 
         public string Nombre_E { get; set; }
 
+        public string ID_Placa { get; set; }
+
+        public string Modelo_Carro { get; set; }
+
         public DateTime Fecha_Orden { get; set; }
 
         public Ordenes()

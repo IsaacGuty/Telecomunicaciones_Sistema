@@ -86,7 +86,7 @@ namespace Telecomunicaciones_Sistema
                 using (SqlConnection Conn = BD.ObtenerConexion())
                 {
                     Conn.Open();
-                    string query = "INSERT INTO Ordenes (Nombre, Apellido, Dirección, Teléfono, Servicio, Tipo_Trabajo, Nombre_E, ID_Empleado, Fecha_Orden) VALUES (@Nombre, @Apellido, @Dirección, @Teléfono, @Servicio, @Tipo_Trabajo, @Nombre_E, @ID_Empleado, @Fecha_Orden)";
+                    string query = "INSERT INTO Ordenes (Nombre, Apellido, Dirección, Teléfono, Servicio, Tipo_Trabajo, Nombre_E, ID_Empleado, Fecha_Orden, ID_Placa, Modelo_Carro) VALUES (@Nombre, @Apellido, @Dirección, @Teléfono, @Servicio, @Tipo_Trabajo, @Nombre_E, @ID_Empleado, @Fecha_Orden, @ID_Placa, @Modelo_Carro)";
                     SqlCommand command = new SqlCommand(query, Conn);
                     command.Parameters.AddWithValue("@Nombre", orden.Nombre);
                     command.Parameters.AddWithValue("@Apellido", orden.Apellido);
@@ -96,7 +96,10 @@ namespace Telecomunicaciones_Sistema
                     command.Parameters.AddWithValue("@Tipo_Trabajo", orden.Tipo_Trabajo);
                     command.Parameters.AddWithValue("@Nombre_E", orden.Nombre_E);
                     command.Parameters.AddWithValue("@ID_Empleado", orden.ID_Empleado);
-                    command.Parameters.AddWithValue("@Fecha_Orden", orden.Fecha_Orden); // Nueva línea para la fecha
+                    command.Parameters.AddWithValue("@Fecha_Orden", orden.Fecha_Orden);
+                    command.Parameters.AddWithValue("@ID_Placa", orden.ID_Placa);
+                    command.Parameters.AddWithValue("@Modelo_Carro", orden.Modelo_Carro);
+
                     command.ExecuteNonQuery();
                 }
             }

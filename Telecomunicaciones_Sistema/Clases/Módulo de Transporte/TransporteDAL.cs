@@ -117,5 +117,46 @@ namespace Telecomunicaciones_Sistema.Clases.Módulo_de_Transporte
                 cmd.ExecuteNonQuery();
             }
         }
+
+        public static DataTable ObtenerTransportesActivos()
+        {
+            DataTable dataTable = new DataTable();
+            try
+            {
+                using (SqlConnection connection = BD.ObtenerConexion())
+                {
+                    connection.Open();
+                    string query = "SELECT * FROM Transportes WHERE ID_Estado = '1'";
+                    SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
+                    adapter.Fill(dataTable);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener los transportes activos: " + ex.Message);
+            }
+            return dataTable;
+        }
+
+        public static DataTable BuscarPlacaCompleto(string modelo)
+        {
+            DataTable dataTable = new DataTable();
+            using (SqlConnection Conn = BD.ObtenerConexion())
+            {
+                Conn.Open();
+
+                SqlCommand comando = new SqlCommand(
+                    "SELECT * " +
+                    "FROM Transportes " +
+                    "WHERE Modelo_Carro = @Modelo", Conn);
+
+                comando.Parameters.AddWithValue("@Modelo", modelo);
+
+                SqlDataReader reader = comando.ExecuteReader();
+
+                dataTable.Load(reader);
+            }
+            return dataTable;
+        }
     }
 }

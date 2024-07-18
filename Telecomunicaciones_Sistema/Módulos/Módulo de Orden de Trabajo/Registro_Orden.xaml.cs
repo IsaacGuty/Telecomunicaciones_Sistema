@@ -15,6 +15,8 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Text.RegularExpressions;
 using System.Globalization;
+using Telecomunicaciones_Sistema.Clases.Módulo_de_Transporte;
+using System.Windows.Markup;
 
 namespace Telecomunicaciones_Sistema
 {
@@ -32,6 +34,8 @@ namespace Telecomunicaciones_Sistema
             CargarDatos(); // Al inicializar la ventana, carga los datos en el DataGrid
 
             CargarEmpleadosTecnicos();
+
+            CargarTransportesActivos();
         }
 
         // Propiedad para almacenar los datos de la orden
@@ -70,6 +74,25 @@ namespace Telecomunicaciones_Sistema
             catch (Exception ex)
             {
                 MessageBox.Show("Error al cargar los empleados técnicos: " + ex.Message);
+            }
+        }
+
+        private void CargarTransportesActivos()
+        {
+            try
+            {
+                DataTable dataTable = TransporteDAL.ObtenerTransportesActivos(); // Obtener los transportes activos
+                cmbTransporte.Items.Clear(); // Limpiar ComboBox cmbTransporte
+                // Agregar transportes actvios al ComboBox cmbTransporte
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    string marcaCompleta = row["Modelo_Carro"].ToString();
+                    cmbTransporte.Items.Add(marcaCompleta);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar los transportes activos: " + ex.Message);
             }
         }
 
@@ -139,6 +162,7 @@ namespace Telecomunicaciones_Sistema
         // Variables para almacenar la selección en los ComboBox
         private string valorSeleccionadoTipoT;
         private string valorSeleccionadoNombreE;
+        private string valorSeleccionadoTransporte;
 
         // Evento que se ejecuta al cambiar la selección en el ComboBox de Tipo de Trabajo
         private void CmbTipoT_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -160,6 +184,7 @@ namespace Telecomunicaciones_Sistema
 
                 // Obtener el ID del empleado seleccionado
                 string idEmpleado = ObtenerIdEmpleadoSeleccionado(valorSeleccionadoNombreE);
+                string idPlaca = ObtenerIdPlacaSeleccionado(valorSeleccionadoTransporte);
 
                 // Crear una instancia de Mostrar_Orden si no existe una instancia previa
                 Mostrar_Orden ventana5 = Application.Current.Windows.OfType<Mostrar_Orden>().FirstOrDefault();
@@ -172,13 +197,40 @@ namespace Telecomunicaciones_Sistema
                 ventana5.DatosOrden = DatosOrden;
 
                 // Actualizar los datos en la ventana5
-                ventana5.ActualizarDatos(valorSeleccionadoTipoT, valorSeleccionadoNombreE, idEmpleado);
+                ventana5.ActualizarDatos(valorSeleccionadoTipoT, valorSeleccionadoNombreE, valorSeleccionadoTransporte, idEmpleado, idPlaca);
+            }
+        }
+
+        // Evento que se ejecuta al cambiar la selección en el ComboBox 
+        private void CmbTransporte_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // Actualiza la selección en el ComboBox de transporte en otra ventana
+            if (cmbTransporte.SelectedItem != null)
+            {
+                valorSeleccionadoTransporte = cmbTransporte.SelectedItem.ToString();
+
+                // Obtener el ID del empleado seleccionado
+                string idPlaca = ObtenerIdPlacaSeleccionado(valorSeleccionadoTransporte);
+                string idEmpleado = ObtenerIdEmpleadoSeleccionado(valorSeleccionadoNombreE);
+
+                // Crear una instancia de Mostrar_Orden si no existe una instancia previa
+                Mostrar_Orden ventana5 = Application.Current.Windows.OfType<Mostrar_Orden>().FirstOrDefault();
+                if (ventana5 == null)
+                {
+                    ventana5 = new Mostrar_Orden();
+                }
+
+                // Asignar los datos de la orden a la ventana5
+                ventana5.DatosOrden = DatosOrden;
+
+                // Actualizar los datos en la ventana5
+                ventana5.ActualizarDatos(valorSeleccionadoTipoT, valorSeleccionadoNombreE, valorSeleccionadoTransporte, idPlaca, idEmpleado);
             }
         }
 
         private void BtnMostrar_Click(object sender, RoutedEventArgs e)
         {
-            if (!Validaciones.CamposOrdenVacios(txtNombre.Text, txtApellido.Text, txtDirección.Text, txtNumT.Text, txtTpServicio.Text, cmbTipoT.SelectedItem, cmbNombreE.SelectedItem))
+            if (!Validaciones.CamposOrdenVacios(txtNombre.Text, txtApellido.Text, txtDirección.Text, txtNumT.Text, txtTpServicio.Text, cmbTipoT.SelectedItem, cmbNombreE.SelectedItem, cmbTransporte.SelectedItem))
             {
                 MessageBox.Show("Por favor, complete todos los campos antes de imprimir.", "Datos Incompletos", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
@@ -188,6 +240,7 @@ namespace Telecomunicaciones_Sistema
             {
                 // Obtener el ID del empleado seleccionado
                 string idEmpleado = ObtenerIdEmpleadoSeleccionado(cmbNombreE.SelectedItem.ToString());
+                string idPlaca = ObtenerIdPlacaSeleccionado(cmbTransporte.SelectedItem.ToString());
 
                 // Guardar la orden en la base de datos
                 OrdenDAL.GuardarOrden(new Ordenes
@@ -199,7 +252,9 @@ namespace Telecomunicaciones_Sistema
                     Servicio = txtTpServicio.Text,
                     Tipo_Trabajo = valorSeleccionadoTipoT,
                     Nombre_E = cmbNombreE.SelectedItem.ToString(),
+                    Modelo_Carro = cmbTransporte.SelectedItem.ToString(),
                     ID_Empleado = idEmpleado,
+                    ID_Placa = idPlaca,
                     Fecha_Orden = DateTime.Now
                 });
 
@@ -221,8 +276,13 @@ namespace Telecomunicaciones_Sistema
                     Fecha_Orden = DateTime.Now
                 };
 
+                // Obtener los valores seleccionados de los ComboBoxes
+                string valorSeleccionadoNombreE = cmbNombreE.SelectedItem.ToString();
+                string valorSeleccionadoTransporte = cmbTransporte.SelectedItem.ToString();
+
                 // Actualizar los datos en la ventana5
-                ventana5.ActualizarDatos(valorSeleccionadoTipoT, valorSeleccionadoNombreE, idEmpleado);
+                ventana5.ActualizarDatos(valorSeleccionadoTipoT, valorSeleccionadoNombreE, valorSeleccionadoTransporte, idEmpleado, idPlaca);
+
 
                 ventana5.Show();
                 this.Hide();
@@ -252,6 +312,33 @@ namespace Telecomunicaciones_Sistema
             }
 
             // Si no se pudo encontrar el empleado, devolver null
+            return null;
+        }
+
+        private string ObtenerIdPlacaSeleccionado(string modelo)
+        {
+            try
+            {
+                // Verificar que el modelo no sea nulo o vacío
+                if (string.IsNullOrEmpty(modelo))
+                {
+                    return null;
+                }
+
+                // Buscar el ID de la placa en base al modelo
+                DataTable dataTable = TransporteDAL.BuscarPlacaCompleto(modelo);
+                if (dataTable.Rows.Count > 0)
+                {
+                    // Obtener el ID de la primera placa encontrada
+                    return dataTable.Rows[0]["ID_Placa"].ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al obtener el ID placa: " + ex.Message);
+            }
+
+            // Si no se pudo encontrar la placa, devolver null
             return null;
         }
 

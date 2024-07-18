@@ -82,17 +82,17 @@ namespace Telecomunicaciones_Sistema
             {
                 connection.Open();
                 string query = @"
-        UPDATE Empleados 
-        SET 
-            Nombre_E = @Nombre_E, 
-            Apellido_E = @Apellido_E, 
-            Teléfono_E = @Teléfono_E, 
-            Correo_E = ENCRYPTBYPASSPHRASE('Sallybosa', @Correo_E), 
-            ID_Dirección = @ID_Dirección, 
-            Puesto = @Puesto, 
-            ID_Estado = @ID_Estado 
-        WHERE 
-            ID_Empleado = @ID_Empleado";
+                UPDATE Empleados 
+                SET 
+                Nombre_E = @Nombre_E, 
+                Apellido_E = @Apellido_E, 
+                Teléfono_E = @Teléfono_E, 
+                Correo_E = ENCRYPTBYPASSPHRASE('Sallybosa', @Correo_E), 
+                ID_Dirección = @ID_Dirección, 
+                Puesto = @Puesto, 
+                ID_Estado = @ID_Estado 
+                WHERE 
+                ID_Empleado = @ID_Empleado";
 
                 SqlCommand cmd = new SqlCommand(query, connection);
                 cmd.Parameters.AddWithValue("@Nombre_E", empleado.Nombre_E);

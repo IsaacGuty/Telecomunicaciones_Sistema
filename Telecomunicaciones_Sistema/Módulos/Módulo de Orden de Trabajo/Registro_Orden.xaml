@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Telecomunicaciones_Sistema"
         mc:Ignorable="d"
-        Title="Sistema en telecomuniciones" Height="610" Width="720"
+        Title="Sistema en telecomuniciones" Height="640" Width="720"
         WindowStartupLocation="CenterScreen"
         Background="LightBlue"
         ResizeMode="CanMinimize">
@@ -17,7 +17,7 @@
         </Style>
     </Window.Resources>
 
-    <Grid Height="570" Margin="0,0,-0.4,0" VerticalAlignment="Top">
+    <Grid Height="630" VerticalAlignment="Top">
         <Button x:Name="btnRegresar" Content="Regresar" HorizontalAlignment="Left" Margin="586,366,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontWeight="Bold" FontSize="14" Click="BtnRegresar_Click" TabIndex="8"/>
         <Button x:Name="BtnLimpiar" Content="Limpiar" HorizontalAlignment="Left" Margin="586,412,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnLimpiar_Click" TabIndex="9"/>
         <Label Content="Orden de trabajo" HorizontalAlignment="Left" Margin="133,41,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="24" FontWeight="Bold" Width="195"/>
@@ -48,6 +48,8 @@
         <Label x:Name="lblNumT_Copy" Content="Tipo de servicio:" HorizontalAlignment="Left" Margin="49,461,0,0" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Times New Roman" FontSize="14"/>
         <TextBox x:Name="txtTpServicio" IsReadOnly="True" HorizontalAlignment="Left" Height="26" Margin="235,463,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="266" FontFamily="Times New Roman" FontSize="14" TabIndex="5"/>
         <Button x:Name="btnMostrar" Content="Mostrar" HorizontalAlignment="Left" Margin="586,459,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontWeight="Bold" FontSize="14" Click="BtnMostrar_Click" TabIndex="10"/>
-        <Image Margin="15,21,574,456" Source="/logoTele.png" Stretch="Fill"/>
+        <Label x:Name="lblTransporte" Content="Trasporte:" HorizontalAlignment="Left" Margin="49,558,0,0" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Times New Roman" FontSize="14" RenderTransformOrigin="0.525,1.945"/>
+        <ComboBox x:Name="cmbTransporte" HorizontalAlignment="Left" Margin="235,558,0,0" VerticalAlignment="Top" Width="266" FontFamily="Times New Roman" FontSize="14" SelectionChanged="CmbNombreE_SelectionChanged" TabIndex="7"/>
+        <Image Margin="15,21,574,516" Source="/logoTele.png" Stretch="Fill"/>
     </Grid>
 </Window>

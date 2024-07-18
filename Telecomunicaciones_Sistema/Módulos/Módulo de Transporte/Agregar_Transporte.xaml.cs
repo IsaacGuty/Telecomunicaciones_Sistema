@@ -159,6 +159,15 @@ namespace Telecomunicaciones_Sistema
             // Combinar el texto actual con el texto que se está ingresando
             string nuevoTexto = textBox.Text + e.Text;
 
+            // Verificar la longitud del texto combinado
+            if (nuevoTexto.Length > 7)
+            {
+                e.Handled = true; // Detener la entrada de texto si supera los 7 caracteres
+                MessageBox.Show("No se permiten más de 7 caracteres.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            // Validar el texto combinado
             if (!Validaciones.ValidarIDPC(nuevoTexto, out string mensajeError))
             {
                 e.Handled = true; // Detener la entrada de texto no válida
