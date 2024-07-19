@@ -33,6 +33,9 @@ namespace Telecomunicaciones_Sistema
 
         public static Agregar_Pago Instance { get; private set; }
 
+        // Objeto de conexión a la base de datos
+        private SqlConnection Conn;
+
         public Agregar_Pago()
         {
             InitializeComponent();
@@ -45,18 +48,16 @@ namespace Telecomunicaciones_Sistema
             cmbIDS.SelectionChanged += CmbIDS_SelectionChanged; // Agregar un manejador de eventos para el evento SelectionChanged del ComboBox cmbIDS
             Instance = this; // Almacena la instancia actual
             // Actualizar ComboBox de meses pagados para el cliente seleccionado
-            if (!string.IsNullOrEmpty(txtIDC.Text))
+            if (!string.IsNullOrEmpty(txtIDC.Text) && cmbIDS.SelectedItem != null)
             {
-                ActualizarMesesPagados(txtIDC.Text);
+                string idServicio = ObtenerNumeroServicioSeleccionado();
+                ActualizarMesesPagados(txtIDC.Text, idServicio);
             }
         }
 
-        // Objeto de conexión a la base de datos
-        private SqlConnection Conn;
-
-        private void ActualizarMesesPagados(string idCliente)
+        private void ActualizarMesesPagados(string idCliente, string idServicio)
         {
-            List<string> mesesPagados = PagoDAL.ObtenerMesesPagados(idCliente);
+            List<string> mesesPagados = PagoDAL.ObtenerMesesPagados(idCliente, idServicio);
 
             foreach (ComboBoxItem item in cmbMes.Items)
             {
@@ -103,8 +104,11 @@ namespace Telecomunicaciones_Sistema
                     mesPagado = selectedComboBoxItem.Content.ToString();
                 }
 
-                // Verificar si el mes ya ha sido pagado
-                List<string> mesesPagados = PagoDAL.ObtenerMesesPagados(txtIDC.Text);
+                // Obtener el ID del servicio seleccionado
+                string idServicio = ObtenerNumeroServicioSeleccionado();
+
+                // Verificar si el mes ya ha sido pagado para el servicio seleccionado
+                List<string> mesesPagados = PagoDAL.ObtenerMesesPagados(txtIDC.Text, idServicio);
                 if (mesesPagados.Contains(mesPagado))
                 {
                     MessageBox.Show("El mes seleccionado ya ha sido pagado.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -118,9 +122,9 @@ namespace Telecomunicaciones_Sistema
                     {
                         ID_Pago = txtIDP.Text,
                         ID_Cliente = txtIDC.Text,
-                        ID_Servicio = ObtenerNumeroServicioSeleccionado(),
+                        ID_Servicio = idServicio,
                         Monto = monto,
-                        MesPagado = mesPagado, 
+                        MesPagado = mesPagado,
                         ID_Empleado = txtNombreE.Text,
                         Fecha = DateTime.Now
                     };
@@ -135,7 +139,7 @@ namespace Telecomunicaciones_Sistema
                 MessageBox.Show("Pago agregado correctamente.");
 
                 // Actualizar ComboBox de meses pagados para el cliente seleccionado
-                ActualizarMesesPagados(txtIDC.Text);
+                ActualizarMesesPagados(txtIDC.Text, idServicio);
 
                 if (PagoModificado != null)
                 {
@@ -148,7 +152,6 @@ namespace Telecomunicaciones_Sistema
             }
             this.Close();
         }
-
 
         private void BtnBusC_Click(object sender, RoutedEventArgs e)
         {

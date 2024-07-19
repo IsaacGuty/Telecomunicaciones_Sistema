@@ -1,0 +1,85 @@
+﻿<Window x:Class="Telecomunicaciones_Sistema.ReporteClientes"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Telecomunicaciones_Sistema"
+        Title="Sistema en telecomunicaciones" Height="575" Width="720"
+        WindowStartupLocation="CenterScreen"
+        Background="LightBlue"
+        ResizeMode="CanMinimize">
+
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="Black"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="0,0,0,-6">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" MinHeight="120"/>
+            <RowDefinition Height="Auto" MinHeight="85"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Text="Reporte de Clientes Deudores" FontFamily="Times New Roman" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Top"  FontWeight="Bold" Grid.Column="1" Height="28" Width="304" Margin="0,37,0,0"/>
+
+        <Grid Grid.ColumnSpan="2" Margin="20,111,20,82" Grid.RowSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="Mes:" VerticalAlignment="Center" Margin="5" Grid.Column="0" FontFamily="Times New Roman" FontSize="14"/>
+            <ComboBox x:Name="MesComboBox" Width="120" Margin="15,10,15,16" Grid.Column="1" FontFamily="Times New Roman" FontSize="14">
+                <ComboBoxItem>Enero</ComboBoxItem>
+                <ComboBoxItem>Febrero</ComboBoxItem>
+                <ComboBoxItem>Marzo</ComboBoxItem>
+                <ComboBoxItem>Abril</ComboBoxItem>
+                <ComboBoxItem>Mayo</ComboBoxItem>
+                <ComboBoxItem>Junio</ComboBoxItem>
+                <ComboBoxItem>Julio</ComboBoxItem>
+                <ComboBoxItem>Agosto</ComboBoxItem>
+                <ComboBoxItem>Septiembre</ComboBoxItem>
+                <ComboBoxItem>Octubre</ComboBoxItem>
+                <ComboBoxItem>Noviembre</ComboBoxItem>
+                <ComboBoxItem>Diciembre</ComboBoxItem>
+            </ComboBox>
+
+            <TextBlock Text="Servicio:" VerticalAlignment="Center" Margin="5" Grid.Column="2" FontFamily="Times New Roman" FontSize="14"/>
+            <ComboBox x:Name="ServicioComboBox" Width="120" Margin="15,10,15,16" Grid.Column="3" FontFamily="Times New Roman" FontSize="14">
+                <ComboBoxItem>Cable</ComboBoxItem>
+                <ComboBoxItem>Internet 5MB</ComboBoxItem>
+                <ComboBoxItem>Internet 8MB</ComboBoxItem>
+                <ComboBoxItem>Internet 10MB</ComboBoxItem>
+                <ComboBoxItem>Internet 15MB</ComboBoxItem>
+            </ComboBox>
+
+            <Button x:Name="btnBuscar" HorizontalAlignment="Center" Margin="0,10,0,0" Grid.Row="0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" Click="btnBuscar_Click" FontWeight="Bold" Height="22" Content="Buscar" TabIndex="1" Grid.Column="4"/>
+        </Grid>
+
+        <DataGrid x:Name="DataGridCD" IsReadOnly="True" Grid.Row="1" Grid.ColumnSpan="2" AutoGenerateColumns="False" CanUserAddRows="False" Margin="10,8,10,0" FontFamily="Times New Roman" FontSize="14" Grid.RowSpan="2" Height="336" VerticalAlignment="Top">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID Cliente" Binding="{Binding ID_Cliente}" Width="*"/>
+                <DataGridTextColumn Header="Nombre" Binding="{Binding Nombre}" Width="*"/>
+                <DataGridTextColumn Header="Apellido" Binding="{Binding Apellido}" Width="*"/>
+                <DataGridTextColumn Header="Teléfono" Binding="{Binding Teléfono}" Width="*"/>
+                <DataGridTextColumn Header="Correo" Binding="{Binding Correo}" Width="*"/>
+                <DataGridTextColumn Header="Mes Pendiente" Binding="{Binding Mes_Pendiente}" Width="*"/>
+                <DataGridTextColumn Header="Monto" Binding="{Binding Monto}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button x:Name="btnRegresar" Content="Regresar" Grid.Column="1" HorizontalAlignment="Left" Margin="619,269,0,0" VerticalAlignment="Top" Width="75" FontWeight="Bold" FontFamily="Times New Roman" FontSize="14" Grid.Row="2" RenderTransformOrigin="1.021,0.51" TabIndex="4" Height="20" Click="btnRegresar_Click"/>
+        <Image Source="/logoTele.png" Stretch="Fill" Margin="89,10,530,46" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
+    </Grid>
+</Window>
+

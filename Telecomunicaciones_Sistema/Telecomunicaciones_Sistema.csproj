@@ -104,6 +104,9 @@
     <Compile Include="Menú.xaml.cs">
       <DependentUpon>Menú.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Módulos\Módulo de Pago\ReporteClientes.xaml.cs">
+      <DependentUpon>ReporteClientes.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Módulos\Módulo de Pago\Vista_Pago.xaml.cs">
       <DependentUpon>Vista_Pago.xaml</DependentUpon>
     </Compile>
@@ -174,6 +177,10 @@
     <Page Include="Menú.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Módulos\Módulo de Pago\ReporteClientes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Módulos\Módulo de Pago\Vista_Pago.xaml">
       <SubType>Designer</SubType>

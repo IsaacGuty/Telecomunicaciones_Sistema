@@ -124,5 +124,12 @@ namespace Telecomunicaciones_Sistema
             ventana10.Show();
             this.Close(); 
         }
+
+        private void btnReporte_Click(object sender, RoutedEventArgs e)
+        {
+            ReporteClientes ventanaRp = new ReporteClientes();
+            ventanaRp.Show();
+            this.Close();
+        }
     }
 }

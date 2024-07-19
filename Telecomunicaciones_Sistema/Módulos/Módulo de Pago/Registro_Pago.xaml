@@ -28,7 +28,7 @@
             <ColumnDefinition Width="0*"/>
             <ColumnDefinition Width="480*"/>
         </Grid.ColumnDefinitions>
-        <Button x:Name="btnRegresar" Content="Regresar" Grid.Column="3" HorizontalAlignment="Left" Margin="268,115,0,0" VerticalAlignment="Top" Width="75" FontWeight="Bold" FontFamily="Times New Roman" FontSize="14" Click="BtnRegresar_Click" Grid.Row="1" RenderTransformOrigin="1.021,0.51" TabIndex="4"/>
+        <Button x:Name="btnRegresar" Content="Regresar" Grid.Column="3" HorizontalAlignment="Left" Margin="225,115,0,0" VerticalAlignment="Top" Width="75" FontWeight="Bold" FontFamily="Times New Roman" FontSize="14" Click="BtnRegresar_Click" Grid.Row="1" RenderTransformOrigin="1.021,0.51" TabIndex="4"/>
         <DataGrid x:Name="DatGridP" AutoGenerateColumns="False" Height="248" Margin="19,137,16,0" VerticalAlignment="Top" Grid.ColumnSpan="4" Grid.RowSpan="2" SelectionChanged="DatGridP_SelectionChanged" KeyboardNavigation.TabNavigation="None">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID Pago" Binding="{Binding ID_Pago}" />
@@ -43,8 +43,9 @@
             </DataGrid.Columns>
         </DataGrid>
         <Label Content="Pagos" HorizontalAlignment="Left" Margin="105,37,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="24" FontWeight="Bold" Width="246" Grid.ColumnSpan="3" Grid.Column="1"/>
-        <Button x:Name="btnAgregar" Content="Agregar" HorizontalAlignment="Left" Margin="73,115,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnAgregar_Click" Grid.Column="1" Grid.Row="1" TabIndex="0"/>
-        <Button x:Name="BtnMostrar" Content="Mostrar" HorizontalAlignment="Left" Margin="38,115,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnMostrar_Click" Grid.Column="3" Grid.Row="1" TabIndex="1"/>
+        <Button x:Name="btnAgregar" Content="Agregar" HorizontalAlignment="Left" Margin="129,115,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnAgregar_Click" Grid.Column="1" Grid.Row="1" TabIndex="0"/>
+        <Button x:Name="BtnMostrar" Content="Mostrar" HorizontalAlignment="Left" Margin="248,115,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnMostrar_Click" Grid.Column="1" Grid.Row="1" TabIndex="1" RenderTransformOrigin="0.643,0.616" Grid.ColumnSpan="3"/>
+        <Button x:Name="btnReporte" Content="Reporte" HorizontalAlignment="Left" Margin="110,115,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Grid.Column="3" Grid.Row="1" TabIndex="2" Click="btnReporte_Click"/>
         <Image Margin="15,21,154,182" Source="/logoTele.png" Stretch="Fill" Grid.ColumnSpan="2"/>
 
     </Grid>

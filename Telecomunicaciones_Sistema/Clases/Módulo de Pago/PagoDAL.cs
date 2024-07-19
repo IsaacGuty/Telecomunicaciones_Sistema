@@ -140,7 +140,7 @@ namespace Telecomunicaciones_Sistema
             return servicios;
         }
 
-        public static List<string> ObtenerMesesPagados(string idCliente)
+        public static List<string> ObtenerMesesPagados(string idCliente, string idServicio)
         {
             List<string> mesesPagados = new List<string>();
 
@@ -149,8 +149,9 @@ namespace Telecomunicaciones_Sistema
                 using (SqlConnection Conn = BD.ObtenerConexion())
                 {
                     Conn.Open();
-                    SqlCommand cmd = new SqlCommand("SELECT Mes_Pagado FROM Pagos WHERE ID_Cliente = @ID_Cliente", Conn);
+                    SqlCommand cmd = new SqlCommand("SELECT Mes_Pagado FROM Pagos WHERE ID_Cliente = @ID_Cliente AND ID_Servicio = @ID_Servicio", Conn);
                     cmd.Parameters.AddWithValue("@ID_Cliente", idCliente);
+                    cmd.Parameters.AddWithValue("@ID_Servicio", idServicio);
 
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
@@ -166,6 +167,46 @@ namespace Telecomunicaciones_Sistema
 
             return mesesPagados;
         }
+
+        public static DataTable ObtenerClientesDeudores(string mes, string servicio)
+        {
+            DataTable dt = new DataTable();
+            string query = @"
+        SELECT c.ID_Cliente, c.Nombre, c.Apellido, c.Teléfono, c.Correo, 
+               @mes AS Mes_Pendiente, s.Costo AS Monto
+        FROM Clientes c
+        INNER JOIN ServicioCliente sc ON c.ID_Cliente = sc.ID_Cliente
+        INNER JOIN Servicios s ON sc.ID_Servicio = s.ID_Servicio
+        LEFT JOIN Pagos p ON p.ID_Cliente = c.ID_Cliente AND p.ID_Servicio = s.ID_Servicio AND p.Mes_Pagado = @mes
+        WHERE s.Tipo_Servicio = @servicio
+        AND (p.ID_Pago IS NULL)
+        ORDER BY c.ID_Cliente";
+
+            using (SqlConnection Conn = BD.ObtenerConexion())
+            {
+                SqlDataAdapter da = new SqlDataAdapter(query, Conn);
+                da.SelectCommand.Parameters.AddWithValue("@mes", mes);
+                da.SelectCommand.Parameters.AddWithValue("@servicio", servicio);
+                da.Fill(dt);
+            }
+
+            return dt;
+        }
+
+        public static DataTable CargarServicios()
+        {
+            DataTable dataTable = new DataTable();
+
+            using (SqlConnection connection = BD.ObtenerConexion())
+            {
+                connection.Open();
+                string query = "SELECT ID_Servicio, Tipo_Servicio FROM Servicios";
+                SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
+                adapter.Fill(dataTable);
+            }
+
+            return dataTable;
+        }   
     }
 }
 
