@@ -41,7 +41,7 @@ namespace Telecomunicaciones_Sistema
                     SqlCommand cmd = new SqlCommand("SET IDENTITY_INSERT Pagos ON; INSERT INTO Pagos (ID_Pago, ID_Cliente, ID_Servicio, Monto, Mes_Pagado, Fecha, ID_Empleado) VALUES (@ID_Pago, @ID_Cliente, @ID_Servicio, @Monto, @Mes_Pagado, @Fecha, @ID_Empleado); SET IDENTITY_INSERT Pagos OFF;", Conn);
                     cmd.Parameters.AddWithValue("@ID_Pago", pago.ID_Pago);
                     cmd.Parameters.AddWithValue("@ID_Cliente", pago.ID_Cliente);
-                    cmd.Parameters.AddWithValue("@ID_TpServicio", pago.ID_Servicio);
+                    cmd.Parameters.AddWithValue("@ID_Servicio", pago.ID_Servicio);
                     cmd.Parameters.AddWithValue("@Monto", pago.Monto);
 
                     if (!string.IsNullOrEmpty(pago.MesPagado))
@@ -96,7 +96,7 @@ namespace Telecomunicaciones_Sistema
                 using (SqlConnection Conn = BD.ObtenerConexion())
                 {
                     Conn.Open();
-                    string query = "SELECT P.ID_Pago, P.ID_Cliente, C.nombre, C.apellido, P.Monto, P.ID_Servicio, S.Servicio , P.Mes_Pagado, P.Fecha, P.ID_Empleado FROM Pagos P JOIN Clientes C ON P.ID_Cliente = C.ID_Cliente JOIN Servicios S on P.ID_Servicio = S.ID_Servicio WHERE P.ID_Cliente = @ID_Cliente";
+                    string query = "SELECT P.ID_Pago, P.ID_Cliente, C.nombre, C.apellido, P.Monto, P.ID_Servicio, S.Tipo_Servicio , P.Mes_Pagado, P.Fecha, P.ID_Empleado FROM Pagos P JOIN Clientes C ON P.ID_Cliente = C.ID_Cliente JOIN Servicios S on P.ID_Servicio = S.ID_Servicio WHERE P.ID_Cliente = @ID_Cliente";
                     SqlCommand cmd = new SqlCommand(query, Conn);
                     cmd.Parameters.AddWithValue("@ID_Cliente", textoBusqueda);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
@@ -138,6 +138,33 @@ namespace Telecomunicaciones_Sistema
                 }
             }
             return servicios;
+        }
+
+        public static List<string> ObtenerMesesPagados(string idCliente)
+        {
+            List<string> mesesPagados = new List<string>();
+
+            try
+            {
+                using (SqlConnection Conn = BD.ObtenerConexion())
+                {
+                    Conn.Open();
+                    SqlCommand cmd = new SqlCommand("SELECT Mes_Pagado FROM Pagos WHERE ID_Cliente = @ID_Cliente", Conn);
+                    cmd.Parameters.AddWithValue("@ID_Cliente", idCliente);
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        mesesPagados.Add(reader["Mes_Pagado"].ToString());
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error al obtener los meses pagados: " + ex.Message);
+            }
+
+            return mesesPagados;
         }
     }
 }

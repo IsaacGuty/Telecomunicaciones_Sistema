@@ -6,9 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using static Telecomunicaciones_Sistema.Registro_Cliente;
-using static Telecomunicaciones_Sistema.Registro_Empleado;
-using static Telecomunicaciones_Sistema.Registro_Transporte;
+
 
 namespace Telecomunicaciones_Sistema.Clases.Módulo_de_Transporte
 {
@@ -103,16 +101,13 @@ namespace Telecomunicaciones_Sistema.Clases.Módulo_de_Transporte
             using (SqlConnection connection = BD.ObtenerConexion())
             {
                 connection.Open();
-                SqlCommand cmd = new SqlCommand("UPDATE Transportes SET Color = @Color, Fecha_Pago_Matrícula = @Fecha_Pago_Matrícula, ID_Estado = @ID_Estado", connection);
+                SqlCommand cmd = new SqlCommand(
+                    "UPDATE Transportes SET Color = @Color, Fecha_Pago_Matrícula = @Fecha_Pago_Matrícula, ID_Estado = @ID_Estado WHERE ID_Placa = @ID_Placa",
+                    connection);
                 cmd.Parameters.AddWithValue("@Color", transporte.Color);
                 cmd.Parameters.AddWithValue("@Fecha_Pago_Matrícula", transporte.Fecha_Pago);
-
-                int idEstado;
-                if (!int.TryParse(transporte.ID_Estado, out idEstado))
-                {
-                    idEstado = 0; 
-                }
-                cmd.Parameters.AddWithValue("@ID_Estado", idEstado);
+                cmd.Parameters.AddWithValue("@ID_Estado", int.TryParse(transporte.ID_Estado, out int idEstado) ? idEstado : 0);
+                cmd.Parameters.AddWithValue("@ID_Placa", transporte.ID_Placa);
 
                 cmd.ExecuteNonQuery();
             }

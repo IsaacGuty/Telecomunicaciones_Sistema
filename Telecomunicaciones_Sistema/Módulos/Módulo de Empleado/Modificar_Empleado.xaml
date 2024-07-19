@@ -33,22 +33,22 @@
         <TextBox x:Name="txtNombreE" HorizontalAlignment="Center" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14" Grid.Column="1" LostFocus="TxtNombreE_LostFocus" PreviewKeyDown="InputControl_PreviewKeyDown"  TabIndex="2" PreviewTextInput="txtNombreE_PreviewTextInput" MaxLength="50" Grid.Row="1" Margin="0,136,0,0" Grid.RowSpan="2"/>
         <Label Content="Apellido:" HorizontalAlignment="Left" Margin="109,28,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Grid.Row="2" Height="26" Width="65" Grid.Column="1"/>
         <TextBox x:Name="txtApellidoE" HorizontalAlignment="Center" Height="23" Margin="0,31,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14" Grid.Row="2" Grid.Column="1" LostFocus="TxtApellidoE_LostFocus" PreviewKeyDown="InputControl_PreviewKeyDown" TabIndex="3" PreviewTextInput="txtApellidoE_PreviewTextInput" MaxLength="50"/>
-        <Label Content="Teléfono:" HorizontalAlignment="Left" Margin="109,70,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Grid.Row="2" Height="26" Width="65" Grid.Column="1"/>
-        <TextBox x:Name="txtTelefonoE" PreviewTextInput="txtTelefonoE_PreviewTextInput" HorizontalAlignment="Center" Height="23" Margin="0,73,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14" Grid.Row="2" Grid.Column="1" PreviewKeyDown="txtTelefonoE_PreviewKeyDown" TabIndex="4"/>
-        <Label Content="Correo:" HorizontalAlignment="Left" Margin="109,110,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Grid.Row="2" Height="26" Width="57" Grid.Column="1"/>
-        <TextBox x:Name="txtCorreoE" HorizontalAlignment="Center" Height="23" Margin="0,114,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14" Grid.Row="2" Grid.Column="1" PreviewKeyDown="txtCorreoE_PreviewKeyDown" TabIndex="5" PreviewTextInput="txtCorreoE_PreviewTextInput"/>
-        <Label Content="Dirección:" HorizontalAlignment="Left" Margin="109,0,0,0" VerticalAlignment="Center" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Grid.Row="2" Height="26" Width="72" Grid.Column="1"/>
-        <ComboBox x:Name="cmbDireccion" HorizontalAlignment="Center" VerticalAlignment="Center" Width="206" Height="25" FontFamily="Times New Roman" FontSize="14" Grid.Column="1" Grid.Row="2" TabIndex="6">
+        <Label Content="Teléfono:" HorizontalAlignment="Left" Margin="109,68,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Grid.Row="2" Height="26" Width="65" Grid.Column="1"/>
+        <TextBox x:Name="txtTelefonoE" PreviewTextInput="txtTelefonoE_PreviewTextInput" HorizontalAlignment="Center" Height="23" Margin="0,71,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14" Grid.Row="2" Grid.Column="1" PreviewKeyDown="txtTelefonoE_PreviewKeyDown" TabIndex="4"/>
+        <Label Content="Correo:" HorizontalAlignment="Left" Margin="109,108,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Grid.Row="2" Height="26" Width="57" Grid.Column="1"/>
+        <TextBox x:Name="txtCorreoE" HorizontalAlignment="Center" Height="23" Margin="0,112,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontFamily="Times New Roman" FontSize="14" Grid.Row="2" Grid.Column="1" PreviewKeyDown="txtCorreoE_PreviewKeyDown" TabIndex="5" PreviewTextInput="txtCorreoE_PreviewTextInput"/>
+        <Label Content="Dirección:" HorizontalAlignment="Left" Margin="109,151,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Grid.Row="2" Height="26" Width="72" Grid.Column="1"/>
+        <ComboBox x:Name="cmbDireccion" HorizontalAlignment="Center" VerticalAlignment="Top" Width="206" Height="25" FontFamily="Times New Roman" FontSize="14" Grid.Column="1" Grid.Row="2" TabIndex="6" Margin="0,151,0,0">
             <ComboBoxItem>201 - Talanga</ComboBoxItem>
             <ComboBoxItem>202 - Jalaca</ComboBoxItem>
             <ComboBoxItem>203 - Tegucigalpa</ComboBoxItem>
         </ComboBox>
-        <Label Content="Puesto:" HorizontalAlignment="Left" Margin="109,188,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Grid.Row="2" Height="26" Width="54" Grid.Column="1"/>
-        <Label Content="Estado:" HorizontalAlignment="Left" Margin="109,227,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Grid.Row="2" Height="26" Width="56" Grid.Column="1"/>
+        <Label Content="Puesto:" HorizontalAlignment="Left" Margin="109,183,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Grid.Row="2" Height="26" Width="54" Grid.Column="1"/>
+        <Label Content="Estado:" HorizontalAlignment="Left" Margin="109,222,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Grid.Row="2" Height="26" Width="56" Grid.Column="1"/>
         <Button x:Name="btnAceptar" Content="Aceptar" HorizontalAlignment="Left" Margin="172,287,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnAceptar_Click" Grid.Row="2" Grid.Column="1" TabIndex="9" Height="20"/>
         <Label x:Name="lblNom" Content="Modificar un empleado" HorizontalAlignment="Left" Margin="37,38,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="24" FontWeight="Bold" Width="312" Grid.Row="1" Height="38" RenderTransformOrigin="0.75,0.626" Grid.Column="1"/>
         <Button x:Name="btnRegresar" Content="Regresar" HorizontalAlignment="Left" Margin="275,287,0,0" VerticalAlignment="Top" Width="82" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnRegresar_Click" Grid.Row="2" Grid.Column="1" TabIndex="10" Height="20"/>
-        <ComboBox x:Name="cmbPuesto" HorizontalAlignment="Center" Margin="0,191,0,0" Grid.Row="2" VerticalAlignment="Top" Width="206" Height="25" FontFamily="Times New Roman" FontSize="14" Grid.Column="1" TabIndex="7">
+        <ComboBox x:Name="cmbPuesto" HorizontalAlignment="Center" Margin="0,186,0,0" Grid.Row="2" VerticalAlignment="Top" Width="206" Height="25" FontFamily="Times New Roman" FontSize="14" Grid.Column="1" TabIndex="7">
             <ComboBoxItem>Gerente General</ComboBoxItem>
             <ComboBoxItem>Gerente Tecnico</ComboBoxItem>
             <ComboBoxItem>Técnico</ComboBoxItem>
@@ -57,7 +57,7 @@
             <ComboBoxItem>Secretario</ComboBoxItem>
             <ComboBoxItem>Secretaria</ComboBoxItem>
         </ComboBox>
-        <ComboBox x:Name="cmbEstado" HorizontalAlignment="Center" Margin="0,228,0,0" Grid.Row="2" VerticalAlignment="Top" Width="206" Height="25" FontFamily="Times New Roman" FontSize="14" Grid.Column="1" TabIndex="8">
+        <ComboBox x:Name="cmbEstado" HorizontalAlignment="Center" Margin="0,223,0,0" Grid.Row="2" VerticalAlignment="Top" Width="206" Height="25" FontFamily="Times New Roman" FontSize="14" Grid.Column="1" TabIndex="8">
             <ComboBoxItem>1 - Activo</ComboBoxItem>
             <ComboBoxItem>2 - Inactivo</ComboBoxItem>
         </ComboBox>

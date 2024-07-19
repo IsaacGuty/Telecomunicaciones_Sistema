@@ -24,7 +24,7 @@ namespace Telecomunicaciones_Sistema
                     e.Nombre_E, 
                     e.Apellido_E, 
                     e.Teléfono_E, 
-                    CONVERT(varchar, DECRYPTBYPASSPHRASE('Sallybosa', e.Correo_E)) AS Correo_E, 
+                    e.Correo_E, 
                     e.ID_Dirección, 
                     d.Dirección, 
                     e.Puesto, 
@@ -87,7 +87,7 @@ namespace Telecomunicaciones_Sistema
                 Nombre_E = @Nombre_E, 
                 Apellido_E = @Apellido_E, 
                 Teléfono_E = @Teléfono_E, 
-                Correo_E = ENCRYPTBYPASSPHRASE('Sallybosa', @Correo_E), 
+                Correo_E = @Correo_E, 
                 ID_Dirección = @ID_Dirección, 
                 Puesto = @Puesto, 
                 ID_Estado = @ID_Estado 
@@ -98,8 +98,8 @@ namespace Telecomunicaciones_Sistema
                 cmd.Parameters.AddWithValue("@Nombre_E", empleado.Nombre_E);
                 cmd.Parameters.AddWithValue("@Apellido_E", empleado.Apellido_E);
                 cmd.Parameters.AddWithValue("@Teléfono_E", empleado.Teléfono_E);
-                // Asegúrate de definir el tamaño adecuado para el parámetro @Correo_E
-                cmd.Parameters.Add("@Correo_E", SqlDbType.VarChar, 100).Value = empleado.Correo_E;
+                cmd.Parameters.AddWithValue("@Correo_E", empleado.Correo_E);
+
                 int idDireccion;
                 if (!int.TryParse(empleado.ID_Dirección, out idDireccion))
                 {
@@ -136,17 +136,14 @@ namespace Telecomunicaciones_Sistema
                 INSERT INTO Empleados 
                 (ID_Empleado, Nombre_E, Apellido_E, Teléfono_E, Correo_E, ID_Dirección, Puesto, ID_Estado, Contraseña) 
                 VALUES 
-                (@ID_Empleado, @Nombre_E, @Apellido_E, @Teléfono_E, ENCRYPTBYPASSPHRASE('Sallybosa', @Correo_E), @ID_Dirección, @Puesto, @ID_Estado, @Contraseña)";
+                (@ID_Empleado, @Nombre_E, @Apellido_E, @Teléfono_E, @Correo_E, @ID_Dirección, @Puesto, @ID_Estado, @Contraseña)";
 
                 SqlCommand cmd = new SqlCommand(query, connection);
                 cmd.Parameters.AddWithValue("@ID_Empleado", empleado.ID_Empleado);
                 cmd.Parameters.AddWithValue("@Nombre_E", empleado.Nombre_E);
                 cmd.Parameters.AddWithValue("@Apellido_E", empleado.Apellido_E);
                 cmd.Parameters.AddWithValue("@Teléfono_E", empleado.Teléfono_E);
-
-                // Asegúrate de definir el tamaño adecuado para el parámetro @Correo_E
-                cmd.Parameters.Add("@Correo_E", SqlDbType.VarChar, 100).Value = empleado.Correo_E;
-
+                cmd.Parameters.AddWithValue("@Correo_E", empleado.Correo_E);
                 cmd.Parameters.AddWithValue("@ID_Dirección", empleado.ID_Dirección);
                 cmd.Parameters.AddWithValue("@Puesto", empleado.Puesto);
                 cmd.Parameters.AddWithValue("@Contraseña", contraseña);
@@ -185,16 +182,16 @@ namespace Telecomunicaciones_Sistema
                 SELECT
                 CASE
                 WHEN ID_Empleado = @ID_Empleado THEN 3
-                WHEN CONVERT(varchar, DECRYPTBYPASSPHRASE('Sallybosa', Correo_E)) = @Correo_E THEN 1
+                WHEN Correo_E = @Correo_E THEN 1
                 WHEN Teléfono_E = @Teléfono_E THEN 2
                 ELSE 0
                 END AS Duplicado
                 FROM Empleados
                 WHERE ID_Empleado = @ID_Empleado
-                OR (
-                CONVERT(varchar, DECRYPTBYPASSPHRASE('Sallybosa', Correo_E)) = @Correo_E 
+                OR 
+                Correo_E = @Correo_E 
                 OR Teléfono_E = @Teléfono_E
-                );";
+                ;";
 
                 SqlCommand cmd = new SqlCommand(query, connection);
                 cmd.Parameters.AddWithValue("@ID_Empleado", idEmpleado);
@@ -222,16 +219,15 @@ namespace Telecomunicaciones_Sistema
                 SELECT
                 CASE
                 WHEN ID_Empleado = @ID_Empleado THEN 0  -- Excluir el propio empleado que se está modificando
-                WHEN CONVERT(varchar, DECRYPTBYPASSPHRASE('Sallybosa', Correo_E)) = @Correo_E THEN 1
+                WHEN Correo_E = @Correo_E THEN 1
                 WHEN Teléfono_E = @Teléfono_E THEN 2
                 ELSE 0
                 END AS Duplicado
                 FROM Empleados
                 WHERE (ID_Empleado <> @ID_Empleado)  -- Excluir el propio empleado que se está modificando
-                AND (
-                CONVERT(varchar, DECRYPTBYPASSPHRASE('Sallybosa', Correo_E)) = @Correo_E 
+                AND (Correo_E) = @Correo_E 
                 OR Teléfono_E = @Teléfono_E
-                );";
+                ;";
 
                 SqlCommand cmd = new SqlCommand(query, connection);
                 cmd.Parameters.AddWithValue("@ID_Empleado", idEmpleado);
@@ -246,7 +242,6 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
-
         public static DataTable ObtenerEmpleadosTecnicos()
         {
             DataTable dataTable = new DataTable();
@@ -255,7 +250,7 @@ namespace Telecomunicaciones_Sistema
                 using (SqlConnection connection = BD.ObtenerConexion())
                 {
                     connection.Open();
-                    string query = "SELECT * FROM Empleados WHERE Puesto = 'Tecnico' AND ID_Estado = '1'";
+                    string query = "SELECT * FROM Empleados WHERE Puesto = 'Técnico' AND ID_Estado = '1'";
                     SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
                     adapter.Fill(dataTable);
                 }
@@ -295,7 +290,7 @@ namespace Telecomunicaciones_Sistema
                 string query = @"
                 SELECT COUNT(*) 
                 FROM Empleados 
-                WHERE CONVERT(varchar, DECRYPTBYPASSPHRASE('Sallybosa', Correo_E)) = @Correo COLLATE Latin1_General_CS_AS";
+                WHERE Correo_E = @Correo COLLATE Latin1_General_CS_AS";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {

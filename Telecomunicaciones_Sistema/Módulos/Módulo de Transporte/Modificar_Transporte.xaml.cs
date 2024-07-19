@@ -80,7 +80,7 @@ namespace Telecomunicaciones_Sistema
             {
                 if (!Validaciones.NoContieneEspaciosEnBlanco(txtColor.Text) || !Validaciones.NoContieneEspaciosEnBlanco(Fecha_Pago.Text))
                 {
-                    MessageBox.Show("Todos los campos del cliente deben llenarse.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Todos los campos del transporte deben llenarse.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
@@ -94,18 +94,16 @@ namespace Telecomunicaciones_Sistema
 
                 if (!Validaciones.TresVecesSeguidas(txtColor.Text))
                 {
-                    MessageBox.Show("El color no es válida. No se permiten más de 3 veces seguidas la misma letra.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("El color no es válido. No se permiten más de 3 veces seguidas la misma letra.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
                 DateTime fechaPago = Fecha_Pago.SelectedDate.HasValue ? Fecha_Pago.SelectedDate.Value : DateTime.MinValue;
 
-                // Extraer solo el número del estado
                 string estadoSeleccionado = ((ComboBoxItem)cmbEstado.SelectedItem)?.Content.ToString();
                 string[] partesEstado = estadoSeleccionado?.Split('-');
                 string numeroEstado = partesEstado[0].Trim();
-                int idEstado;
-                if (!int.TryParse(numeroEstado, out idEstado))
+                if (!int.TryParse(numeroEstado, out int idEstado))
                 {
                     MessageBox.Show("El estado seleccionado no es válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
@@ -113,16 +111,14 @@ namespace Telecomunicaciones_Sistema
 
                 NuevoTransporte = new Transporte
                 {
+                    ID_Placa = TransporteSeleccionado.ID_Placa, 
                     Color = txtColor.Text,
                     Fecha_Pago = fechaPago,
                     ID_Estado = numeroEstado
                 };
 
-                // Agregar el nuevo transporte a la base de datos
                 TransporteDAL.ActualizarTransporte(NuevoTransporte);
                 MessageBox.Show("Transporte modificado correctamente.");
-
-                // Llama al evento Transporte antes de cerrar la ventana
                 OnTransporteModificado();
             }
             catch (Exception ex)
@@ -130,7 +126,6 @@ namespace Telecomunicaciones_Sistema
                 MessageBox.Show("Error al modificar el transporte: " + ex.Message);
             }
 
-            // Cierra la ventana después de procesar el transporte
             this.Close();
         }
 

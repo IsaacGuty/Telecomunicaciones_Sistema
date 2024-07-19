@@ -35,7 +35,6 @@
                 <DataGridTextColumn Header="ID Cliente" Binding="{Binding ID_Cliente}" />
                 <DataGridTextColumn Header="Nombre" Binding="{Binding nombre}" />
                 <DataGridTextColumn Header="Apellido" Binding="{Binding apellido}" />
-                <DataGridTextColumn Header="ID Servicio" Binding="{Binding ID_Servicio}" />
                 <DataGridTextColumn Header="Tipo de Servicio" Binding="{Binding Tipo_Servicio}" />
                 <DataGridTextColumn Header="Mes Pagado" Binding="{Binding Mes_Pagado}" />
                 <DataGridTextColumn Header="Fecha" Binding="{Binding Fecha}" />

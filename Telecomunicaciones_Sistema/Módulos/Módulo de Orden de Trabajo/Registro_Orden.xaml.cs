@@ -98,7 +98,7 @@ namespace Telecomunicaciones_Sistema
 
         private void BtnLimpiar_Click(object sender, RoutedEventArgs e)
         {
-            // Limpia los campos de búsqueda
+            // Limpia los campos 
             txtNombre.Clear();
             txtApellido.Clear();
             txtDirección.Clear();
@@ -109,6 +109,15 @@ namespace Telecomunicaciones_Sistema
             // Restablece el placeholder y color del campo de búsqueda
             txtBuscar.Text = "Nombre, apellido";
             txtBuscar.Foreground = new SolidColorBrush(Colors.Gray);
+
+            // Limpia el ComboBox de TipoT
+            cmbTipoT.SelectedIndex = -1;
+
+            // Limpia el ComboBox del Nombre del Empleado
+            cmbNombreE.SelectedIndex = -1;
+
+            // Limpia el ComboBox de Transporte
+            cmbTransporte.SelectedIndex = -1;
 
             // Recarga los datos en el DataGrid
             CargarDatos();

@@ -16,14 +16,8 @@ using System.Windows.Input;
 
 namespace Telecomunicaciones_Sistema
 {
-    class Validaciones
+    public class Validaciones
     {
-        /*public static bool CorreoValido(string correo)
-        {
-            string patron = @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
-            return Regex.IsMatch(correo, patron);
-        }*/
-
         public static bool CamposVacios(string usuario, string contraseña)
         {
             return string.IsNullOrWhiteSpace(usuario) && string.IsNullOrWhiteSpace(contraseña);
@@ -426,7 +420,7 @@ namespace Telecomunicaciones_Sistema
             // Verificar longitud máxima de 20 caracteres
             if (color.Length > 20)
             {
-                mensajeError = "El color no puede tener más de 20 caracteres.";
+                mensajeError = "Se ha alcanzado el límite máximo de 20 caracteres en el campo de color.";
                 return false;
             }
 
@@ -496,7 +490,7 @@ namespace Telecomunicaciones_Sistema
             if (e.Key == Key.Space)
             {
                 // Verifica si la tecla presionada es la barra espaciadora
-                mensajeError = "No se permiten espacios en blanco en el ID Placa.";
+                mensajeError = "No se permiten espacios en blanco en el Año.";
                 return false;
             }
 
@@ -643,6 +637,13 @@ namespace Telecomunicaciones_Sistema
         {
             mensajeError = string.Empty;
 
+            // Verificar la longitud del texto
+            if (texto.Length > 7)
+            {
+                mensajeError = "No se permiten más de 7 caracteres.";
+                return false;
+            }
+
             // Verificar que no contenga caracteres especiales
             if (!Regex.IsMatch(texto, @"^[a-zA-Z0-9]+$"))
             {
@@ -653,9 +654,44 @@ namespace Telecomunicaciones_Sistema
             return true;
         }
 
+        public static bool ValidarMarca(string texto, out string mensajeError)
+        {
+            mensajeError = string.Empty;
+
+            // Verificar la longitud del texto
+            if (texto.Length > 20)
+            {
+                mensajeError = "Se ha alcanzado el límite máximo de 20 caracteres en el campo de marca.";
+                return false;
+            }
+
+            return true;
+        }
+
+        public static bool ValidarModelo(string texto, out string mensajeError)
+        {
+            mensajeError = string.Empty;
+
+            // Verificar la longitud del texto
+            if (texto.Length > 20)
+            {
+                mensajeError = "Se ha alcanzado el límite máximo de 20 caracteres en el campo de modelo.";
+                return false;
+            }
+
+            return true;
+        }
+
         public static bool ValidarAño(string texto, out string mensajeError)
         {
             mensajeError = string.Empty;
+
+            // Verificar la longitud del texto
+            if (texto.Length > 4)
+            {
+                mensajeError = "No se permiten más de 4  caracteres.";
+                return false;
+            }
 
             // Verificar que no contenga letras
             if (Regex.IsMatch(texto, @"[a-zA-Z]"))

@@ -107,40 +107,6 @@ namespace Telecomunicaciones_Sistema
                 return count > 0; 
             }
         }
-
-        /*public static int ClienteDI(string idCliente, string correo, string telefono)
-        {
-            using (SqlConnection connection = BD.ObtenerConexion())
-            {
-                connection.Open();
-                string query = @"
-                SELECT
-                CASE
-                     WHEN Correo = @Correo THEN 1
-                     WHEN Teléfono = @Teléfono THEN 2
-                ELSE 0
-                END AS Duplicado
-                FROM Cliente
-                     WHERE ID_Cliente != @ID_Cliente
-                AND (
-                    Correo = @Correo 
-                OR Teléfono = @Teléfono
-                );
-                ";
-
-                SqlCommand cmd = new SqlCommand(query, connection);
-                cmd.Parameters.AddWithValue("@ID_Cliente", idCliente);
-                cmd.Parameters.AddWithValue("@Correo", correo);
-                cmd.Parameters.AddWithValue("@Teléfono", telefono);
-
-                object result = cmd.ExecuteScalar();
-
-                // Retornar el código de duplicado específico: 
-                // 1 para correo, 2 para teléfono, 0 para ninguno
-                return result != DBNull.Value ? Convert.ToInt32(result) : 0;
-            }
-        }*/
-
         public static int ObtenerUltimoIDRegistrado()
         {
             int ultimoID = 0;

@@ -42,9 +42,9 @@ namespace Telecomunicaciones_Sistema
         {
             try
             {
-                if (!Validaciones.NoContieneEspaciosEnBlanco(txtIDP.Text) || !Validaciones.NoContieneEspaciosEnBlanco(txtMarca.Text) || !Validaciones.NoContieneEspaciosEnBlanco(txtModelo.Text) || !Validaciones.NoContieneEspaciosEnBlanco(txtAño.Text))
+                if (!Validaciones.NoContieneEspaciosEnBlanco(txtIDP.Text) || !Validaciones.NoContieneEspaciosEnBlanco(txtMarca.Text) || !Validaciones.NoContieneEspaciosEnBlanco(txtModelo.Text) || !Validaciones.NoContieneEspaciosEnBlanco(txtAño.Text) || !Validaciones.NoContieneEspaciosEnBlanco(txtColor.Text))
                 {
-                    MessageBox.Show("Todos los campos del cliente deben llenarse.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Todos los campos del transporte deben llenarse.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
@@ -62,7 +62,7 @@ namespace Telecomunicaciones_Sistema
 
                 if (!Validaciones.MMValido(txtModelo.Text))
                 {
-                    MessageBox.Show("La marca no es válida. No se permiten espacios en blanco al inicio ni entre caracteres.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("El modelo no es válido. No se permiten espacios en blanco al inicio ni entre caracteres.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
@@ -159,16 +159,38 @@ namespace Telecomunicaciones_Sistema
             // Combinar el texto actual con el texto que se está ingresando
             string nuevoTexto = textBox.Text + e.Text;
 
-            // Verificar la longitud del texto combinado
-            if (nuevoTexto.Length > 7)
-            {
-                e.Handled = true; // Detener la entrada de texto si supera los 7 caracteres
-                MessageBox.Show("No se permiten más de 7 caracteres.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
             // Validar el texto combinado
             if (!Validaciones.ValidarIDPC(nuevoTexto, out string mensajeError))
+            {
+                e.Handled = true; // Detener la entrada de texto no válida
+                MessageBox.Show(mensajeError, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void txtMarca_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+
+            // Combinar el texto actual con el texto que se está ingresando
+            string nuevoTexto = textBox.Text + e.Text;
+
+            // Validar el texto combinado
+            if (!Validaciones.ValidarMarca(nuevoTexto, out string mensajeError))
+            {
+                e.Handled = true; // Detener la entrada de texto no válida
+                MessageBox.Show(mensajeError, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void txtModelo_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+
+            // Combinar el texto actual con el texto que se está ingresando
+            string nuevoTexto = textBox.Text + e.Text;
+
+            // Validar el texto combinado
+            if (!Validaciones.ValidarModelo(nuevoTexto, out string mensajeError))
             {
                 e.Handled = true; // Detener la entrada de texto no válida
                 MessageBox.Show(mensajeError, "Error", MessageBoxButton.OK, MessageBoxImage.Error);

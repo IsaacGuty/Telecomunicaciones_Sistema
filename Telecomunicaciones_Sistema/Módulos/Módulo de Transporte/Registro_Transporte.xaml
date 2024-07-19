@@ -25,7 +25,7 @@
         <Button x:Name="BtnAgregar" Content="Agregar" HorizontalAlignment="Left" Margin="153,220,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Grid.Row="1" TabIndex="0" Click="BtnAgregar_Click"/>
         <Button x:Name="BtnModificar" Content="Modificar" HorizontalAlignment="Left" Margin="271,220,0,0" VerticalAlignment="Top" Width="75" FontWeight="Bold" FontFamily="Times New Roman" FontSize="14" Grid.Row="1" TabIndex="1" Click="BtnModificar_Click"/>
         <Button x:Name="btnRegresar" Content="Regresar" HorizontalAlignment="Left" Margin="500,220,0,0" VerticalAlignment="Top" Width="75" FontWeight="Bold" FontFamily="Times New Roman" FontSize="14" RenderTransformOrigin="1.021,0.51" Grid.Row="1" TabIndex="3" Click="btnRegresar_Click"/>
-        <DataGrid x:Name="DataGridTP" IsReadOnly="True" SelectionChanged="DataGridTP_SelectionChanged" AutoGenerateColumns="False" HorizontalAlignment="Center" Height="214" Margin="0,163,0,0" VerticalAlignment="Top" Width="508" Grid.RowSpan="2" KeyboardNavigation.TabNavigation="None">
+        <DataGrid x:Name="DataGridTP" IsReadOnly="True" SelectionChanged="DataGridTP_SelectionChanged" AutoGenerateColumns="False" HorizontalAlignment="Center" Height="214" Margin="0,163,0,0" VerticalAlignment="Top" Width="474" Grid.RowSpan="2" KeyboardNavigation.TabNavigation="None">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID Placa" Binding="{Binding ID_Placa}" />
                 <DataGridTextColumn Header="Marca" Binding="{Binding Marca_Carro}" />
@@ -33,7 +33,6 @@
                 <DataGridTextColumn Header="Color" Binding="{Binding Color}" />
                 <DataGridTextColumn Header="Fecha de Pago de Matrícula" Binding="{Binding Fecha_Pago_Matrícula}" />
                 <DataGridTextColumn Header="Año" Binding="{Binding Año_Carro}" />
-                <DataGridTextColumn Header="ID Estado" Binding="{Binding ID_Estado}" />
                 <DataGridTextColumn Header="Estado" Binding="{Binding Tipo_Estado}" />
             </DataGrid.Columns>
         </DataGrid>

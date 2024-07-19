@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Data.SqlClient;
 using System.Data;
+using System.Diagnostics;
 
 namespace Telecomunicaciones_Sistema
 {
@@ -25,20 +26,17 @@ namespace Telecomunicaciones_Sistema
         public event EventHandler PagoModificado;
 
         // Lista para almacenar los pagos
-        private List<Pagos> pagos;
+       // private List<Pagos> pagos;
 
         // Propiedad para obtener el nuevo pago
         public Pagos NuevoPago { get; private set; }
 
         public static Agregar_Pago Instance { get; private set; }
 
-        // Variable para indicar si se está modificando un pago existente
-
-        // Constructor sin parámetros para agregar un nuevo pago
         public Agregar_Pago()
         {
             InitializeComponent();
-            pagos = new List<Pagos>(); // Inicialización de la lista de pagos
+           // pagos = new List<Pagos>(); // Inicialización de la lista de pagos
             Conn = BD.ObtenerConexion(); // Inicialización de la conexión a la base de datos
             txtIDP.Text = PagoDAL.ObtenerUltimoIDPago().ToString(); // Obtener el último ID_Pago de la base de datos y mostrarlo en txtIDP
             DateTime fechaActual = DateTime.Now; // Obtener la fecha actual y asignarla al campo txtFecha
@@ -46,10 +44,39 @@ namespace Telecomunicaciones_Sistema
             txtNombreE.Text = Inicio_Sesión.IdUsuario.ToString(); // Asignar el ID del usuario al campo txtNombreE
             cmbIDS.SelectionChanged += CmbIDS_SelectionChanged; // Agregar un manejador de eventos para el evento SelectionChanged del ComboBox cmbIDS
             Instance = this; // Almacena la instancia actual
+            // Actualizar ComboBox de meses pagados para el cliente seleccionado
+            if (!string.IsNullOrEmpty(txtIDC.Text))
+            {
+                ActualizarMesesPagados(txtIDC.Text);
+            }
         }
 
         // Objeto de conexión a la base de datos
         private SqlConnection Conn;
+
+        private void ActualizarMesesPagados(string idCliente)
+        {
+            List<string> mesesPagados = PagoDAL.ObtenerMesesPagados(idCliente);
+
+            foreach (ComboBoxItem item in cmbMes.Items)
+            {
+                string mes = item.Content.ToString();
+                if (mesesPagados.Contains(mes))
+                {
+                    item.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    item.Visibility = Visibility.Visible;
+                }
+            }
+
+            // Imprimir los meses pagados para depuración
+            foreach (var mes in mesesPagados)
+            {
+                Debug.WriteLine("Mes pagado: " + mes);
+            }
+        }
 
         private void BtnAceptar_Click(object sender, RoutedEventArgs e)
         {
@@ -76,6 +103,14 @@ namespace Telecomunicaciones_Sistema
                     mesPagado = selectedComboBoxItem.Content.ToString();
                 }
 
+                // Verificar si el mes ya ha sido pagado
+                List<string> mesesPagados = PagoDAL.ObtenerMesesPagados(txtIDC.Text);
+                if (mesesPagados.Contains(mesPagado))
+                {
+                    MessageBox.Show("El mes seleccionado ya ha sido pagado.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
                 decimal monto;
                 if (decimal.TryParse(txtMonto.Text, out monto))
                 {
@@ -85,7 +120,7 @@ namespace Telecomunicaciones_Sistema
                         ID_Cliente = txtIDC.Text,
                         ID_Servicio = ObtenerNumeroServicioSeleccionado(),
                         Monto = monto,
-                        MesPagado = mesPagado, // Utiliza el contenido del mes seleccionado del ComboBox
+                        MesPagado = mesPagado, 
                         ID_Empleado = txtNombreE.Text,
                         Fecha = DateTime.Now
                     };
@@ -95,12 +130,17 @@ namespace Telecomunicaciones_Sistema
                     MessageBox.Show("El monto ingresado no es válido.");
                     return;
                 }
+
                 PagoDAL.AgregarPago(NuevoPago);
                 MessageBox.Show("Pago agregado correctamente.");
+
+                // Actualizar ComboBox de meses pagados para el cliente seleccionado
+                ActualizarMesesPagados(txtIDC.Text);
+
                 if (PagoModificado != null)
                 {
                     PagoModificado(this, EventArgs.Empty);
-                }         
+                }
             }
             catch (Exception ex)
             {
@@ -108,6 +148,7 @@ namespace Telecomunicaciones_Sistema
             }
             this.Close();
         }
+
 
         private void BtnBusC_Click(object sender, RoutedEventArgs e)
         {
