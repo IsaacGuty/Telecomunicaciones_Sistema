@@ -21,8 +21,10 @@ namespace Telecomunicaciones_Sistema
     /// </summary>
     public partial class Vista_Pago : Window
     {
+        // Variable estática para indicar si se ha hecho una selección desde la ventana 10
         public static bool SeleccionDesdeVentana10 = false;
 
+        // Variable estática privada que mantendrá la instancia única de Vista_Pago
         private static Vista_Pago _instance;
 
         // Propiedad estática para acceder a la instancia única de Vista_Pago
@@ -35,27 +37,22 @@ namespace Telecomunicaciones_Sistema
                 {
                     _instance = new Vista_Pago();
                 }
+                // Devuelve la instancia única de Vista_Pago
                 return _instance;
             }
         }
 
+        // Constructor de la clase Vista_Pago
         public Vista_Pago()
         {
+            // Llama al método InitializeComponent, que inicializa todos los componentes de la interfaz de usuario definidos en el archivo XAML
             InitializeComponent();
         }
 
+        // Manejador del evento SelectionChanged para el DataGrid DatGridP
         private void DatGridP_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
-        }
-
-        // Constructor que acepta el texto a buscar
-        public Vista_Pago(string textoBusqueda) : this()
-        {
-            txtBuscar.Text = textoBusqueda; // Establece el texto de búsqueda en el TextBox
-
-            // Llama al método BuscarPagos de PagoDAL y asigna el resultado al DataGrid
-            DatGridVP.ItemsSource = PagoDAL.BuscarCliente(textoBusqueda).DefaultView;
+            // Este método se ejecutará cuando cambie la selección en el DataGrid DatGridP
         }
 
         private void BtnBuscar_Click(object sender, RoutedEventArgs e)
@@ -126,33 +123,32 @@ namespace Telecomunicaciones_Sistema
 
         private void txtBuscar_GotFocus(object sender, RoutedEventArgs e)
         {
+            // Verifica si el texto del campo 'txtBuscar' es igual a "Seleccione un ID de cliente".
             if (txtBuscar.Text == "Seleccione un ID de cliente")
             {
+                // Si el texto es igual, lo establece como una cadena vacía, borrando el texto mostrado.
                 txtBuscar.Text = "";
+
+                // Cambia el color del texto del campo 'txtBuscar' a negro para indicar que está listo para la entrada del usuario.
                 txtBuscar.Foreground = new SolidColorBrush(Colors.Black);
             }
         }
 
         private void txtBuscar_LostFocus(object sender, RoutedEventArgs e)
         {
+            // Verifica si el texto del control 'txtBuscar' es nulo, vacío o solo contiene espacios en blanco
             if (string.IsNullOrWhiteSpace(txtBuscar.Text))
             {
+                // Si el texto es nulo, vacío o solo espacios, se establece un texto predeterminado
                 txtBuscar.Text = "Seleccione un ID de cliente";
+
+                // Cambia el color del texto a gris para indicar que es un texto de marcador de posición
                 txtBuscar.Foreground = new SolidColorBrush(Colors.Gray);
             }
             else
             {
-                // Convierte la primera letra de cada palabra a mayúscula
+                // Si el texto no está vacío, convierte la primera letra de cada palabra a mayúscula
                 txtBuscar.Text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(txtBuscar.Text.ToLower());
-            }
-        }
-
-        private void SetPlaceholderText()
-        {
-            if (string.IsNullOrWhiteSpace(txtBuscar.Text))
-            {
-                txtBuscar.Text = "Seleccione un ID de cliente";
-                txtBuscar.Foreground = new SolidColorBrush(Colors.Gray);
             }
         }
     }

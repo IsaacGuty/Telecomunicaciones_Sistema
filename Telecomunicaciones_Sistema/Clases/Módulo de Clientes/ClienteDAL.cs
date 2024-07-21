@@ -96,17 +96,41 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
-        public static bool ClienteExiste(string idCliente)
+        public static int ClienteExisteConDatosMod(string idCliente, string correo, string telefono)
         {
             using (SqlConnection connection = BD.ObtenerConexion())
             {
                 connection.Open();
-                SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM Clientes WHERE ID_Cliente = @ID_Cliente", connection);
+
+                // Consulta SQL que verifica si hay otro cliente con los mismos datos personales
+                // (correo o teléfono) excluyendo al cliente que se está modificando por ID
+                string query = @"
+                SELECT
+                CASE
+                WHEN ID_Cliente = @ID_Cliente THEN 0  -- Excluir el propio cliente que se está modificando
+                WHEN Correo = @Correo_C THEN 1
+                WHEN Teléfono = @Telefono_C THEN 2
+                ELSE 0
+                END AS Duplicado
+                FROM Clientes
+                WHERE (ID_Cliente <> @ID_Cliente)  -- Excluir el propio cliente que se está modificando
+                AND (Correo = @Correo_C 
+                OR Teléfono = @Telefono_C)
+                ;";
+
+                SqlCommand cmd = new SqlCommand(query, connection);
                 cmd.Parameters.AddWithValue("@ID_Cliente", idCliente);
-                int count = (int)cmd.ExecuteScalar();
-                return count > 0; 
+                cmd.Parameters.AddWithValue("@Correo_C", correo);
+                cmd.Parameters.AddWithValue("@Telefono_C", telefono);
+
+                object result = cmd.ExecuteScalar();
+
+                // Retornar el código de duplicado específico: 
+                // 1 para correo, 2 para teléfono, 0 para ninguno
+                return result != DBNull.Value ? Convert.ToInt32(result) : 0;
             }
         }
+
         public static int ObtenerUltimoIDRegistrado()
         {
             int ultimoID = 0;

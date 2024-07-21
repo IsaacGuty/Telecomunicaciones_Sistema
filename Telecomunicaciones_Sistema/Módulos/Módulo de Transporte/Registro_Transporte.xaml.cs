@@ -23,22 +23,35 @@ namespace Telecomunicaciones_Sistema
     /// </summary>
     public partial class Registro_Transporte : Window
     {
+        // Declaración de un campo privado para almacenar una instancia de la ventana Agregar_Transporte.
         private Agregar_Transporte ventanaAgr;
 
+        // Propiedad estática que almacena el transporte seleccionado. Puede ser accedido y modificado desde cualquier lugar.
         public static Transportes TransporteSeleccionado { get; set; }
 
+        // Propiedad que almacena una instancia de la ventana Modificar_Transporte. Esta propiedad es de solo lectura fuera de la clase.
         public Modificar_Transporte Modificar_Transporte { get; private set; }
 
+        // Campo privado para almacenar la conexión a la base de datos SQL.
         private SqlConnection Conn;
 
+        // Constructor de la clase Registro_Transporte. Se llama cuando se crea una nueva instancia de la clase.
         public Registro_Transporte()
         {
+            // Inicializa los componentes de la interfaz de usuario definidos en el archivo XAML asociado.
             InitializeComponent();
-            Conn = BD.ObtenerConexion(); // Establecer conexión a la base de datos           
-            CargarDatos();  // Cargar los datos de los clientes en el DataGrid
 
+            // Establece una conexión a la base de datos utilizando el método ObtenerConexion de la clase BD.
+            Conn = BD.ObtenerConexion(); // Establecer conexión a la base de datos
+
+            // Llama al método CargarDatos para cargar los datos de los clientes en el DataGrid.
+            CargarDatos(); // Cargar los datos de los clientes en el DataGrid
+
+            // Crea una nueva instancia de la ventana Agregar_Transporte.
             ventanaAgr = new Agregar_Transporte(); // Crear una instancia de Agregar_Transporte
 
+            // Suscribe el evento TransporteAgregado de la ventana Agregar_Transporte al método ActualizarDatosTransporte.
+            // Esto asegura que cada vez que se agregue un nuevo transporte, se actualizarán los datos en la ventana actual.
             ventanaAgr.TransporteAgregado += ActualizarDatosTransporte; // Suscribir al evento TransporteAgregado de Agregar_Transporte para actualizar los datos en esta ventana
         }
 
@@ -55,59 +68,90 @@ namespace Telecomunicaciones_Sistema
 
         public void CargarDatos()
         {
+            // Inicia un bloque de código que puede lanzar excepciones para que puedan ser manejadas
             try
             {
+                // Llama al método ObtenerTodosTransportes de la clase TransporteDAL para obtener todos los registros de transporte
+                // y almacena el resultado en un objeto DataTable
                 DataTable dataTable = TransporteDAL.ObtenerTodosTransportes();
+
+                // Asigna la vista predeterminada del DataTable (DataView) como la fuente de datos para el DataGridTP
                 DataGridTP.ItemsSource = dataTable.DefaultView;
             }
+            // Captura cualquier excepción que pueda ocurrir durante la ejecución del bloque try
             catch (Exception ex)
             {
+                // Muestra un mensaje de error con la información del mensaje de la excepción
                 MessageBox.Show("Error al cargar los datos: " + ex.Message);
             }
         }
 
+        // Evento manejador para el clic del botón "Agregar" en la interfaz de usuario
         private void BtnAgregar_Click(object sender, RoutedEventArgs e)
         {
+            // Muestra un cuadro de mensaje al usuario solicitando la información del nuevo transporte.
+            // El cuadro de mensaje tiene un botón "OK" y un botón "Cancelar".
             MessageBoxResult result = MessageBox.Show("Por favor, ingrese la información del nuevo transporte.", "Nuevo Transporte", MessageBoxButton.OKCancel);
 
+            // Verifica si el usuario hizo clic en el botón "OK" del cuadro de mensaje.
             if (result == MessageBoxResult.OK)
             {
-                // Mostrar la ventana para agregar un nuevo transporte
+                // Crea una instancia de la ventana "Agregar_Transporte", que permite al usuario ingresar la información del nuevo transporte.
                 Agregar_Transporte frmAg = new Agregar_Transporte();
-                frmAg.TransporteAgregado += (s, args) => CargarDatos(); // Refrescar los datos del DataGrid cuando se agregue un nuevo transporte
+
+                // Suscribe el método `CargarDatos` al evento `TransporteAgregado` de la ventana `Agregar_Transporte`.
+                // Esto asegura que el DataGrid se actualice (refresque) cuando se agregue un nuevo transporte.
+                frmAg.TransporteAgregado += (s, args) => CargarDatos();
+
+                // Muestra la ventana "Agregar_Transporte" al usuario.
                 frmAg.Show();
             }
         }
 
+        // Método manejador de eventos para el botón "Regresar" en una ventana WPF
         private void btnRegresar_Click(object sender, RoutedEventArgs e)
         {
-            // Regresar a la ventana principal
+            // Crear una instancia de la ventana principal "Menú".
+            // El parámetro "isInicio_Sesión: true" indica que se está iniciando la sesión.
             Menú frmPr = new Menú(isInicio_Sesión: true);
+
+            // Mostrar la ventana principal.
             frmPr.Show();
 
+            // Cerrar la ventana actual (la ventana desde la que se hizo clic en el botón "Regresar").
             this.Close();
         }
 
         private void BtnModificar_Click(object sender, RoutedEventArgs e)
         {
+            // Muestra un cuadro de mensaje solicitando la confirmación del usuario para modificar el transporte.
             MessageBoxResult result = MessageBox.Show("Por favor, ingrese la modificación del transporte.", "Modificación", MessageBoxButton.OKCancel);
 
+            // Verifica si el usuario ha hecho clic en el botón OK.
             if (result == MessageBoxResult.OK)
             {
+                // Verifica si se ha seleccionado un transporte válido (no es el valor predeterminado).
                 if (!TransporteSeleccionado.Equals(default(Transportes)))
                 {
-                    // Crear una nueva ventana para modificar el transporte seleccionado
+                    // Crea una nueva instancia de la ventana Modificar_Transporte para permitir la modificación del transporte seleccionado.
                     Modificar_Transporte = new Modificar_Transporte(TransporteSeleccionado, true);
+
+                    // Suscribe el evento TransporteModificado a la función ActualizarDatosTransporte.
                     Modificar_Transporte.TransporteModificado += ActualizarDatosTransporte;
-                    Modificar_Transporte.Closed += (s, args) => CargarDatos(); // Refrescar los datos del DataGrid cuando se cierre la ventana
+
+                    // Suscribe el evento Closed a una función anónima que llama a CargarDatos.
+                    Modificar_Transporte.Closed += (s, args) => CargarDatos();
+
+                    // Muestra la ventana Modificar_Transporte.
                     Modificar_Transporte.Show();
                 }
                 else
                 {
+                    // Muestra un mensaje de advertencia si no se ha seleccionado ningún transporte.
                     MessageBox.Show("No se ha seleccionado ningún transporte.");
                 }
             }
-        }   
+        }
 
         private void ActualizarDatosTransporte(object sender, EventArgs e)
         {
@@ -149,23 +193,34 @@ namespace Telecomunicaciones_Sistema
 
         private void txtBuscar_GotFocus(object sender, RoutedEventArgs e)
         {
+            // Verifica si el texto actual en el control txtBuscar es igual a "Placa, Marca".
             if (txtBuscar.Text == "Placa, Marca")
             {
+                // Si el texto es igual a "Placa, Marca", borra el texto del control txtBuscar.
                 txtBuscar.Text = "";
+
+                // Cambia el color del texto del control txtBuscar a negro (Color.Black).
                 txtBuscar.Foreground = new SolidColorBrush(Colors.Black);
             }
         }
 
         private void txtBuscar_LostFocus(object sender, RoutedEventArgs e)
         {
+            // Verifica si el contenido del TextBox 'txtBuscar' está vacío o contiene solo espacios en blanco.
             if (string.IsNullOrWhiteSpace(txtBuscar.Text))
             {
+                // Si el contenido es vacío o solo espacios, establece el texto del TextBox a "Placa, Marca".
+                // Esto indica al usuario el texto predeterminado que debería ingresar.
                 txtBuscar.Text = "Placa, Marca";
+
+                // Cambia el color del texto del TextBox a gris para indicar que es un texto de sugerencia o placeholder.
                 txtBuscar.Foreground = new SolidColorBrush(Colors.Gray);
             }
             else
             {
-                txtBuscar.Text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(txtBuscar.Text.ToLower()); // Convierte la primera letra de cada palabra a mayúscula
+                // Si el contenido del TextBox no está vacío, convierte el texto a minúsculas y luego capitaliza la primera letra de cada palabra.
+                // Esto asegura que el texto ingresado se muestre con un formato estético y consistente.
+                txtBuscar.Text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(txtBuscar.Text.ToLower());
             }
         }
 

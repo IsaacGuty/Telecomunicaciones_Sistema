@@ -172,15 +172,15 @@ namespace Telecomunicaciones_Sistema
         {
             DataTable dt = new DataTable();
             string query = @"
-        SELECT c.ID_Cliente, c.Nombre, c.Apellido, c.Teléfono, c.Correo, 
+            SELECT c.ID_Cliente, c.Nombre, c.Apellido, c.Teléfono, c.Correo, 
                @mes AS Mes_Pendiente, s.Costo AS Monto
-        FROM Clientes c
-        INNER JOIN ServicioCliente sc ON c.ID_Cliente = sc.ID_Cliente
-        INNER JOIN Servicios s ON sc.ID_Servicio = s.ID_Servicio
-        LEFT JOIN Pagos p ON p.ID_Cliente = c.ID_Cliente AND p.ID_Servicio = s.ID_Servicio AND p.Mes_Pagado = @mes
-        WHERE s.Tipo_Servicio = @servicio
-        AND (p.ID_Pago IS NULL)
-        ORDER BY c.ID_Cliente";
+            FROM Clientes c
+            INNER JOIN ServicioCliente sc ON c.ID_Cliente = sc.ID_Cliente
+            INNER JOIN Servicios s ON sc.ID_Servicio = s.ID_Servicio
+            LEFT JOIN Pagos p ON p.ID_Cliente = c.ID_Cliente AND p.ID_Servicio = s.ID_Servicio AND p.Mes_Pagado = @mes
+            WHERE s.Tipo_Servicio = @servicio
+            AND (p.ID_Pago IS NULL)
+            ORDER BY c.ID_Cliente";
 
             using (SqlConnection Conn = BD.ObtenerConexion())
             {

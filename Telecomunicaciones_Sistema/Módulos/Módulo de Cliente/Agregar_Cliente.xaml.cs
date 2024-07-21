@@ -17,66 +17,72 @@ using System.Globalization;
 
 namespace Telecomunicaciones_Sistema
 {
+    // Ventana para agregar clientes en el sistema de telecomunicaciones
     public partial class Agregar_Cliente : Window
     {
-        // Eventos para notificar cuando se agrega o modifica un cliente
+        // Evento que se activa cuando un cliente ha sido agregado
         public event EventHandler ClienteAgregado;
 
-        private List<Clientes> clientes; // Lista para almacenar clientes 
+        // Lista para almacenar instancias de clientes
+        private List<Clientes> clientes;
 
         // Propiedad para acceder al nuevo cliente desde fuera de la clase
         public Clientes NuevoCliente { get; private set; }
 
-        // Constructor para la ventana de agregar o modificar cliente
+        // Constructor de la ventana de agregar o modificar cliente
         public Agregar_Cliente()
         {
             InitializeComponent();
             MostrarNuevoID();
 
-            // Inicializar NuevoCliente
+            // Inicializa el objeto NuevoCliente
             NuevoCliente = new Clientes();
         }
 
+        // Método para mostrar el nuevo ID generado para el cliente
         private void MostrarNuevoID()
         {
-            // Obtener el nuevo ID generado
-            int nuevoID = GenerarNuevoID();
-            // Asignar el nuevo ID al campo txtIDC
-            txtIDC.Text = nuevoID.ToString();
+            int nuevoID = GenerarNuevoID(); // Obtiene el nuevo ID
+            txtIDC.Text = nuevoID.ToString(); // Asigna el nuevo ID al campo de texto
         }
 
+        // Maneja el clic en el botón Aceptar
         private void BtnAceptar_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-
-                // Validar campos del cliente
-                if (!Validaciones.NoContieneEspaciosEnBlanco(txtNombreC.Text) || !Validaciones.NoContieneEspaciosEnBlanco(txtApellidoC.Text) || !Validaciones.NoContieneEspaciosEnBlanco(txtTelefonoC.Text) || !Validaciones.NoContieneEspaciosEnBlanco(txtCorreoC.Text))
+                // Validaciones para asegurar que los campos del cliente no contengan espacios en blanco
+                if (!Validaciones.NoContieneEspaciosEnBlanco(txtNombreC.Text) ||
+                    !Validaciones.NoContieneEspaciosEnBlanco(txtApellidoC.Text) ||
+                    !Validaciones.NoContieneEspaciosEnBlanco(txtTelefonoC.Text) ||
+                    !Validaciones.NoContieneEspaciosEnBlanco(txtCorreoC.Text))
                 {
                     MessageBox.Show("Todos los campos del cliente deben llenarse.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
-                string idCliente = txtIDC.Text;
+                string idCliente = txtIDC.Text; // Obtiene el ID del cliente
                 string numeroDireccion = "";
-                string correo = txtCorreoC.Text;
-                ComboBoxItem itemSeleccionado = (ComboBoxItem)cmbDire.SelectedItem;
+                string correo = txtCorreoC.Text; // Obtiene el correo del cliente
+                ComboBoxItem itemSeleccionado = (ComboBoxItem)cmbDire.SelectedItem; // Obtiene la dirección seleccionada
                 string direccion = itemSeleccionado?.Content?.ToString();
-                string telefono = txtTelefonoC.Text;
+                string telefono = txtTelefonoC.Text; // Obtiene el teléfono del cliente
 
+                // Validaciones específicas para el teléfono
                 if (telefono.Length > 8)
                 {
                     MessageBox.Show("El número de teléfono no puede tener más de 8 dígitos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
-                // Verificar si se seleccionó una dirección
+                // Verifica si se ha seleccionado una dirección
                 if (string.IsNullOrEmpty(direccion))
                 {
                     MessageBox.Show("Por favor, seleccione una dirección.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
+                // Validaciones del nombre
                 if (!Validaciones.NombreValido(txtNombreC.Text))
                 {
                     MessageBox.Show("El nombre no es válido. No se permiten espacios en blanco al inicio ni entre caracteres.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -95,6 +101,7 @@ namespace Telecomunicaciones_Sistema
                     return;
                 }
 
+                // Validaciones del apellido
                 if (!Validaciones.ApellidoValido(txtApellidoC.Text))
                 {
                     MessageBox.Show("El apellido no es válido. No se permiten espacios en blanco al inicio ni entre caracteres.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -113,6 +120,7 @@ namespace Telecomunicaciones_Sistema
                     return;
                 }
 
+                // Validaciones adicionales del teléfono
                 if (!Validaciones.NoContieneEspaciosEnBlancoEnNumero(txtTelefonoC.Text))
                 {
                     MessageBox.Show("El teléfono no debe contener espacios en blanco.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -127,10 +135,11 @@ namespace Telecomunicaciones_Sistema
 
                 if (!Validaciones.TelefonoValido(txtTelefonoC.Text))
                 {
-                    MessageBox.Show("El número de teléfono no puede más de cinco números repetidos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("El número de teléfono no puede tener más de cinco números repetidos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
+                // Validaciones del correo electrónico
                 if (!Validaciones.CorreoSinEspacios(txtCorreoC.Text))
                 {
                     MessageBox.Show("El correo electrónico no es válido. No se permiten espacios en blanco.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -161,28 +170,34 @@ namespace Telecomunicaciones_Sistema
                     return;
                 }
 
-                // Extraer solo el número de la dirección
+                // Extrae solo el número de la dirección
                 string[] partesDireccion = direccion.Split('-');
                 numeroDireccion = partesDireccion[0].Trim();
 
-                // Verificar si algún campo del cliente está vacío
+                // Verifica si algún campo del cliente está vacío
                 if (Validaciones.CamposClienteVacios(txtNombreC.Text, txtApellidoC.Text, txtTelefonoC.Text, txtCorreoC.Text, numeroDireccion, cmbDire))
                 {
                     MessageBox.Show("Todos los campos del cliente deben llenarse.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
-                // Verificar si el ID del cliente ya existe en la base de datos
-                bool clienteExistente = ClienteDAL.ClienteExiste(idCliente);
+                int resultados = ClienteDAL.ClienteExisteConDatosMod(idCliente, correo, telefono);
 
-                // Si el cliente ya existe, mostrar un mensaje de error
-                if (clienteExistente)
+                // Manejar el resultado según el tipo de duplicado encontrado
+                switch (resultados)
                 {
-                    MessageBox.Show("El cliente con este ID ya existe en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
+                    case 1:
+                        MessageBox.Show("El cliente con el mismo correo ya existe en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    case 2:
+                        MessageBox.Show("El cliente con el mismo teléfono ya existe en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    case 3:
+                        MessageBox.Show("El ID del cliente ya está registrado en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
                 }
 
-                // Crear el objeto NuevoCliente con los datos del nuevo cliente
+                // Crea una instancia del cliente con los datos ingresados
                 NuevoCliente = new Clientes
                 {
                     ID_Cliente = idCliente,
@@ -192,21 +207,21 @@ namespace Telecomunicaciones_Sistema
                     ID_Dirección = numeroDireccion
                 };
 
-                // Verificar si el texto del campo de teléfono es un número válido
+                // Verifica si el texto del campo de teléfono es un número válido
                 if (!decimal.TryParse(txtTelefonoC.Text, out decimal telefonoDecimal))
                 {
                     MessageBox.Show("El número de teléfono debe ser un número válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
-                // Asignar el valor convertido a decimal al Teléfono del NuevoCliente
+                // Asigna el valor convertido a decimal al Teléfono del NuevoCliente
                 NuevoCliente.Teléfono = telefonoDecimal;
 
-                // Agregar el nuevo cliente a la base de datos
+                // Agrega el nuevo cliente a la base de datos
                 ClienteDAL.AgregarCliente(NuevoCliente);
                 MessageBox.Show("Cliente agregado correctamente.");
 
-                // Llama al evento ClienteAgregado antes de cerrar la ventana
+                // Activa el evento ClienteAgregado antes de cerrar la ventana
                 OnClienteAgregado();
             }
             catch (Exception ex)
@@ -218,6 +233,7 @@ namespace Telecomunicaciones_Sistema
             this.Close();
         }
 
+        // Valida la entrada del texto en el campo de teléfono para evitar caracteres no permitidos
         private void txtTelefonoC_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             TextBox textBox = sender as TextBox;
@@ -229,16 +245,18 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
+        // Valida la entrada de teclas en el campo de teléfono para evitar espacios
         private void txtTelefonoE_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (!Validaciones.ValidarTeclaEspacioTel(e, out string mensajeError))
             {
                 e.Handled = true;
                 MessageBox.Show(mensajeError, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }   
+            }
             Validaciones.BloquearControles(e);
         }
 
+        // Valida la entrada del texto en el campo de nombre para evitar caracteres no permitidos
         private void txtNombreC_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             TextBox textBox = sender as TextBox;
@@ -250,6 +268,7 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
+        // Valida la entrada del texto en el campo de apellido para evitar caracteres no permitidos
         private void txtApellidoC_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             TextBox textBox = sender as TextBox;
@@ -261,6 +280,7 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
+        // Valida la entrada del texto en el campo de correo electrónico para evitar caracteres no permitidos
         private void txtCorreoC_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             TextBox textBox = sender as TextBox;
@@ -272,6 +292,7 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
+        // Valida la entrada de teclas en el campo de correo electrónico para evitar espacios
         private void txtCorreoC_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             TextBox textBox = sender as TextBox;
@@ -289,21 +310,22 @@ namespace Telecomunicaciones_Sistema
         {
             ClienteAgregado?.Invoke(this, EventArgs.Empty);
         }
+
+        // Maneja el clic en el botón Regresar para ocultar la ventana actual y abrir el registro de clientes
         private void BtnRegresar_Click(object sender, RoutedEventArgs e)
         {
             this.Hide();
             Registro_Cliente frmPr = new Registro_Cliente();
         }
 
+        // Genera un nuevo ID para el cliente basado en el último ID registrado
         private int GenerarNuevoID()
         {
             int nuevoID = 0;
             try
             {
-                // Obtener el último ID registrado en la base de datos
-                int ultimoIDRegistrado = ClienteDAL.ObtenerUltimoIDRegistrado();
-                // Sumar 1 al último ID para obtener el nuevo ID
-                nuevoID = ultimoIDRegistrado + 1;
+                int ultimoIDRegistrado = ClienteDAL.ObtenerUltimoIDRegistrado(); // Obtiene el último ID registrado
+                nuevoID = ultimoIDRegistrado + 1; // Calcula el nuevo ID
             }
             catch (Exception ex)
             {
@@ -312,25 +334,22 @@ namespace Telecomunicaciones_Sistema
             return nuevoID;
         }
 
-        // Método invocado cuando el campo de nombre pierde el foco
+        // Formatea el texto del campo de nombre cuando pierde el foco
         private void TxtNombreC_LostFocus(object sender, RoutedEventArgs e)
         {
-            // Formatea el texto del control de texto (txtNombreC)
-            txtNombreC.Text = Validaciones.FormatearTexto(txtNombreC.Text);       
+            txtNombreC.Text = Validaciones.FormatearTexto(txtNombreC.Text); // Aplica el formato al texto
         }
 
-        // Método invocado cuando el campo de apellido pierde el foco
+        // Formatea el texto del campo de apellido cuando pierde el foco
         private void TxtApellidoC_LostFocus(object sender, RoutedEventArgs e)
         {
-            // Formatea el texto del control de texto (txtApellidoC)
-            txtApellidoC.Text = Validaciones.FormatearTexto(txtApellidoC.Text);
+            txtApellidoC.Text = Validaciones.FormatearTexto(txtApellidoC.Text); // Aplica el formato al texto
         }
 
+        // Maneja la entrada de teclas en los controles para bloquear copiar, pegar y cortar
         private void InputControl_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            // Llama al método de Validaciones para bloquear copiar, pegar y cortar
-            Validaciones.BloquearControles(e);
+            Validaciones.BloquearControles(e); // Bloquea operaciones no permitidas
         }
     }
 }
-

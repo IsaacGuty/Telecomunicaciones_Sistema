@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace Telecomunicaciones_Sistema
 {
-    public class Servicio
+    public class Servicio  // Declaración de la clase Servicio.
     {
-        public string ID_Servicio { get; set; }
-        public string Nombre { get; set; }
+        public string ID_Servicio { get; set; }  // Propiedad pública de tipo string para almacenar el ID del servicio.
+        public string Nombre { get; set; }  // Propiedad pública de tipo string para almacenar el nombre del servicio.
 
-        public Servicio()
+        public Servicio()  // Constructor de la clase Servicio.
         {
-
+            // Constructor vacío sin implementación.
         }
     }
 }

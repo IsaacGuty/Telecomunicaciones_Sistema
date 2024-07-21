@@ -297,5 +297,8 @@
   <ItemGroup>
     <Resource Include="Módulos\Módulo de Transporte\buscar.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Módulos\Módulo de Imprimir\helpbutton_85772.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

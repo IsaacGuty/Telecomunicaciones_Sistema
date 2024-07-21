@@ -25,12 +25,10 @@ namespace Telecomunicaciones_Sistema
         // Declaración del evento PagoModificado
         public event EventHandler PagoModificado;
 
-        // Lista para almacenar los pagos
-       // private List<Pagos> pagos;
-
         // Propiedad para obtener el nuevo pago
         public Pagos NuevoPago { get; private set; }
 
+        // Esto asegura que la instancia solo pueda ser asignada dentro de la clase y se acceda a ella de manera controlada.
         public static Agregar_Pago Instance { get; private set; }
 
         // Objeto de conexión a la base de datos
@@ -57,22 +55,29 @@ namespace Telecomunicaciones_Sistema
 
         private void ActualizarMesesPagados(string idCliente, string idServicio)
         {
+            // Obtiene la lista de meses que han sido pagados por el cliente para el servicio especificado
             List<string> mesesPagados = PagoDAL.ObtenerMesesPagados(idCliente, idServicio);
 
+            // Recorre cada elemento en el ComboBox 'cmbMes'
             foreach (ComboBoxItem item in cmbMes.Items)
             {
+                // Obtiene el contenido del ComboBoxItem, que es el nombre del mes
                 string mes = item.Content.ToString();
+
+                // Verifica si el mes actual está en la lista de meses pagados
                 if (mesesPagados.Contains(mes))
                 {
+                    // Si el mes está en la lista de meses pagados, oculta el elemento en el ComboBox
                     item.Visibility = Visibility.Collapsed;
                 }
                 else
                 {
+                    // Si el mes no está en la lista de meses pagados, muestra el elemento en el ComboBox
                     item.Visibility = Visibility.Visible;
                 }
             }
 
-            // Imprimir los meses pagados para depuración
+            // Imprime en la consola de depuración cada mes que ha sido pagado, para facilitar la depuración
             foreach (var mes in mesesPagados)
             {
                 Debug.WriteLine("Mes pagado: " + mes);
@@ -83,20 +88,21 @@ namespace Telecomunicaciones_Sistema
         {
             try
             {
+                // Verifica si alguno de los campos requeridos está vacío usando la clase Validaciones.
                 if (!Validaciones.CamposPagoVacios(txtIDP.Text, txtIDC.Text, txtNombreE.Text, cmbMes, txtMonto.Text))
                 {
                     MessageBox.Show("Todos los campos del pago deben llenarse.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
-                // Verificar si se ha seleccionado un mes
+                // Verifica si se ha seleccionado un mes en el ComboBox cmbMes.
                 if (cmbMes.SelectedItem == null)
                 {
                     MessageBox.Show("Por favor, seleccione un mes.");
                     return;
                 }
 
-                // Obtener el contenido del mes seleccionado del ComboBox cmbMes
+                // Obtiene el contenido del mes seleccionado del ComboBox cmbMes.
                 string mesPagado = cmbMes.SelectedItem.ToString();
                 ComboBoxItem selectedComboBoxItem = cmbMes.SelectedItem as ComboBoxItem;
                 if (selectedComboBoxItem != null)
@@ -104,10 +110,11 @@ namespace Telecomunicaciones_Sistema
                     mesPagado = selectedComboBoxItem.Content.ToString();
                 }
 
-                // Obtener el ID del servicio seleccionado
+                // Obtiene el ID del servicio seleccionado llamando al método ObtenerNumeroServicioSeleccionado.
                 string idServicio = ObtenerNumeroServicioSeleccionado();
 
-                // Verificar si el mes ya ha sido pagado para el servicio seleccionado
+                // Verifica si el mes seleccionado ya ha sido pagado para el servicio seleccionado.
+                // Obtiene una lista de meses ya pagados para el cliente y el servicio específico desde la base de datos.
                 List<string> mesesPagados = PagoDAL.ObtenerMesesPagados(txtIDC.Text, idServicio);
                 if (mesesPagados.Contains(mesPagado))
                 {
@@ -115,6 +122,7 @@ namespace Telecomunicaciones_Sistema
                     return;
                 }
 
+                // Intenta convertir el monto ingresado a un tipo decimal.
                 decimal monto;
                 if (decimal.TryParse(txtMonto.Text, out monto))
                 {
@@ -131,16 +139,20 @@ namespace Telecomunicaciones_Sistema
                 }
                 else
                 {
+                    // Si la conversión del monto falla, muestra un mensaje de error.
                     MessageBox.Show("El monto ingresado no es válido.");
                     return;
                 }
 
+                // Llama al método AgregarPago de PagoDAL para agregar el nuevo pago a la base de datos.
                 PagoDAL.AgregarPago(NuevoPago);
                 MessageBox.Show("Pago agregado correctamente.");
 
-                // Actualizar ComboBox de meses pagados para el cliente seleccionado
+                // Actualiza el ComboBox de meses pagados para el cliente seleccionado.
                 ActualizarMesesPagados(txtIDC.Text, idServicio);
 
+                // Si existe algún manejador para el evento PagoModificado, lo invoca.
+                // Esto podría actualizar la UI u otros elementos relacionados con el pago.
                 if (PagoModificado != null)
                 {
                     PagoModificado(this, EventArgs.Empty);
@@ -148,8 +160,11 @@ namespace Telecomunicaciones_Sistema
             }
             catch (Exception ex)
             {
+                // Muestra un mensaje de error si ocurre una excepción durante el proceso.
                 MessageBox.Show("Error al agregar el pago: " + ex.Message);
             }
+
+            // Cierra la ventana actual después de que el proceso de agregar el pago ha terminado.
             this.Close();
         }
 
@@ -254,7 +269,6 @@ namespace Telecomunicaciones_Sistema
                 }
             }
         }
-
     }
 }
 

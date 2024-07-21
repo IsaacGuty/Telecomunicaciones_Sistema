@@ -48,7 +48,7 @@ namespace Telecomunicaciones_Sistema
             btnPago.IsEnabled = Validaciones.IsGerenteGeneral(rol) || Validaciones.IsSecretaria(rol);
             Btn_OrT.IsEnabled = Validaciones.IsGerenteGeneral(rol) || Validaciones.IsSecretaria(rol) || Validaciones.IsTecnico(rol) || Validaciones.IsGerenteTecnico(rol);
             BtnEmpleados.IsEnabled = Validaciones.IsGerenteGeneral(rol);
-            BtnTrasnporte.IsEnabled = Validaciones.IsGerenteGeneral(rol);
+            BtnTransporte.IsEnabled = Validaciones.IsGerenteGeneral(rol) || Validaciones.IsGerenteTecnico(rol) || Validaciones.IsSecretaria(rol);
         }
 
         private void Btn_Registro_Click(object sender, RoutedEventArgs e)
@@ -102,25 +102,26 @@ namespace Telecomunicaciones_Sistema
             MessageBoxResult result = MessageBox.Show("¡Bienvenido al servicio de soporte técnico!\n\n" +
                 "Para mayor información puede contactarse a:\n" +
                 "1. Número teléfonico: 9755-1953\n" +
-                "2. Correo electrónico: telecomunicacioness.2024@gmail.com\n\n" +
+                "2. Correo electrónico: telecomunicacioness.2024@gmail.com\n" +
+                "3. Manual de usuario\n\n"+
                 "¿Desea realizar una acción?",
                 "Soporte Técnico", MessageBoxButton.YesNo);
 
             // Si el usuario elige realizar una acción, muestra el panel de acción
             if (result == MessageBoxResult.Yes)
             {
-                actionPanel.Visibility = Visibility.Visible;
+                accionPanel.Visibility = Visibility.Visible;
             }
         }
 
-        private void AcceptButton_Click(object sender, RoutedEventArgs e)
+        private void BtnAceptar_Click(object sender, RoutedEventArgs e)
         {
-            int action;
+            int accion;
             // Intenta analizar la entrada del usuario como un número entero
-            if (int.TryParse(actionInput.Text, out action))
+            if (int.TryParse(AccionInput.Text, out accion))
             {
                 // Realiza una acción según el número ingresado por el usuario
-                switch (action)
+                switch (accion)
                 {
                     case 1:
                         System.Diagnostics.Process.Start("https://api.whatsapp.com/send?phone=97551953"); // Abre el enlace de WhatsApp
@@ -128,9 +129,12 @@ namespace Telecomunicaciones_Sistema
                     case 2:
                         System.Diagnostics.Process.Start("mailto:telecomunicaciones_2024@gmail.com"); // Abre el correo electrónico
                         break;
+                    case 3:
+                        System.Diagnostics.Process.Start("https://heyzine.com/flip-book/0e5e9fb47c.html"); // Abre el manual de usuario
+                        break;
                     default:
                         // Muestra un mensaje indicando que la opción seleccionada no es válida
-                        MessageBox.Show("Por favor, ingrese una opción válida (1 o 2).");
+                        MessageBox.Show("Por favor, ingrese una opción válida (1, 2 o 3).");
                         break;
                 }
             }
@@ -141,52 +145,54 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        private void BtnCancelar_Click(object sender, RoutedEventArgs e)
         {
-            actionPanel.Visibility = Visibility.Collapsed; // Oculta el panel de acción
-            actionInput.Text = ""; // Limpia el contenido del TextBox de entrada
+            accionPanel.Visibility = Visibility.Collapsed; // Oculta el panel de acción
+            AccionInput.Text = ""; // Limpia el contenido del TextBox de entrada
         }
 
-        private void ActionInput_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        private void AccionInput_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             TextBox textBox = sender as TextBox;
+            string mensajeError;
 
             // Verificar si el texto completo, incluyendo el carácter que se está ingresando, contiene más de un dígito
-            if ((textBox.Text + e.Text).Length > 1)
+            if (!Validaciones.ValidarUnDigito(textBox.Text, e.Text, out mensajeError))
             {
                 // Mostrar mensaje de advertencia
-                MessageBox.Show("Solo se permite un dígito.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-
+                MessageBox.Show(mensajeError, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 e.Handled = true; // Bloquear la entrada
                 return; // Salir del método para evitar que se ejecute la siguiente validación
             }
 
             // Verificar si el texto de entrada es una letra
-            if (char.IsLetter(e.Text, e.Text.Length - 1))
+            if (!Validaciones.ValidarNoLetra(e.Text, out mensajeError))
             {
                 // Mostrar mensaje de error y bloquear la entrada
-                MessageBox.Show("No se aceptan letras.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(mensajeError, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 e.Handled = true;
                 return; // Salir del método para evitar que se ejecute la siguiente validación
             }
 
             // Verificar si el texto de entrada es un carácter especial
-            if (!char.IsLetterOrDigit(e.Text, e.Text.Length - 1))
+            if (!Validaciones.ValidarNoCaracterEspecial(e.Text, out mensajeError))
             {
                 // Mostrar mensaje de error y bloquear la entrada
-                MessageBox.Show("No se aceptan caracteres especiales.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(mensajeError, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 e.Handled = true;
                 return; // Salir del método para evitar que se ejecute la siguiente validación
             }
         }
 
-        private void ActionInput_PreviewKeyDown(object sender, KeyEventArgs e)
+        private void AccionInput_PreviewKeyDown(object sender, KeyEventArgs e)
         {
+            string mensajeError;
+
             // Verificar si se presiona la tecla de espacio
-            if (e.Key == Key.Space)
+            if (!Validaciones.ValidarNoEspacio(e.Key, out mensajeError))
             {
                 // Mostrar mensaje de advertencia
-                MessageBox.Show("Los espacios en blanco no están permitidos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(mensajeError, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 
                 // Bloquear la entrada
                 e.Handled = true;

@@ -25,16 +25,25 @@ namespace Telecomunicaciones_Sistema
     /// </summary>
     public partial class Registro_Orden : Window
     {
+        // Declaración de un campo privado de tipo SqlConnection para gestionar la conexión a la base de datos.
         private SqlConnection Conn;
 
+        // Constructor de la clase Registro_Orden, se llama cuando se crea una nueva instancia de la clase.
         public Registro_Orden()
         {
+            // Inicializa los componentes de la interfaz de usuario definidos en el archivo XAML asociado.
             InitializeComponent();
+
+            // Establece la conexión con la base de datos utilizando el método ObtenerConexion() de la clase BD.
             Conn = BD.ObtenerConexion(); // Conexión a la base de datos
+
+            // Llama al método CargarDatos() para cargar los datos en el DataGrid al inicializar la ventana.
             CargarDatos(); // Al inicializar la ventana, carga los datos en el DataGrid
 
+            // Llama al método CargarEmpleadosTecnicos() para cargar la información de los empleados técnicos.
             CargarEmpleadosTecnicos();
 
+            // Llama al método CargarTransportesActivos() para cargar la información de los transportes activos.
             CargarTransportesActivos();
         }
 
@@ -48,12 +57,18 @@ namespace Telecomunicaciones_Sistema
         {
             try
             {
-                DataTable dataTable = OrdenDAL.ObtenerOrdenes(); // Obtiene los datos de las órdenes y los muestra en el DataGrid
-                DatGridOT.ItemsSource = dataTable.DefaultView; 
-                DatGridOT.IsReadOnly = true; // Establecer el DataGrid como solo lectura
+                // Llama al método ObtenerOrdenes de la clase OrdenDAL para obtener un DataTable con los datos de las órdenes.
+                DataTable dataTable = OrdenDAL.ObtenerOrdenes();
+
+                // Establece la fuente de datos del DataGrid (DatGridOT) como la vista predeterminada del DataTable obtenido.
+                DatGridOT.ItemsSource = dataTable.DefaultView;
+
+                // Establece la propiedad IsReadOnly del DataGrid en true, lo que hace que el DataGrid sea solo lectura.
+                DatGridOT.IsReadOnly = true;
             }
             catch (Exception ex)
             {
+                // Muestra un mensaje de error en caso de que ocurra una excepción durante la carga de datos.
                 MessageBox.Show("Error al cargar los datos: " + ex.Message);
             }
         }
@@ -62,36 +77,54 @@ namespace Telecomunicaciones_Sistema
         {
             try
             {
-                DataTable dataTable = EmpleadoDAL.ObtenerEmpleadosTecnicos(); // Obtener los empleados técnicos
-                cmbNombreE.Items.Clear(); // Limpiar ComboBox cmbNombreE
-                // Agregar empleados técnicos al ComboBox cmbNombreE
+                // Intenta ejecutar el código en el bloque 'try'. Si ocurre una excepción, se captura en el bloque 'catch'.
+
+                DataTable dataTable = EmpleadoDAL.ObtenerEmpleadosTecnicos(); // Obtiene un DataTable con la lista de empleados técnicos desde el acceso a datos.
+
+                cmbNombreE.Items.Clear(); // Limpia todos los elementos actuales del ComboBox cmbNombreE para evitar duplicados.
+
+                // Itera sobre cada fila en el DataTable obtenido.
                 foreach (DataRow row in dataTable.Rows)
                 {
+                    // Combina el nombre y el apellido del empleado en una sola cadena de texto.
                     string nombreCompleto = row["Nombre_E"].ToString() + " " + row["Apellido_E"].ToString();
+
+                    // Añade el nombre completo del empleado al ComboBox cmbNombreE.
                     cmbNombreE.Items.Add(nombreCompleto);
                 }
             }
             catch (Exception ex)
             {
+                // Muestra un mensaje de error si ocurre una excepción durante la ejecución del bloque 'try'.
                 MessageBox.Show("Error al cargar los empleados técnicos: " + ex.Message);
             }
         }
 
         private void CargarTransportesActivos()
         {
+            // Inicio del bloque try para capturar cualquier excepción que pueda ocurrir durante la ejecución del código
             try
             {
-                DataTable dataTable = TransporteDAL.ObtenerTransportesActivos(); // Obtener los transportes activos
-                cmbTransporte.Items.Clear(); // Limpiar ComboBox cmbTransporte
-                // Agregar transportes actvios al ComboBox cmbTransporte
+                // Llama al método ObtenerTransportesActivos de la clase TransporteDAL para obtener una DataTable con los transportes activos
+                DataTable dataTable = TransporteDAL.ObtenerTransportesActivos();
+
+                // Limpia los elementos actuales del ComboBox cmbTransporte para prepararlo para nuevos datos
+                cmbTransporte.Items.Clear();
+
+                // Recorre cada fila del DataTable para agregar los transportes activos al ComboBox
                 foreach (DataRow row in dataTable.Rows)
                 {
+                    // Extrae el valor de la columna "Modelo_Carro" de la fila actual y lo convierte a una cadena
                     string marcaCompleta = row["Modelo_Carro"].ToString();
+
+                    // Agrega el valor obtenido al ComboBox cmbTransporte
                     cmbTransporte.Items.Add(marcaCompleta);
                 }
             }
+            // Bloque catch para manejar cualquier excepción que ocurra durante la ejecución del bloque try
             catch (Exception ex)
             {
+                // Muestra un mensaje de error en caso de que ocurra una excepción, incluyendo el mensaje de la excepción
                 MessageBox.Show("Error al cargar los transportes activos: " + ex.Message);
             }
         }
@@ -241,7 +274,7 @@ namespace Telecomunicaciones_Sistema
         {
             if (!Validaciones.CamposOrdenVacios(txtNombre.Text, txtApellido.Text, txtDirección.Text, txtNumT.Text, txtTpServicio.Text, cmbTipoT.SelectedItem, cmbNombreE.SelectedItem, cmbTransporte.SelectedItem))
             {
-                MessageBox.Show("Por favor, complete todos los campos antes de imprimir.", "Datos Incompletos", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Por favor, complete todos los campos antes de mostrar la orden de trabajo.", "Datos Incompletos", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -351,25 +384,34 @@ namespace Telecomunicaciones_Sistema
             return null;
         }
 
+        // Este es el manejador de eventos que se ejecuta cuando el control de texto (txtBuscar) recibe el foco.
         private void txtBuscar_GotFocus(object sender, RoutedEventArgs e)
         {
+            // Verifica si el texto actual en el control de texto es el texto predeterminado "Nombre, apellido".
             if (txtBuscar.Text == "Nombre, apellido")
             {
+                // Si el texto es el predeterminado, lo borra para que el usuario pueda ingresar un nuevo valor.
                 txtBuscar.Text = "";
+
+                // Cambia el color del texto a negro para que el texto ingresado sea visible.
                 txtBuscar.Foreground = new SolidColorBrush(Colors.Black);
             }
         }
 
         private void txtBuscar_LostFocus(object sender, RoutedEventArgs e)
         {
+            // Verifica si el texto en el cuadro de texto es nulo o está vacío (o solo contiene espacios en blanco)
             if (string.IsNullOrWhiteSpace(txtBuscar.Text))
             {
+                // Si el cuadro de texto está vacío, se establece un texto de marcador de posición predeterminado
                 txtBuscar.Text = "Nombre, apellido";
+
+                // Cambia el color del texto a gris para indicar que es un marcador de posición
                 txtBuscar.Foreground = new SolidColorBrush(Colors.Gray);
             }
             else
             {
-                // Convierte la primera letra de cada palabra a mayúscula
+                // Si el cuadro de texto no está vacío, convierte el texto a minúsculas y luego capitaliza la primera letra de cada palabra
                 txtBuscar.Text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(txtBuscar.Text.ToLower());
             }
         }

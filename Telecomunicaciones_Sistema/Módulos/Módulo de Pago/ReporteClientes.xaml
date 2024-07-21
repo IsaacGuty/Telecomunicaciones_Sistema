@@ -28,7 +28,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Text="Reporte de Clientes Deudores" FontFamily="Times New Roman" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Top"  FontWeight="Bold" Grid.Column="1" Height="28" Width="304" Margin="0,37,0,0"/>
+        <TextBlock Text="Reporte de Clientes Deudores" FontFamily="Times New Roman" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Top"  FontWeight="Bold" Grid.Column="1" Height="28" Width="304" Margin="0,49,0,0"/>
 
         <Grid Grid.ColumnSpan="2" Margin="20,111,20,82" Grid.RowSpan="2">
             <Grid.ColumnDefinitions>
@@ -64,7 +64,9 @@
                 <ComboBoxItem>Internet 15MB</ComboBoxItem>
             </ComboBox>
 
-            <Button x:Name="btnBuscar" HorizontalAlignment="Center" Margin="0,10,0,0" Grid.Row="0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" Click="btnBuscar_Click" FontWeight="Bold" Height="22" Content="Buscar" TabIndex="1" Grid.Column="4"/>
+            <Button x:Name="btnBuscar" HorizontalAlignment="Center" VerticalAlignment="Top" Width="39" FontFamily="Times New Roman" FontSize="14" Click="btnBuscar_Click" FontWeight="Bold" Height="22" TabIndex="1" Grid.Column="4" Margin="0,10,0,0">
+                <Image Source="/Módulos/Módulo de Pago/buscar.png" Stretch="Fill" Height="18" Width="30"/>
+            </Button>
         </Grid>
 
         <DataGrid x:Name="DataGridCD" IsReadOnly="True" Grid.Row="1" Grid.ColumnSpan="2" AutoGenerateColumns="False" CanUserAddRows="False" Margin="10,8,10,0" FontFamily="Times New Roman" FontSize="14" Grid.RowSpan="2" Height="336" VerticalAlignment="Top">
@@ -78,8 +80,9 @@
                 <DataGridTextColumn Header="Monto" Binding="{Binding Monto}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="btnRegresar" Content="Regresar" Grid.Column="1" HorizontalAlignment="Left" Margin="619,269,0,0" VerticalAlignment="Top" Width="75" FontWeight="Bold" FontFamily="Times New Roman" FontSize="14" Grid.Row="2" RenderTransformOrigin="1.021,0.51" TabIndex="4" Height="20" Click="btnRegresar_Click"/>
+        <Button x:Name="btnRegresar" Content="Regresar" Grid.Column="1" HorizontalAlignment="Left" Margin="14,265,0,0" VerticalAlignment="Top" Width="76" FontWeight="Bold" FontFamily="Times New Roman" FontSize="14" Grid.Row="2" RenderTransformOrigin="1.021,0.51" TabIndex="4" Height="20" Click="btnRegresar_Click"/>
         <Image Source="/logoTele.png" Stretch="Fill" Margin="89,10,530,46" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
+        <Button x:Name="btnImprimir" Content="Imprimir" Grid.Column="1" HorizontalAlignment="Left" Margin="618,265,0,0" VerticalAlignment="Top" Width="76" FontWeight="Bold" FontFamily="Times New Roman" FontSize="14" Grid.Row="2" RenderTransformOrigin="1.021,0.51" TabIndex="4" Height="20" Click="btnImprimir_Click"/>
     </Grid>
 </Window>
 

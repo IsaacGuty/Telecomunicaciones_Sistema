@@ -42,7 +42,7 @@
 
             </DataGrid.Columns>
         </DataGrid>
-        <Label Content="Pagos" HorizontalAlignment="Left" Margin="105,37,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="24" FontWeight="Bold" Width="246" Grid.ColumnSpan="3" Grid.Column="1"/>
+        <Label Content="Registro de Pagos" HorizontalAlignment="Left" Margin="105,37,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="24" FontWeight="Bold" Width="246" Grid.ColumnSpan="3" Grid.Column="1"/>
         <Button x:Name="btnAgregar" Content="Agregar" HorizontalAlignment="Left" Margin="129,115,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnAgregar_Click" Grid.Column="1" Grid.Row="1" TabIndex="0"/>
         <Button x:Name="BtnMostrar" Content="Mostrar" HorizontalAlignment="Left" Margin="248,115,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Click="BtnMostrar_Click" Grid.Column="1" Grid.Row="1" TabIndex="1" RenderTransformOrigin="0.643,0.616" Grid.ColumnSpan="3"/>
         <Button x:Name="btnReporte" Content="Reporte" HorizontalAlignment="Left" Margin="110,115,0,0" VerticalAlignment="Top" Width="75" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Grid.Column="3" Grid.Row="1" TabIndex="2" Click="btnReporte_Click"/>

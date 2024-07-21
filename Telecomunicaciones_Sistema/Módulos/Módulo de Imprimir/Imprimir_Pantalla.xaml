@@ -85,7 +85,8 @@
         </ScrollViewer>
 
         <ToolBar Grid.Row="1" Grid.ColumnSpan="2" Band="1" BandIndex="1">
-            <Button Content="Ayuda" Width="70" Height="30" Click="btnAyuda_Click" FontFamily="Times New Roman" FontSize="12" FontWeight="Bold"/>
+            <Button Width="54" Content="Ayuda"  Height="30" Click="btnAyuda_Click" FontFamily="Times New Roman" FontSize="12" FontWeight="Bold">
+            </Button>
             <Button Content="Salir" Width="70" Height="30" Click="BtnSalir_Click" FontFamily="Times New Roman" FontSize="12" FontWeight="Bold" Margin="10"/>
         </ToolBar>
     </Grid>

@@ -26,8 +26,8 @@
                 <DataGridTextColumn Header="Nombre" Binding="{Binding nombre}" />
                 <DataGridTextColumn Header="Apellido" Binding="{Binding apellido}" />
                 <DataGridTextColumn Header="Monto" Binding="{Binding Monto}" />
-                <DataGridTextColumn Header="ID Tipo Servicio" Binding="{Binding ID_TpServicio}" />
-                <DataGridTextColumn Header="Servicio" Binding="{Binding Servicio}" />
+                <DataGridTextColumn Header="ID Tipo Servicio" Binding="{Binding ID_Servicio}" />
+                <DataGridTextColumn Header="Servicio" Binding="{Binding Tipo_Servicio}" />
                 <DataGridTextColumn Header="Mes Pagado" Binding="{Binding Mes_Pagado}" />
                 <DataGridTextColumn Header="Fecha" Binding="{Binding Fecha}" />
                 <DataGridTextColumn Header="ID Empleado" Binding="{Binding ID_Empleado}" />
