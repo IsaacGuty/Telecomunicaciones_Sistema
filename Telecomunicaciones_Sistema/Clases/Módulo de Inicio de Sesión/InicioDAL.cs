@@ -20,7 +20,7 @@ namespace Telecomunicaciones_Sistema
 
             using (SqlConnection connection = BD.ObtenerConexion())
             {
-                string query = "SELECT COUNT(*) FROM EMpleados WHERE ID_Empleado = @Usuario";
+                string query = "SELECT COUNT(*) FROM Empleados WHERE ID_Empleado = @Usuario";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {

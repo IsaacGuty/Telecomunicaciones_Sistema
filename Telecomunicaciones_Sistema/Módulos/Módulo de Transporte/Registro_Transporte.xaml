@@ -36,7 +36,7 @@
                 <DataGridTextColumn Header="Estado" Binding="{Binding Tipo_Estado}" />
             </DataGrid.Columns>
         </DataGrid>
-        <TextBox x:Name="txtBuscar" Text="Placa, Marca" Foreground="Gray" GotFocus="txtBuscar_GotFocus" LostFocus="txtBuscar_LostFocus" HorizontalAlignment="Left" Height="23" Margin="405,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="165" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" TabIndex="5"/>
+        <TextBox x:Name="txtBuscar" Text="Placa, Marca" Foreground="Gray" GotFocus="txtBuscar_GotFocus" HorizontalAlignment="Left" Height="23" Margin="405,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="165" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" TabIndex="5"/>
         <Button x:Name="BtnBuscar" HorizontalAlignment="Left" Margin="586,86,0,0" VerticalAlignment="Top" Width="56" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" Height="28" TabIndex="5" Click="BtnBuscar_Click">
             <Image x:Name="buscar" Height="23" Source="buscar.png" Stretch="Fill" Width="24"/>
         </Button>

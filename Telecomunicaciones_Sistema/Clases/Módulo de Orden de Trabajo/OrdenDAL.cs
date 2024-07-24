@@ -58,7 +58,7 @@ namespace Telecomunicaciones_Sistema
                     WHERE c.Nombre LIKE @criterio
                     OR c.Apellido LIKE @criterio
                     OR (c.Nombre + ' ' + c.Apellido) LIKE @criterio
-                    GROUP BY c.Nombre, c.Apellido, d.Dirección, c.Teléfono, s.Servicio
+                    GROUP BY c.Nombre, c.Apellido, d.Dirección, c.Teléfono, s.Tipo_Servicio
                     ORDER BY c.Nombre, c.Apellido, d.Dirección, c.Teléfono;
                     ";
 

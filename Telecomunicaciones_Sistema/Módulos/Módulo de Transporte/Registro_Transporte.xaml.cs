@@ -204,26 +204,6 @@ namespace Telecomunicaciones_Sistema
             }
         }
 
-        private void txtBuscar_LostFocus(object sender, RoutedEventArgs e)
-        {
-            // Verifica si el contenido del TextBox 'txtBuscar' está vacío o contiene solo espacios en blanco.
-            if (string.IsNullOrWhiteSpace(txtBuscar.Text))
-            {
-                // Si el contenido es vacío o solo espacios, establece el texto del TextBox a "Placa, Marca".
-                // Esto indica al usuario el texto predeterminado que debería ingresar.
-                txtBuscar.Text = "Placa, Marca";
-
-                // Cambia el color del texto del TextBox a gris para indicar que es un texto de sugerencia o placeholder.
-                txtBuscar.Foreground = new SolidColorBrush(Colors.Gray);
-            }
-            else
-            {
-                // Si el contenido del TextBox no está vacío, convierte el texto a minúsculas y luego capitaliza la primera letra de cada palabra.
-                // Esto asegura que el texto ingresado se muestre con un formato estético y consistente.
-                txtBuscar.Text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(txtBuscar.Text.ToLower());
-            }
-        }
-
         // Manejador de eventos para el cambio de selección en el DataGrid
         private void DataGridTP_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

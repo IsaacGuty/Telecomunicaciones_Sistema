@@ -130,7 +130,7 @@ namespace Telecomunicaciones_Sistema
                         System.Diagnostics.Process.Start("mailto:telecomunicaciones_2024@gmail.com"); // Abre el correo electrónico
                         break;
                     case 3:
-                        System.Diagnostics.Process.Start("https://heyzine.com/flip-book/0e5e9fb47c.html"); // Abre el manual de usuario
+                        System.Diagnostics.Process.Start("https://heyzine.com/flip-book/9c521da2e8.html"); // Abre el manual de usuario
                         break;
                     default:
                         // Muestra un mensaje indicando que la opción seleccionada no es válida
